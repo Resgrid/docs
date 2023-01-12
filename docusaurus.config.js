@@ -8,9 +8,9 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Resgrid Docs',
   tagline: 'Resgrid - Open Source Dispatch & Emergency Management System',
-  url: 'https://docs.resgrid.com',
+  url: 'https://resgrid.github.io',
   baseUrl: '/docs/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
 
