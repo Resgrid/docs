@@ -1,8 +1,8 @@
 {
   "label": "Reference",
-  "position": 6,
+  "position": 7,
   "link": {
     "type": "generated-index",
-    "description": "Reference and Architectural Documentation",
+    "description": "Reference and Architectural Documentation"
   }
 }
