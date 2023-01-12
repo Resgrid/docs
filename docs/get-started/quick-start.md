@@ -12,11 +12,12 @@ It is highly recommended that Resgrid is installed and setup by an IT Profession
 
 - Windows or Linux
 - Docker, Kubernetes
-- SQL Server or PostgreSQL
+- MS SQL Server
 - DNS, hostname mapping, proxy configuration
 - RabbitMQ
 - Redis
 - Elastic
+- MongoDb
 - Mail Server SMTP, POP3
 - Firewall and system hardening
 
