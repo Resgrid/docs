@@ -9,7 +9,7 @@ const config = {
   title: 'Resgrid Docs',
   tagline: 'Resgrid - Open Source Dispatch & Emergency Management System',
   url: 'https://docs.resgrid.com',
-  baseUrl: '/',
+  baseUrl: '/docs/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
