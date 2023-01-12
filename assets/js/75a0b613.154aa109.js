@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkresgrid_docs=self.webpackChunkresgrid_docs||[]).push([[2210],{7309:e=>{e.exports=JSON.parse('{"permalink":"/docs/blog/tags/facebook","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);
