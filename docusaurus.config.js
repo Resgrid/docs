@@ -8,8 +8,8 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Resgrid Docs',
   tagline: 'Resgrid - Open Source Dispatch & Emergency Management System',
-  url: 'https://resgrid.github.io',
-  baseUrl: '/docs/',
+  url: 'https://docs.resgrid.com',
+  baseUrl: '/',
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
@@ -34,11 +34,13 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          routeBasePath: '/',
+          path: 'docs',
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/Resgrid/docs',
+            'https://github.com/Resgrid/docs/tree/develop',
         },
         blog: {
           showReadingTime: true,
