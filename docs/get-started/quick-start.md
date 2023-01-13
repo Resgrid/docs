@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 # Quick Start
@@ -53,6 +53,10 @@ All Resgrid container images are based on Linux, users of Docker for Windows wil
 
 - Open Ports 5151 through 5165
 - SMTP Server for sending email
+- 3 Publicly Available URLs
+   - Main Web App (i.e. rg.mycompany.com)
+   - API (i.e. rgapi.mycompany.com)
+   - Events (i.e. rgevents.mycompany.com)
 
 :::tip Note
 Any correctly configured SMTP server will work if it’s local or not. If you have an SMTP server provided by your ISP or provider that will also work.
