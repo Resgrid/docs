@@ -33,30 +33,16 @@ It is highly recommended that Resgrid is installed and setup by an IT Profession
 
 ## System Requirements
 
-The all-in-one docker installation is suitable for a department of around 50 personnel on a machine with 32GB of RAM, 500GB of storage and a 8 logical processors. But depending on call volume or user interaction patterns may require more.
+The quick-start installation is suitable for a department of around 50 personnel on a machine with 32GB of RAM, 500GB of storage and a 8 logical processors. But depending on call volume or user interaction patterns may require more.
 
-We do not recommend that mission critical systems be installed on a single machine. Resgrid is split into multiple containers to allow for multiple machines to be used.
-
-A mission-critical production environment will require a minimum of 18 servers (or vm's):
-- 2 Load Balanced Web servers
-- 2 Load Balanced API servers 
-- 2 Load Balanced Event Hub servers 
-- 1 Microsoft SQL Server (HA Cluster for Mission Critical applications) 
-- 1 Worker server 
-- 2 Event Worker servers 
-- 3 Redis servers in a cluster 
-- 3 RabbitMQ servers in a cluster 
-- 1 Elasticsearch server (ELK)
-- 1 MongoDb server (HA Cluster for Mission Critical applications) 
-
-Sizing of these servers will depend on your departments amount of users and call volume. 
+We do not recommend that mission critical systems be installed on a single machine. Resgrid is split into multiple containers to allow for multiple machines to be used to ensure the system is resilient to failure of one of it's components. Each dependency also needs to be resilient in that case, for example Clustered SQL Servers, RabbitMQ, Redis, etc.
 
 ## Prerequisites & Dependencies
 
 To run the Resgrid containers you will Docker, install Docker <https://docker.com/>. You will also need Docker Compose, Install Docker Compose <https://docs.docker.com/compose/install/>, the guide below will assume the docker-compose executable is installed.
 
 :::tip Note
-The guide below assumes a Linux server. We test our containers on Ubuntu 22 LTS versions as part of our normal releases. But other Linux distros that support docker should work just fine. You may have to translate some commands, or come options may not apply. 
+The guide below assumes a Linux server. We test our containers on Ubuntu 20.04 as part of our normal releases. But other Linux distros that support docker should work just fine. You may have to translate some commands, or come options may not apply. 
 :::
 
 - Open Ports 5151 through 5165, 80 and 443
@@ -137,13 +123,7 @@ Failure to review and change the values inside the resgrid.env file for a develo
 
 ## Run LetsEncrypt Initialization Script
 
-1. In the resgrid directory run:
-
-```bash
-chmod +x init-letsencrypt.sh
-```
-
-2. Next execute the script:
+1. Execute the LetsEncrypt initialization script:
 
 ```bash
 ./init-letsencrypt.sh
