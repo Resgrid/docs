@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 # Quick Start
@@ -45,7 +45,7 @@ To run the Resgrid containers you will Docker, install Docker <https://docker.co
 The guide below assumes a Linux server. We test our containers on Ubuntu 20.04 as part of our normal releases. But other Linux distros that support docker should work just fine. You may have to translate some commands, or come options may not apply. 
 :::
 
-- Open Ports 5151 through 5165, 80 and 443
+- Open Ports 80 and 443 and pass to the server
 - SMTP Server for sending email
 - 3 Publicly Available URLs
    - Main Web App (i.e. rg.mycompany.com)
@@ -54,6 +54,16 @@ The guide below assumes a Linux server. We test our containers on Ubuntu 20.04 a
 
 :::tip Note
 Any correctly configured SMTP server will work if it’s local or not. If you have an SMTP server provided by your ISP or provider that will also work.
+:::
+
+Install Docker-CE on Ubuntu 22.04
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04
+
+Install Docker Compose on Ubuntu 22.04
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-22-04
+
+:::tip Note
+We recommend using Docker (or Docker-CE) as the container system as it's what we use in production. Other container engines should work, but we are unable to verify if there are any issues with them. If you run into issues please try using Docker (or Docker-CE) before submitting a support request.
 :::
 
 ## Docker Compose Setup
@@ -118,8 +128,28 @@ You will need to set at a minimum the following top 7 variables in the resgrid.e
 Once those are set to real and correct values you can continue on for initial testing and validation. But to use the system for anything other then quick testing you should review and change any environment variables in the resgrid.env file that has **(REQUIRED)** text in the comment.
 
 :::danger Note
-Failure to review and change the values inside the resgrid.env file for a development, production, testing or staging system could lead to issues, service disruption and protentional security issues (i.e. utilizing the default encryption keys in the file).
+Failure to review and change the values inside the resgrid.env file for a development, production, testing or staging system could lead to issues, service disruption and potential security issues (i.e. utilizing the default encryption keys in the file).
 :::
+
+## External Networking
+
+This setup script assumes you are forwarding TCP port 80 and TCP port 443 from the Internet to the server you are running the script on. This docker setup comes with an NGINX reverse proxy for the web components (Web, Api and Events). If you are using a firewall or another proxy; i.e. HAProxy, NGINX, etc. You may need to modify the 'resgrid-ssl.template' file under docker-data\nginx if all you see is an NGINX 404 error when navigating to the web app.
+
+Modify the 'listen' lines like follows:
+
+FROM
+```bash
+listen 80;
+...
+listen 443 ssl;
+```
+
+TO
+```bash
+listen 80 proxy_protocol;
+...
+listen 443 ssl proxy_protocol;
+```
 
 ## Run LetsEncrypt Initialization Script
 
@@ -136,7 +166,7 @@ This script will create the initial certificates to request the SSL certificates
 Once you have setup the environment variables you can now run the docker compose file.:
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 That will run the interactive version of the containers, Ctrl+C will stop the containers.
@@ -144,7 +174,7 @@ That will run the interactive version of the containers, Ctrl+C will stop the co
 If you want to run the containers in the background, use the -d option:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 The Resgrid system will take about 5 minutes to start up fully, this is due to the startup order of the containers. The last container to startup will be the web container, once that one is ready, you can now access the system.
