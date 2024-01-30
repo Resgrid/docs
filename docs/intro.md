@@ -12,6 +12,11 @@ Originally started as a hosted only solution in 2014, the Resgrid system as proc
 
 Resgrid is written on the Microsoft .Net and .Net Core Frameworks utilizing Microsoft SQL Server as the primary data repository.
 
+:::danger Note
+This documentation is an on-going Work-In-Progress (WIP) and is not complete. There many sections that are empty to help organize, give landing areas and structure for documentation. Documentation is usually added when we address issues or get questions. If you need information and the area of the documentation is missing or incomplete, please create a Github issue
+with the question and we will address it.
+:::
+
 ## Features
 
 - **Personnel Management**: Define personnel, contact information, details, certification, roles, status and availability for all personnel
