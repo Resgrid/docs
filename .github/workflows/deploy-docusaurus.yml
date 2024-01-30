@@ -32,5 +32,6 @@ jobs:
           target_branch: release
           build_dir: build
           domain: docs.resgrid.com
+          repo: https://github.com/Resgrid/docs.git
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
