@@ -20,7 +20,7 @@ In this quick start we will get Resgrid up in running via Docker Compose for tes
 
 It is highly recommended that Resgrid is installed and setup by an IT Professional. There is a large amount of system configuration, tweaking and setup that is required to be done before and after you install Resgrid. Below is a list of technologies that you should have skilled professionals available to you or requisite knowledge before installing. Resgrid does not provide support or configuration guidance for those systems outside of the minimum needed to get the system functional.
 
-- Windows or Linux
+- Linux Server (Ubuntu)
 - Docker, Kubernetes
 - MS SQL Server
 - DNS, hostname mapping, proxy configuration
@@ -33,7 +33,7 @@ It is highly recommended that Resgrid is installed and setup by an IT Profession
 
 ## System Requirements
 
-The quick-start installation is suitable for a department of around 50 personnel on a machine with 32GB of RAM, 500GB of storage and a 8 logical processors. But depending on call volume or user interaction patterns may require more.
+The quick-start installation is suitable for a department of around 50 personnel on a machine with 32GB of RAM, 500GB of storage and a 8 logical processors. But depending on call volume or user interaction patterns may require more. You can run Resgrid on a lower-spec machine but it's not recommended.
 
 We do not recommend that mission critical systems be installed on a single machine. Resgrid is split into multiple containers to allow for multiple machines to be used to ensure the system is resilient to failure of one of it's components. Each dependency also needs to be resilient in that case, for example Clustered SQL Servers, RabbitMQ, Redis, etc.
 
@@ -42,12 +42,12 @@ We do not recommend that mission critical systems be installed on a single machi
 To run the Resgrid containers you will Docker, install Docker <https://docker.com/>. You will also need Docker Compose, Install Docker Compose <https://docs.docker.com/compose/install/>, the guide below will assume the docker-compose executable is installed.
 
 :::tip Note
-The guide below assumes a Linux server. We test our containers on Ubuntu 20.04 as part of our normal releases. But other Linux distros that support docker should work just fine. You may have to translate some commands, or come options may not apply. 
+The guide below assumes a Linux server. We test our containers on Ubuntu 24.04 as part of our normal releases. But other Linux distros that support docker should work just fine. You may have to translate some commands, or some options may not apply. We do not provide assistance for any OS that isn't the one above. 
 :::
 
-- Open Ports 80 and 443 and pass to the server
+- Open Ports 80 and 443 and pass to the server (if you want it to be externally accessible)
 - SMTP Server for sending email
-- 3 Publicly Available URLs
+- 3 Publicly Available URLs (if you want valid, non self-signed certs)
    - Main Web App (i.e. rg.mycompany.com)
    - API (i.e. rgapi.mycompany.com)
    - Events (i.e. rgevents.mycompany.com)
@@ -56,14 +56,17 @@ The guide below assumes a Linux server. We test our containers on Ubuntu 20.04 a
 Any correctly configured SMTP server will work if it’s local or not. If you have an SMTP server provided by your ISP or provider that will also work.
 :::
 
-Install Docker-CE on Ubuntu 22.04
-https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04
+Install Docker-CE on Ubuntu 24.04
+https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 
-Install Docker Compose on Ubuntu 22.04
-https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-22-04
+Allow running of docker for non-root users
+https://docs.docker.com/engine/install/linux-postinstall/
+
+Install Docker Compose on Ubuntu 24.04
+https://docs.docker.com/compose/install/linux/
 
 :::tip Note
-We recommend using Docker (or Docker-CE) as the container system as it's what we use in production. Other container engines should work, but we are unable to verify if there are any issues with them. If you run into issues please try using Docker (or Docker-CE) before submitting a support request.
+We recommend using Docker (or Docker-CE) as the container system as it's what we use in production. Other container engines should work, but we are unable to verify if there are any issues with them. If you run into issues please try using Docker (or Docker-CE) and ensure your using the correct version of Ubuntu before submitting a support request.
 :::
 
 ## Docker Compose Setup
@@ -110,7 +113,7 @@ vm.max_map_count=262144
 Edit the environment file:
 
 ```bash
-nano resgrid.env
+nano .env
 ```
 
 You will need to set at a minimum the following top 7 variables in the resgrid.env file. 
@@ -121,45 +124,34 @@ You will need to set at a minimum the following top 7 variables in the resgrid.e
 | NGINX_RESGRID_API_URL         | The FQDN of the server for Resgrid api                    |
 | NGINX_RESGRID_EVENTS_URL      | The FQDN of the server for Resgrid Event hub              |
 | NGINX_LETSENCRYPT_EMAIL       | Your email address used for LetsEncrypt                   |
-| RESGRID__SystemBehaviorConfig__ResgridApiBaseUrl          | Same FQDN as NGINX_RESGRID_API_URL prefixed with https://     |
-| RESGRID__SystemBehaviorConfig__ResgridBaseUrl             | Same FQDN as NGINX_RESGRID_WEB_URL prefixed with https://     |
-| RESGRID__SystemBehaviorConfig__ResgridEventingBaseUrl     | Same FQDN as NGINX_RESGRID_EVENTS_URL prefixed with https://  |
+| NGINX_RESGRID_WEB_IP          | This can be an internal (LAN) IP or a public one, but needs to be the IP that the proxy is serving SSL     |
+| NGINX_RESGRID_API_IP          | This can be an internal (LAN) IP or a public one, but needs to be the IP that the proxy is serving SSL                    |
+| NGINX_RESGRID_EVENTS_IP       | This can be an internal (LAN) IP or a public one, but needs to be the IP that the proxy is serving SSL              |
 
-Once those are set to real and correct values you can continue on for initial testing and validation. But to use the system for anything other then quick testing you should review and change any environment variables in the resgrid.env file that has **(REQUIRED)** text in the comment.
+
+Once those are set to real and correct values you can continue on for initial testing and validation. But to use the system for anything other then quick testing you should review and change any environment variables in the .env file that has **(REQUIRED)** text in the comment. 
+
+If you set the **NGINX_LETSENCRYPT_EMAIL** variable value to **internal** that will have Caddy Proxy generate a self-signed certificate. This allows you to test out Resgrid in an internal or air-gapped environment. But depending on your browser's security settings this may make the system not work correctly. We recommend using a publicly accessible URLs or use your own proxy server.
 
 :::danger Note
-Failure to review and change the values inside the resgrid.env file for a development, production, testing or staging system could lead to issues, service disruption and potential security issues (i.e. utilizing the default encryption keys in the file).
+Failure to review and change the values inside the .env file for a development, production, testing or staging system could lead to issues, service disruption and potential security issues (i.e. utilizing the default encryption keys in the file).
 :::
 
 ## External Networking
 
-This setup script assumes you are forwarding TCP port 80 and TCP port 443 from the Internet to the server you are running the script on. This docker setup comes with an NGINX reverse proxy for the web components (Web, Api and Events). If you are using a firewall or another proxy; i.e. HAProxy, NGINX, etc. You may need to modify the 'resgrid-ssl.template' file under docker-data\nginx if all you see is an NGINX 404 error when navigating to the web app.
+This setup script assumes you are forwarding TCP port 80 and TCP port 443 from the Internet to the server you are running the script on. This docker setup comes with a Caddy reverse proxy for the web components (Web, Api and Events). If you are using a firewall or another proxy; i.e. HAProxy, NGINX, etc. You can forward directly to the ports for each component.
 
-Modify the 'listen' lines like follows:
+| Port                          | Description                                               |
+| ----------------------------- | --------------------------------------------------------- |
+| 5151                          | Main Resgrid web app                                      |
+| 5152                          | Resgrid api                                               |
+| 5153                          | Resgrid Event hub                                         |
 
-FROM
-```bash
-listen 80;
-...
-listen 443 ssl;
-```
+Setting **NGINX_RESGRID_WEB_IP**, **NGINX_RESGRID_API_IP** and **NGINX_RESGRID_EVENTS_IP** in the .env file will then point to your firewall/load balancer or proxy. 
 
-TO
-```bash
-listen 80 proxy_protocol;
-...
-listen 443 ssl proxy_protocol;
-```
-
-## Run LetsEncrypt Initialization Script
-
-1. Execute the LetsEncrypt initialization script:
-
-```bash
-./init-letsencrypt.sh
-```
-
-This script will create the initial certificates to request the SSL certificates from LetsEncrypt. Ensure it completes successfully before continuing on. Common failures here are not properly mapping the FQDN (Fully Qualified Domain Names) defined above to the server you are trying to run the script on (i.e. firewall blocking port 80 and 443, DNS record not pointing to the correct server)
+:::tip Note
+The Resgrid Event Hub (5153) is a SignalR hub that utilized Web Sockets for realtime updates of UI components. Your proxy will need to upgrade/handle and pass those socket calls.
+:::
 
 ## Run the Docker Compose
 
@@ -178,12 +170,46 @@ docker compose up -d
 ```
 
 The Resgrid system will take about 5 minutes to start up fully, this is due to the startup order of the containers. The last container to startup will be the web container, once that one is ready, you can now access the system.
-Important Note About Support
+
+
+## Important Note About Support
 
 Resgrid is a complex system that can scale from a single instance to dozens of systems to service thousands of users. These installation setups get your system into a state where you can test and validate locally on the install system. To get Resgrid up and running to service non-local users you will need to reconfigure and harden the system. To complete those steps and configuration the system to your organizational needs you will require an IT professional. We do not provide installation support outside this guide via our Github page.
-Initial Web Login
 
-Once you have completed the steps above you will be able to log into the web applications user interface. Open up a web browser and navigate to the URL you specified in **RESGRID__SystemBehaviorConfig__ResgridBaseUrl**, you will then be prompted by the login screen. Your default administrator credentials are **admin/changeme1234**. Once you log into the system it’s recommended that you change your admin password from the Edit Profile page by clicking on the Administrator name in the upper left hand corner.
+
+## Initial Web Login
+
+Visit all of the URLs you specified above in a web browser **NGINX_RESGRID_WEB_URL**, **NGINX_RESGRID_API_URL** and **NGINX_RESGRID_EVENTS_URL** over https:// and ensure they load correctly. If you are using an internal/air-gapped install with self-signed certificates you will need to accept the self-signed cert for each url and add exceptions in the browsers.
+
+:::tip Note
+If you are using an internal/air-gapped install we recommend adding **NGINX_RESGRID_WEB_URL**, **NGINX_RESGRID_API_URL** and **NGINX_RESGRID_EVENTS_URL** to the hosts file or your internal network DNS server as you should access all of those URLs via their name and not your machines IP address. View instructions on setting up hosts files here https://linuxize.com/post/how-to-edit-your-hosts-file/.
+
+You will also need a valid certificate for running fully air-gapped. We recommend Step-CA server https://smallstep.com/docs/step-ca/ for running your own Certificate Authority and syncing the certificates from that with all your workstations so you don't get certificate errors. You will configure the Caddy proxy to get ACME certificates from Step-CA https://smallstep.com/docs/tutorials/acme-protocol-acme-clients/#caddy-v2
+:::
+
+Once you have completed the steps above you will be able to log into the web applications user interface. Open up a web browser and navigate to the URL you specified in **NGINX_RESGRID_WEB_URL**, you will then be prompted by the login screen. Your default administrator credentials are **admin/changeme1234**. Once you log into the system it’s recommended that you change your admin password from the Edit Profile page by clicking on the Administrator name in the upper left hand corner.
+
+## Updating
+
+To update Resgrid you'll need to stop the system, clear the current containers and restart.
+
+Stop all running containers.
+
+```bash
+docker compose down
+```
+
+Remove all cached images (to ensure we get new ones).
+
+```bash
+docker rmi -f $(docker images -aq)
+```
+
+Restart the containers and they will pull new containers.
+
+```bash
+docker compose up -d
+```
 
 ## What's Next?
 
