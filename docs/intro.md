@@ -12,9 +12,13 @@ Originally started as a hosted only solution in 2014, the Resgrid system as proc
 
 Resgrid is written on the Microsoft .Net and .Net Core Frameworks utilizing Microsoft SQL Server as the primary data repository.
 
-:::danger Note
+:::danger Work In Progress
 This documentation is an on-going Work-In-Progress (WIP) and is not complete. There many sections that are empty to help organize, give landing areas and structure for documentation. Documentation is usually added when we address issues or get questions. If you need information and the area of the documentation is missing or incomplete, please create a Github issue
 with the question and we will address it.
+:::
+
+:::tip User Interface Changes
+We update our User Interfaces for our websites and applications every couple of years. As such the UI shown in Pictures in this documentation may not match what is currently in production. Functionality should remain the same but may be presented differently. We don't update the pictures/documentation unless there is a major overhaul of the functionality.
 :::
 
 ## Features

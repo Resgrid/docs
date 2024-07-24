@@ -6,6 +6,8 @@ sidebar_position: 5
 
 Custom Statuses and Staffing allow you have your own actions for personnel and units to perform when using the apps. For example if you didn't want the Default Resgrid statuses for Personnel (i.e. Responding, Not Responding, On Scene, etc) you could create a custom Personnel Status set with your own options (Yes, No, Coming, Not Coming, etc).
 
+You can have Custom Statuses for Personnel Actions (Statuses), Personal Staffing Levels and for each Unit Type defined in the system.
+
 ## Default Statuses and Staffing Levels
 Resgrid default custom Statuses and Staffings are as follows
 
@@ -59,13 +61,62 @@ Here are the current Base Statuses that you can assign to your own Custom Status
 | -------------------- | ------------------------------------------------------------ |
 | None                 | This Custom Status does not equate to a base type            |
 | Available            | Status equates to an Available to respond to calls           |
-| NotResponding        | Status equates to an Not Responding to a call                |
+| Not Responding       | Status equates to an Not Responding to a call                |
 | Responding           | Status equates to Responding to an active call               |
-| OnScene              | Status equates to is at the Scene/Location of a call         |
-| MadeContact          | Status equates to making contact with RP or patient          |
+| On Scene             | Status equates to is at the Scene/Location of a call         |
+| Made Contact         | Status equates to making contact with RP or patient          |
 | Investigating        | Status equates to investigating in the area of a call        |
 | Dispatched           | Status equates to being dispatched to a call                 |
 | Cleared              | Status equates to being cleared of a call                    |
 | Returning            | Status equates to returning from a call to a station         |
 | Staging              | Status equates to being staged at a call location or station |
 | Unavailable          | Status equates to being Out of Service; unable to take calls |
+
+
+## Creating and Editing Custom Levels
+Under the Department menu you can select the Custom Statuses option to see what custom statuses you have defined and add/edit/remove them.
+
+:::warning Note
+When you added, edit or remove Custom Statuses all of your users mobile applications will need to re-sync by logging out of the application and back in. For example the Resgrid Responder and Resgrid Unit app. This is because those custom statuses get stored locally on the device for quick retrieval and for offline operations. It's recommended that you setup your custom statuses for Personnel before onboarding them onto the mobile apps.
+:::
+
+![Custom Statuses Page](/img/apps/configuration/custom-statuses/CustomStatusesPage.png)
+
+### For Personnel
+
+On the there are 2 sections for your Personnel and they are the right two boxes on the page; Custom Personnel Statuses (Actions) and Custom Personnel Staffing Levels. You can only have one of each active and by default it uses the above default. If the button in the box say "Set Custom Statuses/Staffing Levels" you are currently using the default Resgrid ones.
+
+![New Custom Statuses Page](/img/apps/configuration/custom-statuses/NewUnitStatusesPage.png)
+
+The Options Table in the page defines the buttons your users will see. You can add as many or as little as you want. Some departments only have 2 buttons, while others have dozens. When you click "Add Option" you will see a dialog like this:
+
+![New Custom Statuses Option](/img/apps/configuration/custom-statuses/NewButtonoption.png)
+
+| Name                 | Description                                                  |
+| -------------------- | ------------------------------------------------------------ |
+| Button Text          | The Text of the Button and the Text shown in Reports         |
+| Button Color         | Color of the button also the Color of Text in Report         |
+| Text Color           | Color of the Button Text (choose something high contrast)    |
+| Base Type            | Does this Custom Status equate to a Base Status Type above   |
+| Require GPS          | Does this status require GPS Coordinates (only for mobile)   |
+| Detail Type          | Can you select what Call and/or Station for this status      |
+| Note Type            | Do you want to allow an optional note or require one         |
+
+Order Defines the order in which the buttons will appear on any page or list. They order for LOWEST to HIGHEST number and default to the order in which they were added originally. 
+
+:::warning Updating or Removing Statuses and Staffing
+When you update or remove a custom status this can impact the Reset To department setting where you can pick a time to reset Statuses and Staffings to a baseline. Also users who have custom Staffing level changes will also need to update theirs to ensure it's still correct. Make sure after you change your Personnel Statuses or Staffing Levels that you also update your Department Settings and let users know to check/update their own personal Staffing Level scheduled changes.
+:::
+
+
+### For Units
+
+You can have as many Custom Statuses for Units as you like. You assign statuses to Units via the Unit Type (Department Menu->Types).
+
+![Unit Types](/img/apps/configuration/custom-statuses/UnitTypesList.png)
+
+The Action Set/Action Field is where you designate what Custom Unit Statuses to use.
+
+![Unit Types Add](/img/apps/configuration/custom-statuses/NewUnitTypeDialog.png)
+
+All other options between Unit Custom Statuses and Personnel as the same.
