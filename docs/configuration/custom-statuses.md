@@ -80,17 +80,17 @@ Under the Department menu you can select the Custom Statuses option to see what 
 When you added, edit or remove Custom Statuses all of your users mobile applications will need to re-sync by logging out of the application and back in. For example the Resgrid Responder and Resgrid Unit app. This is because those custom statuses get stored locally on the device for quick retrieval and for offline operations. It's recommended that you setup your custom statuses for Personnel before onboarding them onto the mobile apps.
 :::
 
-![Custom Statuses Page](/img/apps/configuration/custom-statuses/CustomStatusesPage.png)
+![Custom Statuses Page](/img/configuration/custom-statuses/CustomStatusesPage.png)
 
 ### For Personnel
 
 On the there are 2 sections for your Personnel and they are the right two boxes on the page; Custom Personnel Statuses (Actions) and Custom Personnel Staffing Levels. You can only have one of each active and by default it uses the above default. If the button in the box say "Set Custom Statuses/Staffing Levels" you are currently using the default Resgrid ones.
 
-![New Custom Statuses Page](/img/apps/configuration/custom-statuses/NewUnitStatusesPage.png)
+![New Custom Statuses Page](/img/configuration/custom-statuses/NewUnitStatusesPage.png)
 
 The Options Table in the page defines the buttons your users will see. You can add as many or as little as you want. Some departments only have 2 buttons, while others have dozens. When you click "Add Option" you will see a dialog like this:
 
-![New Custom Statuses Option](/img/apps/configuration/custom-statuses/NewButtonoption.png)
+![New Custom Statuses Option](/img/configuration/custom-statuses/NewButtonoption.png)
 
 | Name                 | Description                                                  |
 | -------------------- | ------------------------------------------------------------ |
@@ -113,10 +113,10 @@ When you update or remove a custom status this can impact the Reset To departmen
 
 You can have as many Custom Statuses for Units as you like. You assign statuses to Units via the Unit Type (Department Menu->Types).
 
-![Unit Types](/img/apps/configuration/custom-statuses/UnitTypesList.png)
+![Unit Types](/img/configuration/custom-statuses/UnitTypesList.png)
 
 The Action Set/Action Field is where you designate what Custom Unit Statuses to use.
 
-![Unit Types Add](/img/apps/configuration/custom-statuses/NewUnitTypeDialog.png)
+![Unit Types Add](/img/configuration/custom-statuses/NewUnitTypeDialog.png)
 
 All other options between Unit Custom Statuses and Personnel as the same.
