@@ -70,7 +70,7 @@ cd resgrid
 ```bash
 docker run \
     -v /home/yourname/yourregion.osm.pbf:/data/region.osm.pbf \
-    -v osm-data:/docker-data/osm/ \
+    -v ./docker-data/osm:/data/database/ \
     overv/openstreetmap-tile-server \
     import
 ```
