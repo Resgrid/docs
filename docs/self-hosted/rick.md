@@ -1,10 +1,10 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 ---
 
-# Offline Laptop
+# Offline Multi-User
 
-In this guide we will get Resgrid up in running via Docker Compose for local (single user) use on a Windows computer.
+In this guide we will get Resgrid up in running in a Portable, Offline mode that 
 
 :::danger Warranty
 Resgrid's self hosted version is provided with no warranty, no guarantee of suitability and limited free support (Github Issues and Discussions only).

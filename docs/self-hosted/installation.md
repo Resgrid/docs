@@ -6,6 +6,12 @@ sidebar_position: 2
 
 The overall installation of Resgrid is tailored to your specific usage scenarios and will require first procuring the required numbers of servers or VM's and continuing the installation process. If your department will have 50 or less users and units utilizing it at one time, we recommend using the Quick Start.
 
+:::danger Warranty
+Resgrid's self hosted version is provided with no warranty, no guarantee of suitability and limited free support (Github Issues and Discussions only).
+Updates for our self hosted version are infrequent compared to our hosted version due to the additional cost in time to create those releases. We try 
+our best to ensure an easy and working system that doesn't require a lot of tweaking, but due to it's complexity that is difficult.
+:::
+
 ## Prerequisites
 
 Resgrid's recommended install is on Ubuntu 24.04 with Docker to meet the Small sizing install requirements you will need a minimum of 5 servers:
