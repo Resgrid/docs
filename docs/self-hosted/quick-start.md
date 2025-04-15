@@ -6,6 +6,12 @@ sidebar_position: 1
 
 In this quick start we will get Resgrid up in running via Docker Compose for testing and evaluation. This quick start is valuable for getting the system up and running quickly for evaluation or testing purposed, but is not the recommended setup for production use.
 
+:::danger Warranty
+Resgrid's self hosted version is provided with no warranty, no guarantee of suitability and limited free support (Github Issues and Discussions only).
+Updates for our self hosted version are infrequent compared to our hosted version due to the additional cost in time to create those releases. We try 
+our best to ensure an easy and working system that doesn't require a lot of tweaking, but due to it's complexity that is difficult.
+:::
+
 ## Prerequisites
 
 1.) Server or VM that meets the System Requirements below
@@ -73,7 +79,7 @@ We recommend using Docker (or Docker-CE) as the container system as it's what we
 
 Download and Extract Package
 
-1. Clone the setup scripts for the all-in-one QuickStart:
+Clone the setup scripts for the all-in-one QuickStart:
 
 ```bash
 git clone https://github.com/Resgrid/resgrid-setup.git resgrid
@@ -81,31 +87,10 @@ git clone https://github.com/Resgrid/resgrid-setup.git resgrid
 
 You should now have a folder called resgrid in your current directory.
 
-2. Open the resgrid directory:
+Open the resgrid directory:
 
 ```bash
 cd resgrid
-```
-
-3. Verify and Set mmap counts
-
-First run the command below to get your current mmap counts
-
-```bash
-sysctl vm.max_map_count
-```
-
-If the value returned is less then 262144 run the following commands
-
-```bash
-sudo sysctl -w vm.max_map_count=262144
-sudo nano /etc/sysctl.conf
-```
-
-Find the vm.max_map_count value and set to 262144 and save the file. If you can't find the value add it to the bottom of the file.
-
-```
-vm.max_map_count=262144
 ```
 
 ## Setting Environment Variables
@@ -155,22 +140,29 @@ The Resgrid Event Hub (5153) is a SignalR hub that utilized Web Sockets for real
 
 ## Run the Docker Compose
 
-Once you have setup the environment variables you can now run the docker compose file.:
+Once you have setup the environment variables you can now run the docker compose file:
 
 ```bash
-docker compose up
+./run.sh
 ```
 
-That will run the interactive version of the containers, Ctrl+C will stop the containers.
-
-If you want to run the containers in the background, use the -d option:
-
-```bash
-docker compose up -d
-```
+:::tip Note
+The run script will require sudo. If you want to run without sudo just create a sql directory under the docker-data directory and you can use "docker compose up -d" command instead.
+:::
 
 The Resgrid system will take about 5 minutes to start up fully, this is due to the startup order of the containers. The last container to startup will be the web container, once that one is ready, you can now access the system.
 
+To get log output you can run:
+
+```bash
+docker compose logs
+```
+
+Or if you need to get output from a specific container just supply the name of the container from the docker-compose.yml file, for example:
+
+```bash
+docker compose logs worker
+```
 
 ## Important Note About Support
 
