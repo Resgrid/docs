@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkresgrid_docs=self.webpackChunkresgrid_docs||[]).push([[8750],{6966:e=>{e.exports=JSON.parse('{"title":"API","description":"Frequently Asked Questions","slug":"/category/api","permalink":"/category/api","navigation":{"previous":{"title":"Relay","permalink":"/apps/relay"},"next":{"title":"API Information","permalink":"/api/information"}}}')}}]);
