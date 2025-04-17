@@ -143,12 +143,8 @@ The Resgrid Event Hub (5153) is a SignalR hub that utilized Web Sockets for real
 Once you have setup the environment variables you can now run the docker compose file:
 
 ```bash
-./run.sh
+docker compose up -d
 ```
-
-:::tip Note
-The run script will require sudo. If you want to run without sudo just create a sql directory under the docker-data directory and you can use "docker compose up -d" command instead.
-:::
 
 The Resgrid system will take about 5 minutes to start up fully, this is due to the startup order of the containers. The last container to startup will be the web container, once that one is ready, you can now access the system.
 
