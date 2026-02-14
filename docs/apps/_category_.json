@@ -3,6 +3,6 @@
   "position": 6,
   "link": {
     "type": "generated-index",
-    "description": "All the dedicated apps for the platform"
+    "description": "Resgrid provides a suite of cross-platform applications built with React Native and Expo. Each app supports iOS, Android, Web, and desktop (macOS, Windows, Linux via Electron), and is designed for a specific role within emergency services operations."
   }
 }
