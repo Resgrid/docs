@@ -83,6 +83,7 @@ The User Area is organized into the following major feature areas:
 | [Voice & Audio](voice-audio) | Voice channels and audio streams | `VoiceController` |
 | [Connect](connect) | Public department profile and posts | `ConnectController` |
 | [Search](search) | Quick navigation search | `SearchController` |
+| [Workflows](workflows) | Event-driven automation engine with templates and external actions | `WorkflowsController` |
 
 ## Event System
 
@@ -100,9 +101,25 @@ The application uses an event aggregation system (`IEventAggregator`) to decoupl
 | `ShiftTradeFilledEvent` | Completing a shift trade | Confirms trade |
 | `AuditEvent` | Most write operations | Audit trail recording |
 | `SecurityRefreshEvent` | Permission changes | Cache invalidation |
-| `UnitAddedEvent` | Creating a unit | System integration |
-| `DocumentAddedEvent` | Uploading a document | Notification delivery |
-| `LogAddedEvent` | Creating a work log | Notification delivery |
+| `UnitAddedEvent` | Creating a unit | System integration, workflow triggers |
+| `DocumentAddedEvent` | Uploading a document | Notification delivery, workflow triggers |
+| `LogAddedEvent` | Creating a work log | Notification delivery, workflow triggers |
+| `NoteAddedEvent` | Creating a note | Workflow triggers |
+| `UserCreatedEvent` | Adding a user to department | Workflow triggers |
+| `UserAssignedToGroupEvent` | Assigning user to a group | Workflow triggers |
+| `UserStaffingEvent` | Personnel staffing change | Workflow triggers |
+| `UserStatusEvent` | Personnel status change | Workflow triggers |
+| `UnitStatusEvent` | Unit status change | Workflow triggers |
+| `ResourceOrderAddedEvent` | Creating a resource order | Workflow triggers |
+| `MessageSentEvent` | Sending a message | Workflow triggers |
+| `TrainingAddedEvent` | Creating a training | Workflow triggers |
+| `TrainingUpdatedEvent` | Updating a training | Workflow triggers |
+| `InventoryAdjustedEvent` | Adjusting inventory | Workflow triggers |
+| `CertificationExpiringEvent` | Certification nearing expiry | Workflow triggers (daily scheduled check) |
+| `FormSubmittedEvent` | Submitting a form | Workflow triggers |
+| `PersonnelRoleChangedEvent` | Changing user role assignment | Workflow triggers |
+| `GroupAddedEvent` | Creating a department group | Workflow triggers |
+| `GroupUpdatedEvent` | Updating a department group | Workflow triggers |
 
 ## Queue System
 
@@ -110,3 +127,4 @@ Time-sensitive operations like call dispatch use the `IQueueService` to enqueue 
 
 - **Call Broadcast Queue** — Sends push notifications, SMS, and email to dispatched personnel
 - **CQRS Event Queue** — Handles cache clearing and other eventual-consistency operations
+- **Workflow Queue** — Processes workflow executions asynchronously (event → template rendering → action execution)
