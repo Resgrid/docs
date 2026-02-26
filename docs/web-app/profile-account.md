@@ -151,6 +151,35 @@ The `AccountController` handles permanent account deletion:
 3. Audit trail records IP address and user-agent
 4. Redirects to LogOff
 
+## Contact Method Verification
+
+Each contact method on a user's profile (email, mobile number, home number) has a verification status that determines whether the system will send dispatches, notifications, and messages through that channel. For full details, see [Contact Method Verification](../configuration/contact-verification).
+
+### Verification Status Indicators
+
+When viewing or editing a profile, each contact field displays a verification indicator:
+
+| Indicator | Meaning | Action |
+|-----------|---------|--------|
+| **Green verified badge** | Contact method is verified | No action needed |
+| **Yellow warning + Verify button** | Contact method is pending verification; communications are blocked | Click **Verify** to send a verification code |
+| **Subtle info banner** | Contact method is grandfathered (pre-existing); communications still work | Recommended to verify for uninterrupted delivery |
+
+### Verifying a Contact Method
+
+1. Click the **Verify** button next to the unverified contact field.
+2. A verification code is sent to the contact method (email for email addresses, SMS for phone numbers).
+3. Enter the 6-digit code in the inline input that appears.
+4. Click **Confirm** to complete verification.
+
+:::warning
+Verification codes expire after 30 minutes. You can request up to 3 codes per hour per contact method, and attempt up to 5 verifications per day per contact method.
+:::
+
+### Automatic Verification Reset
+
+If you change your email address, mobile number, or home number, the verification status for the changed field is automatically reset to **Pending**. You must re-verify the new contact information before communications resume on that channel.
+
 ## Interactions with Other Modules
 
 | Module | Interaction |
@@ -161,3 +190,4 @@ The `AccountController` handles permanent account deletion:
 | **Department** | Multi-department membership management |
 | **Security** | Password reset subject to admin permissions |
 | **Dashboard** | Active department determines dashboard context |
+| **Contact Verification** | Verification status gates outbound communications per channel |

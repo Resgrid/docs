@@ -84,6 +84,7 @@ The User Area is organized into the following major feature areas:
 | [Connect](connect) | Public department profile and posts | `ConnectController` |
 | [Search](search) | Quick navigation search | `SearchController` |
 | [Workflows](workflows) | Event-driven automation engine with templates and external actions | `WorkflowsController` |
+| [Contact Verification](../configuration/contact-verification) | Contact method verification for anti-spam protection | `ContactVerificationController` (API) |
 
 ## Event System
 

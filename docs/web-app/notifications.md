@@ -69,3 +69,4 @@ The notification list performs extensive resolution to display human-readable in
 | **Units** | Unit type availability alerts |
 | **Custom Statuses** | Current state data references custom states |
 | **Department Settings** | Notification delivery channels |
+| **Contact Verification** | Notification delivery is gated by each user's contact verification status per channel |

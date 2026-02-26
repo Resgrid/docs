@@ -80,3 +80,4 @@ Removes an audio stream. Validates department ownership.
 | **Subscription** | PTT addon enables voice features |
 | **Personnel** | Users synced with VoIP provider |
 | **Dashboard** | Voice channels accessible from main interface |
+| **Contact Verification** | Voice call dispatches are gated by home/mobile number verification status |

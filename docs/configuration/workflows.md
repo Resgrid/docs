@@ -70,7 +70,7 @@ Navigate to **Department → Workflows** and click **New Workflow**.
 | Description | No | Optional description of the workflow's purpose |
 | Trigger Event Type | Yes | The system event that triggers this workflow |
 | Enabled | Yes | Whether the workflow is active (default: enabled) |
-| Max Retry Count | No | Number of retry attempts on failure (default: 3) |
+| Max Retry Count | No | Number of retry attempts on failure (default: 3, maximum: 5) |
 | Retry Backoff Base | No | Base delay in seconds for exponential backoff (default: 5) |
 
 ### Step 3: Add Steps
@@ -285,12 +285,28 @@ Sends an email via a department-supplied SMTP server. The Scriban template rende
 **Credential:** SMTP  
 **Action Config:** To, CC (optional), Subject
 
+:::info Recipient Caps
+To prevent bulk abuse, the number of recipients per email is capped by plan:
+- **Free plan:** Maximum **1** recipient in To, **no CC** allowed
+- **Paid plans:** Maximum **10** recipients (To + CC combined)
+:::
+
+:::info HTML Sanitization
+All rendered email body content is automatically sanitized before sending. Dangerous HTML elements and attributes — including `<script>`, `<iframe>`, `<object>`, `<embed>`, `<form>`, `on*` event attributes, and `javascript:` URLs — are stripped. Standard formatting tags (`<p>`, `<br>`, `<b>`, `<i>`, `<table>`, `<a href>` with `http`/`https` only, etc.) are preserved.
+:::
+
 ### Send SMS
 
 Sends an SMS via Twilio. The Scriban template renders the **message body**.
 
 **Credential:** Twilio  
 **Action Config:** To number(s)
+
+:::info Recipient Caps
+SMS recipients are capped by plan:
+- **Free plan:** Maximum **1** phone number
+- **Paid plans:** Maximum **5** phone numbers
+:::
 
 ### Send Teams Message
 
@@ -299,12 +315,20 @@ Posts a message to Microsoft Teams via an Incoming Webhook URL. The Scriban temp
 **Credential:** Microsoft Teams (webhook URL)  
 **Action Config:** Title (optional), Theme Color (optional)
 
+:::info Webhook URL Validation
+The webhook URL hostname must end with `.webhook.office.com` or `.logic.azure.com`. URLs targeting other domains are rejected to prevent misuse as a generic HTTP proxy.
+:::
+
 ### Send Slack Message
 
 Posts a message to Slack via an Incoming Webhook URL. The Scriban template renders the **message text** (supports Slack mrkdwn formatting).
 
 **Credential:** Slack (webhook URL)  
 **Action Config:** Channel override (optional), Username (optional), Icon Emoji (optional)
+
+:::info Webhook URL Validation
+The webhook URL hostname must be `hooks.slack.com`. URLs targeting other domains are rejected.
+:::
 
 ### Send Discord Message
 
@@ -313,6 +337,10 @@ Posts a message to Discord via a Webhook URL. The Scriban template renders the *
 **Credential:** Discord (webhook URL)  
 **Action Config:** Username override (optional), Avatar URL (optional)
 
+:::info Webhook URL Validation
+The webhook URL hostname must be `discord.com` or `discordapp.com`, and the path must start with `/api/webhooks/`. URLs that do not match this pattern are rejected.
+:::
+
 ### Call API (GET / POST / PUT / DELETE)
 
 Sends an HTTP request to an external API endpoint. For POST and PUT, the Scriban template renders the **request body**. For GET and DELETE, the template is not used as a body.
@@ -320,12 +348,25 @@ Sends an HTTP request to an external API endpoint. For POST and PUT, the Scriban
 **Credential:** Optional — HTTP Bearer, HTTP Basic, or HTTP API Key  
 **Action Config:** URL, Headers (optional), Content Type (optional, default: `application/json`)
 
+:::warning SSRF Protection
+HTTP API calls enforce the following security restrictions:
+- **HTTPS only** — plaintext HTTP URLs are rejected
+- **No private/internal IPs** — requests to RFC 1918 addresses (10.x.x.x, 172.16–31.x.x, 192.168.x.x), loopback (127.x.x.x), link-local (169.254.x.x), and cloud metadata endpoints (e.g. `169.254.169.254`) are blocked
+- **Domain allowlist/blocklist** — administrators can configure allowed and blocked domain lists
+
+These protections prevent workflows from being used to probe internal infrastructure.
+:::
+
 ### Upload File (FTP / SFTP)
 
 Uploads a file to an FTP or SFTP server. The Scriban template renders the **file content**.
 
 **Credential:** FTP or SFTP  
 **Action Config:** Remote Path, Filename template
+
+:::warning SSRF Protection
+FTP and SFTP hosts are subject to the same private-IP and localhost restrictions as HTTP API calls. Connections to internal/loopback addresses are blocked.
+:::
 
 ### Upload File (S3)
 
@@ -367,11 +408,53 @@ When a workflow step fails, automatic retries are attempted with exponential bac
 
 - If retries are exhausted, the run is marked as **Failed** with the final error message.
 - All attempts are recorded in the run logs for auditing.
-- You can configure `Max Retry Count` and `Retry Backoff Base` per workflow.
+- You can configure `Max Retry Count` (up to a maximum of **5**) and `Retry Backoff Base` per workflow.
+
+## Workflow and Step Limits
+
+To ensure system stability, the number of workflows and steps per department is capped based on subscription plan:
+
+| Limit | Free Plan | Paid Plans |
+|-------|-----------|------------|
+| Workflows per department | 3 | 28 |
+| Steps per workflow | 5 | 20 |
+| Max retry count (ceiling) | 5 | 5 |
+
+If you attempt to create a workflow or step that exceeds these limits, the operation will be rejected with a clear error message.
+
+## Credential Limits
+
+The number of stored credentials per department is capped by plan:
+
+| Limit | Free Plan | Paid Plans |
+|-------|-----------|------------|
+| Credentials per department | 2 | 20 |
+
+## Daily Send Limits
+
+Outbound email and SMS messages sent via workflows are subject to daily send limits to prevent abuse:
+
+| Channel | Free Plan | Paid Plans |
+|---------|-----------|------------|
+| Emails per day | 10 | 500 |
+| SMS per day | 5 | 200 |
+
+When the daily limit is reached, further email or SMS workflow steps will fail with a clear error indicating the limit has been exhausted. Limits reset at midnight UTC each day.
 
 ## Rate Limiting
 
-Workflow execution is rate-limited to **60 executions per minute per department** by default. If a department exceeds this limit, additional workflow events are skipped and a warning is logged. This prevents a single department from overwhelming the system.
+Workflow execution is rate-limited per department to prevent abuse and ensure fair resource usage. Limits are **tiered by subscription plan**:
+
+| Limit | Free Plan | Paid Plans |
+|-------|-----------|------------|
+| Executions per minute | 5 | 60 |
+| Daily run limit | 50 | Unlimited |
+
+If a department exceeds these limits, additional workflow events are skipped and a warning is logged.
+
+:::warning Free Plan Rate Limits
+Free-plan rate limits are strictly enforced with **no exemptions**. Unlike paid plans, call events and other normally exempt event types still count against the free-plan rate limit. This prevents abuse of the free tier.
+:::
 
 ## Monitoring Workflow Runs
 
@@ -402,6 +485,33 @@ Navigate to **Department → Workflows → Pending** to see all currently queued
 :::warning Clearing Pending Runs
 Clearing all pending runs is a destructive action. Cancelled runs are not retried and the associated events will not trigger the workflow again.
 :::
+
+## Template Sandboxing
+
+Scriban templates are executed in a sandboxed environment with the following safeguards:
+
+| Protection | Limit |
+|------------|-------|
+| Loop iterations | 500 maximum |
+| Recursion depth | 50 maximum |
+| Regex timeout | Enforced to prevent ReDoS attacks |
+| Output template size (at save time) | 64 KB maximum |
+| Rendered content size | 256 KB maximum |
+| `import` / `include` built-ins | Disabled |
+
+These limits prevent infinite loops, excessive resource consumption, and template injection attacks. If a template exceeds any limit, the step fails with a descriptive error.
+
+## Dynamic Action Config Fields
+
+All text fields in the action configuration — including email **Subject**, **To**, **CC**, filenames, and URLs — are rendered through the Scriban template engine at execution time. This means you can use template variables in any action config field, not just the output template body.
+
+#### Examples
+
+- **Email subject:** `New Call: {{ call.name }}` resolves to `New Call: Structure Fire on Main St`
+- **Dynamic filename:** `report_{{ timestamp.date }}.csv` resolves to `report_2026-02-25.csv`
+- **Dynamic recipient:** `{{ user.email }}` resolves to the triggering user’s email address
+
+The same rendered content size cap (256 KB) applies to the rendered action config to prevent abuse.
 
 ## Scriban Template Syntax Reference
 
@@ -453,6 +563,87 @@ Standard notification
 ```
 
 For full Scriban documentation, see the [Scriban Language Reference](https://github.com/scriban/scriban/blob/master/doc/language.md).
+
+## Collection Variables (Arrays)
+
+In addition to scalar properties, workflow templates can access **collection variables** on event objects. These are exposed as arrays that you can iterate over using Scriban's `for` loops.
+
+### Call Collections
+
+Available on **Call Added**, **Call Updated**, and **Call Closed** events:
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `{{ call.dispatches }}` | array | List of dispatched personnel |
+| `{{ call.unit_dispatches }}` | array | List of dispatched units |
+| `{{ call.group_dispatches }}` | array | List of dispatched groups |
+| `{{ call.role_dispatches }}` | array | List of dispatched roles |
+| `{{ call.notes_list }}` | array | List of call notes |
+| `{{ call.contacts }}` | array | List of call contacts |
+
+#### Dispatch entry properties
+
+| Property | Available On | Description |
+|----------|-------------|-------------|
+| `user_id` | `dispatches` | Dispatched user ID |
+| `dispatch_count` | `dispatches`, `unit_dispatches`, `group_dispatches`, `role_dispatches` | Dispatch count |
+| `dispatched_on` | `dispatches`, `unit_dispatches`, `group_dispatches`, `role_dispatches` | Dispatch timestamp |
+| `unit_id` | `unit_dispatches` | Unit ID |
+| `unit_name` | `unit_dispatches` | Unit name |
+| `group_id` | `group_dispatches` | Group ID |
+| `group_name` | `group_dispatches` | Group name |
+| `role_id` | `role_dispatches` | Role ID |
+| `role_name` | `role_dispatches` | Role name |
+
+#### Call note properties
+
+| Property | Description |
+|----------|-------------|
+| `note` | Note text |
+| `source` | Note source |
+| `timestamp` | Note timestamp |
+| `user_id` | Author user ID |
+
+#### Contact properties
+
+| Property | Description |
+|----------|-------------|
+| `name` | Contact name |
+| `number` | Contact number |
+| `type` | Contact type |
+
+#### Example: List Dispatched Units
+
+```
+Dispatched Units:
+{{ for unit in call.unit_dispatches }}
+  - {{ unit.unit_name }} (dispatched {{ unit.dispatched_on | date.to_string "%H:%M" }})
+{{ end }}
+```
+
+#### Example: Include Call Notes
+
+```
+{{ if call.notes_list.size > 0 }}
+Notes:
+{{ for n in call.notes_list }}
+  [{{ n.timestamp | date.to_string "%H:%M" }}] {{ n.note }}
+{{ end }}
+{{ end }}
+```
+
+### Other Event Collections
+
+Collection variables are also available on other event types:
+
+| Event Type | Variable | Description |
+|------------|----------|-------------|
+| Resource Order Added | `{{ order.items }}` | Order line items |
+| Shift Created/Updated | `{{ shift.groups }}` | Shift group assignments |
+| Training Added/Updated | `{{ training.questions }}` | Training quiz questions |
+| Log Added | `{{ log.entries }}` | Log entries |
+
+For the complete variable reference including all collection properties, see the [Workflow Template Variable Reference](../reference/workflow-variables) page.
 
 ## Common Workflow Recipes
 

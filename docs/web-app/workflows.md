@@ -48,7 +48,7 @@ Navigate to **Department → Workflows** and click **New Workflow**.
 | Description | No | Optional description of the workflow's purpose (max 1000 characters) |
 | Trigger Event Type | Yes | The system event that triggers this workflow (see [Trigger Event Types](#trigger-event-types)) |
 | Enabled | Yes | Whether the workflow is active (default: enabled) |
-| Max Retry Count | No | Number of retry attempts on failure (default: 3) |
+| Max Retry Count | No | Number of retry attempts on failure (default: 3, maximum: 5) |
 | Retry Backoff Base (seconds) | No | Base delay for exponential backoff between retries (default: 5) |
 
 ## Editing a Workflow
@@ -75,9 +75,19 @@ Steps are executed sequentially in `Step Order`. If a step fails, subsequent ste
 The workflow editor embeds an **Ace Editor** with Scriban syntax highlighting for editing output templates. Features include:
 
 - **Syntax highlighting** for Scriban template syntax (`{{ variable }}`, `{% if %}`, loops, etc.)
-- **Variable side panel** — Lists all available template variables for the selected trigger event type (e.g., for `CallAdded`: `{{ call.name }}`, `{{ call.nature }}`, `{{ call.address }}`, etc.)
+- **Variable side panel** — Lists all available template variables for the selected trigger event type (e.g., for `CallAdded`: `{{ call.name }}`, `{{ call.nature }}`, `{{ call.address }}`, etc.). **Array variables** are visually distinguished with a list icon and an "array" badge. Clicking an array variable inserts a Scriban `for` loop snippet instead of a simple variable reference.
 - **Preview button** — Renders the template with sample data and shows the output inline
 - **Test button** — Triggers a real execution with sample data and shows the run result
+
+:::tip Iterating Over Collections
+Some event variables are arrays (e.g., `call.unit_dispatches`, `call.notes_list`). When you click an array variable in the side panel, a `for` loop snippet is inserted automatically:
+```
+{{ for unit in call.unit_dispatches }}
+  {{ unit.unit_name }}
+{{ end }}
+```
+Hover over an array variable to see the child properties available inside each iteration.
+:::
 
 See the [Workflows Configuration](../configuration/workflows) page for the full template variable reference.
 
@@ -124,20 +134,20 @@ Each workflow step supports one of the following action types:
 
 | Action | Description | Credential Required |
 |--------|-------------|---------------------|
-| **Send Email** | Sends an email via SMTP. Template renders the HTML email body. | SMTP (host, port, username, password, from address) |
+| **Send Email** | Sends an email via SMTP. Template renders the HTML email body. Rendered HTML is automatically sanitized (scripts, iframes, event handlers, etc. are stripped). | SMTP (host, port, username, password, from address) |
 | **Send SMS** | Sends an SMS message via Twilio. Template renders the message body. | Twilio (Account SID, Auth Token, from number) |
-| **Send Teams Message** | Posts a message to Microsoft Teams via Incoming Webhook. Template renders the message body (plain text or Adaptive Card JSON). | Microsoft Teams (webhook URL) |
-| **Send Slack Message** | Posts a message to Slack via Incoming Webhook. Template renders the message text (supports Slack mrkdwn). | Slack (webhook URL) |
-| **Send Discord Message** | Posts a message to Discord via Webhook. Template renders the message content (supports embed JSON). | Discord (webhook URL) |
+| **Send Teams Message** | Posts a message to Microsoft Teams via Incoming Webhook. Template renders the message body (plain text or Adaptive Card JSON). Webhook URL must target `.webhook.office.com` or `.logic.azure.com`. | Microsoft Teams (webhook URL) |
+| **Send Slack Message** | Posts a message to Slack via Incoming Webhook. Template renders the message text (supports Slack mrkdwn). Webhook URL must target `hooks.slack.com`. | Slack (webhook URL) |
+| **Send Discord Message** | Posts a message to Discord via Webhook. Template renders the message content (supports embed JSON). Webhook URL must target `discord.com` or `discordapp.com` with path `/api/webhooks/`. | Discord (webhook URL) |
 
 ### API Actions
 
 | Action | Description | Credential Required |
 |--------|-------------|---------------------|
-| **Call API (GET)** | Sends an HTTP GET request to a URL. | Optional (Bearer, Basic, or API Key) |
-| **Call API (POST)** | Sends an HTTP POST request. Template renders the request body. | Optional |
-| **Call API (PUT)** | Sends an HTTP PUT request. Template renders the request body. | Optional |
-| **Call API (DELETE)** | Sends an HTTP DELETE request. | Optional |
+| **Call API (GET)** | Sends an HTTP GET request to a URL. HTTPS only; private/internal IPs blocked. | Optional (Bearer, Basic, or API Key) |
+| **Call API (POST)** | Sends an HTTP POST request. Template renders the request body. HTTPS only; private/internal IPs blocked. | Optional |
+| **Call API (PUT)** | Sends an HTTP PUT request. Template renders the request body. HTTPS only; private/internal IPs blocked. | Optional |
+| **Call API (DELETE)** | Sends an HTTP DELETE request. HTTPS only; private/internal IPs blocked. | Optional |
 
 ### File Upload Actions
 
@@ -323,9 +333,90 @@ When a workflow step fails:
 3. If max retries are exceeded, status is set to **Failed** with the final error message
 4. All retry attempts are visible in the run logs for auditing
 
+The `Max Retry Count` has a server-side ceiling of **5** to prevent infinite retry abuse.
+
+## Template Sandboxing
+
+Scriban templates are executed in a sandboxed environment to prevent abuse:
+
+| Protection | Limit |
+|------------|-------|
+| Loop iterations | 500 maximum |
+| Recursion depth | 50 maximum |
+| Regex timeout | Enforced to prevent ReDoS |
+| Output template size (save time) | 64 KB |
+| Rendered content size | 256 KB |
+| `import` / `include` built-ins | Disabled |
+
+## Dynamic Action Config Fields
+
+All text fields in action configuration (email Subject, To, CC, filenames, URLs, etc.) are rendered through the Scriban template engine at execution time. You can use `{{ }}` expressions in any config field:
+
+- **Subject:** `New Call: {{ call.name }}`
+- **Filename:** `report_{{ timestamp.date }}.csv`
+- **Recipient:** `{{ user.email }}`
+
+## Security Protections
+
+### SSRF Prevention
+
+HTTP API calls, FTP, and SFTP actions enforce:
+- **HTTPS only** for HTTP calls
+- Blocking of private/internal IP ranges (RFC 1918, loopback, link-local, cloud metadata `169.254.169.254`)
+- Configurable domain allowlist/blocklist
+
+### Webhook URL Validation
+
+Chat platform webhook URLs are validated against expected vendor domains:
+- **Teams:** `.webhook.office.com` or `.logic.azure.com`
+- **Slack:** `hooks.slack.com`
+- **Discord:** `discord.com` or `discordapp.com` with `/api/webhooks/` path
+
+### Email HTML Sanitization
+
+Rendered email body HTML is sanitized before sending. Dangerous elements (`<script>`, `<iframe>`, `<object>`, `<embed>`, `<form>`), `on*` event attributes, and `javascript:` URLs are stripped. Standard formatting tags are preserved.
+
 ## Rate Limiting
 
-Workflow execution is rate-limited per department to prevent a single department from flooding the system. The default limit is **60 workflow executions per minute per department**. If the limit is exceeded, workflow events are skipped and a warning is logged.
+Workflow execution is rate-limited per department to prevent a single department from flooding the system. Limits are **tiered by subscription plan**:
+
+| Limit | Free Plan | Paid Plans |
+|-------|-----------|------------|
+| Executions per minute | 5 | 60 |
+| Daily run limit | 50 | Unlimited |
+
+Free-plan rate limits are strictly enforced with **no exemptions** — no event types bypass the limit.
+
+## Workflow and Step Limits
+
+The number of workflows and steps per department is capped based on subscription plan:
+
+| Limit | Free Plan | Paid Plans |
+|-------|-----------|------------|
+| Workflows per department | 3 | 28 |
+| Steps per workflow | 5 | 20 |
+| Credentials per department | 2 | 20 |
+| Max retry count (ceiling) | 5 | 5 |
+
+## Daily Send Limits
+
+Outbound email and SMS messages sent via workflows are subject to daily limits:
+
+| Channel | Free Plan | Paid Plans |
+|---------|-----------|------------|
+| Emails per day | 10 | 500 |
+| SMS per day | 5 | 200 |
+
+When the daily limit is reached, further email/SMS steps will fail with a clear error. Limits reset at midnight UTC.
+
+## Recipient Caps
+
+To prevent bulk messaging abuse, the number of recipients per outbound step is capped:
+
+| Action | Free Plan | Paid Plans |
+|--------|-----------|------------|
+| Email To + CC | 1 (no CC) | 10 |
+| SMS To | 1 | 5 |
 
 ## Interactions with Other Modules
 

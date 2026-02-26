@@ -58,6 +58,12 @@ Personnel can text commands to the department number to update their status with
 - The system parses the command and updates the person's status or staffing accordingly
 - Confirmation is typically sent back via the notification system
 
+## Contact Verification and SMS
+
+Outbound SMS notifications and text message delivery are gated by each user's mobile number verification status. Users whose mobile number is in the **Pending** verification state will not receive SMS dispatches, notifications, or text message delivery. Users with **Verified** or **Grandfathered** mobile numbers continue to receive SMS normally.
+
+If personnel report not receiving text messages, verify that their mobile number is verified on their profile page. See [Contact Method Verification](contact-verification) for details.
+
 ## Common Errors and Resolutions
 
 | Error                                              | Resolution                                                                               |
@@ -67,3 +73,4 @@ Personnel can text commands to the department number to update their status with
 | Calls not being created from texts                 | Ensure the sending number is listed in the Text-to-Call Source Numbers                   |
 | Cannot provision a number                          | Check that your subscription plan supports phone number provisioning                     |
 | Personnel receiving no response to commands        | Verify text commands are enabled and the department phone number is correctly provisioned |
+| Personnel not receiving outbound SMS               | Verify the person's mobile number is **Verified** or **Grandfathered** on their profile. See [Contact Verification](contact-verification). |

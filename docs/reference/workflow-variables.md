@@ -99,6 +99,76 @@ Populated from the user who triggered the event. If no specific user is associat
 | `{{ call.is_deleted }}` | bool | Whether the call is deleted |
 | `{{ call.deleted_reason }}` | string | Deletion reason |
 
+#### Call Collection Variables
+
+The following array variables are available on call events. Use Scriban `for` loops to iterate over them.
+
+##### Dispatched Personnel (`call.dispatches`)
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `{{ call.dispatches }}` | array | List of dispatched personnel |
+| `{{ call.dispatches[n].user_id }}` | string | Dispatched user ID |
+| `{{ call.dispatches[n].dispatch_count }}` | int | Dispatch count |
+| `{{ call.dispatches[n].dispatched_on }}` | datetime | Dispatch timestamp |
+
+##### Dispatched Units (`call.unit_dispatches`)
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `{{ call.unit_dispatches }}` | array | List of dispatched units |
+| `{{ call.unit_dispatches[n].unit_id }}` | int | Unit ID |
+| `{{ call.unit_dispatches[n].unit_name }}` | string | Unit name |
+| `{{ call.unit_dispatches[n].dispatch_count }}` | int | Dispatch count |
+| `{{ call.unit_dispatches[n].dispatched_on }}` | datetime | Dispatch timestamp |
+
+##### Dispatched Groups (`call.group_dispatches`)
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `{{ call.group_dispatches }}` | array | List of dispatched groups |
+| `{{ call.group_dispatches[n].group_id }}` | int | Group ID |
+| `{{ call.group_dispatches[n].group_name }}` | string | Group name |
+| `{{ call.group_dispatches[n].dispatch_count }}` | int | Dispatch count |
+| `{{ call.group_dispatches[n].dispatched_on }}` | datetime | Dispatch timestamp |
+
+##### Dispatched Roles (`call.role_dispatches`)
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `{{ call.role_dispatches }}` | array | List of dispatched roles |
+| `{{ call.role_dispatches[n].role_id }}` | int | Role ID |
+| `{{ call.role_dispatches[n].role_name }}` | string | Role name |
+| `{{ call.role_dispatches[n].dispatch_count }}` | int | Dispatch count |
+| `{{ call.role_dispatches[n].dispatched_on }}` | datetime | Dispatch timestamp |
+
+##### Call Notes (`call.notes_list`)
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `{{ call.notes_list }}` | array | List of call notes |
+| `{{ call.notes_list[n].note }}` | string | Note text |
+| `{{ call.notes_list[n].source }}` | string | Note source |
+| `{{ call.notes_list[n].timestamp }}` | datetime | Note timestamp |
+| `{{ call.notes_list[n].user_id }}` | string | Note author user ID |
+
+##### Call Contacts (`call.contacts`)
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `{{ call.contacts }}` | array | List of call contacts |
+| `{{ call.contacts[n].name }}` | string | Contact name |
+| `{{ call.contacts[n].number }}` | string | Contact number |
+| `{{ call.contacts[n].type }}` | string | Contact type |
+
+##### Example: Iterating Over Dispatched Units
+
+```
+{{ for unit in call.unit_dispatches }}
+  - {{ unit.unit_name }} (dispatched {{ unit.dispatched_on | date.to_string "%H:%M" }})
+{{ end }}
+```
+
 ---
 
 ### Unit Status Changed
@@ -311,6 +381,15 @@ Populated from the user who triggered the event. If no specific user is associat
 | `{{ log.other_personnel }}` | string | Other personnel involved |
 | `{{ log.call_id }}` | int | Associated call ID (if linked) |
 
+#### Log Collection Variables
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `{{ log.entries }}` | array | List of log entries |
+| `{{ log.entries[n].narrative }}` | string | Entry narrative |
+| `{{ log.entries[n].timestamp }}` | datetime | Entry timestamp |
+| `{{ log.entries[n].user_id }}` | string | Entry author user ID |
+
 ---
 
 ### Calendar Event Added / Calendar Event Updated
@@ -350,6 +429,14 @@ Populated from the user who triggered the event. If no specific user is associat
 | `{{ shift.hours }}` | int | Shift duration in hours |
 | `{{ shift.department_number }}` | string | Department number |
 
+#### Shift Collection Variables
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `{{ shift.groups }}` | array | List of shift group assignments |
+| `{{ shift.groups[n].group_id }}` | int | Group ID |
+| `{{ shift.groups[n].group_name }}` | string | Group name |
+
 ---
 
 ### Resource Order Added
@@ -371,6 +458,15 @@ Populated from the user who triggered the event. If no specific user is associat
 | `{{ order.special_instructions }}` | string | Special instructions |
 | `{{ order.meetup_location }}` | string | Meetup location |
 | `{{ order.financial_code }}` | string | Financial/billing code |
+
+#### Resource Order Collection Variables
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `{{ order.items }}` | array | List of order line items |
+| `{{ order.items[n].resource }}` | string | Requested resource |
+| `{{ order.items[n].quantity }}` | int | Requested quantity |
+| `{{ order.items[n].status }}` | string | Item status |
 
 ---
 
@@ -427,6 +523,14 @@ Populated from the user who triggered the event. If no specific user is associat
 | `{{ training.minimum_score }}` | double | Minimum passing score |
 | `{{ training.created_on }}` | datetime | Creation date |
 | `{{ training.to_be_completed_by }}` | datetime | Completion deadline (if set) |
+
+#### Training Collection Variables
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `{{ training.questions }}` | array | List of training quiz questions |
+| `{{ training.questions[n].question }}` | string | Question text |
+| `{{ training.questions[n].answer }}` | string | Correct answer |
 
 ---
 

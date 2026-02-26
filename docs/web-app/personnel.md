@@ -75,6 +75,10 @@ A sidebar tree view allows filtering personnel by group/station.
 7. Optionally sends a welcome/creation notification email
 8. Fires an `AuditEvent`
 
+:::info Contact Verification
+When an administrator creates a new user, all contact methods (email, mobile number, home number) are initialized in the **Pending** verification state. The new user must verify their contact methods from their profile page before they will receive dispatches, notifications, or messages via those channels. See [Contact Method Verification](../configuration/contact-verification) for details.
+:::
+
 ## Viewing Personnel
 
 **Authorization:** `Personnel_View` policy + `CanUserViewUser` runtime check
@@ -159,3 +163,4 @@ When displaying personnel for a call, the system calculates **Estimated Time of 
 | **Trainings** | Personnel assigned to trainings |
 | **Profile** | Certifications and schedules managed per person |
 | **Security** | Visibility matrix controls who can see whom |
+| **Contact Verification** | Admin-created personnel start with Pending verification; communications are gated by verification status |

@@ -105,3 +105,4 @@ Recipients can respond to messages with:
 | **Shifts** | Shift personnel can be excluded from messages |
 | **Dashboard** | Unread count displayed in top icons |
 | **Department** | Module can be enabled/disabled |
+| **Contact Verification** | SMS message delivery is gated by mobile number verification status. Users with Pending mobile verification will not receive SMS messages. |

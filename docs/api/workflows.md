@@ -54,10 +54,14 @@ POST /api/v4/workflows
 | `Description` | string | No | Description (max 1000 characters) |
 | `TriggerEventType` | int | Yes | Event type enum value (see [Event Types](#event-types)) |
 | `IsEnabled` | bool | No | Enabled state (default: true) |
-| `MaxRetryCount` | int | No | Max retry attempts (default: 3) |
+| `MaxRetryCount` | int | No | Max retry attempts (default: 3, maximum: 5) |
 | `RetryBackoffBaseSeconds` | int | No | Backoff base in seconds (default: 5) |
 
 **Response:** Created `WorkflowResult` object.
+
+:::info Plan-Based Limits
+The number of workflows per department is capped by subscription plan (3 for free, 28 for paid). If you exceed the limit, the API returns `400 Bad Request` with a descriptive error message. The `MaxRetryCount` field is capped at a server-side ceiling of **5** regardless of the value provided.
+:::
 
 ### Update Workflow
 
@@ -109,12 +113,16 @@ POST /api/v4/workflows/{id}/steps
 |-------|------|----------|-------------|
 | `ActionType` | int | Yes | Action type enum value (see [Action Types](#action-types)) |
 | `StepOrder` | int | Yes | Execution order |
-| `OutputTemplate` | string | Yes | Scriban template text |
+| `OutputTemplate` | string | Yes | Scriban template text (max 64 KB) |
 | `ActionConfig` | string | No | JSON action-specific settings |
 | `WorkflowCredentialId` | int | No | Credential ID to use |
 | `IsEnabled` | bool | No | Enabled state (default: true) |
 
 **Response:** Created `WorkflowStepResult` object.
+
+:::info Plan-Based Step Limits
+The number of steps per workflow is capped by subscription plan (5 for free, 20 for paid). If you exceed the limit, the API returns `400 Bad Request` with a descriptive error message.
+:::
 
 ### Update Step
 
@@ -182,6 +190,10 @@ POST /api/v4/workflows/credentials
 | `Data` | object | Yes | Plaintext credential data (type-specific fields) |
 
 **Response:** Created `WorkflowCredentialResult` object (secrets masked).
+
+:::info Plan-Based Credential Limits
+The number of stored credentials per department is capped by subscription plan (2 for free, 20 for paid). If you exceed the limit, the API returns `400 Bad Request`.
+:::
 
 :::warning Write-Only Secrets
 Credential secret values are encrypted at rest and never returned in API responses. You can only set them when creating or updating a credential.
@@ -399,6 +411,73 @@ GET /api/v4/workflows/eventtypes
 | 12 | UploadFileAzureBlob | Upload file to Azure Blob Storage |
 | 13 | UploadFileBox | Upload file to Box |
 | 14 | UploadFileDropbox | Upload file to Dropbox |
+
+## Security & Rate Limits
+
+### Rate Limits
+
+Workflow execution is rate-limited per department based on subscription plan:
+
+| Limit | Free Plan | Paid Plans |
+|-------|-----------|------------|
+| Executions per minute | 5 | 60 |
+| Daily run limit | 50 | Unlimited |
+
+Free-plan rate limits are strictly enforced with no exemptions for any event type.
+
+### Workflow & Step Caps
+
+| Limit | Free Plan | Paid Plans |
+|-------|-----------|------------|
+| Workflows per department | 3 | 28 |
+| Steps per workflow | 5 | 20 |
+| Credentials per department | 2 | 20 |
+| Max retry count (ceiling) | 5 | 5 |
+
+### Daily Send Limits
+
+| Channel | Free Plan | Paid Plans |
+|---------|-----------|------------|
+| Emails per day | 10 | 500 |
+| SMS per day | 5 | 200 |
+
+### Recipient Caps
+
+| Action | Free Plan | Paid Plans |
+|--------|-----------|------------|
+| Email (To + CC) | 1 (no CC) | 10 |
+| SMS (To) | 1 | 5 |
+
+### SSRF Protection
+
+- HTTP API calls require **HTTPS** only
+- Private/internal IPs (RFC 1918, loopback, link-local, cloud metadata `169.254.169.254`) are blocked
+- FTP/SFTP hosts are subject to the same private-IP restrictions
+
+### Webhook URL Validation
+
+- **Teams:** hostname must end with `.webhook.office.com` or `.logic.azure.com`
+- **Slack:** hostname must be `hooks.slack.com`
+- **Discord:** hostname must be `discord.com` or `discordapp.com` with path starting `/api/webhooks/`
+
+### Template Sandboxing
+
+| Protection | Limit |
+|------------|-------|
+| Loop iterations | 500 max |
+| Recursion depth | 50 max |
+| Regex timeout | Enforced |
+| Output template size (save) | 64 KB |
+| Rendered content size | 256 KB |
+| `import`/`include` built-ins | Disabled |
+
+### Email HTML Sanitization
+
+Rendered email body HTML is sanitized before sending. Dangerous elements (`<script>`, `<iframe>`, `<object>`, `<embed>`, `<form>`), `on*` event attributes, and `javascript:` URLs are stripped.
+
+### Dynamic Action Config Rendering
+
+All action config text fields (Subject, To, CC, filenames, URLs) are rendered through the Scriban template engine at execution time, allowing `{{ }}` expressions. The same 256 KB rendered content size cap applies.
 
 ## Credential Types
 

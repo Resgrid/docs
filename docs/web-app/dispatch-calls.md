@@ -69,6 +69,10 @@ After a call is saved:
 3. The call is enqueued via `IQueueService.EnqueueCallBroadcastAsync`
 4. The queue processor sends push notifications, SMS, and email to all dispatched personnel
 
+:::info Contact Verification Gating
+Outbound dispatch communications are gated by each user's contact verification status. Email dispatches are only sent if the user's email is **Verified** or **Grandfathered**. SMS dispatches are only sent if the user's mobile number is **Verified** or **Grandfathered**. Voice call dispatches are only sent if the relevant phone number (home or mobile) is **Verified** or **Grandfathered**. Users with **Pending** contact methods will not receive dispatches on those channels. See [Contact Method Verification](../configuration/contact-verification) for details.
+:::
+
 ### Location Handling
 
 The system supports multiple location input methods:
@@ -232,3 +236,4 @@ The dispatch area includes a chat view for real-time communication with departme
 | **Logs** | Work logs reference calls |
 | **Reports** | Call analytics and reports |
 | **Queue** | Async notification broadcast |
+| **Contact Verification** | Email, SMS, and voice call dispatches are gated by each user's contact verification status |
