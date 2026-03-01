@@ -99,12 +99,13 @@ From the Notifications page, you can:
 | Units             | Unit type availability can trigger notification alerts               |
 | Custom Statuses   | Current status states are used to determine availability counts      |
 | Personnel         | Individual users can be targeted as notification recipients          |
+| Contact Verification | Notification delivery is gated by each user's contact verification status. Unverified (Pending) channels are skipped. See [Contact Verification](contact-verification). |
 
 ## Common Errors and Resolutions
 
 | Error                                      | Resolution                                                              |
 | ------------------------------------------ | ----------------------------------------------------------------------- |
 | Notification not triggering                | Verify the event type matches the event occurring in the system         |
-| Recipients not receiving notifications     | Check recipient targeting (roles, groups, users) and user notification preferences |
+| Recipients not receiving notifications     | Check recipient targeting (roles, groups, users) and user notification preferences. Also verify the user's contact methods are **Verified** or **Grandfathered** — Pending contact methods block delivery. See [Contact Verification](contact-verification). |
 | Availability alert not firing              | Verify the lower/upper limits, selected role/unit type, and current states are configured correctly |
 | Too many notifications being sent          | Review notification rules for overlapping triggers and consolidate      |

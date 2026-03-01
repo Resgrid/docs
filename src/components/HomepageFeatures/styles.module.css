@@ -1,11 +1,247 @@
-.features {
-  display: flex;
-  align-items: center;
-  padding: 2rem 0;
-  width: 100%;
+/* ─────────────────────────────────────────────
+   Quick-start navigation cards
+   ───────────────────────────────────────────── */
+
+.quickLinks {
+  padding: 3rem 0 2rem;
 }
 
-.featureSvg {
-  height: 200px;
-  width: 200px;
+.quickLinksGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+@media screen and (max-width: 996px) {
+  .quickLinksGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .quickLinksGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.quickLinkCard {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--docs-color-border, #dadde1);
+  background: var(--docs-color-background, #fff);
+  text-decoration: none !important;
+  color: inherit !important;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.quickLinkCard:hover {
+  border-color: #2160fd;
+  box-shadow: 0 4px 20px rgba(33, 96, 253, 0.08);
+  transform: translateY(-2px);
+}
+
+:global(html[data-theme='dark']) .quickLinkCard:hover {
+  border-color: #1a90ff;
+  box-shadow: 0 4px 20px rgba(26, 144, 255, 0.12);
+}
+
+.cardIcon {
+  font-size: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: var(--docs-color-text, #000);
+}
+
+.cardDescription {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--docs-color-text-100, #646464);
+  flex: 1;
+  margin: 0 0 1rem;
+}
+
+.cardLink {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #2160fd;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+:global(html[data-theme='dark']) .cardLink {
+  color: #1a90ff;
+}
+
+/* ─────────────────────────────────────────────
+   Section headers (shared)
+   ───────────────────────────────────────────── */
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+  color: var(--docs-color-text, #000);
+}
+
+.sectionSubtitle {
+  font-size: 1.05rem;
+  color: var(--docs-color-text-100, #646464);
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* ─────────────────────────────────────────────
+   Platform capabilities
+   ───────────────────────────────────────────── */
+
+.capabilities {
+  padding: 3rem 0;
+  background: var(--docs-color-background-100, #f8f8f8);
+}
+
+.capabilitiesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+@media screen and (max-width: 996px) {
+  .capabilitiesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .capabilitiesGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.capabilityCard {
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: var(--docs-color-background, #fff);
+  border: 1px solid var(--docs-color-border, #dadde1);
+  transition: box-shadow 0.2s ease;
+}
+
+.capabilityCard:hover {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+:global(html[data-theme='dark']) .capabilityCard:hover {
+  box-shadow: 0 2px 12px rgba(255, 255, 255, 0.04);
+}
+
+.capIcon {
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: 0.65rem;
+}
+
+.capTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0 0 0.35rem;
+  color: var(--docs-color-text, #000);
+}
+
+.capDescription {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--docs-color-text-100, #646464);
+  margin: 0;
+}
+
+/* ─────────────────────────────────────────────
+   Explore the docs
+   ───────────────────────────────────────────── */
+
+.explore {
+  padding: 3rem 0 4rem;
+}
+
+.exploreGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media screen and (max-width: 600px) {
+  .exploreGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.exploreCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.15rem 1.35rem;
+  border-radius: 10px;
+  border: 1px solid var(--docs-color-border, #dadde1);
+  background: var(--docs-color-background, #fff);
+  text-decoration: none !important;
+  color: inherit !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.exploreCard:hover {
+  border-color: #2160fd;
+  box-shadow: 0 2px 12px rgba(33, 96, 253, 0.06);
+}
+
+:global(html[data-theme='dark']) .exploreCard:hover {
+  border-color: #1a90ff;
+  box-shadow: 0 2px 12px rgba(26, 144, 255, 0.1);
+}
+
+.exploreIcon {
+  font-size: 1.65rem;
+  flex-shrink: 0;
+}
+
+.exploreTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0 0 0.15rem;
+  color: var(--docs-color-text, #000);
+}
+
+.exploreDescription {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--docs-color-text-100, #646464);
+  margin: 0;
+}
+
+.exploreArrow {
+  margin-left: auto;
+  font-size: 1.1rem;
+  color: var(--docs-color-text-100, #646464);
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.exploreCard:hover .exploreArrow {
+  transform: translateX(3px);
+  color: #2160fd;
+}
+
+:global(html[data-theme='dark']) .exploreCard:hover .exploreArrow {
+  color: #1a90ff;
 }

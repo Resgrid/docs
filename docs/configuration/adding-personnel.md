@@ -55,8 +55,13 @@ If you provide a mobile number, you must also select the mobile carrier. For UK-
 2. The person is added to your department
 3. They are assigned to the selected group (if any)
 4. They are assigned to the selected roles (if any)
-5. If "Send Account Notification" is checked, a welcome email is sent
-6. The person can now log in and access the department's web and mobile apps
+5. All contact methods (email, mobile number, home number) are set to **Pending** verification status
+6. If "Send Account Notification" is checked, a welcome email is sent
+7. The person can now log in and access the department's web and mobile apps
+
+:::warning Contact Verification Required
+Newly added personnel will **not** receive dispatches, notifications, or SMS messages until they verify their contact methods. When the new user first logs in and visits their profile, they will see verification prompts next to each contact field. They must complete verification for each channel to begin receiving communications. See [Contact Method Verification](contact-verification) for details.
+:::
 
 ## Manage Invites
 
@@ -108,3 +113,4 @@ If you attempt to add a person whose email was previously associated with a dele
 | "SMS notification requires a mobile number"         | Provide a mobile number before enabling SMS notifications            |
 | "Cannot delete the Managing User"                   | The managing user cannot be removed; change the managing user in Department Settings first |
 | Person not receiving notifications                  | Verify they are in the correct group, have the app installed, and notification preferences are set |
+| New person not receiving dispatches/notifications    | The user must log in and verify their contact methods from their profile page. See [Contact Verification](contact-verification). |
