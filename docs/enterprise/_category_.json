@@ -1,0 +1,8 @@
+{
+  "label": "Enterprise SSO & SCIM",
+  "position": 6,
+  "link": {
+    "type": "generated-index",
+    "description": "Enterprise Single Sign-On (SSO), SCIM user provisioning, and security policy configuration for organizations and government agencies."
+  }
+}
