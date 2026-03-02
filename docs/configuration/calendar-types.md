@@ -55,13 +55,16 @@ When creating or editing a calendar event, you select a type from the dropdown. 
 
 Calendar events also support:
 - **Title and Description** — event details
-- **Start/End Times** — with time zone support
+- **All-Day Events** — span full days without requiring time selection; times auto-normalize to midnight boundaries
+- **Start/End Times** — with time zone support (hidden when All Day is checked)
+- **Multi-Day Events** — events spanning multiple days display as continuous banners on the calendar
 - **Location** — with geocoding for map display
 - **Recurrence** — none, weekly, monthly, or yearly
 - **Signup Type** — for RSVP-based events
 - **Entity Targeting** — target specific groups or the whole department
 - **Required/Optional Attendees** — for attendance tracking
 - **Reminders** — automated reminders before the event
+- **iCal Export** — download individual events as `.ics` files or subscribe to the full calendar feed
 
 ## How Calendar Types Connect to Other Features
 
@@ -71,6 +74,7 @@ Calendar events also support:
 | Reports    | Events can be analyzed by type for operational reporting          |
 | Notifications | New calendar events trigger notifications to targeted entities |
 | Permissions | Calendar event creation is controlled by the Create Calendar Entry permission |
+| Calendar Sync | Exported iCal feeds include event type information             |
 
 ## Common Errors and Resolutions
 

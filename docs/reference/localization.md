@@ -39,6 +39,29 @@ The following localization keys are available for the contact verification featu
 
 These strings are defined in `EditProfile.en.resx` and `EditProfile.es.resx` and follow the existing marker-class localization pattern.
 
+### Calendar Localization Strings
+
+The following localization keys are available for the calendar module's all-day events, multi-day events, and calendar sync features:
+
+| Key | English (en) | Description |
+|-----|-------------|-------------|
+| `AllDayEvent` | "All Day Event" | Label for all-day events on the calendar and detail views |
+| `DateRange` | "{0} – {1}" | Format string for multi-day event date ranges |
+| `DownloadIcs` | "Download .ics" | Button label for downloading a single event as iCal |
+| `SubscribeCalendar` | "Subscribe to Calendar" | Button/panel label for calendar sync |
+| `CalendarSyncTitle` | "Calendar Sync" | Panel heading for the calendar sync section |
+| `CalendarSyncDescription` | "Subscribe to your department calendar in Google Calendar, Microsoft Outlook, Apple Calendar, or any application that supports iCal feeds." | Help text in the sync panel |
+| `ActivateCalendarSync` | "Activate Calendar Sync" | Button to generate a subscription URL |
+| `RegenerateCalendarSync` | "Regenerate Sync Key" | Button to invalidate and recreate the subscription URL |
+| `CalendarSyncActivateHelp` | "To sync your department calendar with an external calendar application, you must first activate calendar sync. This generates a unique subscription URL. If the URL is compromised, you can regenerate it to invalidate the old one." | Detailed help text for first-time activation |
+| `CopyToClipboard` | "Copy to Clipboard" | Button label for copying the subscription URL |
+| `SubscriptionUrl` | "Subscription URL" | Label for the subscription URL field |
+| `WebCalLink` | "Open in Calendar App" | Label for the webcal:// protocol link |
+| `CalendarSyncActive` | "Calendar sync is active. Use the URL below to subscribe." | Status text when sync is active |
+| `CalendarSyncInactive` | "Calendar sync is not yet activated. Click the button below to generate your subscription URL." | Status text when sync is not yet activated |
+
+These strings are defined in `Calendar.en.resx` and `Calendar.es.resx` (Spanish translations are also provided).
+
 ## Localization Gaps
 
 The following areas or parts of the system may not be properly localized for your specific language:

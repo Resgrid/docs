@@ -270,6 +270,19 @@ RESGRID__WebConfig__IngressProxyNetworkCidr=16
 
 ASPNETCORE_ENVIRONMENT=Production
 ASPNETCORE_URLS=http://0.0.0.0:80
+
+# -----------------------------------------------
+# --- Calendar Config Section -------------------
+# -----------------------------------------------
+
+# Enable or disable the external iCal feed endpoint (default: true)
+RESGRID__CalendarConfig__ICalFeedEnabled=true
+
+# PRODID value used in generated iCal files (default: -//Resgrid//Calendar//EN)
+RESGRID__CalendarConfig__ICalProductId=-//Resgrid//Calendar//EN
+
+# How long (in minutes) a feed response can be cached by subscribing clients (default: 15)
+RESGRID__CalendarConfig__ICalFeedCacheDurationMinutes=15
 ```
 
 ### System Behavior Config
