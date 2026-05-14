@@ -41,6 +41,7 @@ The main dispatch dashboard displays:
 | Linked Calls | No | Reference related calls |
 | Contacts | No | Attach relevant contacts |
 | Form Data | No | Custom form data |
+| Enable Check-In Timers | No | Activates the check-in timer system for this call (auto-checked if the department setting is enabled) |
 
 ### Dispatch Targets
 
@@ -81,6 +82,12 @@ The system supports multiple location input methods:
 - **What3Words** — Three-word location codes resolved via the W3W API
 - **Reverse geocoding** — If only coordinates are provided, the system can look up the address
 
+## Check-In Timers
+
+When a call has check-in timers enabled, a **Check-In Timers** panel appears on the View Call page showing real-time countdowns for each configured timer type (PAR, Rehab, IC, Hazmat, etc.). Timers visually escalate from **Green → Warning → Critical** as deadlines approach, and clicking **Check In** resets the timer and logs a record with an optional note and GPS coordinates.
+
+For full configuration, workflow, and API documentation see [Call Check-In Timers](./call-checkin-timers).
+
 ## Updating a Call
 
 **Authorization:** `Call_Update` policy + `CanUserEditCall` runtime check
@@ -90,6 +97,7 @@ Updating a call supports:
 - Adding or removing dispatch targets (diff-based — only changes are applied)
 - Updating linked calls and contacts
 - Updating protocols
+- Toggling check-in timers on or off
 - **Rebroadcast option** — Optionally re-send notifications to all dispatched personnel
 
 Changes fire a `CallUpdatedEvent`.
@@ -237,3 +245,4 @@ The dispatch area includes a chat view for real-time communication with departme
 | **Reports** | Call analytics and reports |
 | **Queue** | Async notification broadcast |
 | **Contact Verification** | Email, SMS, and voice call dispatches are gated by each user's contact verification status |
+| **Check-In Timers** | Configurable accountability timers that track check-ins during active calls |

@@ -112,6 +112,17 @@ Number provisioning is limited by the department's subscription plan.
 | Dispatch Shift Instead of Group | When dispatching a group, dispatch personnel signed up for the current shift instead |
 | Auto-Set Status for Shift Dispatch | Automatically change dispatched shift personnel to a configurable status |
 | Unit Dispatch Behaviors | Configure how units respond to dispatch |
+| Auto-Enable Check-In Timers for New Calls | Automatically enable check-in timers on every new call created |
+
+### Default Check-In Timer Configs
+
+Admins can define department-wide default check-in timers that apply to all calls. Each config specifies the timer target type, optional unit type, check-in interval (duration in minutes), warning threshold, enabled state, and an optional active-for-states filter.
+
+See [Call Check-In Timers](./call-checkin-timers) for the full list of target types and configuration details.
+
+### Check-In Timer Overrides
+
+Overrides replace default timer configs for specific call types and/or call priorities. They share the same fields as default configs and are evaluated by specificity — an override matching both call type and priority takes precedence over one matching only one of those values.
 
 ## Shift Settings
 
@@ -213,3 +224,4 @@ The controller provides several JSON API endpoints used by the UI:
 | **Groups** | Station groups are managed here and used throughout the system |
 | **Calls** | Email import and text-to-call create calls automatically |
 | **Mapping** | Map center and zoom settings affect all map views |
+| **Check-In Timers** | Default timer configs and call-type/priority overrides are managed in Dispatch Settings |

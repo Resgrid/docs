@@ -93,6 +93,18 @@ Open the resgrid directory:
 cd resgrid
 ```
 
+## Docker Hub Authentication
+
+Resgrid container images are hosted on Docker Hub under the `dhi.io` repository. You will need a Docker Hub account (free) to pull the images. If you don't have one, create a free account at [https://hub.docker.com](https://hub.docker.com).
+
+Once you have an account, log in from your terminal before running the containers:
+
+```bash
+docker login dhi.io
+```
+
+Enter your Docker Hub username and password when prompted.
+
 ## Setting Environment Variables
 
 Edit the environment file:

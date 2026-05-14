@@ -6,6 +6,10 @@ sidebar_position: 18
 
 Mapping Layers in Resgrid allow you to add custom geographic data overlays to your department's maps. Layers are defined using GeoJSON data and can represent district boundaries, response zones, hazard areas, water sources, or any other geographic information relevant to your operations. In addition to layers, you can also configure **Points of Interest (POIs)** to mark specific locations on the map.
 
+:::tip Custom Maps for Building Floor Plans
+If you need to upload a building floor plan, indoor map, or venue schematic — and draw named polygon zones (e.g., "Room 405a", "Staging Area B") on top of it — use **Custom Maps** instead of a standard layer. Custom Maps support multi-floor images geo-projected onto real-world coordinates, zone-based call locations, pre-plan attachments, and offline mobile caching. See the [Custom Maps](../web-app/custom-maps) documentation.
+:::
+
 ## Why Mapping Layers Matter
 
 Standard maps show streets and terrain but lack the operational context your department needs. Mapping layers let you overlay your own geographic data — such as first-due response districts, hydrant locations, pre-plan locations, mutual aid boundaries, or flood zones — directly onto the maps your personnel use for dispatch and response. POIs mark important fixed locations that responders need to quickly find during operations.
@@ -149,3 +153,7 @@ The mapping module also supports routing:
 | GeoJSON parse error                         | Validate your GeoJSON at geojson.io before pasting into Resgrid      |
 | POIs not showing on map                     | Ensure the POI type is not deleted and POIs have valid coordinates    |
 | Map centered on wrong location              | Update department address or Map Center settings in Department Settings |
+
+## See Also
+
+- [Custom Maps](../web-app/custom-maps) — Upload floor plans, schematics, and event maps; draw named polygon zones; use zones as call locations with pre-plan attachments
