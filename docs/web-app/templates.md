@@ -23,6 +23,7 @@ Displays all call quick templates for the department.
 | Call Nature | Either name or nature required | Pre-filled call nature/description |
 | Call Priority | No | Pre-selected priority |
 | Call Type | No | Pre-selected call type |
+| Enable Check-In Timers | No | When set, pre-fills the "Enable Check-In Timers" checkbox on the new call form |
 
 Templates enable one-click creation of common call types by pre-filling the dispatch form.
 
@@ -71,3 +72,4 @@ Validates department ownership.
 |--------|-------------|
 | **Dispatch** | Templates pre-fill call form; autofills insert into call notes |
 | **Types** | Call types and priorities used in template configuration |
+| **Check-In Timers** | Templates can pre-configure the check-in timers enabled state for new calls |

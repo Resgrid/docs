@@ -71,7 +71,19 @@ You should now have a folder called resgrid in your current directory.
 cd resgrid
 ```
 
-8. Import the osm.pbf you downloaded and placed in your home directory into the tile server. Change /home/yourname/yourregion.osm.pbf in the command below to the correct home directory name (yourname) and the name of the region file you downloaded (yourregion).
+8. Docker Hub Authentication
+
+Resgrid container images are hosted on Docker Hub under the `dhi.io` repository. You will need a Docker Hub account (free) to pull the images. If you don't have one, create a free account at [https://hub.docker.com](https://hub.docker.com).
+
+Once you have an account, log in from your terminal before running the containers:
+
+```bash
+docker login dhi.io
+```
+
+Enter your Docker Hub username and password when prompted.
+
+9. Import the osm.pbf you downloaded and placed in your home directory into the tile server. Change /home/yourname/yourregion.osm.pbf in the command below to the correct home directory name (yourname) and the name of the region file you downloaded (yourregion).
 
 ```bash
 docker run \

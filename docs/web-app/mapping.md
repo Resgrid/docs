@@ -23,6 +23,7 @@ The `GetMapData` endpoint is the primary aggregation endpoint, supporting these 
 | **Personnel** | `ShowPersonnel` | Personnel locations (permission-controlled) |
 | **POIs** | `ShowPOIs` | Points of interest |
 | **Districts** | `ShowDistricts` | Response district boundaries |
+| **Custom Maps** | `ShowCustomMaps` | Uploaded floor plans, schematics, and event maps with named zones |
 
 :::note Permission Control
 Personnel location visibility is controlled by the `CanSeePersonnelLocations` permission. This is configurable per department in the Security settings.
@@ -82,6 +83,12 @@ The `StationRouting` action shows routing from a station to a call:
 - Resolves start coordinates from station address or GPS coordinates
 - End coordinates from call location
 
+## Custom Maps
+
+Custom Maps allow departments to upload building floor plans, venue layouts, schematics, and satellite imagery, draw named polygon zones on those images, and use zone names as call locations. See the dedicated [Custom Maps](custom-maps) documentation for full details.
+
+On the main map view, use the **Custom Maps** layer control (alongside Layers, POIs, and Geofences) to toggle custom map overlays. When one or more custom maps are enabled, a **Building Selector** sidebar appears for switching between maps and floors.
+
 ## Data Endpoints
 
 | Endpoint | Purpose |
@@ -89,14 +96,16 @@ The `StationRouting` action shows routing from a station to a call:
 | `GetMapData` | All map markers and geofences based on flag settings |
 | `GetTypesMapData` | Map data for a specific POI type |
 | `GetPoisForType` | POI list for a specific type |
+| `GetCustomMaps` | Active custom maps with floor metadata for the overlay control |
 
 ## Interactions with Other Modules
 
 | Module | Interaction |
 |--------|-------------|
-| **Calls** | Call locations displayed as markers |
+| **Calls** | Call locations displayed as markers; zone names used as call locations from custom maps |
 | **Groups** | Station locations and geofences displayed |
-| **Units** | Unit positions shown (from GPS tracking) |
-| **Personnel** | Personnel locations shown (permission-controlled) |
+| **Units** | Unit positions shown (from GPS tracking); zone-entry notifications triggered |
+| **Personnel** | Personnel locations shown (permission-controlled); plotted on indoor floors when positioning data available |
 | **Department** | Map center, zoom, and refresh settings |
 | **Security** | Personnel location visibility permission |
+| **Custom Maps** | Uploaded floor plans and zone overlays; see [Custom Maps](custom-maps) |
