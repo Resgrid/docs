@@ -2,130 +2,150 @@
 sidebar_position: 2
 ---
 
-# Installation
+# Self-hosted installation
 
-The overall installation of Resgrid is tailored to your specific usage scenarios and will require first procuring the required numbers of servers or VM's and continuing the installation process. If your department will have 50 or less users and units utilizing it at one time, we recommend using the Quick Start.
+Resgrid Core has four maintained deployment layouts in the [resgrid-setup repository](https://github.com/Resgrid/resgrid-setup). Choose the layout that matches the environment; the branches are intentionally different and are not interchangeable.
 
-:::danger Warranty
-Resgrid's self hosted version is provided with no warranty, no guarantee of suitability and limited free support (Github Issues and Discussions only).
-Updates for our self hosted version are infrequent compared to our hosted version due to the additional cost in time to create those releases. We try 
-our best to ensure an easy and working system that doesn't require a lot of tweaking, but due to it's complexity that is difficult.
+| Branch | Use case | Orchestrator | Hosts |
+|---|---|---|---|
+| `master` | General self-hosted evaluation or small single-server install | Docker Compose | One 64-bit Linux server (Windows/macOS through WSL2 is also supported) |
+| `laptop` | Local Windows development, training, or single-computer field use | Docker Desktop Compose | One Windows 10/11 computer |
+| `rick` | Portable Resgrid Incident Command Kit | Compose split into database, infrastructure, and application roles | Three 64-bit Raspberry Pi-class nodes; current app images use AMD64 emulation on the web Pi |
+| `multi` | Kubernetes or k3s | Kustomize (`kubectl apply -k`) | A cluster with persistent storage, ingress, and at least one AMD64 worker |
+
+See [Windows laptop](./laptop), [RICK](./rick), or [Kubernetes/k3s](./multi) for those specialized layouts. The rest of this page covers `master`.
+
+:::danger Warranty and operational responsibility
+The self-hosted version is provided without warranty or a guarantee of suitability. The supplied manifests are a starting point, not a substitute for capacity planning, security review, monitoring, tested backups, or a disaster-recovery plan. Do not use template credentials in a real deployment.
 :::
 
-## Prerequisites
+## What the single-server stack runs
 
-Resgrid's recommended install is on Ubuntu 24.04 with Docker to meet the Small sizing install requirements you will need a minimum of 5 servers:
+The current stack includes the web application, API, events hub, background worker and database migrations, text-to-speech service, MCP server, PostgreSQL, Redis, RabbitMQ, RustFS object storage, and Caddy ingress. Hardware GPS tracking and inbound-email dispatch are optional Compose profiles.
 
- - 1 Web Server
- - 1 Api Server
- - 1 Event Hub Server 
- - 1 Server for MS SQL, Mongodb
- - 1 Server for Rabbit, Redis & Resgrid Worker Container
+MongoDB and Microsoft SQL Server are no longer part of the standard stack. The main, OIDC, worker, and document databases all use PostgreSQL.
 
-For contrast a mission-critical production environment will require a minimum of 18 servers (or vm's).
+## Requirements
 
-- 2 Load Balanced Web servers
-- 2 Load Balanced API servers 
-- 2 Load Balanced Event Hub servers 
-- 1 Microsoft SQL Server (HA Cluster for Mission Critical applications) 
-- 1 Worker server 
-- 2 Event Worker servers 
-- 3 Redis servers in a cluster 
-- 3 RabbitMQ servers in a cluster 
-- 1 Elasticsearch server (ELK)
-- 1 MongoDb server (HA Cluster for Mission Critical applications)
-- An Ingress Load-Balancer
+- A 64-bit Linux server. Ubuntu Server 24.04 LTS is a practical baseline.
+- Docker Engine and Docker Compose v2.
+- OpenSSL, Git or curl, and outbound registry access during installation.
+- At least 4 CPU cores, 16 GB RAM, and 40 GB storage for evaluation. Size production systems from measured workload and retention needs.
+- Three hostnames that resolve to the server: web, API, and events.
+- TCP 80/443 to the server or an upstream load balancer/reverse proxy.
+- An SMTP or Postmark account if the installation must send email.
 
-
- :::tip Note
-Some services installed as part of this process; MSSQL, RabbitMQ, Redis and MongoDb are configured as single instances. This is not the ideal configuration if you are trying to get a high availability system. All of those services can be setup in HA configurations, but it is outside of the scope of this guide. 
-:::
-
-- Open Ports 80 and 443 and pass to the server (or utilize your firewall/load balancer or proxy server)
-- SMTP Server for sending email
-- 3 Urls provisioned (externally available, internal DNS, etc)
-   - Main Web App (i.e. rg.mycompany.com)
-   - API (i.e. rgapi.mycompany.com)
-   - Events (i.e. rgevents.mycompany.com)
-
-## Dependency Setup
-
-You will need to get the required dependencies servers setup and online. You can utilize Docker versions, bare metal installs or even cloud hosted versions of these services for your installation. 
-
-### Microsoft SQL Server
-
-Install and configure Microsoft SQL Server 2022 on the server of your choice or if you are on a Cloud provider use their MS-SQL implementation. You will need to create 3 databases and 3 accounts. Use server defaults for collation.
-
- - **Resgrid** database and user with DB Owner for that database
- - **ResgridWorkers** database and user with DB Owner for that database
- - **ResgridOIDC** database and user with DB Owner for that database
-
-### MongoDb
-
-Install and configure MongoDb on the server of your choice or if you are on a Cloud provider use their Mongo implementation. You will need to create 1 databases and 1 login.
-
- - **resgrid** database and user credentials for that db
-
-### Redis
-
-Install and configure Redis on the server of your choice or if you are on a Cloud provider use their Redis implementation.
-
-
-### RabbitMQ
-
-Install and configure RabbitMQ on the server of your choice or if you are on a Cloud provider use their RabbitMQ implementation. You will need to create a login for rabbit that allows the creation of exchanges, topics and queues.
-
-
-### Proxy
-
-Resgrid requires SSL and our containers are built with SSL Termination/Offloading in mind. You will need to setup a Proxy server that supports SSL Termination/Offloading to forward traffic to the 3 web accessible Resgrid containers. We use Caddy v2 in our system but you can use any proxy that supports the features (NGINX, HAProxy, Trafik, etc).
-
-### Mail Server
-
-Resgrid sends out emails to users to inform them of events and correspondence. Have a dedicated (DO-NOT-RESPOND) style email and login to allow Resgrid to send emails.
-
-### Sentry
-
-This step is optional but we recommending using the https://sentry.io cloud service or their open-source on-prem version https://develop.sentry.dev/self-hosted/. This would replace Elk for all logging, error and session tracking. 
-
-You should now have your Proxy setup for handling SSL traffic, a Microsoft SQL Server setup with 3 databases and 3 db owner logins, MongoDb setup with 1 database and 1 login, Redis and RabbitMQ with a login that can create exchanges, topics and queues. Now you can work on setting up the Resgrid containers.
-
-## Resgrid Container Setup
-
-You will need a good text editor, Notepad++ on Windows or Nano if your doing this from the Linux CLI.
-
-1. Clone the setup scripts for the multi install:
-
-```bash
-git clone --branch multi https://github.com/Resgrid/resgrid-setup.git resgrid
-```
-
-You should now have a folder called resgrid in your current directory.
-
-2. Open the resgrid directory:
-
-```bash
-cd resgrid
-```
-
-3. Docker Hub Authentication
-
-Resgrid container images are hosted on Docker Hub under the `dhi.io` repository. You will need a Docker Hub account (free) to pull the images. If you don't have one, create a free account at [https://hub.docker.com](https://hub.docker.com).
-
-Once you have an account, log in from your terminal before running the containers:
+The stack uses Docker Hardened Images from `dhi.io`. If a pull reports an authorization error, authenticate with a Docker account entitled to those images before continuing:
 
 ```bash
 docker login dhi.io
 ```
 
-Enter your Docker Hub username and password when prompted.
+## Automated install
 
-You will need to clone this repo into all the servers running the Resgrid containers. But we are going to edit the .env file here and it'll need to be copied to every server running the Resgrid containers, this keeps the Resgrid settings consistent for every server.
-
-
-Edit the environment file with Nano (or if you cloned in a Desktop environment with your text editor of choice):
+With Docker running:
 
 ```bash
-nano .env
+curl -fsSL https://raw.githubusercontent.com/Resgrid/resgrid-setup/master/setup.sh | bash
 ```
 
+The installer downloads the `master` branch, asks for the three hostnames and TLS mode, creates unique infrastructure/application secrets, generates new OpenIddict signing and encryption certificates, writes `.env`, and starts the stack.
+
+For a LAN-only evaluation, accept the defaults (`rg.mylocal`, `rgapi.mylocal`, `rgevents.mylocal`, and `internal`). Add all three names to every client's hosts file, pointing at the server address:
+
+```text
+192.168.1.50  rg.mylocal rgapi.mylocal rgevents.mylocal
+```
+
+For an internet-reachable install, use real DNS records and provide an email address so Caddy can request certificates. Ports 80 and 443 must reach Caddy.
+
+Non-interactive example:
+
+```bash
+RESGRID_WEB_URL=dispatch.example.com \
+RESGRID_API_URL=dispatchapi.example.com \
+RESGRID_EVENTS_URL=dispatchevents.example.com \
+RESGRID_LETSENCRYPT_EMAIL=admin@example.com \
+bash setup.sh
+```
+
+Set `RESGRID_NO_START=1` to generate configuration without pulling or starting containers.
+
+## First-start verification
+
+The worker creates and migrates four databases. First start may take several minutes:
+
+```bash
+cd ~/resgrid
+docker compose ps
+docker compose logs -f worker
+```
+
+For an internal certificate, open and accept the certificate for the web, API, and events hostnames. The web client cannot log in if the API/events certificates are still rejected by the browser.
+
+When migrations settle, open the web hostname and use **Sign Up** to create the first account and department. Current releases do not use a shared default administrator login.
+
+Useful endpoints with the template ports:
+
+| Purpose | Endpoint |
+|---|---|
+| Web through Caddy | `https://rg.mylocal` |
+| API health | `https://rgapi.mylocal/api/health/getcurrent` |
+| Web direct diagnostic port | `http://SERVER:5151` |
+| API direct diagnostic port | `http://SERVER:5152` |
+| Events direct diagnostic port | `http://SERVER:5153` |
+| RabbitMQ management | `http://SERVER:5160` |
+
+MCP's HTTP transport is unauthenticated and published on port 5155 for LAN use. Do not expose it directly to the internet.
+
+## Optional services
+
+After configuring `RESGRID__UnitTrackingConfig__*` in `.env`:
+
+```bash
+docker compose --profile tracking up -d
+```
+
+The profile opens the Queclink, GT06, and Teltonika TCP/UDP ports. Restrict them to expected tracker source networks.
+
+After configuring the relay's department and mail-domain settings:
+
+```bash
+docker compose --profile relay up -d
+```
+
+The relay opens SMTP port 25 and has no SMTP authentication or TLS. Put a filtering MTA or firewall in front of it.
+
+## Operations
+
+```bash
+docker compose ps
+docker compose logs -f SERVICE
+docker compose down
+docker compose pull
+docker compose up -d
+```
+
+An upgrade is `pull` followed by `up -d`; do not delete every Docker image on the host. The worker applies database migrations during startup.
+
+## Backup and rollback
+
+Back up `.env` and keep it encrypted. It contains keys required to decrypt existing data/tokens and to validate OIDC credentials. Take a consistent PostgreSQL dump rather than copying the live database directory:
+
+```bash
+docker compose exec -T db pg_dumpall -U resgrid > "resgrid-$(date +%F).sql"
+```
+
+Also back up RustFS and Caddy data according to your storage and certificate requirements.
+
+Before upgrading, retain the previous image digests and a pre-upgrade database dump. Rolling application containers back does not reverse schema migrations. If an older release is incompatible with the migrated schema, restore the database backup and matching `.env` before starting the older images.
+
+## Configuration reference
+
+Container settings use double-underscore environment names such as `RESGRID__DataConfig__DatabaseType`. See [Docker configuration](../reference/docker) for the complete reference. Common pitfalls:
+
+- Enum values are numeric.
+- `CoreConnectionString` is required and normally matches `ConnectionString`.
+- `DocDatabaseType=1` selects PostgreSQL.
+- `DODBUPGRADE=true` belongs on the worker.
+- Some historical field names intentionally contain spelling errors, including `RabbbitPassword` and `ExternalAudioUrlParamPasshprase`; match them exactly.

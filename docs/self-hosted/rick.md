@@ -2,147 +2,173 @@
 sidebar_position: 4
 ---
 
-# Offline Multi-User
+# Resgrid Incident Command Kit (RICK)
 
-In this guide we will get Resgrid up in running in a Portable, Offline mode that 
+The `rick` branch divides Resgrid across three portable Linux nodes on a private wired LAN:
 
-:::danger Warranty
-Resgrid's self hosted version is provided with no warranty, no guarantee of suitability and limited free support (Github Issues and Discussions only).
-Updates for our self hosted version are infrequent compared to our hosted version due to the additional cost in time to create those releases. We try 
-our best to ensure an easy and working system that doesn't require a lot of tweaking, but due to it's complexity that is difficult.
-:::
+| Role | Services |
+|---|---|
+| Web/API | Caddy, web, API, events, worker/migrations, TTS, MCP; optional tracker gateway and relay |
+| Infrastructure | Redis, RabbitMQ, RustFS; optional offline OSM tile service |
+| Database | PostgreSQL and all four Resgrid databases |
 
-## Use Case
+This separation reduces resource contention and makes role recovery clearer, but it is not high availability. Every node is a single point of failure.
 
-This setup is intended to get Resgrid up and running on a single-user environment, like a laptop that will not be connected to or have internet access. No external users (i.e. from another machine or mobile device) will be connecting to this installation. For example you are coordinate rescue and recovery efforts for a hurricane from a location on your laptop, you are communicate with your field teams only via a radio as there is no power or cell phone data/WiFi Internet. 
+## Important architecture notice
 
-## System Requirements
+The current published Resgrid application images are `linux/amd64` only. Infrastructure images publish native ARM64 variants, but the web-role Resgrid images do not.
 
-1.) Windows 10 or Windows 11 Laptop with WSL2 (Windows Subsystem for Linux)
-2.) Docker Desktop with WSL2 Enabled
-3.) Enough HDD Space to handle Mapping Data (if you want a large region like North America you'll need 30+ GB)
-4.) 4 or more Core Processor
-5.) 16GB or more of RAM
+On a Raspberry Pi web node, RICK therefore runs the application images using the kernel's x86_64 binfmt/QEMU handler. This has a performance cost. Test the full kit under realistic call, unit, event, mapping, TTS, and tracker load before field use. Native multi-architecture Resgrid images are the preferred long-term solution.
 
-## Setup Notice
-
-There is no redundancy, backup or fail-over in this setup. Everything runs on the local computer and is not intended to be accessed by anyone off of the local computer. If the local computer gets damaged this could result in loss of data. It's recommend that you have a USB drive that you can backup the database to (ideally the whole resgrid directory) periodically during the operation.
-
-## Prerequisites & Dependencies
-
-1. Update Windows
-2. Install WSL2 and Ubuntu 22.04 <https://documentation.ubuntu.com/wsl/en/latest/guides/install-ubuntu-wsl2/>
-3. Open up your Ubuntu 22.04 instance and finalize the setup (set password).
-4. Install Docker <https://docs.docker.com/desktop/wsl/> and enable WSL2 backend.
-
-## Docker Compose Setup
-
-1. Open Notepad as Administrator and open C:\Windows\System32\drivers\etc\hosts file.
-
-2. Add the following lines to the hosts file and save.
-```
-127.0.0.1      rg.mylocal
-127.0.0.1      rgapi.mylocal
-127.0.0.1      rgevents.mylocal
-127.0.0.1      rgtile.mylocal
-```
-
-If you get a permissions error you didn't open up Notepad as Administrator, also don't use any RichText editor (Wordpad, Word, etc).
-
-3. Navigate to Geofabrik <https://download.geofabrik.de/> and download the .osm.pbf file the region you will be operating in. 
-
-It is not recommend to try and pull an entire Sub Region (i.e. North America) as that will take quite a long time to import into the database. Instead it's recommended to import and additional Sub (Sub) Region, like a US State (i.e. Florida) or a Special Sub Region if they are available (i.e. US South). 
-
-4. Using the Windows File Explorer move the osm.pbf file into Linux (left side bar) Ubuntu-22.04, home and your username folder. This will put it in your home directory.
-
-5. Start your Ubuntu-22.04 WSL2 Instance so the command prompt is visible.
-
-6. Clone the setup scripts for the Laptop compose:
+Install persistent emulation support on the web Pi:
 
 ```bash
-git clone https://github.com/Resgrid/resgrid-setup.git -b laptop resgrid
+sudo apt update
+sudo apt install -y qemu-user-static binfmt-support
+cat /proc/sys/fs/binfmt_misc/qemu-x86_64
 ```
 
-You should now have a folder called resgrid in your current directory.
+The handler must report `enabled`. `rick.sh web start` stops with an actionable error if an ARM64 node lacks the handler.
 
-7. Open the resgrid directory:
+## Hardware and LAN
+
+- Three Raspberry Pi 5 systems with 8 GB RAM recommended, or equivalent 64-bit Linux nodes.
+- 64-bit Raspberry Pi OS/Ubuntu Server; 32-bit operating systems are unsupported.
+- SSD storage for PostgreSQL; high-endurance storage for every node.
+- Wired Ethernet switch and fixed DHCP reservations/static addresses.
+- Docker Engine and Compose v2 on each node.
+- Separate encrypted backup media.
+
+Example plan:
+
+| Role | Address |
+|---|---|
+| Web/API | `192.168.50.11` |
+| Infrastructure | `192.168.50.12` |
+| Database | `192.168.50.13` |
+
+All three client hostnames (`rg.rick.local`, `rgapi.rick.local`, and `rgevents.rick.local`) resolve to the web node.
+
+## Configure once
+
+Clone on an administration computer or one node:
 
 ```bash
-cd resgrid
+git clone --branch rick https://github.com/Resgrid/resgrid-setup.git resgrid-rick
+cd resgrid-rick
+chmod +x setup.sh rick.sh database/db/*.sh
+./setup.sh
 ```
 
-8. Docker Hub Authentication
+The configurator asks for the three hostnames and three node addresses, then generates shared credentials, application keys, and OpenIddict certificates. Run it once only. Independently generated `.env` files will not interoperate.
 
-Resgrid container images are hosted on Docker Hub under the `dhi.io` repository. You will need a Docker Hub account (free) to pull the images. If you don't have one, create a free account at [https://hub.docker.com](https://hub.docker.com).
-
-Once you have an account, log in from your terminal before running the containers:
+Securely copy the complete configured checkout to the same path on each node:
 
 ```bash
-docker login dhi.io
+rsync -a --delete ./ pi@192.168.50.11:/opt/resgrid-rick/
+rsync -a --delete ./ pi@192.168.50.12:/opt/resgrid-rick/
+rsync -a --delete ./ pi@192.168.50.13:/opt/resgrid-rick/
 ```
 
-Enter your Docker Hub username and password when prompted.
+Protect and back up `.env`; it contains database credentials, encryption keys, and OIDC private keys.
 
-9. Import the osm.pbf you downloaded and placed in your home directory into the tile server. Change /home/yourname/yourregion.osm.pbf in the command below to the correct home directory name (yourname) and the name of the region file you downloaded (yourregion).
+## Validate and start
+
+Database node:
 
 ```bash
-docker run \
-    -v /home/yourname/yourregion.osm.pbf:/data/region.osm.pbf \
-    -v ./docker-data/osm:/data/database/ \
-    overv/openstreetmap-tile-server \
-    import
+cd /opt/resgrid-rick
+./rick.sh database config
+./rick.sh database start
+./rick.sh database status
 ```
 
-If the container exits without errors, then your data has been successfully imported and you are now ready to run the tile server. If you selected a very large region, like North America this process can take days.
-
-
-## Run the Docker Compose
-
-Once you have setup the environment variables you can now run the docker compose file in the resgrid directory:
+Infrastructure node:
 
 ```bash
-docker compose up
+cd /opt/resgrid-rick
+./rick.sh infra config
+./rick.sh infra start
+./rick.sh infra status
 ```
 
-That will run the interactive version of the containers, Ctrl+C will stop the containers.
-
-If you want to run the containers in the background, use the -d option:
+Web node, after database and infrastructure are healthy:
 
 ```bash
-docker compose up -d
+cd /opt/resgrid-rick
+./rick.sh web config
+./rick.sh web start
+./rick.sh web logs worker
 ```
 
-The Resgrid system will take about 5 minutes to start up fully, this is due to the startup order of the containers. The last container to startup will be the web container, once that one is ready, you can now access the system.
+The worker migrates `resgrid`, `resgridoidc`, `resgridworkers`, and `resgriddoc`. Accept Caddy's internal certificate for all three client hostnames, then open the web hostname and use **Sign Up**.
 
+## Network policy
 
-## Initial Web Login
+Permit only:
 
-Open up your web browser and navigate to **https://rg.mylocal**, **https://rgapi.mylocal**, **https://rgevents.mylocal** and **https://rgtile.mylocal**. You will need to accept the self-signed cert for each url and add exceptions in the browsers. You can follow this guide <https://it.nmu.edu/docs/adding-security-exception-your-browser> to add those exceptions.
+| Source | Destination | Ports |
+|---|---|---|
+| Clients | Web node | TCP 80/443 |
+| Web node | Database node | TCP 5432 |
+| Web node | Infrastructure node | TCP 5672, 6379, 9000 |
+| Administrators | Infrastructure node | TCP 15672 if the RabbitMQ UI is needed |
 
-Once you have completed the steps above you will be able to log into the web applications user interface. Open up a web browser and navigate to **https://rg.mylocal**, you will then be prompted by the login screen. Your default administrator credentials are **admin/changeme1234**. Once you log into the system it’s recommended that you change your admin password from the Edit Profile page by clicking on the Administrator name in the upper left hand corner.
+Do not expose PostgreSQL, Redis, RabbitMQ, or RustFS outside the kit LAN. MCP is loopback-only on the web node.
 
-## Updating
+## Prepare offline images
 
-To update Resgrid you'll need to stop the system, clear the current containers and restart.
+While internet is available, run `./rick.sh ROLE pull` on the corresponding node. For air-gapped recovery, export the images reported by `docker compose config --images`, copy the archive to protected media, and test a restore with `docker load` before deployment.
 
-Stop all running containers.
+The web-node archive contains AMD64 images even though the host is ARM64. Preserve the binfmt packages and test after operating-system upgrades.
+
+## Optional offline maps
+
+Import a small regional `.osm.pbf` on the infrastructure node before the incident. Large imports can take many hours or days:
 
 ```bash
-docker compose down
+mkdir -p docker-data/osm
+docker run --rm \
+  -v /path/to/region.osm.pbf:/data/region.osm.pbf:ro \
+  -v "$PWD/docker-data/osm:/data/database/" \
+  overv/openstreetmap-tile-server:latest import
+./rick.sh infra start --profile maps
 ```
 
-Remove all cached images (to ensure we get new ones).
+Set `RESGRID__MappingConfig__LeafletTileUrl` in the shared `.env` to `http://INFRA_NODE:5156/tile/{z}/{x}/{y}.png`, redistribute `.env`, and recreate the web role.
+
+## Optional tracker and email services
+
+After configuring tracking settings:
 
 ```bash
-docker rmi -f $(docker images -aq)
+./rick.sh web start --profile tracking
 ```
 
-Restart the containers and they will pull new containers.
+After configuring relay department/domain settings:
 
 ```bash
-docker compose up -d
+./rick.sh web start --profile relay
 ```
 
-## What's Next?
+Tracker ports and SMTP port 25 require deliberate firewall rules. The relay has no SMTP authentication or TLS.
 
-This Quick Start gets the system running via local host, but not externally or within your network. You will need to create DNS entries in your internal or external DNS server to point to the server that is running the containers. It's also recommend you change some default values in the resgrid.env file to ensure proper security.
+## Backup, update, and rollback
+
+Database dump from the database node:
+
+```bash
+docker compose --env-file .env -p resgrid-rick-database -f database/docker-compose.yml \
+  exec -T db pg_dumpall -U resgrid | gzip > "resgrid-$(date +%F).sql.gz"
+```
+
+Back up the dump, `.env`, RustFS data, and Caddy state off-kit. Validate recovery on spare media/nodes.
+
+Update in database/infrastructure → web order, following worker migration logs. Retain previous image digests and a pre-upgrade dump. If migrations are incompatible with the previous release, restore PostgreSQL and `.env` before restarting the older web-role images.
+
+## Troubleshooting
+
+- `exec format error`: x86_64 binfmt is missing/disabled on the ARM64 web node.
+- `WAIT_HOSTS` timeout: verify node addresses in `.env`, routing, and firewall rules.
+- Browser login failure: accept/trust the API and events certificates, not only the web certificate.
+- Nodes disagree about credentials: restore the same backed-up `.env` to all three; do not rerun setup separately.
