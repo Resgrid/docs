@@ -1,126 +1,79 @@
 ---
-sidebar_position: 7
+sidebar_position: 10
 title: Groups & Stations
 ---
 
 # Groups & Stations
 
-Groups organize department personnel and serve as station locations. The module is managed by the `GroupsController`.
+**Groups** are how you organise people and units. A **Station group** is a physical place with an address — a fire station, an ambulance base, an EOC, a client site, a depot — that personnel and units *respond to* and that owns a **response area (geofence)**. An **Organisational group** is a container without a location — a battalion, a division, a district, a team, a client account — used to nest stations and to scope permissions.
 
-## Group List
+![Groups](/img/web-app/groups/index.png)
 
-**Authorization:** `GenericGroup_View` policy
+## Where to find it
 
-The index page displays all department groups with the option to create new groups (subject to plan limits via `CanDepartmentAddNewGroup`).
+**Department dropdown → Stations and Groups** (`/User/Groups`). The list shows every group with type, parent, members and **Edit** / **Geofence** / **Delete** buttons.
 
-## Creating Groups
+## Creating a group
 
-**Authorization:** `GenericGroup_Create` policy
+![New group](/img/web-app/groups/new-group.png)
 
-### Group Fields
+| Field | Notes |
+|---|---|
+| **Group name** | `Station 1`, `Battalion 2`, `North District`, `Client: Acme HQ`. |
+| **Group type** | **Station** (requires a location) or **Organisational**. |
+| **Parent group** | Nest groups to build a hierarchy (Department → Battalion → Station). |
+| **Station address** | Street address, or GPS coordinates (decimal), or a what3words address. Used for the map, *Responding to station*, ETA and closest-unit selection. |
+| **Dispatch email / Message email** | Optional addresses: mail sent to the dispatch address creates a call dispatched to this group; the message address delivers a message to the group. |
+| **PrintNode printer / Print calls to printer** | With a PrintNode account, calls dispatched to this group's members or units are printed on the station printer. |
+| **Group admins / Group users** | Assign members. A person can be in **one group only**. |
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| Group Name | Yes | Display name for the group |
-| Group Type | Yes | Regular group or Station type |
-| Parent Group | No | Hierarchical parent group |
-| Members | No | Personnel to assign to this group |
+## Geofence (response area)
 
-### Station Group Requirements
+**Geofence** on a station opens a map; click to draw the boundary of the station's first-due area and pick a **district colour**. Geofences are used by:
 
-When creating a **Station** type group, at least one of the following is required:
-- **Physical address** — Full street address
-- **GPS coordinates** — Latitude and longitude
-- **What3Words** — Three-word location code
+- [Run cards](run-cards) in *station-based* mode — the station whose area contains the call is selected first, cascading to the next nearest on shortfall;
+- **Move-up** recommendations and station coverage minimums;
+- Map display and the Big Board.
 
-### Printer Configuration
+![Geofence](/img/web-app/groups/geofence.png)
 
-Station groups can optionally be configured with PrinterNet integration:
-- API key (stored encrypted using Symmetric Encryption)
-- Printer selection
-- Enables automatic dispatch printing at the station
+## Deleting a group
 
-### Dispatch/Message Email
+A group cannot be deleted while it has active members, child groups, units or shift groups — move or delete those first. Deleting removes group data, personnel and unit memberships, group inventory and shift data permanently.
 
-Each group can have a generated dispatch or message email address for external integrations.
+## How groups are used elsewhere
 
-### Member Assignment Rules
+| Module | Use |
+|---|---|
+| Dispatch | Dispatch to a whole group; *Dispatch shift instead of group*. |
+| Personnel / Units | Grouping on lists and the dashboard; group admins manage their own group. |
+| Security | *Department + group admins* permission level; group-scoped visibility. |
+| Shifts | Shift groups per station. |
+| Records | Group anchor for numbering and group-scoped visibility. |
+| Checklists / Work orders | Target type *Group / station*; assignment routing. |
+| Inventory | A station is a stock location. |
+| Notifications | Low-availability alerts per group. |
 
-- A user can only belong to **one group at a time**
-- The system validates that selected members are not already assigned to another group
-- Members are added as `DepartmentGroupMember` entries
+## Setup examples
 
-### Creation Process
-1. Validates member uniqueness (no user in multiple groups)
-2. Validates station address/coordinates for station type
-3. Saves group and member assignments
-4. Configures printer if specified
-5. Fires `AuditEvent` (GroupAdded)
+| Department | Structure |
+|---|---|
+| **Single-station volunteer fire** | One station group. Everyone in it. |
+| **Multi-station fire** | Organisational *Battalion 1/2* → Stations 1–6 with geofences; officers as group admins. |
+| **County EMS** | Stations per base; organisational *North / South division*. |
+| **SAR** | Organisational *Ground / Technical / K9 / Support* teams; one station for the cache / meeting point. |
+| **Emergency management** | Station: *EOC*, *Alternate EOC*; organisational groups per section (Operations, Planning, Logistics, Finance) and per ESF. |
+| **Security company** | Organisational group per **client**, station groups per **site** (with address and geofence for alarm response); site supervisors as group admins. |
+| **Delivery / transit** | Station per depot; organisational groups per route region. |
+| **Industrial** | Station: *Main plant*, *Tank farm*, *Warehouse*; organisational *Day / Night ERT*. |
 
-## Editing Groups
+## Technical reference
 
-**Authorization:** `GenericGroup_Update` policy + `CanUserEditDepartmentGroup` runtime check
-
-Editing supports:
-- Changing group name and parent
-- Adding/removing members (diff-based)
-- Updating address, GPS coordinates, or What3Words
-- Modifying printer configuration
-
-Fires `AuditEvent` (GroupChanged).
-
-## Deleting Groups
-
-**Authorization:** `GenericGroup_Delete` policy
-
-:::warning Cascade Protection
-A group **cannot be deleted** if it has:
-- Child groups
-- Assigned users
-- Assigned units
-- Referenced shifts
-
-The delete confirmation page shows counts for each of these dependencies.
-:::
-
-Uses `IDeleteService.DeleteGroupAsync` when deletion is allowed. Fires `AuditEvent` (GroupRemoved).
-
-## Geofencing
-
-**Authorization:** `GenericGroup_Update` policy
-
-Station groups support response area geofencing:
-
-### Viewing/Editing Geofences
-- Opens a map editor centered on the department's configured coordinates
-- Allows drawing polygon geofences
-- Supports custom geofence colors
-
-### Saving Geofences
-The `SaveGeofence` endpoint accepts:
-- Geofence color (hex)
-- Polygon coordinate data (GeoJSON-compatible)
-
-Returns a JSON success/failure result.
-
-## Data Endpoints
-
-| Endpoint | Parameters | Purpose |
-|----------|------------|---------|
-| `GetMembersForGroup` | `groupId`, `includeAdmins`, `includeNormal` | Group members filtered by admin/normal status |
-| `GetAllGroups` | — | All groups (id, name) |
-| `GetGroupsForCallGrid` | — | Groups with member counts for dispatch |
-
-## Interactions with Other Modules
-
-| Module | Interaction |
-|--------|-------------|
-| **Personnel** | Personnel belong to groups; group admins manage their members |
-| **Units** | Units are assigned to station groups |
-| **Dispatch** | Groups are dispatch targets; station locations used for routing |
-| **Shifts** | Shifts reference groups for scheduling |
-| **Mapping** | Station locations displayed on maps; geofences shown as overlays |
-| **Reports** | Group data used in staffing and personnel reports |
-| **Department** | Printer and email configuration per group |
-| **Notifications** | Group-level availability alerts |
-| **Security** | Group admin permissions affect personnel management |
+| Item | Value |
+|---|---|
+| Controller | `GroupsController` |
+| Routes | `/User/Groups/{Index,NewGroup,EditGroup,DeleteGroup,Geofence}?departmentGroupId=` |
+| Policies | `Group_View/Create/Update/Delete` |
+| Data endpoints | `GetAllGroups`, `GetMembersForGroup?groupId=`, `GetGroupsForCallGrid`, `SaveGeofence` |
+| Model | `DepartmentGroup` (`Type` 1 = Station, 2 = Organisational), `DepartmentGroupMember`, `Address`, `Geofence` (polygon + colour) |
+| Events | `GroupAddedEvent`, `GroupUpdatedEvent`, `UserAssignedToGroupEvent` |

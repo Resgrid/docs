@@ -1,227 +1,142 @@
 ---
-sidebar_position: 3
+sidebar_position: 38
 title: Department Settings
 ---
 
 # Department Settings
 
-The Department Settings area is the central configuration hub for a Resgrid department. It is managed by the `DepartmentController` and requires `Department_Update` authorization for most operations.
+Everything about *how your department works* lives under the **Department menu** (your department's name, top-right). This page covers the **Department Settings** pages themselves; other menu items have their own pages (Groups, Types, Custom Statuses, Templates, Protocols, Workflows, Security …).
 
-## General Settings
+Only **department administrators** see these pages. Every change is audited.
 
-### Basic Configuration
+![Department settings](/img/web-app/department/settings.png)
 
-| Setting | Description | Validation |
-|---------|-------------|------------|
-| Department Name | Display name for the department | Required |
-| Timezone | Department's timezone for time display | Selected from system timezones |
-| Managing User | Primary department administrator | Must be a department member |
-| 24-Hour Time | Use 24h vs 12h time format | Toggle |
-| Department Address | Physical address of the department | Full address form |
+## General settings
 
-### Map Settings
+`/User/Department/Settings`
 
-| Setting | Description | Range |
-|---------|-------------|-------|
-| Map Center GPS | Default map center coordinates | Valid latitude/longitude |
-| Map Zoom Level | Default zoom level | 0–15 |
-| Map Refresh Timer | Auto-refresh interval in seconds | 5–120 seconds |
+| Setting | What it does |
+|---|---|
+| **Department name** | Shown everywhere, including notifications and prints. |
+| **Time zone** | All times in the web site, apps, reports and schedules are shown in this zone. |
+| **Use 24-hour time** | Clock format. |
+| **Managing user** | The account owner — the only person who can change billing, purchase add-ons, enrol in data protection or delete the department. |
+| **Disable auto-available** | By default a member's status returns to *Available* an hour after they set something else; tick to stop that. |
+| **Personnel / unit / call sorting** | Default, first name, last name or group ordering on lists and the dashboard. |
+| **Suppress (mute) for these staffing levels** | Members in the ticked staffing levels (e.g. *Unavailable*, *Off duty*) receive no dispatch notifications. |
+| **Enable modern notification sounds** | Use the newer alert tones in the apps for everyone. |
+| **Require security PIN** | Force every member to confirm dangerous assistant / text actions with their 4-digit PIN. |
+| **Require password reset via email** | Administrators can no longer set a member's password; reset sends the member a single-use link. |
+| **TTS language** | Voice / dialect for voice dispatch prompts. |
 
-### Personnel Display Settings
+### Personnel staffing reset / status reset
 
-| Setting | Description |
-|---------|-------------|
-| Personnel Sort Order | How personnel are sorted (Default, First Name, Last Name) |
-| Auto Available | Automatically set members as available |
-| Hide Unavailable | Hide unavailable personnel from status views |
-| Suppressed Staffing Levels | Hide specific staffing levels from UI |
+Automatically reset everyone's **staffing** (e.g. to *Available*) or **status** (e.g. to *Standing By*) at a time of day on chosen weekdays — typical for volunteer departments where people forget to clear *Unavailable*.
 
-### Scheduled Status/Staffing Resets
+### Department address and map centre
 
-The system supports automated reset schedules for personnel:
+The department's own address (a station or district office) is used to locate the district and as a fallback map centre. **Default map centre GPS coordinates** pin where every map opens; leave blank to derive it from the address.
 
-- **Status Reset** — Automatically reset all personnel to a default status at a scheduled time
-- **Staffing Reset** — Automatically reset all staffing levels at a scheduled time
+## Department profile
 
-These are configured as `ScheduledTask` objects with day-of-week and time selections.
+`/User/Department/Profile` — description, **short name**, **logo** (PNG/JPEG ≤ 2 MB, re-encoded with metadata removed), public profile settings for [Connect](connect), and **Use branding in emails** (call, message, report and workflow emails carry your logo and name; account and billing emails stay Resgrid-branded). The logo also heads [record prints](records/settings#print-layout).
 
-## API & Integration
+![Department profile](/img/web-app/department/profile.png)
 
-### API Key Management
+## Module settings
 
-- **View API Key** — Displays the current department API key
-- **Provision API Key** — Generates a new API key (GUID format)
-- **RSS Feed Key** — Generates a key for the active calls RSS feed
+`/User/Department/ModuleSettings` — switch modules on or off for the whole department: Messaging, Mapping, Shifts, Logs / Records, Reports, Documents, Calendar, Notes, Training, Inventory, **Checklists**, **Maintenance** (work orders). Switching a module off hides it from the menu and the apps; data is kept.
 
-### Call Email Import
+![Module settings](/img/web-app/department/module-settings.png)
 
-Configure email-based call import for automatically creating dispatch calls from incoming emails:
+## Call & dispatch settings
 
-| Setting | Description |
-|---------|-------------|
-| Hostname | Mail server hostname |
-| Port | Mail server port (default: 110) |
-| Use SSL | Enable SSL for mail connection |
-| Username/Password | Mail server credentials |
-| Email Format Type | Parser format for incoming emails |
-| Call Pruning | Automatically close old calls |
+`/User/Department/DispatchSettings`
 
-**Supported Email Format Types (~20 types):**
-- CalFire
-- Generic
-- Active911
-- Brann Norge
-- Caliber
-- Carl EMS
-- Coast Guard
-- County Fire
-- Dispatch Pro
-- Facility
-- Four Rivers
-- Frontier Page
-- Hilton Head
-- IaFCDS
-- IAmResponding
-- Oshkosh
-- Parkland County
-- Ranch Kiowa
-- SpottedDog
-- Yellowhead County
-- And others...
+![Dispatch settings](/img/web-app/department/dispatch-settings.png)
 
-### Text Messaging Settings
+| Section | Settings |
+|---|---|
+| **Group dispatch** | **Use shift for group dispatch** — dispatching a group sends only to the people signed up for today's shift. **Set status for shift personnel on dispatch** — automatically set them to a chosen status (default *Responding to scene*). |
+| **Unit dispatch** | **Also dispatch to assigned personnel** (the crew staffed on the unit) and/or **Also dispatch to entire group** (the unit's station). **Personnel on unit set unit status** — when a unit reports a status, its crew are set to *On unit*. |
+| **Default call statuses** | The status personnel / units are set to when **dispatched** and when **released** from a call; per-unit-type overrides for types with custom statuses. |
+| **Rest period** | Deprioritise a unit or person for N minutes after a dispatch so the same resources are not sent back-to-back. |
+| **New call form fields** | Which built-in fields appear on the New Call form and which are required (name, nature, priority and type are always shown and required). |
+| **Unit status timers** | Highlight a unit on the Big Board when it has sat in a status too long (e.g. dispatched > 4 min without departing). |
+| **Run cards & automatic dispatch** | Selection mode, auto-dispatch, minimum staffing, move-ups, closest-unit tuning (maximum location age, radius, include stale, order by driving ETA, shortlist size), station coverage minimums — see [Run Cards](run-cards). |
+| **Check-in timers** | Auto-enable on new calls, default timer configs and per-type/priority overrides — see [Call Check-in Timers](call-checkin-timers). |
 
-| Setting | Description |
-|---------|-------------|
-| Text-to-Call Number | Incoming SMS number for creating calls |
-| Text Command Enable | Enable SMS-based commands |
-| Source Numbers | Phone numbers for outgoing SMS |
-| Import Format | Text-to-call format parser |
+## Call import settings
 
-**Number Provisioning:**
-- Search available phone numbers by country and area code
-- Provision a specific number
-- Auto-provision the first available number
+`/User/Department/CallSettings`
 
-Number provisioning is limited by the department's subscription plan.
+![Call import settings](/img/web-app/department/call-settings.png)
 
-## Dispatch Settings
+| Setting | What it does |
+|---|---|
+| **Dispatch import email** | Your department's *all-call* address (`xxxx@dispatch.resgrid.com` on the hosted service). Anything mailed to it becomes a call dispatched to everyone with call notifications on. Forward your CAD pages here. |
+| **Email format type** | The parser for your CAD's page format: Generic, Active911, IAmResponding, CalFire, Caliber, Dispatch Pro, Frontier Page, Hilton Head, IaFCDS, Oshkosh, Parkland County, Yellowhead County, Coast Guard, Brann Norge, Facility, Four Rivers, Ranch Kiowa, SpottedDog, County Fire, Carl EMS … Generic parses subject and body into name and nature. |
+| **Prune calls / minutes to keep open** | Auto-close email/text/audio-imported calls after N minutes. |
+| **Mail server (self-hosted)** | Hostname, port, SSL, username and password of a mailbox to poll. |
 
-| Setting | Description |
-|---------|-------------|
-| Dispatch Shift Instead of Group | When dispatching a group, dispatch personnel signed up for the current shift instead |
-| Auto-Set Status for Shift Dispatch | Automatically change dispatched shift personnel to a configurable status |
-| Unit Dispatch Behaviors | Configure how units respond to dispatch |
-| Auto-Enable Check-In Timers for New Calls | Automatically enable check-in timers on every new call created |
+## Text messaging
 
-### Default Check-In Timer Configs
+`/User/Department/TextSettings` — the department's **SMS number** (provision one by country and area code, plan permitting), **text-to-call** (inbound texts create calls) with its format parser, **text commands** (members text `responding`, `available` …), source numbers for outbound SMS. See [Text messaging configuration](../configuration/text-messaging).
 
-Admins can define department-wide default check-in timers that apply to all calls. Each config specifies the timer target type, optional unit type, check-in interval (duration in minutes), warning threshold, enabled state, and an optional active-for-states filter.
+![Text settings](/img/web-app/department/text-settings.png)
 
-See [Call Check-In Timers](./call-checkin-timers) for the full list of target types and configuration details.
+## Unit settings
 
-### Check-In Timer Overrides
+`/User/Department/UnitSettings` — unit-level behaviour such as location TTL and status defaults per unit type.
 
-Overrides replace default timer configs for specific call types and/or call priorities. They share the same fields as default configs and are evaluated by specificity — an override matching both call type and priority takes precedence over one matching only one of those values.
+## Shift settings
 
-## Shift Settings
+`/User/Department/ShiftSettings` — **Allow signups for multiple groups** (members can sign up for shifts at stations other than their own).
 
-| Setting | Description |
-|---------|-------------|
-| Allow Multi-Group Signup | Allow personnel to sign up for shifts in groups other than their own |
+## Mapping & Big Board settings
 
-## Mapping Settings
+`/User/Department/MappingSettings` — for personnel and units: **TTL in minutes** for locations shown on maps (0 = show forever) and **allow a status with no location to hide the previous location**. See [Mapping](mapping).
 
-| Setting | Description |
-|---------|-------------|
-| Mapping TTL | Time-to-live for location data on maps |
-| Location Overwrite | Whether new locations overwrite existing ones |
+## API settings
 
-## Module Settings
+`/User/Department/Api` — view or **provision** the department **API key** (used by integrations and the apps' department login), and the **RSS active-call feed key**. Regenerating a key invalidates the old one immediately.
 
-Enable or disable individual modules for the department:
-
-| Module | Description |
-|--------|-------------|
-| Messaging | Internal messaging system |
-| Mapping | Interactive maps and location tracking |
-| Shifts | Shift scheduling and management |
-| Logs | Run logs and work logs |
-| Reports | Reporting suite |
-| Documents | Document management |
-| Calendar | Event calendar |
-| Notes | Department notes |
-| Training | Training modules |
-| Inventory | Equipment tracking |
-| Maintenance | Maintenance scheduling |
+![API settings](/img/web-app/department/api.png)
 
 ## Invites
 
-Manage email invitations for new department members:
+`/User/Department/Invites` — send email invitations (comma-separated addresses); pending invites can be resent or deleted. Invitees create their own account and land in your department.
 
-- **Send Invites** — Send email invitations to join the department (validates email format and uniqueness)
-- **Resend Invite** — Re-send a pending invitation
-- **Delete Invite** — Remove a pending invitation
+![Invites](/img/web-app/department/invites.png)
 
-## Department Deletion
+## Setup wizard
 
-:::danger
-Department deletion is a destructive operation that:
-1. Cancels any active Stripe subscriptions
-2. Marks the department for deletion
-3. Cannot be easily undone
-:::
+`/User/Department/SetupWizard` — for new departments: time zone → address → stations → units → email import → text messaging, saved in one step. Also reachable from the dashboard on first login.
 
-- Requires `Department_Update` authorization
-- Confirmation step required
-- A pending deletion can be cancelled before processing
-- Fires an `AuditEvent` for both deletion and cancellation
+![Setup wizard](/img/web-app/department/setup-wizard.png)
 
-## Setup Wizard
+## Delete department
 
-A guided setup wizard is available for new departments that walks through:
+`/User/Department/DeleteDepartment` — the managing user can schedule deletion; it cancels subscriptions, marks the department for deletion and can be **cancelled** until processed.
 
-1. **Timezone selection** — Set the department's timezone
-2. **Address configuration** — Set the department's physical address
-3. **Station setup** — Create initial station groups
-4. **Unit creation** — Create initial units
-5. **Email import** — Configure call email import
-6. **Text messaging** — Configure SMS settings
+## Setup examples
 
-The wizard submits all data as a single JSON payload for atomic processing.
+| Department | Settings worth changing from the defaults |
+|---|---|
+| **Volunteer fire** | Staffing reset daily 06:00 → Available; email import from county CAD (pick the matching format); *Also dispatch to entire group* on unit dispatch; modern sounds on. |
+| **Career fire** | Use shift for group dispatch; set status on shift dispatch; unit status timers 4/8 minutes; run cards auto-dispatch. |
+| **EMS** | Default call statuses: dispatched → *Responding*, released → *Available*; rest period 10 min; require password reset via email. |
+| **SAR** | Disable auto-available; New Call form: make *what3words* / coordinates visible; longer location TTL (240 min). |
+| **Emergency management** | Modules: turn off Shifts and Inventory if unused; 24-hour time; text commands off. |
+| **Security / business** | Branding in emails; text-to-call from client alarm centres; suppress notifications for *Off duty*. |
 
-## Cache Management
+## Technical reference
 
-- **Clear Department Cache** — Enqueues a CQRS event to clear all cached data for the department
-
-## Printer Integration
-
-Station groups can be configured with PrinterNet printers for automatic dispatch printing:
-
-- **GetPrinterNetPrinters** — Retrieves available printers using a PrinterNet API key
-
-## Data Endpoints
-
-The controller provides several JSON API endpoints used by the UI:
-
-| Endpoint | Purpose |
-|----------|---------|
-| `GetStationsForGrid` | Station groups data for grid display |
-| `GetRecipientsForGrid` | Filtered recipient list (groups, roles, persons) |
-| `GetDepartmentTypes` | Department type dropdown data |
-| `GetCallEmailTypes` | Available email format types |
-| `GetCallTextTypes` | Available text format types |
-| `GetAvailableNumbers` | Phone numbers available for provisioning |
-| `GetSubscriptionLimitWarning` | Plan limit warnings |
-
-## Interactions with Other Modules
-
-| Module | Interaction |
-|--------|-------------|
-| **Subscription** | Plan limits affect features like phone number provisioning and department links |
-| **Custom Statuses** | Staffing reset uses custom staffing levels |
-| **Shifts** | Dispatch settings control shift-based dispatch behavior |
-| **Groups** | Station groups are managed here and used throughout the system |
-| **Calls** | Email import and text-to-call create calls automatically |
-| **Mapping** | Map center and zoom settings affect all map views |
-| **Check-In Timers** | Default timer configs and call-type/priority overrides are managed in Dispatch Settings |
+| Item | Value |
+|---|---|
+| Controller | `DepartmentController` |
+| Routes | `/User/Department/{Settings,Profile,ModuleSettings,DispatchSettings,CallSettings,TextSettings,UnitSettings,ShiftSettings,MappingSettings,Api,Invites,SetupWizard,DeleteDepartment,ClearDepartmentCache}` |
+| Policy | `Department_Update` (administrators); managing-user checks for billing, ADP and deletion |
+| Storage | `Department` row + `DepartmentSettings` rows keyed by `DepartmentSettingTypes` (e.g. 32 = ModuleSettings, 58–60 = run-card dispatch, 70–77 = Records settings) |
+| Cache | Settings cached up to a day; **Clear department cache** enqueues a cache-clear event |
+| Data endpoints | `GetStationsForGrid`, `GetRecipientsForGrid`, `GetDepartmentTypes`, `GetCallEmailTypes`, `GetCallTextTypes`, `GetAvailableNumbers?country=&areaCode=`, `ProvisionNumber`, `GetSubscriptionLimitWarning`, `GetPrinterNetPrinters?key=` |

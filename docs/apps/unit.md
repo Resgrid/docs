@@ -139,6 +139,22 @@ The app uses a sidebar/drawer layout that adapts to orientation:
 
 **Modal screens**: Create New Call, Call Detail, Edit Call
 
+### Chat
+
+Unit identity chat: messages sent from the app are attributed to the unit (with the human sender recorded), incident channels open automatically for dispatched calls, and DMs addressed to the unit reach the whole crew. See [Chat & Assistant](../web-app/chat).
+
+### Checklists and equipment
+
+Unit-targeted checklists (apparatus daily / weekly, SCBA, equipment checks) run from the tablet with witness hand-off, photos and evidence; failed critical items can place the unit out of service and raise a work order (Readiness Pro). The equipment issued to the unit from [Inventory](../web-app/inventory) is listed for reference and consumption. See [Checklists](../web-app/checklists).
+
+### Field Records
+
+With `Records.Field.Unit` enabled the crew authors **Unit activity** and run records from the app, with the unit's times prefilled from status changes. See [Records](../web-app/records/overview).
+
+### Hardware GPS trackers
+
+Vehicles with a hardware tracker report position alongside (or instead of) the app; the web administrator sets the source priority. See [Hardware GPS Tracking](../web-app/unit-tracking).
+
 ## Settings & Configuration
 
 | Setting | Description |

@@ -1,11 +1,11 @@
 ---
-sidebar_position: 34
+sidebar_position: 35
 title: Connect
 ---
 
 # Connect
 
-The Connect module manages the department's public-facing profile, enabling community engagement and inter-department discovery. It is managed by the `ConnectController`.
+The Connect module manages the department's public-facing profile, enabling community engagement and inter-department discovery.
 
 ## Department Profile
 
@@ -93,8 +93,17 @@ The `GetPostsList` endpoint returns all articles as JSON with:
 - Expiry information
 - Creator's full name
 
-## Interactions with Other Modules
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Volunteer fire** | Public profile with recruitment posts and event announcements; accept public messages for non-emergency enquiries. |
+| **CERT / community groups** | Posts for preparedness tips and class schedules. |
+| **Business** | Usually leave Connect disabled. |
+
+## Technical reference
+
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Department** | Department data used for profile |

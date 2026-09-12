@@ -1,0 +1,8 @@
+{
+  "label": "Records (RMS)",
+  "position": 20,
+  "link": {
+    "type": "generated-index",
+    "description": "The Records Management System: operational records, NERIS incident reports, definitions, prevention (occupancies, inspections, hydrants, permits, CRR), investigations, analytics, quality review, legal holds and public-records disclosures."
+  }
+}

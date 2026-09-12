@@ -7,6 +7,8 @@ title: Resource Orders
 
 Resource Orders enable cross-department resource requesting and fulfillment. The module is managed by the `OrdersController`.
 
+![Resource orders](/img/web-app/orders/index.png)
+
 ## Overview
 
 The resource ordering system allows departments to:
@@ -96,15 +98,23 @@ If the ordering department has auto-fill enabled:
 ### Manual Acceptance
 The `AcceptFill` action manually accepts a submitted fill.
 
-## Data Endpoints
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Mutual aid** | Order an engine and a tender from linked departments during a large fire; the filling department accepts and assigns units. |
+| **Emergency management** | Resource requests from municipalities to the county EOC; track fills and returns. |
+| **SAR** | Request K9 or drone teams from partner teams. |
+
+## Technical reference
+
+### Data Endpoints
 | Endpoint | Purpose |
 |----------|---------|
 | `GetYourOrders` | Department's open orders with status |
 | `GetAvailableOrders` | Available orders from other departments |
 
-## Interactions with Other Modules
-
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Department Links** | Linked departments can have order visibility |

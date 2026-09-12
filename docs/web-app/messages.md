@@ -1,11 +1,15 @@
 ---
-sidebar_position: 11
+sidebar_position: 31
 title: Messages
 ---
 
 # Messages
 
-The Messages module provides an internal messaging system for department communication. It is managed by the `MessagesController`.
+**Messages** is Resgrid's internal mail: send a message to individuals, groups, roles or the whole department with optional **responses** (Yes / No / Maybe or custom), delivered by push, SMS and email according to each recipient's preferences. Use it for announcements, polls (*Can you cover Saturday?*) and anything that needs a record — real-time back-and-forth belongs in [Chat](chat).
+
+**Profile dropdown → Mailbox** or the envelope icon in the top bar. Compose, Inbox and Outbox are tabs on the page.
+
+![Inbox](/img/web-app/messages/inbox.png)
 
 ## Inbox
 
@@ -29,6 +33,8 @@ Displays sent messages.
 ## Composing Messages
 
 **Authorization:** `Messages_Create` policy
+
+![Compose a message](/img/web-app/messages/compose.png)
 
 ### Send Modes
 
@@ -88,16 +94,28 @@ Recipients can respond to messages with:
 | Delete Multiple Outbox | DELETE | Comma-separated message IDs |
 | Mark Messages as Read | PUT | Comma-separated message IDs |
 
-## Data Endpoints
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Volunteer fire** | Weekly *training this Tuesday* message with Yes/No responses to headcount attendance; send to the *Firefighter* role. |
+| **EMS** | Shift-coverage requests with responses; department-wide policy notices with read tracking. |
+| **SAR / CERT** | Deployment availability polls (*Available for a 48 h deployment starting tomorrow?*) to the whole department. |
+| **Emergency management** | Activation notices to ESF leads with acknowledgement responses. |
+| **Security / business** | Post orders changes to a site group; use distribution lists for client contacts. |
+
+## Technical reference
+
+`MessagesController`; routes `/User/Messages/{Inbox,Outbox,Compose,ViewMessage,MessageResponse}`; permission `CreateMessage`; event `MessageSentEvent`; module switch `MessagingDisabled`; delivery honours contact verification and ADP generic-content rules.
+
+### Data Endpoints
 | Endpoint | Purpose |
 |----------|---------|
 | `GetInboxMessageList` | Inbox messages with read status and sender name |
 | `GetOutboxMessageList` | Sent messages |
 | `GetTopUnreadMessages` | Unread messages for top navigation widget |
 
-## Interactions with Other Modules
-
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Groups** | Messages can target entire groups |

@@ -1,166 +1,105 @@
 ---
-sidebar_position: 5
+sidebar_position: 7
 title: Personnel
 ---
 
-# Personnel Management
+# Personnel
 
-The Personnel module manages department members, their roles, certifications, and access. It is handled by the `PersonnelController`.
+The **Personnel** page is your roster: every member of the department with their current **status** (Standing by, Responding, On scene …), **staffing level** (Available, Unavailable, On shift …), station, roles and contact details. From here you add members, edit their details, set their status, and manage **roles** and **ranks**.
 
-## Personnel List
+![Personnel](/img/web-app/personnel/index.png)
 
-**Authorization:** `Personnel_View` policy
+## Where to find it
 
-The main personnel index displays all department members with:
-- Full name and profile information
-- Current action status (responding, on-scene, etc.)
-- Current staffing level (available, unavailable, etc.)
-- Group/station assignment
-- Personnel roles
-- Admin/disabled/hidden status
+**Left menu → Personnel.** The page lists members grouped by station/group (or sorted by first/last name — see *Department Settings → Sorting*). Use the group tree on the left to filter, the search box to find someone, and the checkboxes to **set status** or **set staffing** for several people at once.
 
-### Visibility Controls
+Each row shows name, status, staffing, roles and ID number, with buttons to **View**, **Edit** (via the profile page), **Events** and **Delete**. Hidden members are only shown to administrators.
 
-The personnel list respects the **authorization visibility matrix**:
-- Users only see personnel they have permission to view
-- PII (email addresses) visibility is controlled by `CanViewPII()` check
-- Personnel marked as **hidden** are not shown to non-admin users
+## Adding people
 
-### Sorting
+Two ways:
 
-Personnel can be sorted by the department's configured sort order:
-- **Default** — System default
-- **First Name** — Alphabetical by first name
-- **Last Name** — Alphabetical by last name
-- **Group** — Organized by group/station
+- **Add a Person** — create one account now.
+- **Manage Invites** — send email invitations; the person creates their own login and lands in your department (see [Department Settings → Invites](department-settings#invites)).
 
-### Group Tree Filtering
+![Add person](/img/web-app/personnel/add-person.png)
 
-A sidebar tree view allows filtering personnel by group/station.
+| Field | Notes |
+|---|---|
+| **First / Last name** | Required. |
+| **Email address** | Required and unique across all of Resgrid. If the address already exists in another department the existing account is **added to your department** with its profile settings; the person switches departments from *Your Departments*. |
+| **Username / Password** | Username unique; password ≥ 8 characters with a digit, an uppercase and a lowercase letter. **Require password change** forces a new password at first login. |
+| **ID number** | Your own badge / employee number. |
+| **Mobile number / carrier** | For SMS. Carrier is needed for email-to-SMS gateways; UK numbers must match the carrier's prefix rules. |
+| **Group** | Station or group; **Is group admin?** grants group-level administration. |
+| **Roles** | Tick the [roles](#roles) the person holds. |
+| **Notify user** | Send the welcome email with login details. |
 
-## Adding Personnel
+New accounts start with every contact method **pending verification**; the member verifies email and phone from their profile before dispatches and messages are sent to those channels ([contact verification](../configuration/contact-verification)). Adding is blocked when the plan's personnel limit is reached.
 
-**Authorization:** `Personnel_Create` policy + subscription limit check
+## Viewing and editing a person
 
-### Prerequisites
-- Department must not have reached its subscription plan's personnel limit (`CanUserAddNewUser`)
-- Group administrators can only add users to their own group (when `CanGroupAdminsAddUsers` is enabled)
+**View** shows the profile, group, roles, department flags (admin, disabled, hidden), current staffing and status, certifications, events and — where enabled — the equipment issued to them. **Edit** (or the person's profile page) changes:
 
-### Required Fields
+| Section | Fields |
+|---|---|
+| **Account** | Name, email, username, password reset, language, time zone. |
+| **Contact details** | Mobile, home and work numbers, mobile carrier, home and mailing addresses (home address is used for proximity / ETA). |
+| **Department** | Group, group admin, roles, **administrator**, **disabled** (cannot log in), **hidden** (kept for history but not shown on lists). |
+| **Notification options** | Which channels (push, SMS, email, voice) the person receives calls, messages, notifications and chat on. |
+| **Call / message options** | Per-priority call alerting, quiet hours, message digest settings. |
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| First Name | Yes | User's first name |
-| Last Name | Yes | User's last name |
-| Email | Yes | Must be unique across the system |
-| Username | Yes | Login username |
-| Password | Yes | Must meet strength requirements |
+![View person](/img/web-app/personnel/view-person.png)
 
-### Optional Fields
+### Status and staffing
 
-| Field | Description |
-|-------|-------------|
-| Mobile Number | SMS contact (UK carrier rules apply) |
-| Mobile Carrier | Required for text messaging |
-| Group | Station/group assignment |
-| Roles | Personnel role assignments |
+From the personnel list (or the [Dashboard](dashboard)) you can set a member's **status** and **staffing** with an optional note and, for statuses that need one, a **destination** (station or call). Bulk-select rows to update many at once. Members set their own from the apps.
 
-### Creation Process
-1. Validates email uniqueness across the system
-2. Creates an `IdentityUser` account
-3. Assigns user to the department
-4. Sets group membership (if specified)
-5. Saves user profile
-6. Assigns personnel roles
-7. Optionally sends a welcome/creation notification email
-8. Fires an `AuditEvent`
+### Events
 
-:::info Contact Verification
-When an administrator creates a new user, all contact methods (email, mobile number, home number) are initialized in the **Pending** verification state. The new user must verify their contact methods from their profile page before they will receive dispatches, notifications, or messages via those channels. See [Contact Method Verification](../configuration/contact-verification) for details.
-:::
+**Events** lists every status, staffing and location change for the person; **Generate report** prints it. Administrators can **clear all statuses** for a person (used when a test account has polluted reports).
 
-## Viewing Personnel
+### Removing someone
 
-**Authorization:** `Personnel_View` policy + `CanUserViewUser` runtime check
+**Delete** removes the member from the department. Resgrid recommends **disabling** instead of deleting so history, logs and reports stay intact; underlying data is retained, so clear personal details first if you must delete. A member who still owns unfinished [Records](records/authoring) must have them reassigned first. Deleted members can be **reactivated** by adding them again with the same email.
 
-The view shows:
-- User profile details
-- Group assignment
-- All assigned roles
-- Department member state (admin, disabled, hidden)
-- Last known user state (staffing level)
-- Last action log (current status)
+## Roles
 
-## Deleting Personnel
+**Manage Roles** (`/User/Personnel/Roles`). A role is a qualification, position or team membership you dispatch by and report on: *Firefighter*, *EMT*, *Paramedic*, *Driver/Operator*, *Officer*, *Chief*, *Team Leader*, *K9 Handler*, *Safety Officer*, *Security Officer*, *Dispatcher*.
 
-**Authorization:** `Personnel_Delete` policy + `CanUserRemoveUser` runtime check
+![Roles](/img/web-app/personnel/roles.png)
 
-- Group administrators can only remove users from their group (when `CanGroupAdminsRemoveUsers` is enabled)
-- Uses `IDeleteService.DeleteUserAsync` for proper cleanup
+- **Add Role** — name, description and initial members.
+- **Edit / View Role** — members in role; **Delete** removes the role (assignments are dropped).
 
-## Personnel Roles
+Roles are used by call dispatch (dispatch to a role), [run cards](run-cards) (role requirements), [notifications](notifications) (low-availability alerts), [shifts](shifts) (role quotas), [checklists](checklists) and [work orders](work-orders) (assignment), security permissions (*Admins + selected roles*) and reports.
 
-### Viewing Roles
-**Authorization:** `Role_View` policy
+## Ranks
 
-Lists all personnel roles defined for the department.
+**Personnel Ranks** are display titles (Chief, Captain, Lieutenant, Firefighter) shown with names and in the apps; unlike roles they carry no dispatch meaning.
 
-### Creating Roles
-**Authorization:** `Role_Create` policy
+## Setup examples
 
-Create a role with:
-- Role name
-- Initial member assignments from form selection
+| Department | Roles to create | Tips |
+|---|---|---|
+| **Volunteer fire** | Firefighter, Interior firefighter, Driver/Operator, Officer, Chief, EMT | Use group admin for station captains; hide inactive members instead of deleting. |
+| **Career fire** | By rank *and* qualification: Engineer, Paramedic, Hazmat tech, Rescue tech | Import via [SCIM](../enterprise/scim-provisioning) if you have an HR directory. |
+| **EMS** | EMT, AEMT, Paramedic, Supervisor, Dispatcher | Certifications with expiry dates on each person. |
+| **SAR** | Ground team, Team leader, K9 handler, Technical rope, Swiftwater, Medical, Drone pilot | Roles are what you dispatch by. |
+| **Emergency management** | EOC manager, Operations, Planning, Logistics, Finance, ESF-1 … ESF-15 leads, PIO | One group per EOC section. |
+| **CERT** | CERT member, Team leader, Program coordinator | Keep contact verification strict — many volunteers. |
+| **Security** | Security officer, Supervisor, Dispatcher, Site lead | Group per client site; hidden members for former contractors. |
+| **Industrial ERT** | Fire brigade, Hazmat, Confined space, First aid, Incident commander | Certifications for every qualification with expiry reminders. |
 
-### Editing Roles
-**Authorization:** `Role_Update` policy + `CanUserEditRole` runtime check
+## Technical reference
 
-Modify role name and member assignments.
-
-### Deleting Roles
-**Authorization:** `Role_Delete` policy + `CanUserEditRole` runtime check
-
-Remove a role from the department.
-
-## Data Endpoints
-
-### Personnel Grid Data
-
-| Endpoint | Parameters | Purpose |
-|----------|------------|---------|
-| `GetPersonnelForCallGrid` | `callId` | Personnel with ETA to call location |
-| `GetPersonnelForGridWithFilter` | `filterSelf` | Basic personnel list (optionally excluding self) |
-| `GetPersonnelList` | — | Full personnel list with admin/disabled/hidden state |
-| `GetPersonnelListPaged` | `perPage`, `page` | Paginated personnel list |
-
-### ETA Calculation
-
-When displaying personnel for a call, the system calculates **Estimated Time of Arrival**:
-1. Gets the user's last known GPS location
-2. Gets the call's GPS coordinates
-3. Uses `IGeoService.GetEtaInSecondsAsync` to calculate travel time
-4. Displays ETA alongside personnel information
-
-### Role Data
-
-| Endpoint | Purpose |
-|----------|---------|
-| `GetRoles` | All department roles |
-| `GetCertifications` | All certification types |
-| `GetRolesForUser` | Roles assigned to a specific user |
-
-## Interactions with Other Modules
-
-| Module | Interaction |
-|--------|-------------|
-| **Dashboard** | Personnel status displayed on main dashboard |
-| **Dispatch** | Personnel dispatched to calls |
-| **Groups** | Personnel belong to groups/stations |
-| **Shifts** | Personnel sign up for shifts |
-| **Custom Statuses** | Custom status levels shown for personnel |
-| **Mapping** | Personnel location shown on maps (permission-controlled) |
-| **Reports** | Personnel data used in roster and staffing reports |
-| **Trainings** | Personnel assigned to trainings |
-| **Profile** | Certifications and schedules managed per person |
-| **Security** | Visibility matrix controls who can see whom |
-| **Contact Verification** | Admin-created personnel start with Pending verification; communications are gated by verification status |
+| Item | Value |
+|---|---|
+| Controller | `PersonnelController`; profile editing in `HomeController.EditUserProfile` |
+| Routes | `/User/Personnel/{Index,AddPerson,ViewPerson,DeletePerson,ViewEvents,Roles,AddRole,EditRole,ViewRole,DeleteRole}` (`?userId=` / `?roleId=`) |
+| Policies | `Personnel_View/Create/Delete`, `Role_View/Create/Update/Delete` + `CanUserViewUser`, `CanUserRemoveUser`, `CanUserEditRole` |
+| Permissions | `AddPersonnel`, `RemovePersonnel`, `ViewPersonalInfo` (PII), `ViewGroupUsers`; department settings `CanGroupAdminsAddUsers` / `CanGroupAdminsRemoveUsers` |
+| Data endpoints | `GetPersonnelForGrid`, `GetPersonnelForCallGrid?callLat=&callLong=` (with ETA), `GetPersonnelList`, `GetPersonnelListPaged`, `GetRoles`, `GetMembersForRole?id=`, `GetPersonnelEvents?userId=`, `SetActionForUser`, `SetStaffingForUser`, `SetUserActionForMultiple`, `SetUserStaffingForMultiple` |
+| Events | `UserCreatedEvent`, `UserAssignedToGroupEvent`, `PersonnelRoleChangedEvent`, `UserStaffingEvent`, `UserStatusEvent`, `AuditEvent` |
+| Plan limits | `CanUserAddNewUser` — cached 14 days; see [Subscription & Billing](subscription-billing) |
+| Protected data | Contact details and personal info are ADP-protected fields |

@@ -1,11 +1,13 @@
 ---
-sidebar_position: 26
+sidebar_position: 45
 title: Command Definitions
 ---
 
 # Command Definitions
 
 Command Definitions structure incident command assignments following ICS (Incident Command System) principles. The module is managed by the `CommandController`.
+
+![Command definitions](/img/web-app/command/index.png)
 
 ## Command List
 
@@ -57,8 +59,18 @@ When the `ForceRequirements` (lock) flag is set, the system enforces that the as
 - **No Delete functionality** — Commands cannot be deleted through the UI
 - **Synchronous save** — Uses synchronous `Save` method (unlike most other controllers)
 
-## Interactions with Other Modules
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Fire** | ICS structure: IC, Safety, Operations (Divisions A/B/C), RIT, Rehab, Staging, Water supply — as a template for structure fires. |
+| **SAR** | IC, Operations, Planning, Logistics, Search teams 1–6, Base camp; templates per mission type. |
+| **Emergency management** | Full ICS/EOC organisation with sections and ESFs; used by the Incident Command app. |
+| **Events / security** | Event command: IC, Security ops, Medical, Traffic, Comms. |
+
+## Technical reference
+
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Dispatch** | Commands can be associated with specific call types |

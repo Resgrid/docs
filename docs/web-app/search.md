@@ -1,11 +1,13 @@
 ---
-sidebar_position: 35
+sidebar_position: 52
 title: Search
 ---
 
 # Search
 
-The Search module provides a quick navigation command palette for accessing application features. It is managed by the `SearchController`.
+The Search module provides a quick navigation command palette for accessing application features.
+
+![Search results](/img/web-app/home/search-results.png)
 
 ## How It Works
 
@@ -48,8 +50,9 @@ Some items are shown only when the user has appropriate permissions:
 
 When a query is provided, results are filtered by matching against the item label and summary text.
 
-## Interactions with Other Modules
+## Technical reference
 
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **All Modules** | Provides navigation shortcuts to all feature areas |

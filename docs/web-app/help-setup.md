@@ -1,11 +1,13 @@
 ---
-sidebar_position: 36
+sidebar_position: 53
 title: Help & Setup
 ---
 
 # Help & Setup
 
-The Help module provides onboarding assistance and department configuration evaluation. It is managed by the `HelpController`.
+The Help module provides onboarding assistance and department configuration evaluation.
+
+![Setup report](/img/web-app/home/setup-report.png)
 
 ## Dashboard Tutorial
 

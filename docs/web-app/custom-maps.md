@@ -1,11 +1,13 @@
 ---
-sidebar_position: 11
+sidebar_position: 14
 title: Custom Maps
 ---
 
 # Custom Maps
 
 Custom Maps allow departments to upload their own map images — floor plans, venue layouts, campus schematics, satellite imagery, or tactical overlays — and overlay them on the standard Resgrid map. Polygon zones drawn on those images resolve to human-readable locations (e.g., "Building 1, Room 405a") that can be used as call locations, pre-plan attachments, and real-time personnel overlays.
+
+![Custom maps](/img/web-app/custom-maps/index.png)
 
 Custom Maps are designed for:
 - **Fire departments** — building pre-plans, high-rise floor plans, industrial facility schematics
@@ -404,3 +406,12 @@ Zone notifications extend the standard Resgrid notification system and are deliv
 | Share link expired | Regenerate from the Share Map panel; expired links cannot be extended |
 | Import failed — "invalid GeoJSON" | Validate the GeoJSON at [geojson.io](https://geojson.io) before importing |
 | Indoor personnel not appearing on floor | Confirm the indoor positioning source is sending floor-level data to the Resgrid location API |
+
+## Setup examples
+
+| Department type | How to set it up |
+|---|---|
+| **Fire** | Georeferenced map-book pages and hydrant maps as raster layers; district grids as region maps. |
+| **SAR** | Search-area maps from CalTopo exported as tiles; segment regions with probability of area. |
+| **Events / venues** | Site plans for large events with staging and medical tents as regions. |
+| **Industrial** | Plant site plans with process-unit regions. |

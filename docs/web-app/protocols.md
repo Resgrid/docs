@@ -1,11 +1,13 @@
 ---
-sidebar_position: 23
+sidebar_position: 41
 title: Protocols
 ---
 
 # Protocols
 
 Dispatch Protocols define structured response procedures with trigger-based activation, assessment questions, and supporting attachments. The module is managed by the `ProtocolsController`.
+
+![Protocols](/img/web-app/protocols/index.png)
 
 ## Protocol List
 
@@ -89,8 +91,17 @@ Attachments can be downloaded individually:
 
 The `GetTextForProtocol` endpoint returns just the protocol name and text as JSON (returns "No Protocol Text Present" if empty).
 
-## Data Endpoints
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Fire** | Structure fire protocol triggered by type + priority: questions (occupants out? hydrant nearby?), instructions and attachments (pre-plan). |
+| **EMS** | Emergency medical dispatch style protocols per chief complaint with questions and pre-arrival instructions. |
+| **Security** | Alarm response protocol: verify with alarm company, key-holder contact, police notification. |
+
+## Technical reference
+
+### Data Endpoints
 | Endpoint | Purpose |
 |----------|---------|
 | `GetProtocol` | Full protocol as JSON |
@@ -98,8 +109,7 @@ The `GetTextForProtocol` endpoint returns just the protocol name and text as JSO
 | `GetProtocolAttachment` | Download attachment file |
 | `GetTextForProtocol` | Protocol name and text only |
 
-## Interactions with Other Modules
-
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Dispatch** | Protocols attached to calls; dynamic matching during call creation |

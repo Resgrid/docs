@@ -1,11 +1,15 @@
 ---
-sidebar_position: 21
+sidebar_position: 11
 title: Custom Statuses
 ---
 
 # Custom Statuses
 
-The Custom Statuses module allows departments to define their own personnel statuses, staffing levels, and unit states. It is managed by the `CustomStatusesController`.
+**Custom statuses** replace the built-in status words with your own. There are three sets: **personnel statuses** (*Responding*, *On scene*, *Available at station* …), **staffing levels** (*Available*, *On duty*, *Off duty*, *Light duty* …) and **unit statuses** per unit type (*En route*, *On scene*, *Transporting*, *Out of service* …). Each status has a colour, whether it needs a destination (a station or a call), what it counts as (responding / available), and how it looks on the apps and the Big Board.
+
+**Department menu → Custom Statuses.** Start from a **template** (fire, EMS, SAR, security …) and adjust.
+
+![Custom statuses](/img/web-app/custom-statuses/index.png)
 
 ## Overview
 
@@ -30,6 +34,8 @@ Define custom availability levels for personnel (replaces default levels like Av
 ## Creating Custom States
 
 **Authorization:** `CustomStates_Create` policy
+
+![New unit status set](/img/web-app/custom-statuses/new-unit.png)
 
 ### State Set Configuration
 
@@ -110,8 +116,22 @@ When no custom states are defined, the system provides built-in defaults:
 ### Default Unit Statuses
 13 built-in statuses from Available through Enroute.
 
-## JSON API Endpoints
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Volunteer fire** | Personnel: Standing by, Responding to station, Responding to scene, On scene, Available at station, Not responding. Staffing: Available, Unavailable, On call. Units (Engine/Ladder/Rescue): In quarters, En route, On scene, Available, Out of service. |
+| **EMS** | Units (Medic): Available, En route, On scene, Transporting, At hospital, Returning, Out of service; personnel: On duty / Off duty. |
+| **SAR** | Personnel: Available, Responding to CP, At CP, Deployed in field, Returned; units (Team): Staging, Searching, Found, Returning. |
+| **Emergency management** | Personnel: EOC activated, Remote, Off; units minimal. |
+| **Security** | Personnel: On patrol, At post, Responding, Break, Off duty; units (Patrol): Available, Responding, On site, Out of service. |
+| **Delivery / transit** | Units (Vehicle): Loading, En route, Delivering, Returning, Off duty. |
+
+## Technical reference
+
+`CustomStatusesController`; routes `/User/CustomStatuses/{Index,Templates,New,Edit,EditDetail,Delete}?type=1|2|3`; model `CustomState` / `CustomStateDetail` (`DetailType`: none / station / call destination); JSON endpoints `GetPersonnelStatusesForDepartment`, `GetPersonnelStaffingLevelsForDepartment`, `GetUnitStatusesLevelsForDepartment?unitTypeId=`.
+
+### JSON API Endpoints
 These endpoints are **consumed by views throughout the application** for building dynamic status dropdowns:
 
 | Endpoint | Purpose |
@@ -123,8 +143,7 @@ These endpoints are **consumed by views throughout the application** for buildin
 
 All endpoints support an `includeAny` parameter to add an "Any" option to the list.
 
-## Interactions with Other Modules
-
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Dashboard** | Custom statuses and staffing levels displayed on main dashboard |

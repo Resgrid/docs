@@ -1,11 +1,13 @@
 ---
-sidebar_position: 39
+sidebar_position: 37
 title: Weather Alerts
 ---
 
 # Weather Alerts
 
 The Weather Alerts module automatically ingests severe weather alerts from government meteorological agencies, notifies department members, and optionally attaches relevant alerts to dispatch calls. It is designed for first responder organizations that need real-time situational awareness of severe weather in their jurisdiction.
+
+![Weather alerts](/img/web-app/weather-alerts/index.png)
 
 **Authorization:** Viewing alerts requires the `WeatherAlert_View` permission. Managing sources and zones requires `Department_Update` (department administrator). Creating, updating, and deleting sources requires `WeatherAlert_Create`, `WeatherAlert_Update`, and `WeatherAlert_Delete` permissions respectively.
 
@@ -266,8 +268,18 @@ The display language is determined by each user's language preference.
 
 ---
 
-## Interactions with Other Modules
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Fire / wildland** | Red flag warnings and wind advisories for your zones → notification to officers. |
+| **Emergency management** | All watches/warnings for county zones → EOC duty officer; severity threshold Warning. |
+| **SAR** | Winter storm and avalanche products for mountain zones. |
+| **Transit / delivery** | Winter weather advisories → operations. |
+
+## Technical reference
+
+### Interactions with Other Modules
 | Module | Interaction |
 |---|---|
 | **Dispatch / Calls** | Active alerts can be automatically attached as system call notes when Call Integration is enabled |

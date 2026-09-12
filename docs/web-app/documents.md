@@ -1,11 +1,15 @@
 ---
-sidebar_position: 15
+sidebar_position: 23
 title: Documents
 ---
 
 # Documents
 
-The Documents module provides file management and sharing capabilities for the department. It is managed by the `DocumentsController`.
+**Documents** is a simple, shared file library: SOPs and SOGs, bylaws, maps, forms, manuals, MSDS sheets — organised by **category**, visible to the whole department or to a group, and downloadable in the apps.
+
+**Left menu → Documents.** Categories come from **Department → Types → Document categories**.
+
+![Documents](/img/web-app/documents/index.png)
 
 ## Document List
 
@@ -19,6 +23,8 @@ Displays all department documents with:
 ## Creating Documents
 
 **Authorization:** `Documents_Create` policy + `CanCreateDocument()` runtime check
+
+![New document](/img/web-app/documents/new-document.png)
 
 ### Document Fields
 
@@ -71,8 +77,21 @@ Creates `AuditEvent` (DocumentRemoved).
 Categories are managed through the [Types & Configuration](types-configuration) module:
 - The `GetDepartmentDocumentCategories` endpoint returns distinct categories for filtering
 
-## Interactions with Other Modules
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Fire** | Categories: SOG/SOP, Pre-plans (until moved to Records occupancies), Apparatus manuals, Bylaws, Training handouts. |
+| **EMS** | Protocols (or use the Protocols module for dispatch-linked ones), Drug references, Forms, Policies. |
+| **SAR** | Field guides, Maps, Equipment lists, Member handbook. |
+| **Emergency management** | EOP and annexes, ESF checklists, Contact rosters, MOUs. |
+| **Security / business** | Post orders per site (restrict to the site group), Emergency procedures, Insurance certificates. |
+
+## Technical reference
+
+`DocumentsController`; routes `/User/Documents/{Index,NewDocument,ViewDocument,EditDocument,GetDocument}`; permission `CreateDocument`; event `DocumentAddedEvent`; module switch `DocumentsDisabled`; files are scanned before download is allowed.
+
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Types** | Document categories managed in Types controller |

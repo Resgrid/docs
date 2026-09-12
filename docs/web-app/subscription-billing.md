@@ -1,11 +1,15 @@
 ---
-sidebar_position: 30
+sidebar_position: 51
 title: Subscription & Billing
 ---
 
 # Subscription & Billing
 
-The Subscription module manages department plan selection, payment processing, and addon management through Stripe integration. It is managed by the `SubscriptionController`.
+**Subscription & Billing** shows the department's plan (Free, Standard, Premium, Ultimate, Enterprise), what it includes and its limits (personnel, units, features), lets the **managing user** upgrade, change billing details, buy **add-ons** (Push-to-Talk, Advanced Data Protection, Readiness Pro) and download invoices. Self-hosted installations show the plan they are licensed for.
+
+**Department menu → Subscription and Billing.** Only the managing user can purchase or cancel.
+
+![Subscription](/img/web-app/subscription/index.png)
 
 ## Subscription Dashboard
 
@@ -82,6 +86,8 @@ The `ValidateCoupon` endpoint checks a Stripe coupon code and returns "Valid" or
 
 ### PTT (Push-to-Talk) Addon
 
+![ADP add-on](/img/web-app/subscription/buy-adp-addon.png)
+
 Manage the PTT addon subscription:
 - View current PTT quantity from active Stripe subscription
 - Add PTT addon (modifies subscription quantity)
@@ -97,14 +103,28 @@ The `BuyAddon` action supports purchasing plan addons:
 
 View all historical payments for the department.
 
+![Payment history](/img/web-app/subscription/payment-history.png)
+
 ## Invoice Viewing
 
 **Authorization:** `CanUserViewPayment` runtime check
 
 Displays invoice details with deserialized Stripe `Charge` data.
 
-## Interactions with Other Modules
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Small volunteer department** | Free or Standard covers dispatch, personnel and units; add PTT if you use the apps as radios. |
+| **Career fire / EMS** | Premium/Ultimate for voice alerting, shifts and records; Readiness Pro for work orders; ADP if patient data is stored. |
+| **Multi-agency / government** | Enterprise for SSO/SCIM and security policy; department links for shared dispatch. |
+| **Business / industrial** | Standard plus Readiness Pro (maintenance) and PTT. |
+
+## Technical reference
+
+`SubscriptionController`, `ReadinessProBillingController`; routes `/User/Subscription/{Index,UpdateBillingInfo,Cancel,BuyAddon,ManagePTTAddon,BuyAdpAddon,ManageAdpAddon,PaymentHistory,ViewInvoice,SelectRegistrationPlan}`; payments through Stripe or Paddle; plan limits cached 14 days (`SubscriptionsService`, `LimitsService`); addon entitlements checked live (`ReadinessAccessService`).
+
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Dashboard** | Plan limit warnings displayed |

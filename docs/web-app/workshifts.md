@@ -1,11 +1,13 @@
 ---
-sidebar_position: 9
+sidebar_position: 18
 title: Workshifts
 ---
 
 # Workshifts
 
 Workshifts (static shifts) provide a simpler scheduling mechanism compared to the full Shifts module. They are managed by the `WorkshiftsController`.
+
+![New workshift](/img/web-app/workshifts/new.png)
 
 ## Overview
 
@@ -50,8 +52,17 @@ The day view shows:
 
 Requires confirmation via a dedicated confirmation page. Full audit trail recorded.
 
-## Interactions with Other Modules
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Career fire** | A/B/C platoon workshifts used as the *each shift* anchor for checklist schedules and for shift-based dispatch. |
+| **EMS** | 12-hour day/night workshifts. |
+| **Security** | Site shift patterns per client. |
+
+## Technical reference
+
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Shifts** | Workshift days appear on the shift calendar alongside traditional shifts |

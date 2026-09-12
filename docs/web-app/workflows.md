@@ -1,11 +1,15 @@
 ---
-sidebar_position: 37
+sidebar_position: 44
 title: Workflows
 ---
 
 # Workflows
 
-The Workflows module provides a powerful event-driven automation engine that lets departments subscribe to system events, transform event data using templates, and execute configurable actions such as sending emails, SMS messages, calling APIs, posting to chat platforms, or uploading files to cloud storage. It is managed by the `WorkflowsController`.
+**Workflows** are Resgrid's automation engine: *when X happens, do Y*. Pick a trigger (a call is created, a unit goes out of service, a record is finalized, a checklist fails, a work order is overdue, a form is submitted …), add optional conditions, and chain actions — send an email or SMS, post to Slack/Teams/Discord, call a webhook or REST API, upload a file, create a call, attach a Records export. Templates use the event's data, credentials are stored encrypted, and every run is logged with retries and a health view.
+
+**Department menu → Workflows.** Start from the built-in **templates** or create a blank workflow; test with **Run now** on a past event before enabling.
+
+![Workflows](/img/web-app/workflows/index.png)
 
 **Authorization:** Department Admins only. Access is controlled via `ClaimsAuthorizationHelper.IsUserDepartmentAdmin()`.
 
@@ -40,6 +44,8 @@ Displays all workflows configured for the department with:
 
 Navigate to **Department → Workflows** and click **New Workflow**.
 
+![New workflow](/img/web-app/workflows/new.png)
+
 ### Workflow Fields
 
 | Field | Required | Description |
@@ -54,6 +60,8 @@ Navigate to **Department → Workflows** and click **New Workflow**.
 ## Editing a Workflow
 
 The edit view allows you to modify the workflow settings and manage its steps inline.
+
+![Workflow editor](/img/web-app/workflows/edit.png)
 
 ### Workflow Steps
 
@@ -247,6 +255,8 @@ Each action type has specific configuration fields set via `Action Config`:
 
 Credentials store the authentication details needed by workflow actions (SMTP passwords, API keys, webhook URLs, etc.). All credentials are **encrypted at rest** using AES-256 encryption with department-specific key derivation, ensuring each department's secrets are isolated.
 
+![Credentials](/img/web-app/workflows/credentials.png)
+
 ### Managing Credentials
 
 Navigate to **Department → Workflows → Credentials** to manage stored credentials.
@@ -281,6 +291,8 @@ Click **New Credential** and select the credential type. Fill in the type-specif
 ## Workflow Runs (Execution History)
 
 The **Runs** view provides a paginated audit trail of all workflow executions:
+
+![Workflow runs](/img/web-app/workflows/runs.png)
 
 | Column | Description |
 |--------|-------------|
@@ -324,8 +336,22 @@ The **Pending** view lists all currently pending and in-progress workflow runs f
 - **Cancel** — Cancel an individual pending run
 - **Clear All** — Cancel all pending runs for the department (with confirmation dialog)
 
-## Retry Behavior
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Volunteer fire** | *Call created (High/Emergency)* → email the chief and post to the department Discord; *Certification expiring* → email the member and training officer; *Unit out of service* → SMS the apparatus officer. |
+| **Career fire** | *Record finalized (NERIS)* → upload the export to the state fire marshal SFTP nightly; *Work order overdue* → Teams channel post; *Call closed* → webhook to the city records system. |
+| **EMS** | *Call created* → API call to the billing/ePCR system with call number and address; *Checklist failed (narcotics count)* → email the medical director. |
+| **SAR** | *Call created* → SMS the mutual-aid coordinator; *Message sent (deployment poll)* → collect responses into a webhook to a spreadsheet. |
+| **Emergency management** | *Call created (Activation)* → email every ESF lead and create the EOC incident channel; *Weather alert received* → Slack post. |
+| **Security / business** | *Call closed* → email the client contact a summary (from a Records export); *Form submitted (incident form)* → create a work order via API. |
+
+## Technical reference
+
+`WorkflowsController`; routes `/User/Workflows/{Index,New,Edit,Runs,RunDetail,Health,Pending,Credentials,CredentialNew,CredentialEdit}`; permissions `CreateWorkflow`, `ManageWorkflowCredentials`, `ViewWorkflowRuns`; execution by the workflow worker with retry/back-off; templates sandboxed (see [Workflow variables](../reference/workflow-variables) and [Workflows API](../api/workflows)).
+
+### Retry Behavior
 When a workflow step fails:
 
 1. If `Attempt Number < Max Retry Count`, the run is re-enqueued with exponential backoff delay (`Retry Backoff Base × 2^(attempt - 1)` seconds)
@@ -335,8 +361,7 @@ When a workflow step fails:
 
 The `Max Retry Count` has a server-side ceiling of **5** to prevent infinite retry abuse.
 
-## Template Sandboxing
-
+### Template Sandboxing
 Scriban templates are executed in a sandboxed environment to prevent abuse:
 
 | Protection | Limit |
@@ -348,16 +373,14 @@ Scriban templates are executed in a sandboxed environment to prevent abuse:
 | Rendered content size | 256 KB |
 | `import` / `include` built-ins | Disabled |
 
-## Dynamic Action Config Fields
-
+### Dynamic Action Config Fields
 All text fields in action configuration (email Subject, To, CC, filenames, URLs, etc.) are rendered through the Scriban template engine at execution time. You can use `{{ }}` expressions in any config field:
 
 - **Subject:** `New Call: {{ call.name }}`
 - **Filename:** `report_{{ timestamp.date }}.csv`
 - **Recipient:** `{{ user.email }}`
 
-## Security Protections
-
+### Security Protections
 ### SSRF Prevention
 
 HTTP API calls, FTP, and SFTP actions enforce:
@@ -418,8 +441,7 @@ To prevent bulk messaging abuse, the number of recipients per outbound step is c
 | Email To + CC | 1 (no CC) | 10 |
 | SMS To | 1 | 5 |
 
-## Interactions with Other Modules
-
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Dispatch & Calls** | Call Added, Call Updated, Call Closed events trigger workflows |

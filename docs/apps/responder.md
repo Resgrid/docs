@@ -102,6 +102,18 @@ Resgrid Responder is a cross-platform application designed for **individual firs
   - **Geolocation Hub**: live personnel and unit location updates
 - Auto-reconnect with token refresh
 
+### Chat & Assistant
+
+Department, station, group and incident channels, direct messages (to people or to a unit's crew), threads, reactions, urgent messages with acknowledgement, and the **Assistant** for plain-language commands. Push notifications follow the web routing matrix (mentions, DMs and urgent messages push; open channels do not). Requires the `Chat.System` feature flag. See [Chat & Assistant](../web-app/chat).
+
+### Checklists
+
+Personal and assigned checks (start-of-shift, personal gear, station duties) run from the app with photos, signatures, N/A reasons and offline progress; due checks appear on the home screen. See [Checklists](../web-app/checklists).
+
+### Field Records
+
+When `Records.Field.Responder` is enabled, members author Records in the field (run reports, training records, department definitions such as SAR clue reports or damage assessments) with offline drafts, attachments and sync; finalisation can be handed to the web app. See [Records](../web-app/records/overview).
+
 ## Settings & Configuration
 
 | Setting | Description |

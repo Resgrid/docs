@@ -126,8 +126,114 @@ html[data-theme='dark'] {
   --docusaurus-highlighted-code-line-bg: rgba(105, 105, 105, 0.3);
 }
 
+/* No backdrop-filter here: it would turn the navbar into the containing block
+   for the fixed-position mobile sidebar and clip it to the navbar height. */
 nav.navbar {
   border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+.navbar__title {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.navbar__link {
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 0.35rem 0.7rem;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.navbar__link:hover,
+.navbar__link--active {
+  background: var(--docs-color-primary-tint);
+}
+
+.navbar__link--active {
+  color: var(--docs-color-primary);
+}
+
+html[data-theme='dark'] .navbar__link--active {
+  color: var(--docs-color-primary-100);
+}
+
+/* Dropdown menus */
+.navbar__item.dropdown .navbar__link::after {
+  border-width: 0.3em 0.3em 0;
+  top: 1px;
+  margin-left: 0.35em;
+}
+
+.dropdown__menu {
+  min-width: 14rem;
+  max-height: calc(100vh - 5rem);
+  overflow-y: auto;
+  padding: 0.4rem;
+  border-radius: 12px;
+  border: 1px solid var(--docs-color-border);
+  background: var(--docs-color-background);
+  box-shadow: 0 18px 40px -18px rgba(15, 23, 42, 0.35), 0 2px 6px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme='dark'] .dropdown__menu {
+  box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.9), 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.dropdown__link {
+  display: block;
+  font-size: 14px;
+  padding: 0.45rem 0.75rem;
+  margin: 0;
+  border-radius: 8px;
+  color: var(--docs-color-text);
+}
+
+.dropdown__link:hover,
+.dropdown__link--active {
+  background: var(--docs-color-primary-tint);
+  color: var(--docs-color-primary);
+}
+
+html[data-theme='dark'] .dropdown__link:hover,
+html[data-theme='dark'] .dropdown__link--active {
+  color: var(--docs-color-primary-100);
+}
+
+/* External site link on the right (Docusaurus adds its own external-link icon) */
+.navbar-external-link {
+  color: var(--docs-color-text-100);
+}
+
+/* GitHub icon link */
+.header-github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-github-link::before {
+  content: '';
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z'/%3E%3C/svg%3E") no-repeat center / contain;
+  mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+
+/* Desktop: icon only. Mobile sidebar: icon + label. */
+.navbar__items .header-github-link .header-github-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.navbar__items .header-github-link {
+  padding: 0.35rem 0.5rem;
 }
 
 pre.prism-code {

@@ -1,11 +1,15 @@
 ---
-sidebar_position: 12
+sidebar_position: 19
 title: Calendar
 ---
 
 # Calendar
 
-The Calendar module provides event scheduling, RSVP management, recurring event support, all-day and multi-day events, and external calendar sync via iCal feeds. It is managed by the `CalendarController`.
+The **Calendar** holds trainings, meetings, public events, maintenance days, deadlines — anything with a date. Members can **RSVP / sign up**, get reminders, see it in the apps, and subscribe from their phone or Outlook calendar. Scheduled checklist checks and shifts can be overlaid.
+
+**Left menu → Calendar.** Event types (with colours) are managed under **Manage Types**; calendar sync is described in [Calendar sync](../how-tos/calendar-sync).
+
+![Calendar](/img/web-app/calendar/index.png)
 
 ## Calendar View
 
@@ -23,6 +27,8 @@ The main calendar view displays:
 ## Creating Events
 
 **Authorization:** `Schedule_Create` policy
+
+![New event](/img/web-app/calendar/new.png)
 
 ### Event Fields
 
@@ -103,6 +109,8 @@ The `RemoveFromEvent` action removes an attendee from a calendar event.
 
 Calendar item types provide categorization and color coding.
 
+![Calendar types](/img/web-app/calendar/types.png)
+
 ### Managing Types
 | Action | Authorization | Description |
 |--------|---------------|-------------|
@@ -160,8 +168,21 @@ Calendar sync can be enabled or disabled system-wide via the `CalendarConfig.ICa
 | `ICalProductId` | `-//Resgrid//Calendar//EN` | PRODID value used in generated iCal files |
 | `ICalFeedCacheDurationMinutes` | `15` | How long (in minutes) a feed response can be cached by the subscribing client |
 
-## Calendar Data Formats
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Volunteer fire** | Types: Training (blue), Business meeting (green), Public event (orange), Work detail; RSVP on trainings so instructors know numbers; reminder 24 h before. |
+| **EMS** | Types: CE class, Skills check, Vehicle service; signup sheets for CE sessions with limited seats. |
+| **SAR** | Types: Training, Callout debrief, Fitness; sign-up sheets for multi-day exercises. |
+| **Emergency management** | Types: Exercise, Public outreach, EOC briefing; share the iCal feed with partner agencies. |
+| **Security / business** | Types: Site visit, Client meeting, Toolbox talk; lock creation to supervisors via permissions. |
+
+## Technical reference
+
+`CalendarController`; routes `/User/Calendar/{Index,New,Edit,View,SignupSheet,Types,NewType,EditType,EditCheckIn}`; permission `CreateCalendarEntry`, `UseCalendarSync`; events `CalendarEventAddedEvent`, `CalendarEventUpdatedEvent`; iCal feed `api/v4/Calendar/*` (see [Calendar export API](../api/calendar-export)).
+
+### Calendar Data Formats
 ### FullCalendar v6 Format
 The `GetV2CalendarEntriesForCal` endpoint returns events in FullCalendar v6-compatible JSON format:
 - Start/end times in ISO format
@@ -199,8 +220,7 @@ The subscription feed returns all department calendar events as a single `.ics` 
 
 The `GetMapDataForItem` endpoint geocodes a calendar item's location and returns lat/lon coordinates for map display.
 
-## Data Endpoints
-
+### Data Endpoints
 | Endpoint | Purpose |
 |----------|---------|
 | `GetDepartmentCalendarItems` | All calendar items as JSON |
@@ -211,8 +231,7 @@ The `GetMapDataForItem` endpoint geocodes a calendar item's location and returns
 | `ActivateCalendarSync` | Generate a calendar sync subscription URL |
 | `RegenerateCalendarSync` | Regenerate the sync key (invalidates old URL) |
 
-## Interactions with Other Modules
-
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Groups** | Events can target specific groups |

@@ -1,195 +1,72 @@
 ---
-sidebar_position: 6
+sidebar_position: 8
 title: Units
 ---
 
 # Units
 
-Units represent vehicles, apparatus, equipment, or any tracked asset in the department. The Units module is managed by the `UnitsController`.
+A **unit** is anything that responds as one thing and has a status of its own: an engine, ambulance, ladder, brush truck, command vehicle, patrol car, delivery van, a SAR team, a hazmat team, a drone. Units have a **type**, a **station**, optional **roles** (seats) that people are assigned to, a live **status** (Available, Responding, On scene, Out of service …), GPS position from the Unit app or a [hardware tracker](unit-tracking), and their own logs and equipment.
 
-## Unit List
+![Units](/img/web-app/units/index.png)
 
-**Authorization:** `Unit_View` policy
+## Where to find it
 
-The main index displays all units organized by group/station with:
-- Unit name and type
-- Current state (with custom state colors)
-- Station assignment
-- Tree-view sidebar for group filtering
+**Left menu → Units.** Units are listed by station/group with type, current state and timestamp. Buttons: **Events**, **Logs**, **Edit**, **Delete**; select several to **set status** at once (only units sharing the same status set can be selected together). **Unit Staffing** and **New Unit** are in the toolbar.
 
-**Visibility:** Unit visibility is governed by the `CanUserViewUnitViaMatrix` authorization check, which can restrict visibility based on group membership.
+## Creating a unit
 
-## Creating Units
+![New unit](/img/web-app/units/new-unit.png)
 
-**Authorization:** `Unit_Create` policy
+| Field | Notes |
+|---|---|
+| **Name** | `Engine 1`, `Medic 12`, `Patrol 3`, `Team Alpha`. |
+| **Type** | From your [unit types](types-configuration#unit-types). Type decides which custom statuses apply and is used by run cards and coverage minimums. |
+| **Station / group** | Where it is based. Units can also be un-grouped. |
+| **Unit roles** | Seats that can be staffed: *Driver*, *Officer*, *Firefighter*, *Paramedic*, *Navigator*. Mark a role **required** so the unit shows as partially staffed until it is filled. |
+| **Custom fields** | Any [User Defined Fields](user-defined-fields) configured for units (VIN, radio ID, capacity …). |
 
-### Unit Fields
+Adding is blocked when the plan's unit limit is reached.
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| Unit Name | Yes | Must be unique within the department |
-| Unit Type | No | Classification (Engine, Ladder, Ambulance, etc.) |
-| Station Group | No | Home station assignment |
-| Custom State | No | Assign a custom unit state set |
+## Unit status
 
-### Unit Roles
+Set a unit's status from the list, the [Dashboard](dashboard), the Unit app or the API. Statuses come from the default set — Available, Delayed, Unavailable, Committed, Out of Service — or, more usually, from [custom unit statuses](custom-statuses) defined per unit type (Responding, On Scene, Transporting, At Hospital, Returning …). A status can require a **destination** (a station or an active call) and carries an optional note and location. Statuses drive dispatch availability, the map, Big Board and reports.
 
-Each unit can have defined roles (Driver, Officer, etc.):
-- Role names must be unique within the unit
-- Roles are used for staffing assignments
+## Unit staffing
 
-### Creation Process
-1. Validates name uniqueness
-2. Saves the unit and its roles
-3. Creates a Novu subscriber (for push notifications)
-4. Fires `AuditEvent` (UnitAdded) and `UnitAddedEvent`
+**Unit Staffing** assigns people to unit roles for the shift or day — who is driving Engine 1, who is the officer. Staffing is what the Unit app shows as the crew, what checklists route to, and what the *minimum staffing* gate uses in [run cards](run-cards). Members are searched by name; only active members appear.
 
-## Editing Units
+![Unit staffing](/img/web-app/units/unit-staffing.png)
 
-**Authorization:** `Unit_Update` policy + `CanUserModifyUnit` runtime check
+## Unit logs and events
 
-Updates unit name, type, station group, and roles. Fires `AuditEvent` (UnitChanged).
+- **Logs** — narrative entries for the unit (mileage, maintenance notes, activity). After Records activation these become **Unit activity** records in [Records](records/authoring).
+- **Events** — every status, staffing and location change; **Generate report** prints it; administrators can clear all statuses for a unit.
 
-## Deleting Units
+## Equipment, checklists and tracking
 
-**Authorization:** `Unit_Delete` policy + `CanUserModifyUnit` runtime check
+From a unit you also reach its **equipment** (everything issued to it in [Inventory](inventory)), its [checklists](checklists) (target type *Unit*), its [work orders](work-orders) and its **hardware GPS tracking** bindings.
 
-Deletes a unit. Fires `AuditEvent` (UnitRemoved).
+## Setup examples
 
-## Unit State Management
+| Department | Units and roles |
+|---|---|
+| **Fire** | Engine (Driver, Officer, FF ×2), Ladder, Rescue, Tender, Brush, Chief (Officer). One unit type per apparatus kind so statuses fit. |
+| **EMS** | Medic units (Driver/EMT, Attendant/Paramedic), Supervisor; statuses Responding / On scene / Transporting / At hospital / Available. |
+| **SAR** | Teams as units (Team Leader, Navigator, Medic, Searchers), UTVs and K9 as units. |
+| **Emergency management** | EOC sections as units are *not* recommended — use groups; units for MCVs, trailers, generators that move. |
+| **Security** | Patrol vehicles and foot posts as units with a single *Officer* role; statuses On patrol / At post / Responding / Break. |
+| **Delivery / transit** | One unit per vehicle with *Driver* role; statuses Loading / En route / Delivering / Returning. |
+| **Industrial ERT** | Brigade engine, hazmat trailer, rescue truck; roles per certification. |
 
-### Setting Unit State
+## Technical reference
 
-Units have a current operational state that can be set through several methods:
-
-| Method | Description |
-|--------|-------------|
-| `SetUnitState` | Set a single unit's state |
-| `SetUnitStateWithDest` | Set state with a destination (call or station) |
-| `SetUnitStateForMultiple` | Batch state change for multiple units (pipe-delimited IDs) |
-| `SetUnitStateWithDestForMultiple` | Batch state + destination for multiple units |
-
-### State Destinations
-
-When setting a unit state, a destination type determines the context:
-
-| Detail Type | Options |
-|-------------|---------|
-| None | No destination |
-| Calls | Select from active calls |
-| Stations | Select from station groups |
-| CallsAndStations | Select from either calls or stations |
-
-### Default Unit Statuses
-
-If no custom unit states are defined:
-
-| Status | Description |
-|--------|-------------|
-| Available | Ready for dispatch |
-| Delayed | Available with delay |
-| Unavailable | Not available |
-| Committed | Currently committed |
-| Out Of Service | Not operational |
-| Responding | En route |
-| On Scene | At incident |
-| Staging | At staging area |
-| Returning | Returning to station |
-| Cancelled | Response cancelled |
-| Released | Released from incident |
-| Manual | Manual status |
-| Enroute | En route to destination |
-
-### Dynamic Status Dropdowns
-
-The controller provides several endpoints for building dynamic status dropdowns:
-- `GetUnitStatusHtmlForDropdown` — HTML options based on unit type's custom states
-- `GetUnitStatusHtmlForDropdownByStateId` — HTML options by custom state ID
-- `GetUnitStatusDestinationHtmlForDropdown` — Destination dropdown based on status detail type
-- `GetUnitOptionsDropdown` — Full HTML dropdown menu with state options and destination sub-menus
-- `GetUnitOptionsDropdownForStates` — Same for multiple units with a shared state
-
-## Unit Staffing
-
-**Authorization:** `Unit_View` policy
-
-Unit staffing assigns personnel to specific unit roles:
-
-### Viewing Staffing
-Displays all units with their roles and currently assigned personnel.
-
-### Updating Staffing
-1. Select personnel for each role on each unit
-2. On save, existing active role assignments are deleted
-3. New `UnitActiveRole` entries are created from the form data
-
-### Personnel Search for Staffing
-The `GetPersonnelForUnitStaffingJson` endpoint supports search-as-you-type for finding personnel to assign, returning name, group, and role information.
-
-## Unit Logs
-
-### Creating Unit Logs
-**Authorization:** `UnitLog_Create` policy
-
-Add narrative log entries for a unit. The narrative text is HTML-decoded before storage.
-
-### Viewing Unit Logs
-**Authorization:** `UnitLog_View` policy
-
-View all log entries for a specific unit.
-
-## Unit Events & Tracking
-
-### Viewing Events
-**Authorization:** `Unit_View` policy
-
-Displays unit state change events on a map with:
-- Map centered on department coordinates
-- OSM (OpenStreetMap) integration
-- Custom state resolution for event labels
-
-### Event Data
-The `GetUnitEvents` endpoint returns:
-- All unit state events
-- Custom state name and color resolution
-- Destination names (calls or stations resolved from IDs)
-- GPS coordinates for map display
-
-### Generating Event Reports
-Select specific events to generate a report with:
-- Event details and timestamps
-- Resolved destination names (station names, call names)
-- Timeline of unit activity
-
-## ETA Calculation
-
-When viewing units for a call, the system calculates **Estimated Time of Arrival**:
-1. Gets the unit's last known GPS position
-2. Uses `IGeoService.GetEtaInSecondsAsync` to calculate travel time to the call location
-3. Displays ETA in the call dispatch grid
-
-## Data Endpoints
-
-| Endpoint | Purpose |
-|----------|---------|
-| `GetUnits` | All units (id, name, type, station) |
-| `GetUnitsForGroup` | Units for a specific group |
-| `GetUnitsAndRolesForGroup` | Units with roles for a group |
-| `GetUnitTypes` | Department unit types |
-| `GetUnitsList` | Units with current state, color, timestamp |
-| `GetUnitsForCallGrid` | Units with ETA to call location |
-| `GetActivePersonnelForUnitStaffingRoleJson` | Currently assigned person for a unit role |
-
-## Interactions with Other Modules
-
-| Module | Interaction |
-|--------|-------------|
-| **Dispatch** | Units dispatched to calls |
-| **Groups** | Units assigned to station groups |
-| **Custom Statuses** | Custom unit state definitions |
-| **Mapping** | Unit locations shown on maps |
-| **Shifts** | Unit roles used in shift requirements |
-| **Calls** | Unit destination can be a call |
-| **Reports** | Unit state history reports |
-| **Command** | Unit types used in command definitions |
-| **Novu** | Push notification integration |
+| Item | Value |
+|---|---|
+| Controller | `UnitsController`, `UnitTrackingController` |
+| Routes | `/User/Units/{Index,NewUnit,EditUnit,DeleteUnit,UnitStaffing,AddLog,ViewLogs,ViewEvents}` (`?unitId=`) |
+| Policies | `Unit_View/Create/Update/Delete` + `CanUserViewUnit`, `CanUserEditUnit` |
+| Permissions | `ViewGroupUnits`, `CanSeeUnitLocations` |
+| Data endpoints | `GetUnitsList`, `GetUnits`, `GetUnitsForGroup?groupId=`, `GetUnitsAndRolesForGroup`, `GetUnitsForCallGrid?callLat=&callLong=` (ETA), `GetUnitEvents?UnitId=`, `SetUnitState`, `SetUnitStateWithDest`, `SetUnitStateForMultiple`, `GetUnitStatusHtmlForDropdown`, `GetPersonnelForUnitStaffingJson?search=` |
+| Events | `UnitAddedEvent`, `UnitStatusEvent`, `AuditEvent` |
+| Legacy | `UnitLog` writes are blocked after Records activation (use Unit activity records) |
+| API | `api/v4/Units/*`, `api/v4/UnitStatus/*`, `api/v4/UnitLocation/*` |

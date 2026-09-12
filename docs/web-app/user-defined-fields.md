@@ -1,11 +1,13 @@
 ---
-sidebar_position: 38
+sidebar_position: 43
 title: User Defined Fields
 ---
 
 # User Defined Fields
 
 The User Defined Fields module allows departments to define, manage, and view custom data fields on **Calls**, **Personnel**, **Units**, and **Contacts**. UDF field definitions are configured by Department Admins via the UDF management page. Field values are captured in the standard create/edit forms for each entity type and are displayed on detail/view pages.
+
+![User defined fields](/img/web-app/user-defined-fields/index.png)
 
 **Authorization:** UDF definition management requires Department Admin access. Viewing and editing field values on records follows the same permissions as the parent entity.
 
@@ -194,3 +196,13 @@ For definition configuration changes (adding/editing/removing fields), filter by
 - [User Defined Fields API](../api/user-defined-fields.md) — REST API reference for programmatic access to definitions, values, and mobile schema
 - [Forms](forms.md) — Visual form builder for extending the New Call creation workflow
 - [Workflows](workflows.md) — Automations that can interact with UDF field values
+
+## Setup examples
+
+| Department type | How to set it up |
+|---|---|
+| **Fire** | Calls: Box number, Mutual aid given/received, Water used (gal). Units: VIN, Pump capacity, Radio ID. Personnel: Pager number, Shirt size. |
+| **EMS** | Calls: Determinant code, Transport destination; Personnel: Licence number. |
+| **SAR** | Calls: Subject age, Point last seen, Mission number; Personnel: Pack weight limit. |
+| **Security** | Calls: Client PO number, Site code; Units: Plate number. |
+| **Records** | Extend locked record types (Run, NERIS) with department fields — never sent in standardized exports. |

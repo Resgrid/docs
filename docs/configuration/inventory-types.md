@@ -4,6 +4,10 @@ sidebar_position: 20
 
 # Inventory Types
 
+:::caution Legacy page
+This page describes the original inventory *types* screen. Since the 2026 inventory modernization the **Inventory** module is a full workspace — items with bulk or serialized tracking, locations, lots with expiry, assets, kits, issuance, counts, alerts, purchasing and reports. The old *Manage Types* link now opens the **Items** tab of that workspace, and existing types and balances are imported the first time an administrator presses **Initialize inventory**. Read [Web application → Inventory](../web-app/inventory) for the current module; the notes below remain for departments still on the legacy screens.
+:::
+
 Inventory Types in Resgrid define the categories of items your department tracks in the inventory system. Each type represents a class of supply or equipment — such as "SCBA Bottles", "Medical Supplies", "Hose Sections", or "Batteries" — and includes configuration for units of measure and expiration tracking.
 
 ## Why Inventory Types Matter

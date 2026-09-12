@@ -1,11 +1,15 @@
 ---
-sidebar_position: 10
+sidebar_position: 13
 title: Mapping
 ---
 
 # Mapping
 
-The Mapping module provides interactive maps for visualizing department resources, calls, and geographic data. It is managed by the `MappingController`.
+The **Mapping** page is the live operational map: every unit and person with a recent location, active calls, stations, hydrants, points of interest and your own map layers. Use it to see who is where, route a unit to a call, and keep reference layers (districts, water sources, staging areas) at hand.
+
+**Left menu → Mapping.** Layers and points of interest are managed from the buttons on the map page; map behaviour (how long a location stays on the map) is under **Department Settings → Mapping**.
+
+![Mapping](/img/web-app/mapping/index.png)
 
 ## Map View
 
@@ -33,6 +37,8 @@ Personnel location visibility is controlled by the `CanSeePersonnelLocations` pe
 
 Map layers provide custom GeoJSON overlays on the map.
 
+![Map layers](/img/web-app/mapping/layers.png)
+
 ### Creating Layers
 
 Layers are defined using GeoJSON `FeatureCollection` format and stored in MongoDB.
@@ -53,6 +59,8 @@ Layers are **soft-deleted** (`IsDeleted = true`) rather than permanently removed
 ## Points of Interest (POIs)
 
 ### POI Types
+
+![Points of interest](/img/web-app/mapping/pois.png)
 
 Create categories for points of interest with custom markers and images.
 
@@ -89,8 +97,22 @@ Custom Maps allow departments to upload building floor plans, venue layouts, sch
 
 On the main map view, use the **Custom Maps** layer control (alongside Layers, POIs, and Geofences) to toggle custom map overlays. When one or more custom maps are enabled, a **Building Selector** sidebar appears for switching between maps and floors.
 
-## Data Endpoints
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Fire** | POI types: Hydrants (or use the Records hydrant layer), Knox boxes, Dry hydrants/draft sites, Staging areas; layers: district boundaries (KML from the county GIS), water main map. |
+| **EMS** | POI types: Hospitals (with ED phone numbers in the description), Landing zones, Nursing homes; destinations on calls point at hospital POIs. |
+| **SAR** | Layers: trail systems, search segments (GeoJSON from CalTopo/SARTopo), cell coverage; POI types: trailheads, huts, helispots. Location TTL 240+ minutes. |
+| **Emergency management** | Layers: flood zones, evacuation zones, shelters; POI types: shelters, PODs, fuel sites, sandbag stations. |
+| **Security** | POI types: Client sites, Gates, Cameras; personnel location TTL 15 minutes so stale markers drop. |
+| **Delivery / transit** | Depots and customer sites as POIs; routes drawn with the Routes module; vehicle trackers for live positions. |
+
+## Technical reference
+
+`MappingController`; routes `/User/Mapping/{Index,Layers,NewLayer,EditLayer,POIs,AddPOIType,AddPOI,EditPOI,ImportPOIs,LiveRouting,StationRouting}`; data via `api/v4/Mapping/GetMapDataAndMarkers` and `GetMayLayers` (web component `rg-map`). Permissions `CanSeePersonnelLocations`, `CanSeeUnitLocations` (group-lockable). Map provider (Mapbox / Leaflet-OSM / Google) is an installation setting.
+
+### Data Endpoints
 | Endpoint | Purpose |
 |----------|---------|
 | `GetMapData` | All map markers and geofences based on flag settings |
@@ -98,8 +120,7 @@ On the main map view, use the **Custom Maps** layer control (alongside Layers, P
 | `GetPoisForType` | POI list for a specific type |
 | `GetCustomMaps` | Active custom maps with floor metadata for the overlay control |
 
-## Interactions with Other Modules
-
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Calls** | Call locations displayed as markers; zone names used as call locations from custom maps |

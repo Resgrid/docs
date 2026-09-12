@@ -1,11 +1,13 @@
 ---
-sidebar_position: 40
+sidebar_position: 6
 title: Call Check-In Timers
 ---
 
 # Call Check-In Timers
 
 The Call Check-In Timer system is an accountability and safety feature that tracks whether personnel, units, or operational roles have checked in within required time intervals while a call (incident) is active. Timers visually escalate through **Green / Warning / Critical** states, helping incident commanders maintain situational awareness and comply with safety protocols such as NFPA 1561 PAR checks.
+
+![Check-in timers on a call](/img/web-app/dispatch/view-call.png)
 
 **Navigation:** Dispatch → View Call → Check-In Timers panel
 
@@ -182,8 +184,17 @@ All check-in timer configuration changes are recorded in the department's audit 
 
 ---
 
-## Interactions with Other Modules
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Fire** | PAR every 20 minutes on Structure fire types; Rehab timer 45 minutes; IC timer 15 minutes. |
+| **Hazmat / industrial** | Hazmat exposure timer per unit type with warning at 20 of 30 minutes. |
+| **SAR** | Sector rotation timers of 2 hours for field teams; check-ins with GPS from the Unit app. |
+
+## Technical reference
+
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Dispatch & Calls** | Check-in timers are enabled on calls at creation or update; timer statuses display on the View Call page |
