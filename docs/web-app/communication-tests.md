@@ -1,11 +1,13 @@
 ---
-sidebar_position: 39
+sidebar_position: 30
 title: Communication Tests
 ---
 
 # Communication Tests
 
 The Communication Tests module allows department administrators to verify that communication channels (SMS, Email, Voice, and Push Notifications) are working correctly for all members of their department. It answers the question: *"If we needed to reach everyone right now, could we?"*
+
+![Communication tests](/img/web-app/communication-tests/index.png)
 
 Admins define tests, run them on-demand or on a schedule, and then review per-user, per-channel reports showing who was reachable and who responded.
 
@@ -223,3 +225,11 @@ The Communication Tests feature is also available via the Resgrid API v4.
 :::note
 The `EmailConfirm` and `VoiceWebhook` endpoints are publicly accessible (no authentication required) since they are called by end-users clicking email links or by telephony providers delivering DTMF responses.
 :::
+
+## Setup examples
+
+| Department type | How to set it up |
+|---|---|
+| **Volunteer fire** | Monthly all-call test on the first Monday at 18:30 (push + SMS + email), 15-minute response window; review non-responders and fix their contact verification. |
+| **EMS / career** | Quarterly test of voice alerting only. |
+| **CERT / SAR** | Before each season: full-channel test to every member; follow up unreachable members. |

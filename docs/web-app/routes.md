@@ -1,11 +1,13 @@
 ---
-sidebar_position: 41
+sidebar_position: 16
 title: Routes
 ---
 
 # Routes
 
 The Routes module provides route planning, execution tracking, and deviation monitoring for units (vehicles/apparatus). It allows departments to define multi-stop routes, schedule them on a recurring basis, track real-time execution by units, and detect deviations from planned paths. The system integrates with Mapbox for route geometry and turn-by-turn navigation.
+
+![Routes](/img/web-app/routes/index.png)
 
 **Navigation:** Department Menu → Routes
 
@@ -226,3 +228,13 @@ Access to Routes features is controlled by four permission levels:
 | Route Delete | Delete route plans |
 
 All data is scoped to the authenticated user's department — users can only see and manage their own department's routes.
+
+## Setup examples
+
+| Department type | How to set it up |
+|---|---|
+| **Fire** | Hydrant inspection routes per district; pre-plan walk-through routes. |
+| **EMS / transport** | Inter-facility transfer runs with linked calls per stop. |
+| **Delivery** | Daily delivery routes with stops, dwell times and customer contacts; drivers run them in the Unit app. |
+| **Transit** | Bus routes with timed stops; end-of-day summary as a Record. |
+| **Security** | Patrol routes with checkpoint geofences. |

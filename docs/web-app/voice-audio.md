@@ -1,11 +1,13 @@
 ---
-sidebar_position: 33
+sidebar_position: 36
 title: Voice & Audio
 ---
 
 # Voice & Audio
 
-The Voice module manages VoIP voice channels and audio streams for department communication. It is managed by the `VoiceController`.
+The Voice module manages VoIP voice channels and audio streams for department communication.
+
+![Voice channels](/img/web-app/voice/index.png)
 
 :::note Plan-Gated Feature
 Voice capability is checked at every action via `CanDepartmentUseVoiceAsync`. This feature requires an appropriate subscription plan or PTT addon.
@@ -73,8 +75,18 @@ Modify stream name and URL. Validates department ownership.
 
 Removes an audio stream. Validates department ownership.
 
-## Interactions with Other Modules
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Fire** | PTT channels: Dispatch, Fireground 1/2, Command; audio streams: the county dispatch scanner feed. |
+| **SAR** | Channels per team plus Base; use PTT where radio coverage is poor. |
+| **Security** | Channels per site; supervisors channel. |
+| **Events** | Temporary channels per event. |
+
+## Technical reference
+
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Subscription** | PTT addon enables voice features |

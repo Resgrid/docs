@@ -1,11 +1,13 @@
 ---
-sidebar_position: 27
+sidebar_position: 46
 title: Department Links
 ---
 
 # Department Links
 
 Department Links enable inter-department data sharing, allowing linked departments to view each other's calls, units, and personnel. The module is managed by the `LinksController`.
+
+![Department links](/img/web-app/links/index.png)
 
 ## Overview
 
@@ -75,16 +77,24 @@ Comprehensive personnel view from the linked department:
 - Role assignments
 - Sorted by action weight then name
 
-## Data Endpoints
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Mutual aid** | Link neighbouring departments to share active calls and unit statuses both ways. |
+| **Central dispatch centre** | A dispatch department links to every agency it dispatches for; agencies share personnel/unit status back. |
+| **County EM** | Links to every fire/EMS agency for the EOC map. |
+
+## Technical reference
+
+### Data Endpoints
 | Endpoint | Purpose |
 |----------|---------|
 | `GetActiveCallsList` | Active calls from linked department |
 | `GetUnitsList` | Units from linked department |
 | `GetPersonnelList` | Personnel from linked department |
 
-## Interactions with Other Modules
-
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Subscription** | Plan limits control link availability |

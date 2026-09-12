@@ -1,11 +1,13 @@
 ---
-sidebar_position: 25
+sidebar_position: 40
 title: Templates
 ---
 
 # Templates
 
-The Templates module provides call quick templates and call note autofills that streamline call creation. It is managed by the `TemplatesController`.
+The Templates module provides call quick templates and call note autofills that streamline call creation.
+
+![Call templates](/img/web-app/templates/index.png)
 
 ## Call Quick Templates
 
@@ -66,8 +68,18 @@ Modify name, data text, and sort order.
 
 Validates department ownership.
 
-## Interactions with Other Modules
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Fire** | Templates: Structure fire, Vehicle fire, MVA, Alarm — each pre-selecting type, priority and dispatch targets. |
+| **EMS** | Templates per determinant level with the right unit type. |
+| **Security** | Alarm response, Escort, Medical templates; call-note templates for standard dispositions. |
+| **Delivery** | Delivery, Pickup templates with destination fields. |
+
+## Technical reference
+
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Dispatch** | Templates pre-fill call form; autofills insert into call notes |

@@ -1,72 +1,24 @@
 ---
-sidebar_position: 24
-title: Forms
+sidebar_position: 42
+title: Forms (retired)
 ---
 
 # Forms
 
-The Forms module provides a custom form builder that integrates with the dispatch workflow. It is managed by the `FormsController`.
+:::caution Module retired
+The original **Forms** module (a drag-and-drop form builder whose forms were attached to calls) is **switched off** in current Resgrid releases. Its pages return *not found*, no new form templates can be created, and no new form data is captured. Form data that was captured in the past still renders **read-only** on the call detail page so history is preserved.
+:::
 
-## Form List
+## What to use instead
 
-**Authorization:** `Forms_View` policy
+| Need | Use |
+|---|---|
+| Extra fields on calls, units, personnel or records | [User Defined Fields](user-defined-fields) — typed fields with visibility rules, validation, mobile and report visibility. |
+| Structured operational reports with sections, rules, review and signatures | [Records](records/overview) — design a department definition from a template (patrol log, incident report, near-miss, damage assessment, ICS forms …) or from scratch. |
+| Checks that must be answered item by item, with pass/fail and evidence | [Checklists](checklists). |
+| Simple polls or acknowledgements | [Messages](messages) with responses. |
+| Automations that used to fire on form submission | [Workflows](workflows) on *Record finalized*, *Checklist completed* or *Call* events. |
 
-Displays all non-deleted forms for the department.
+## Technical reference
 
-## Creating Forms
-
-**Authorization:** `Forms_Create` policy
-
-### Form Fields
-
-| Field | Required | Description |
-|-------|----------|-------------|
-| Name | Yes | Form name |
-| Type | Yes | Form type (from `FormType` enum) |
-| Data | Yes | Form definition/structure data |
-
-### Form Automations
-
-Forms support automation rules that trigger actions based on field values:
-
-| Automation Field | Description |
-|-----------------|-------------|
-| Trigger Field | Which form field to watch |
-| Trigger Value | What value triggers the automation |
-| Operation Type | What action to perform |
-| Operation Value | Parameter for the action |
-
-**Example:** Automatically set call priority to "High" when a form field "Severity" equals "Critical."
-
-Automations are parsed from form keys:
-- `callAutomationTriggerField_*`
-- `callAutomationTriggerValue_*`
-- `callAutomationOperationType_*`
-- `callAutomationOperationValue_*`
-
-## Viewing Forms
-
-**Authorization:** `Forms_View` policy
-
-Displays form details. Validates department ownership.
-
-## Enabling/Disabling Forms
-
-**Authorization:** `Forms_Update` policy
-
-Forms can be toggled active/inactive without deletion:
-- **Enable** — Makes the form available for use
-- **Disable** — Hides the form from selection
-
-## Deleting Forms
-
-**Authorization:** `Forms_Delete` policy
-
-Soft-deletes the form. Validates department ownership.
-
-## Interactions with Other Modules
-
-| Module | Interaction |
-|--------|-------------|
-| **Dispatch** | Forms attached to calls; automations affect call properties |
-| **Types** | Form types define categorization |
+`FormsController` overrides `OnActionExecuting` to return `NotFound()` for every action; the `Forms` and `FormData` tables and the `FormSubmittedEvent` remain in the codebase so the module can be re-enabled by removing that override. `CallData` still renders stored form data on `Dispatch/ViewCall`.

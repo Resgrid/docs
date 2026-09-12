@@ -1,11 +1,15 @@
 ---
-sidebar_position: 17
+sidebar_position: 25
 title: Trainings
 ---
 
 # Trainings
 
-The Trainings module enables creation and delivery of training materials with quiz assessment capabilities. It is managed by the `TrainingsController`.
+**Trainings** is a lightweight learning-management module: write or attach course material (text, files, links to videos), add **quiz questions**, assign the training to members or roles with a due date, and track who has completed it and their scores. Completed trainings can also feed certification records.
+
+**Left menu → Trainings.** Members take assigned trainings from the web or the Responder app.
+
+![Trainings](/img/web-app/trainings/index.png)
 
 ## Training List
 
@@ -14,6 +18,8 @@ Displays all trainings for the department.
 ## Creating Trainings
 
 ### Training Fields
+
+![New training](/img/web-app/trainings/new.png)
 
 | Field | Required | Description |
 |-------|----------|-------------|
@@ -50,6 +56,8 @@ Trainings can include a quiz with:
 When a user views a training:
 - The content is displayed (title, description, text, attachments)
 - The training is **automatically marked as viewed** for the current user
+
+![Training detail](/img/web-app/trainings/view.png)
 
 This enables view tracking for compliance and reporting.
 
@@ -89,8 +97,21 @@ The `Report` action generates a training participation report showing:
 - Quiz results
 - Group assignments for each user
 
-## Interactions with Other Modules
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Volunteer fire** | Annual refreshers (SCBA, bloodborne pathogens, driver safety) with a 5-question quiz each; assign to the *Firefighter* role with a 30-day due date; report to the training officer. |
+| **EMS** | Protocol updates as trainings with an acknowledgement quiz; CE tracking through certifications. |
+| **SAR** | Navigation and radio trainings for new members; link to external video courses. |
+| **CERT** | Module refreshers between in-person classes; completion required before deployment eligibility. |
+| **Security / industrial** | Post-order acknowledgements, hazard communication, LOTO awareness — with quiz pass mark 80 %. |
+
+## Technical reference
+
+`TrainingsController`; routes `/User/Trainings/{Index,New,View,Edit,Quiz,Report,ResetUserTraining,DeleteTraining}`; permission `CreateTraining`; events `TrainingAddedEvent`, `TrainingUpdatedEvent`; module switch `TrainingDisabled`.
+
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Personnel** | Training assignment targets |

@@ -1,11 +1,15 @@
 ---
-sidebar_position: 19
+sidebar_position: 12
 title: Contacts
 ---
 
 # Contacts
 
-The Contacts module manages external contacts (people and organizations) with category organization, notes, and address management. It is managed by the `ContactsController`.
+**Contacts** are the people and organisations *outside* your department that you deal with on calls and in business: property owners, key-holders, businesses, mutual-aid agencies, vendors, patients' next of kin, clients. Contacts carry addresses, phone numbers, **notes** (including *alert notes* that pop up when the contact is attached to a call), attachments, categories and — for premises — legacy **pre-plan** data.
+
+**Left menu → Contacts.** Categories and contact note types are managed from the page and under **Department → Types**. Suppliers in [Inventory purchasing](inventory#purchasing) and occupancies in [Records](records/occupancies) link to contacts.
+
+![Contacts](/img/web-app/contacts/index.png)
 
 ## Contact List
 
@@ -28,6 +32,8 @@ The system supports two contact types:
 ## Creating Contacts
 
 **Authorization:** `Contacts_Create` policy
+
+![Add contact](/img/web-app/contacts/add.png)
 
 ### Contact Fields
 
@@ -81,6 +87,8 @@ Creates `AuditEvent` on deletion.
 
 ### Adding Notes
 
+![Contact detail](/img/web-app/contacts/view.png)
+
 Notes can be added to contacts with:
 
 | Field | Description |
@@ -122,8 +130,22 @@ The `GetCallsJson` endpoint returns all calls linked to a contact with:
 - Priority name and color
 - Timestamp
 
-## Interactions with Other Modules
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Fire** | Categories: Key holders, Businesses, Mutual aid, Vendors; alert notes for aggressive dogs, oxygen in use, access issues; pre-plan data moves to Records occupancies when enabled. |
+| **EMS** | Categories: Facilities (nursing homes with charge-nurse numbers), Hospitals, Frequent patients (with ADP enrolled). |
+| **SAR** | Categories: Agencies (sheriff, park service), Landowners, Helicopter providers, Subjects (restricted). |
+| **Emergency management** | Categories: ESF partners, Shelter operators, Utilities, Media; distribution lists built from contacts. |
+| **Security** | Categories: Clients, Site contacts, Alarm companies, Police liaison; per-client visibility via group scoping. |
+| **Delivery / transit** | Customers and stops as contacts; link to route stops. |
+
+## Technical reference
+
+`ContactsController`; routes `/User/Contacts/{Index,Add,View,Edit,Delete,Categories,AddCategory,EditCategory,Preplan,Attachments}?contactId=`; permissions `ContactView`, `ContactEdit`, `ContactDelete`, `ViewProtectedContactData`; contact details are ADP-protected fields.
+
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Dispatch** | Contacts linked to calls; alert notes displayed during dispatch |

@@ -1,11 +1,13 @@
 ---
-sidebar_position: 28
+sidebar_position: 34
 title: Distribution Lists
 ---
 
 # Distribution Lists
 
 Distribution Lists manage email distribution groups for the department. The module is managed by the `DistributionListsController`.
+
+![Distribution lists](/img/web-app/distribution-lists/index.png)
 
 ## Distribution List Management
 
@@ -53,8 +55,17 @@ Toggle a list's active state via `SetListStatus`:
 | `ValidateAddress` | Check if an email address is already in use by another list |
 | `GetMembersForList` | Get member user IDs for a list |
 
-## Interactions with Other Modules
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Fire** | `officers@` and `members@` lists so any member can email the group; `board@` for the auxiliary. |
+| **Emergency management** | `esf-leads@`, `shelters@` lists including external contacts. |
+| **Business** | `site-alpha@` per client site. |
+
+## Technical reference
+
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Personnel** | Members are department personnel |

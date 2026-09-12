@@ -4,6 +4,10 @@ sidebar_position: 2
 
 # Setup Department
 
+:::tip Recipes by organization type
+This page is the generic, screen-by-screen walk-through. For concrete values — which unit types, call types, roles, statuses, run cards, checklists and records to create for a **fire department, EMS agency, SAR team, emergency management office, incident management team, CERT program, security company, industrial ERT, delivery/transit operator or multi-agency dispatch centre** — see the [Setup guides by organization](../setup-guides/overview).
+:::
+
 This guide walks you through every step needed to get your Resgrid department configured and ready for day-to-day use. Work through the sections in order — each one builds on the previous.
 
 ## Before You Begin

@@ -1,11 +1,15 @@
 ---
-sidebar_position: 20
+sidebar_position: 33
 title: Notifications
 ---
 
 # Notifications
 
-The Notifications module configures automated notification rules that trigger based on department events. It is managed by the `NotificationsController`.
+**Notifications** are the department's automatic alerts about *readiness* rather than incidents: *fewer than two drivers available*, *Engine 1 out of service*, *a member's staffing changed*, *inventory low*, *checklist missed*. Each notification picks an event, a threshold and who to tell (everyone, a group, a role, specific people), and delivers through push, SMS and email.
+
+**Department menu → Notifications.** Personal notification *preferences* (which channels you receive) are on your [profile](profile-account#notifications).
+
+![Notifications](/img/web-app/notifications/index.png)
 
 ## Notification List
 
@@ -17,6 +21,8 @@ Displays all configured notification rules with resolved human-readable descript
 ## Creating Notifications
 
 ### Notification Targeting
+
+![New notification](/img/web-app/notifications/new.png)
 
 Notifications can target:
 
@@ -60,8 +66,21 @@ The notification list performs extensive resolution to display human-readable in
 - Event type codes → Descriptive text
 - Unit type IDs → Unit type names
 
-## Interactions with Other Modules
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Volunteer fire** | *Role availability below N* for Driver/Operator (2) and Interior FF (4) → officers; *Unit status changed to Out of service* → chief and mechanic. |
+| **EMS** | *Unit availability below 1* per station → supervisor; *Inventory alerts* → logistics role. |
+| **SAR** | *Personnel staffing changed* summary → coordinator daily; *Group availability below N* for Technical team. |
+| **Emergency management** | *Weather alert* notifications by zone; *Document added* to the EOP category → all section chiefs. |
+| **Security** | *Unit status changed* (patrol out of service) → operations centre; *Checklist missed* → site supervisor. |
+
+## Technical reference
+
+`NotificationsController`; routes `/User/Notifications/{Index,New,Delete}`; model `DepartmentNotification` (event type, threshold, target group/role/users, channels); evaluated by the notification worker on status/staffing/unit/inventory/checklist events.
+
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Personnel Roles** | Role-based availability alerts |

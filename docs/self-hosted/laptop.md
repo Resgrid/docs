@@ -2,147 +2,137 @@
 sidebar_position: 3
 ---
 
-# Offline Laptop
+# Windows laptop or desktop
 
-In this guide we will get Resgrid up in running via Docker Compose for local (single user) use on a Windows computer.
+The `laptop` branch runs the current Resgrid Core stack on one Windows computer with Docker Desktop. Use it for local development, evaluation, training, or a single-computer field deployment. It is not a redundant or multi-user production architecture.
 
-:::danger Warranty
-Resgrid's self hosted version is provided with no warranty, no guarantee of suitability and limited free support (Github Issues and Discussions only).
-Updates for our self hosted version are infrequent compared to our hosted version due to the additional cost in time to create those releases. We try 
-our best to ensure an easy and working system that doesn't require a lot of tweaking, but due to it's complexity that is difficult.
-:::
+Default published ports bind to `127.0.0.1`, so other computers cannot connect unless you intentionally change the Compose bindings and Windows firewall rules.
 
-## Use Case
+## Requirements
 
-This setup is intended to get Resgrid up and running on a single-user environment, like a laptop that will not be connected to or have internet access. No external users (i.e. from another machine or mobile device) will be connecting to this installation. For example you are coordinate rescue and recovery efforts for a hurricane from a location on your laptop, you are communicate with your field teams only via a radio as there is no power or cell phone data/WiFi Internet. 
+- 64-bit Windows 10 or Windows 11 with virtualization enabled.
+- Docker Desktop using Linux containers and the WSL2 backend.
+- PowerShell 7 or Windows PowerShell 5.1.
+- Git for Windows.
+- At least 4 CPU cores, 16 GB RAM, and 20 GB free storage.
+- Administrator access once to edit the Windows hosts file.
 
-## System Requirements
+For a field computer, use encrypted storage and keep backups on separate encrypted removable media. There is no automatic failover if the computer or its storage is damaged.
 
-1.) Windows 10 or Windows 11 Laptop with WSL2 (Windows Subsystem for Linux)
-2.) Docker Desktop with WSL2 Enabled
-3.) Enough HDD Space to handle Mapping Data (if you want a large region like North America you'll need 30+ GB)
-4.) 4 or more Core Processor
-5.) 16GB or more of RAM
+## Install from PowerShell
 
-## Setup Notice
+Start Docker Desktop, then open PowerShell:
 
-There is no redundancy, backup or fail-over in this setup. Everything runs on the local computer and is not intended to be accessed by anyone off of the local computer. If the local computer gets damaged this could result in loss of data. It's recommend that you have a USB drive that you can backup the database to (ideally the whole resgrid directory) periodically during the operation.
-
-## Prerequisites & Dependencies
-
-1. Update Windows
-2. Install WSL2 and Ubuntu 22.04 <https://documentation.ubuntu.com/wsl/en/latest/guides/install-ubuntu-wsl2/>
-3. Open up your Ubuntu 22.04 instance and finalize the setup (set password).
-4. Install Docker <https://docs.docker.com/desktop/wsl/> and enable WSL2 backend.
-
-## Docker Compose Setup
-
-1. Open Notepad as Administrator and open C:\Windows\System32\drivers\etc\hosts file.
-
-2. Add the following lines to the hosts file and save.
-```
-127.0.0.1      rg.mylocal
-127.0.0.1      rgapi.mylocal
-127.0.0.1      rgevents.mylocal
-127.0.0.1      rgtile.mylocal
+```powershell
+git clone --branch laptop https://github.com/Resgrid/resgrid-setup.git resgrid
+Set-Location .\resgrid
+Set-ExecutionPolicy -Scope Process Bypass
+.\setup.ps1
 ```
 
-If you get a permissions error you didn't open up Notepad as Administrator, also don't use any RichText editor (Wordpad, Word, etc).
+`setup.ps1` checks Docker Desktop, generates unique infrastructure passwords and Resgrid encryption keys, creates new OpenIddict certificates with .NET, writes `.env`, creates data directories, and starts Compose.
 
-3. Navigate to Geofabrik <https://download.geofabrik.de/> and download the .osm.pbf file the region you will be operating in. 
+To configure without pulling or starting images:
 
-It is not recommend to try and pull an entire Sub Region (i.e. North America) as that will take quite a long time to import into the database. Instead it's recommended to import and additional Sub (Sub) Region, like a US State (i.e. Florida) or a Special Sub Region if they are available (i.e. US South). 
-
-4. Using the Windows File Explorer move the osm.pbf file into Linux (left side bar) Ubuntu-22.04, home and your username folder. This will put it in your home directory.
-
-5. Start your Ubuntu-22.04 WSL2 Instance so the command prompt is visible.
-
-6. Clone the setup scripts for the Laptop compose:
-
-```bash
-git clone https://github.com/Resgrid/resgrid-setup.git -b laptop resgrid
+```powershell
+.\setup.ps1 -NoStart
 ```
 
-You should now have a folder called resgrid in your current directory.
+Custom local hostnames:
 
-7. Open the resgrid directory:
-
-```bash
-cd resgrid
+```powershell
+.\setup.ps1 `
+  -WebHost dispatch.mylocal `
+  -ApiHost dispatchapi.mylocal `
+  -EventsHost dispatchevents.mylocal
 ```
 
-8. Docker Hub Authentication
+If you prefer WSL2, run `bash setup.sh` from the checkout; the script defaults to downloading the `laptop` branch.
 
-Resgrid container images are hosted on Docker Hub under the `dhi.io` repository. You will need a Docker Hub account (free) to pull the images. If you don't have one, create a free account at [https://hub.docker.com](https://hub.docker.com).
+## Configure local name resolution
 
-Once you have an account, log in from your terminal before running the containers:
+Open Notepad as Administrator and edit:
 
-```bash
-docker login dhi.io
+```text
+C:\Windows\System32\drivers\etc\hosts
 ```
 
-Enter your Docker Hub username and password when prompted.
+Add the line printed by setup. With default names:
 
-9. Import the osm.pbf you downloaded and placed in your home directory into the tile server. Change /home/yourname/yourregion.osm.pbf in the command below to the correct home directory name (yourname) and the name of the region file you downloaded (yourregion).
-
-```bash
-docker run \
-    -v /home/yourname/yourregion.osm.pbf:/data/region.osm.pbf \
-    -v ./docker-data/osm:/data/database/ \
-    overv/openstreetmap-tile-server \
-    import
+```text
+127.0.0.1  rg.mylocal rgapi.mylocal rgevents.mylocal
 ```
 
-If the container exits without errors, then your data has been successfully imported and you are now ready to run the tile server. If you selected a very large region, like North America this process can take days.
+Open these URLs and accept Caddy's internal certificate for each hostname:
 
+- `https://rg.mylocal`
+- `https://rgapi.mylocal/api/health/getcurrent`
+- `https://rgevents.mylocal`
 
-## Run the Docker Compose
+The web client cannot use the API until the API certificate is accepted or Caddy's local root certificate is installed in Windows Trusted Root Certification Authorities.
 
-Once you have setup the environment variables you can now run the docker compose file in the resgrid directory:
+## Verify first start
 
-```bash
-docker compose up
+The worker creates and migrates the main, OIDC, worker, and document PostgreSQL databases:
+
+```powershell
+docker compose ps
+docker compose logs -f worker
 ```
 
-That will run the interactive version of the containers, Ctrl+C will stop the containers.
+When migrations settle, open `https://rg.mylocal` and use **Sign Up**. There is no shared default administrator login.
 
-If you want to run the containers in the background, use the -d option:
+Local diagnostic ports are:
 
-```bash
+| Service | Address |
+|---|---|
+| Web | `http://127.0.0.1:5151` |
+| API | `http://127.0.0.1:5152` |
+| Events | `http://127.0.0.1:5153` |
+| TTS | `http://127.0.0.1:5154` |
+| MCP | `http://127.0.0.1:5155/mcp` |
+| RabbitMQ management | `http://127.0.0.1:5160` |
+
+MCP's transport endpoint is unauthenticated; the loopback binding is intentional.
+
+## Optional services
+
+Tracker gateway:
+
+```powershell
+docker compose --profile tracking up -d
+```
+
+Configure `RESGRID__UnitTrackingConfig__*` first. Tracker ports listen on network interfaces so physical devices can connect; review Windows firewall rules.
+
+Inbound-email relay:
+
+```powershell
+docker compose --profile relay up -d
+```
+
+Configure the relay department and mail domains first. The SMTP listener has no authentication or TLS and opens port 25.
+
+## Update
+
+```powershell
+docker compose pull
 docker compose up -d
+docker compose logs -f worker
 ```
 
-The Resgrid system will take about 5 minutes to start up fully, this is due to the startup order of the containers. The last container to startup will be the web container, once that one is ready, you can now access the system.
+Do not remove every Docker image; that affects unrelated local projects and is unnecessary.
 
+## Backup and rollback
 
-## Initial Web Login
+Back up `.env` and the `docker-data` directory to separate encrypted storage. `.env` contains encryption and OIDC material required by existing data. Create a consistent database dump:
 
-Open up your web browser and navigate to **https://rg.mylocal**, **https://rgapi.mylocal**, **https://rgevents.mylocal** and **https://rgtile.mylocal**. You will need to accept the self-signed cert for each url and add exceptions in the browsers. You can follow this guide <https://it.nmu.edu/docs/adding-security-exception-your-browser> to add those exceptions.
-
-Once you have completed the steps above you will be able to log into the web applications user interface. Open up a web browser and navigate to **https://rg.mylocal**, you will then be prompted by the login screen. Your default administrator credentials are **admin/changeme1234**. Once you log into the system it’s recommended that you change your admin password from the Edit Profile page by clicking on the Administrator name in the upper left hand corner.
-
-## Updating
-
-To update Resgrid you'll need to stop the system, clear the current containers and restart.
-
-Stop all running containers.
-
-```bash
-docker compose down
+```powershell
+docker compose exec -T db pg_dumpall -U resgrid | Out-File -Encoding utf8 .\resgrid-backup.sql
 ```
 
-Remove all cached images (to ensure we get new ones).
+Before upgrading, record the current image digests and keep the pre-upgrade dump. Rolling back containers alone may be unsafe after worker schema migrations; restore the compatible database dump and matching `.env` before starting older images.
 
-```bash
-docker rmi -f $(docker images -aq)
-```
+## Mapping and offline use
 
-Restart the containers and they will pull new containers.
-
-```bash
-docker compose up -d
-```
-
-## What's Next?
-
-This Quick Start gets the system running via local host, but not externally or within your network. You will need to create DNS entries in your internal or external DNS server to point to the server that is running the containers. It's also recommend you change some default values in the resgrid.env file to ensure proper security.
+The default Leaflet setting uses the public OpenStreetMap tile service for initial testing only. It is not an offline map and is not intended for bulk or operational use. Configure an approved map provider or a separately prepared local tile service before deploying the laptop without internet access.

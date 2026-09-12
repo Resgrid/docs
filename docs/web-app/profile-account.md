@@ -1,15 +1,21 @@
 ---
-sidebar_position: 32
+sidebar_position: 50
 title: Profile & Account
 ---
 
 # Profile & Account
 
-The Profile module manages user-specific settings including scheduled reports, staffing schedules, certifications, department membership, and avatars. It is managed by the `ProfileController`. Account deletion is handled by the `AccountController`.
+Your **profile** is where you keep your own details current — name, phone numbers, addresses, avatar, language, time zone — and decide **how Resgrid reaches you**: which channels for calls, messages and notifications, quiet hours, and verified contact methods. It also holds your **certifications**, **staffing schedules** (automatic status changes), **scheduled report deliveries**, and the departments you belong to.
+
+**Profile dropdown → Profile.** Administrators can open any member's profile from Personnel.
+
+![Edit profile](/img/web-app/home/edit-profile.png)
 
 ## Scheduled Reports
 
 **Authorization:** `Profile_View` / `Profile_Update` policies
+
+![Report delivery](/img/web-app/profile/reporting.png)
 
 ### Viewing Scheduled Reports
 Lists configured scheduled report deliveries with type, active status, day schedule, and time.
@@ -31,6 +37,8 @@ Modify existing report delivery schedules.
 ## Staffing Schedules
 
 ### Creating Staffing Schedules
+
+![Staffing schedules](/img/web-app/profile/staffing-schedules.png)
 
 **Authorization:** `Profile_View` / `Profile_Update` policies
 
@@ -58,6 +66,8 @@ Lists all staffing schedules for a user with custom state name resolution.
 
 ### Viewing Certifications
 **Authorization:** `Profile_View` policy
+
+![Certifications](/img/web-app/profile/certifications.png)
 
 Lists all certifications for a user.
 
@@ -93,6 +103,8 @@ Administrators can reset passwords for other users:
 
 ### Viewing Departments
 Lists all departments the user belongs to with default/active indicators.
+
+![Your departments](/img/web-app/profile/your-departments.png)
 
 ### Joining a Department
 Join a new department using a department join code:
@@ -180,8 +192,20 @@ Verification codes expire after 30 minutes. You can request up to 3 codes per ho
 
 If you change your email address, mobile number, or home number, the verification status for the changed field is automatically reset to **Pending**. You must re-verify the new contact information before communications resume on that channel.
 
-## Interactions with Other Modules
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Volunteers** | Verify email *and* mobile so SMS dispatch works; set a staffing schedule *Unavailable Mon–Fri 08:00–17:00* if you cannot leave work; enable push for calls and email for messages. |
+| **Career staff** | Push + SMS for calls only on duty days via a staffing schedule; certifications with expiry so the training officer gets reminders. |
+| **Officers / admins** | Schedule the reports you read every month to your inbox; enable 2FA. |
+| **Members of several departments** | Use *Your Departments* to switch; notification preferences are per department. |
+
+## Technical reference
+
+`ProfileController`, `HomeController.EditUserProfile`; routes `/User/Profile/{Reporting,AddNewScheduledReport,EditScheduledReport,ViewSchedules,AddNewStaffingSchedule,EditStaffingSchedule,Certifications,AddCertification,EditCertification,YourDepartments,ResetPasswordForUser}`; contact verification `api/v4/ContactVerification/*`; avatar via `GetAvatar?id=`; deletion under `/User/Account/DeleteAccount`.
+
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Reports** | Scheduled report delivery uses report generation |

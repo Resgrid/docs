@@ -152,6 +152,18 @@ Real-time statistics banner displaying:
 - Auto-reconnect with background resume refresh
 - Events trigger automatic data refresh across all console panels
 
+### Run cards and recommendations
+
+When the department uses [Run Cards](../web-app/run-cards), the New Call screen shows the recommended units and personnel for the call's priority and type (or dispatches them automatically), lets the dispatcher escalate alarm levels, and surfaces move-up recommendations.
+
+### Chat, moderation and the Assistant
+
+Dispatch is the reference chat client: all channels, incident channels per call, urgent messages and the Assistant. See [Chat & Assistant](../web-app/chat).
+
+### Field Records
+
+With `Records.Field.Dispatch` enabled, dispatchers can start the NERIS incident report or a run record directly from the call. See [Records](../web-app/records/overview).
+
 ## Settings & Configuration
 
 | Setting | Description |

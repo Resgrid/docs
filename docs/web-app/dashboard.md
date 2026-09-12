@@ -1,143 +1,61 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 title: Dashboard
 ---
 
 # Dashboard
 
-The Dashboard is the main operations hub of Resgrid, providing a real-time overview of department activity, personnel status, and active calls. It is served by the `HomeController`.
+The **Dashboard** is the home page after you sign in: the live roster with everyone's status and staffing, your own quick-action buttons, and the department's vital signs. Officers and dispatchers keep it open on a station screen; members use it to set themselves available or responding.
 
-## Accessing the Dashboard
+![Dashboard](/img/web-app/home/dashboard.png)
 
-Navigate to **User → Dashboard** after logging in. This is the default landing page for the User Area.
+## What is on it
 
-## Features
+| Panel | What it shows |
+|---|---|
+| **Personnel** | Every member you are allowed to see, grouped by station/group (or sorted by name — *Department Settings → Sorting*). Each row: name, **staffing** (Available / Unavailable / On shift …), **status** (Standing by / Responding / On scene …), ETA, roles, the time of the last change, and two dropdowns to change the person's status or staffing. **Reset group to Standing By** clears a group after an incident. |
+| **Actions** | Your own status buttons — Responding, Not responding, Standing by, On scene, or your department's custom statuses. Statuses that need a destination (a station or an active call) open a picker. |
+| **Staffing level** | Set your own staffing with an optional note. |
+| **Department info** | Department ID and code (members need the code to join from the apps), text-to-call number, plan warnings. |
+| **Top bar** | Unread messages and active-call counts; the active-calls icon lists the top calls with quick links. |
 
-### Personnel Status Overview
+Everything updates in real time through the eventing hub — no refresh needed.
 
-The dashboard displays a comprehensive status table showing all department personnel grouped by their station/group assignment.
+## Personnel status vs staffing
 
-**How it works:**
-1. The system loads all action logs (current status) and user states (staffing levels) for the department
-2. Personnel are grouped by their `DepartmentGroup` (station) assignment
-3. Ungrouped personnel are shown in a separate section
-4. The display respects the **authorization visibility matrix** — users only see personnel they have permission to view
+| | Status ("what am I doing right now") | Staffing ("can I be counted on") |
+|---|---|---|
+| Defaults | Standing By, Not Responding, Responding, On Scene, Available Station, Responding to Station, Responding to Scene | Available, Delayed, Unavailable, Committed, On Shift |
+| Custom | [Custom personnel statuses](custom-statuses) — colour, text, whether a destination is required, whether it counts as *responding* | [Custom staffing levels](custom-statuses) |
+| Changed by | The member (apps, web, text, Assistant), officers with permission, dispatch (auto-set on shift dispatch), scheduled status changes | The member, officers, [staffing schedules](profile-account#staffing-schedules), the daily **staffing reset** in Department Settings |
 
-**Sorting Options:**
-Personnel can be sorted by the department's configured sort order:
-- **Default** — System default ordering
-- **First Name** — Alphabetical by first name
-- **Last Name** — Alphabetical by last name
+Tip: **staffing** feeds availability counts and low-availability [notifications](notifications); **status** feeds the call page and the Big Board.
 
-Additionally, a **status weight sort** can be applied that prioritizes personnel by their current status severity.
+## Editing profiles from the dashboard
 
-### Custom Staffing Levels
+Clicking a name opens the person; administrators can **edit the profile** (name, email, phone numbers and carrier, group and roles, addresses, language, time zone, notification options, department admin / disabled / hidden flags). See [Personnel](personnel) and [Profile & Account](profile-account).
 
-If the department has configured custom staffing levels (see [Custom Statuses](custom-statuses)), the dashboard displays custom staffing buttons. Otherwise, it uses the default staffing levels:
+## Tutorial and setup report
 
-| Default Staffing Level | Description |
-|----------------------|-------------|
-| Available | Ready for dispatch |
-| Delayed | Available but with delay |
-| Unavailable | Not available |
-| Committed | Currently committed |
-| On Shift | Currently on shift duty |
+First-time administrators see a **dashboard tutorial** overlay; **Help → Setup report** lists what is still unconfigured (no units, no stations, unverified contacts …).
 
-### Custom Personnel Statuses
+![Dashboard tutorial](/img/web-app/home/dashboard-tutorial.png)
 
-Similarly, personnel action statuses can be customized. Default statuses include:
+## Setup tips
 
-| Default Status | Description |
-|---------------|-------------|
-| Standing By | Available and waiting |
-| Not Responding | Not responding to calls |
-| Responding | En route to call |
-| On Scene | Arrived at call scene |
-| Available Station | Available at station |
-| Responding to Station | En route to station |
-| Responding to Scene | En route to scene |
+| Department | Tip |
+|---|---|
+| **Volunteer fire / EMS** | Sort personnel by group so each station sees its own people first; enable the daily **staffing reset** to Available at 06:00 so stale *Unavailable* flags clear. |
+| **Career** | Members rarely touch status manually — shifts and unit staffing drive it; consider hiding the Actions panel for non-responders by permission. |
+| **SAR / CERT** | Staffing is the key signal (who can deploy this week); ask members to set it from the Responder app. |
+| **Security / business** | Custom statuses such as *On patrol*, *At post*, *Break*; staffing reset at shift boundaries. |
 
-## User Actions
+## Technical reference
 
-### Setting Your Own Status
-
-Users can set their own action status from the dashboard:
-
-- **SetCustomAction** — Set your current status with an optional note
-- **SetCustomStaffing** — Set your staffing level
-- **SetUserState** — Set a custom or standard staffing state with a note
-- **UserRespondingToStation** — Mark yourself as responding to a specific station
-- **UserRespondingToCall** — Mark yourself as responding to a specific call
-
-### Managing Other Users' Status
-
-Users with appropriate permissions can set status for other personnel:
-
-- **SetCustomUserAction** — Set another user's action status
-- **SetCustomStaffing** — Set another user's staffing level
-- **SetStateForUser** — Set a specific user's staffing state
-- **SetActionForUser** — Set a specific user's action type
-
-### Bulk Status Actions
-
-- **ResetAllToStandingBy** — Reset the entire department to StandingBy status
-- **ResetGroupToStandingBy** — Reset all personnel in a specific group to StandingBy
-
-## Editing User Profiles
-
-The dashboard provides access to edit any user's profile (with proper permissions):
-
-### Profile Edit Capabilities
-
-| Field | Description | Notes |
-|-------|-------------|-------|
-| First/Last Name | User's display name | Required |
-| Email | Login email address | Must be unique across the system |
-| Mobile Number | SMS contact number | UK carriers require specific number prefixes |
-| Mobile Carrier | SMS provider | Required for text messaging |
-| Group Assignment | Station/group membership | Select from department groups |
-| Personnel Roles | Role assignments | Multiple roles supported |
-| Home Address | Physical home address | Used for proximity calculations |
-| Mailing Address | Postal address | Optional |
-| Voice Settings | VoIP call settings | Subject to subscription plan |
-| Admin Status | Department administrator | Admin-only setting |
-| Disabled Status | Account disabled | Prevents login |
-| Hidden Status | Hidden from views | Personnel still exists but not shown |
-| Language | UI language preference | Sets a language cookie |
-| Timezone | User's timezone | Affects time display |
-
-### Profile Edit Validation
-
-- Mobile carrier rules enforce UK-specific number prefixes for UK carriers
-- Email addresses must be unique across the entire system
-- Password changes require the new password to meet strength requirements
-- Username changes are supported
-- All profile changes fire an `AuditEvent` and clear multiple caches
-
-## Dashboard Widgets
-
-### Active Calls Widget
-Displays currently active calls with priority colors and quick access to call details.
-
-### Subscription Warning
-Shows a warning banner if:
-- The department exceeds its subscription plan limits (personnel or units)
-- There are system-wide notices
-
-### Top Icons Area
-Shows unread message count and quick navigation to messages.
-
-### Upgrade Button
-Displayed for free plan department administrators to encourage plan upgrade.
-
-## Interactions with Other Modules
-
-| Module | Interaction |
-|--------|-------------|
-| **Custom Statuses** | Dashboard reads custom personnel statuses and staffing levels |
-| **Groups** | Personnel are grouped by their station/group assignment |
-| **Personnel Roles** | Roles are displayed alongside personnel names |
-| **Calls** | Active calls widget, responding-to-call links |
-| **Subscription** | Plan limit warnings displayed |
-| **Messages** | Unread count shown in top icons |
-| **Department Settings** | Sort order, text-to-call number, 24h time format |
+| Item | Value |
+|---|---|
+| Controller | `HomeController` (`Dashboard`, `GetUserStatusTable`, `UserActionsPartial`, `PersonnelActionButtonsPartial`, `EditUserProfile`) |
+| Actions | `SetCustomAction`, `SetCustomUserAction`, `SetCustomStaffing`, `SetStateForUser`, `SetActionForUser`, `UserRespondingToStation?stationId=`, `UserRespondingToCall?callId=`, `ResetAllToStandingBy`, `ResetGroupToStandingBy?groupId=` |
+| Realtime | `resgrid.common.signalr` subscribes to personnel/unit/call events from the eventing hub |
+| Visibility | Authorization visibility matrix (`CanUserViewPersonViaMatrixAsync`); PII gated by `ViewPersonalInfo` |
+| Partials | `_TopIconsPartial` (unread counts), `_TopUpgradePartial`, `_SetupWizard`, `GetSubscriptionLimitWarning` |

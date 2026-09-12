@@ -1,11 +1,15 @@
 ---
-sidebar_position: 14
+sidebar_position: 22
 title: Reports
 ---
 
 # Reports
 
-The Reports module is the most comprehensive analytics component in Resgrid, providing detailed insights across all operational areas. It is managed by the `ReportsController` and injects 18 services — the most of any controller.
+**Reports** are the printable, exportable views of what happened: personnel and staffing, certifications, calls, shifts, department activity, action logs, event attendance, checklist compliance and more. Most take a date range or filter; all can be printed, exported and — from **Profile → Report delivery** — scheduled to be emailed on a recurring basis.
+
+**Left menu → Reports.** The Records module adds its own [saved reports, analytics and exports](records/reports-and-exports); Inventory, Work Orders and Checklists have report pages of their own.
+
+![Reports](/img/web-app/reports/index.png)
 
 ## Report Dashboard
 
@@ -139,6 +143,8 @@ Real-time snapshot of active calls and assigned resources:
 
 Several reports have parameter selection pages that allow filtering:
 
+![Call summary parameters](/img/web-app/reports/call-summary-params.png)
+
 | Report | Parameters |
 |--------|-----------|
 | Personnel Hours | Date range, specific user (optional) |
@@ -149,8 +155,22 @@ Several reports have parameter selection pages that allow filtering:
 
 All parameter pages respect the **visibility matrix** — only showing personnel/groups the user has permission to view.
 
-## Internal Report Generation
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Volunteer fire** | Schedule the *Personnel hours* and *Call summary* reports monthly to the chief and treasurer (LOSAP points, run reimbursements); *Certifications* quarterly to the training officer. |
+| **Career fire** | *Unit state history* and *Personnel staffing history* for payroll reconciliation; *Upcoming shift readiness* each morning. |
+| **EMS** | *Call summary* by type for the medical director; *Event attendance* for CE credit. |
+| **SAR** | *Personnel hours* per mission for volunteer-hour grants; *Department activity* YTD for the board. |
+| **Emergency management** | *Action logs* during activations for the after-action report; *Event attendance* for exercises. |
+| **Security / business** | *Active calls and resources* live view for the operations centre; *Flagged call notes* for supervisor review. |
+
+## Technical reference
+
+`ReportsController` (+ `ChecklistReportsController`); routes `/User/Reports/{Index,PersonnelReport,StaffingReport,CertificationsReport,UpcomingShiftReadinessReport,DepartmentActivityReport,PersonnelHoursReportParams,PersonnelStaffingHistoryReportParams,UnitStateHistoryReportParams,ActionLogsParams,CallSummaryReportParams,ActiveCallsResourcesReport,FlaggedCallNotesReportParams,EventAttendanceReportParams,ChecklistComplianceReport,LogReport}`; scheduled delivery via `ProfileController.Reporting` and the worker; module switch `ReportsDisabled`.
+
+### Internal Report Generation
 The `InternalRunReport` endpoint is an **anonymous access** endpoint intended for system-internal use (e.g., scheduled report delivery). It supports generating:
 - Staffing Report
 - Personnel Report
@@ -161,8 +181,7 @@ The `InternalRunReport` endpoint is an **anonymous access** endpoint intended fo
 `InternalRunReport` uses `[AllowAnonymous]` and should be network-restricted in production to prevent unauthorized access.
 :::
 
-## Interactions with Other Modules
-
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Calls** | Call data for summary and activity reports |

@@ -1,11 +1,15 @@
 ---
-sidebar_position: 13
+sidebar_position: 21
 title: Logs
 ---
 
 # Logs
 
-The Logs module tracks department activities including run logs, work logs, and other activity records. It is managed by the `LogsController`.
+**Logs** is the original run-log and work-log module — narrative records of calls, trainings, work details and meetings with participants, units and attachments. Departments that enable the **Records** module keep Logs in **read-only** mode for history; new entries are written as [Records](records/overview) instead.
+
+**Left menu → Logs** (appears only while Records is not enabled).
+
+![Logs](/img/web-app/logs/index.png)
 
 ## Log List
 
@@ -16,6 +20,8 @@ Displays all call logs and work logs with year-based filtering.
 ## Creating Logs
 
 **Authorization:** `Log_Create` policy
+
+![New log](/img/web-app/logs/new-log.png)
 
 ### Log Types
 
@@ -100,8 +106,17 @@ The `CreateUnitHtmlBlock` endpoint dynamically generates HTML form blocks for ad
 
 The `TrainingPerMonth` endpoint returns training log data grouped by month and course for the current year, useful for dashboard charts.
 
-## Data Endpoints
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Any department not yet on Records** | Use *Run* logs for every call (link the call, add participants and units), *Training* logs for drills, *Work* logs for station duty. Move to Records when you need review workflows, NERIS or immutable history. |
+
+## Technical reference
+
+`LogsController`; routes `/User/Logs/{Index,NewLog,View,LogExport,DeleteWorkLog}?logId=`; permissions `CreateLog`, `DeleteLog`, `ViewLegacyRecords` (after activation); event `LogAddedEvent`; writes are denied after `RmsDepartmentCutover` activation.
+
+### Data Endpoints
 | Endpoint | Purpose |
 |----------|---------|
 | `GetLogsList` | All logs with year filtering and permissions |
@@ -110,8 +125,7 @@ The `TrainingPerMonth` endpoint returns training log data grouped by month and c
 | `GetAttachment` | Download log attachment |
 | `CreateUnitHtmlBlock` | Dynamic unit time block HTML |
 
-## Interactions with Other Modules
-
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Calls** | Run logs create/reference calls |

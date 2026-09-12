@@ -22,16 +22,20 @@ Resgrid has many components that interact with each other at a high level.
 
 Resgrid is split into many discrete components. These can then be installed on one or many systems depending on your load or uptime requirements. 
 
-- **Web Core**: The primary web application
-- **Web Services**: The backend API
-- **Web Events**:SignalR web socket application for real-time updating of UI's
-- **Worker Console**: CLI application that runs scheduled tasks and processes backend real-time events
-- **Tools Console**: CLI application that admins can run to update the database version or run other commands
-- **Microsoft SQL Server**: Primary relational database (3rd Party)
-- **MongoDB**: Document database for storing real-time GPS events for Units and User and Audit events (3rd Party)
-- **Redis**: In Memory Caching Service (3rd Party)
-- **RabbitMQ**: Message Queuing and Distribution Service, used to keep the distributed system components in sync (3rd Party)
-- **ElasticSearch**: ELK server for system logging output (3rd Party)
+- **Web Core** (`Resgrid.Web`): the primary web application; also hosts the same-origin **BFF** proxy (`/api/web-bff/*`) that the React surfaces (chat, map, assistant, moderation) use to reach the API with short-lived tokens
+- **Web Services** (`Resgrid.Web.Services`): the backend REST API (`api/v4`) used by the mobile apps, integrations and the BFF
+- **Web Events** (`Resgrid.Web.Eventing`): SignalR web-socket application for real-time updating of UIs and chat
+- **Web MCP** (`Resgrid.Web.Mcp`): Model Context Protocol endpoint for AI assistants
+- **Web TTS** (`Resgrid.Web.Tts`): text-to-speech service for voice dispatch prompts (persistent Piper worker pool)
+- **Tracker Gateway** (`Resgrid.TrackerGateway`): optional TCP/UDP listener process for hardware GPS trackers (Teltonika Codec 8 …); HTTPS trackers post to the API directly
+- **Worker Console** (`Resgrid.Workers.Console`): runs scheduled tasks and queue consumers — call broadcast, notifications, workflows, chatbot, NERIS submission, retention purge, ADP migration, checklists/work-order schedules, search indexing
+- **Tools Console** (`Resgrid.Console`): CLI for database updates (`--DbUpdate`), feature flags (`--FeatureFlags`), cache clearing, password resets, OIDC certificates and other administration
+- **Microsoft SQL Server or PostgreSQL**: primary relational database (3rd party). RMS queries require SQL Server compatibility level 130 or higher
+- **MongoDB**: document database for real-time GPS events and audit events (3rd party; optional in newer deployments)
+- **Redis**: in-memory cache and session store (3rd party)
+- **RabbitMQ** (or Azure Service Bus): message queuing between components (3rd party). Chat and incident-command realtime relay require the RabbitMQ topic
+- **Object scanning, key service, LLM, mapping, SMS, email, push and billing providers**: pluggable external services configured in `ResgridConfig.json` / `RESGRID__*` environment variables
+- **ElasticSearch / Sentry**: optional logging and error reporting (3rd party)
 
 Not mentioned here as this is 100% user choice but for any Highly Available (HA) configuration you need to have multiple __Web Core__, __Web Services__ and __Web Events__ servers setup in a load balanced configuration. That allows the system to respond either via the Web App or API to user interactions even if one of the boxes is having issues.
 

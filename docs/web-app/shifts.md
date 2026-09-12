@@ -1,11 +1,15 @@
 ---
-sidebar_position: 8
+sidebar_position: 17
 title: Shifts
 ---
 
 # Shifts
 
-The Shifts module manages personnel scheduling, shift signups, and shift trades. It is handled by the `ShiftsController`.
+**Shifts** schedule who is on duty. Resgrid supports **assigned** shifts (you put people on the roster), **signup** shifts (members sign up for open slots, with per-group quotas), recurring shift patterns, trades between members and attendance tracking — and shifts can drive dispatch (*dispatch shift instead of group*) and checklist scheduling.
+
+**Left menu → Shifts.** *Your Shifts* shows the signed-in member's upcoming duty; *Shift Staffing* shows who is on for each shift today; administrators create shifts and set the days, groups and quotas. Settings: **Department Settings → Shifts**.
+
+![Shifts](/img/web-app/shifts/index.png)
 
 ## Shift Lifecycle
 
@@ -22,6 +26,8 @@ Displays all shifts with visibility based on whether the user is a department ad
 ## Creating Shifts
 
 **Authorization:** `Shift_Create` policy
+
+![New shift](/img/web-app/shifts/new-shift.png)
 
 ### Shift Configuration
 
@@ -99,6 +105,8 @@ The shift day view shows:
 
 **Authorization:** `Shift_View` policy
 
+![Your shifts](/img/web-app/shifts/your-shifts.png)
+
 Shows the current user's:
 - Upcoming shift signups
 - Open trade requests directed at them
@@ -139,6 +147,8 @@ The trade system enables personnel to swap shifts:
 
 **Authorization:** `Shift_View` policy
 
+![Shift staffing](/img/web-app/shifts/shift-staffing.png)
+
 The staffing view allows assigning specific personnel to shifts:
 - Admin users see all shifts
 - Non-admin users see only their group's shifts
@@ -147,6 +157,8 @@ The staffing view allows assigning specific personnel to shifts:
 ## Shift Calendar
 
 **Authorization:** `Shift_View` policy
+
+![Shift calendar](/img/web-app/shifts/shift-calendar.png)
 
 ### Calendar Views
 - **All Shifts Calendar** — Shows all shift days across all shifts
@@ -162,8 +174,22 @@ Calendar items include:
 
 **Workshift Integration:** Workshift days are also displayed on the shift calendar alongside traditional shifts.
 
-## Data Endpoints
+## Setup examples
 
+| Department type | How to set it up |
+|---|---|
+| **Volunteer fire** | Signup shifts per station (e.g. *Night duty crew* 18:00–06:00) with a quota of 4 and a required *Driver* role; allow multi-group signup for neighbouring stations; turn on *Dispatch shift instead of group* only once signups are reliable. |
+| **Career fire / EMS** | Assigned shifts on a 24/48 or 48/96 pattern, one shift group per station, personnel assigned by platoon; trades require officer approval. |
+| **SAR** | Signup *on-call* weeks rather than shifts; use the Calendar for trainings. |
+| **Emergency management / EOC** | Assigned 12-hour EOC shifts during activations; roles per section; signup for volunteer positions. |
+| **Security** | Assigned shifts per client site, rotating patterns, trades allowed within the same site group. |
+| **Industrial ERT** | Assigned shifts matching plant crews; minimum quota per qualification (confined space, hazmat). |
+
+## Technical reference
+
+`ShiftsController`; routes `/User/Shifts/{Index,NewShift,EditShiftDetails,EditShiftDays,EditShiftGroups,ShiftCalendar,YourShifts,ShiftStaffing,ViewShift,Signup,RequestTrade,ProcessTrade}`; permission `CreateShift`; events `ShiftCreatedEvent`, `ShiftTradeRequestedEvent`, `ShiftTradeFilledEvent`; module switch `ShiftsDisabled`.
+
+### Data Endpoints
 | Endpoint | Purpose |
 |----------|---------|
 | `GetShiftCalendarItems` | Calendar items for all shifts + workshifts |
@@ -177,8 +203,7 @@ Calendar items include:
 | `GetPersonnelNotOnShiftDay` | Personnel matching role requirements but not signed up |
 | `GetShiftDaysUserIsOn` | Shift days the current user is on |
 
-## Interactions with Other Modules
-
+### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
 | **Dispatch** | Shift-based dispatch replaces group dispatch with shift personnel |
