@@ -77,7 +77,7 @@ RESGRID_APPLY=1 \
 ./setup.sh
 ```
 
-Without supplied TLS files, setup generates a self-signed certificate containing all three hostnames. Distribute/trust `deploy/generated/tls.crt` on clients.
+Without supplied TLS files, setup generates a self-signed certificate containing all three hostnames. Distribute/trust `deploy/generated/tls.crt` on clients. Treat this as a lab or LAN-only option: for an internet-reachable cluster, supply a certificate issued by a trusted CA through `RESGRID_TLS_CERT_FILE` / `RESGRID_TLS_KEY_FILE` (or replace the ingress TLS secret with one managed by your cluster's certificate tooling) so browsers and mobile apps trust the web, API, and events endpoints without manual certificate installation.
 
 The pod CIDR configures which ingress-to-pod forwarded headers Resgrid trusts. k3s commonly uses `10.42.0.0/16`; inspect your CNI and supply its actual network for other distributions.
 
