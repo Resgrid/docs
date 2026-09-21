@@ -133,6 +133,13 @@ Workflows can subscribe to any of the following system events:
 | **Personnel Role Changed** | User role assignment changed |
 | **Group Added** | Department group created |
 | **Group Updated** | Department group updated |
+| **Invoice Created / Sent / Payment Recorded / Paid / Overdue / Voided / Payment Refunded / Payment Disputed** | [Invoicing](business-ops/invoicing) lifecycle |
+| **Bid Created / Sent / Accepted / Declined / Expired** | [Bids](business-ops/bids-and-deployment-wizard) |
+| **Contract Status Changed / Contract Expiring** | [Service contracts](business-ops/contracts-and-compliance) (expiring = 30 days before the end date) |
+| **Deployment Created / Status Changed / Roster Changed / Expense Added / Attachment Added** | [Deployment Finance](business-ops/deployment-finance) |
+| **Time Report Created / Submitted / Approved / Voided** | Daily time reports |
+| **Certification Added / Renewed / Expired / Role Removed / Status Changed / Removed / Credit Added** | [Certifications](business-ops/certifications) (people) |
+| **Unit Certification Added / Expiring / Expired / Status Changed / Removed** | Certifications (units) |
 
 ## Action Types
 

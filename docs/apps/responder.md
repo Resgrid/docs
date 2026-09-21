@@ -114,6 +114,16 @@ Personal and assigned checks (start-of-shift, personal gear, station duties) run
 
 When `Records.Field.Responder` is enabled, members author Records in the field (run reports, training records, department definitions such as SAR clue reports or damage assessments) with offline drafts, attachments and sync; finalisation can be handed to the web app. See [Records](../web-app/records/overview).
 
+### Deployments
+
+With `Operations.Deployments` enabled the **Deployments** entry in the sidebar lists every deployment the member is rostered on (status, finance mode, window, incident and request numbers). Per deployment the member can:
+
+- **Time** — start the day's **daily time report** and add their own entries (*Deployment / Standby / Travel*, from–to, unpaid break, notes); the app checks for overlaps and end-before-start before **Submit report**. Approval stays on the web.
+- **Usage** — record **odometer, engine hours and fuel** readings for a unit by phase (*Mobilization, Standby, Incident, Return*); conflicting readings are marked *Needs review*.
+- **F-42** (Cal OES MARS, cost-recovery deployments) — draft the F-42 from the submitted time reports and **Validate** it against the portal rules; the handoff and every observation are web-only.
+
+Contacts attached to a call show the **pre-plan** (construction, shutoffs, water supply, access, hazards) and **site files** on the call's Site Info tab. See [Deployment Finance](../web-app/business-ops/deployment-finance), [Cal OES MARS](../web-app/business-ops/cal-oes-mars) and [Contacts](../web-app/contacts).
+
 ## Settings & Configuration
 
 | Setting | Description |

@@ -69,6 +69,17 @@ From the **Operational report templates** pack: *Security Patrol Log* (Quick ent
 - Workflows: *Call closed* → email the client contact a summary from a Records export; *Form submitted (incident statement)* → create a work order via API.
 - **Communication tests** quarterly.
 
+## 10 — Workforce & Business Ops
+
+- **Certifications** (free): guard card / security licence, first aid/CPR, use of force, armed endorsement and firearm requalification, forklift for facilities staff; role requirements *Security officer* = guard card, *Armed officer* = endorsement + requalification; **Enforce** with 0-day grace on the licence.
+- **Contracts & compliance** (Business Ops): one *Standing arrangement* contract per client site and a *Project* contract per event, each with the client's rate schedule, terms and document requirements (guard roster at deployment start); compliance documents: company licence, COI, bond.
+- **Rate schedules** (Business Ops): *Client rates* with personnel entries GUARD and SUPERVISOR (hourly, OT after 8 h), vehicle patrol hourly, premiums *Night* and *Holiday*, 15-minute rounding and a 4-hour call-out minimum.
+- **Bids → wizard → deployments** (Business Ops): event work as bids (guard lines by hours/day × days, set-up fee); accept → wizard seats officers on posts (units) and creates the call; officers file daily time reports in the Responder app; generate the invoice after the event.
+- **Invoicing & online payments** (Business Ops): rate card for ad-hoc work (*Alarm response* flat per call, *Officer hour*), billing profiles per client with net-30 terms; connect the company Stripe account so clients pay from the invoice link; *Invoice Paid* workflow → account manager.
+- **Workforce & field costing** (Business Ops): employee compensation profiles with overtime multipliers, cost runs per client site per month to see the margin; California companies with 100+ employees run the CRD pay data report.
+
+See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
+
 ## First-week checklist
 
 - [ ] Client and site groups with geofences; officers assigned; SSO tested
@@ -76,3 +87,5 @@ From the **Operational report templates** pack: *Security Patrol Log* (Quick ent
 - [ ] Alarm-response run card tested with *Run Test*
 - [ ] Patrol Log and Incident Report definitions published; group scoping on
 - [ ] Start-of-shift checklist scheduled per vehicle
+- [ ] Guard licence type enforced on the officer role
+- [ ] Contract, rate schedule and one bid → deployment → invoice tested end to end

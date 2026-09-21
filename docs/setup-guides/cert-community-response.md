@@ -58,9 +58,17 @@ Enable Records and use the **CERT Operations Pack**: *CERT Damage Assessment* (p
 - Workflows: *Call created* → email the sponsoring agency; *Certification expiring (background check)* → member + coordinator.
 - **Connect** public profile for class schedules and recruitment.
 
+## 8 — Workforce & Business Ops
+
+- **Certifications** (free): CERT basic training as a custom type, First Aid/CPR/AED, ICS-100 and IS-700 from the gallery; role requirements on *Team member* in **Warn only** with holder notifications so volunteers renew CPR on time.
+- **Deployment Finance** (free, optional): a deployment per activation you are reimbursed or credited for (*Operational only*); volunteer hours from the daily time reports for grant and Points of Light reporting via the time CSV.
+
+See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
+
 ## First-week checklist
 
 - [ ] Roster invited; ≥ 80 % verified email and mobile
 - [ ] Calendar types and the next three trainings entered with RSVP
 - [ ] A test deployment call received by everyone
 - [ ] CERT Damage Assessment definition published
+- [ ] CERT basic and CPR types added; volunteers asked to enter their cards

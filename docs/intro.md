@@ -49,6 +49,15 @@ Screenshots in this documentation were taken from the current web application wi
 - **Inventory** — bulk and serialized stock, lots and expiry, issuance, kits, counts, alerts, purchasing and controlled-substance witnessing. [Inventory](web-app/inventory)
 - **Resource orders and department links** — mutual aid between departments. [Resource Orders](web-app/resource-orders) · [Department Links](web-app/department-links)
 
+### Workforce and business operations
+
+- **Certifications** — a typed catalog of credentials for people and units, expiry dashboard, role requirements with warn-or-enforce, continuing-education credits and a compliance report (free). [Certifications](web-app/business-ops/certifications)
+- **Deployment finance** — rosters, daily time reports, expenses, files and manifests for strike teams, contract work and mutual aid, captured in the apps (free). [Deployment Finance](web-app/business-ops/deployment-finance)
+- **Invoicing and online payments** — billing profiles, rate cards, invoices from calls, PDFs and e-mail, payments through your own Stripe account, AR aging (Business Ops add-on). [Invoicing](web-app/business-ops/invoicing)
+- **Contractor billing** — rate schedules, contracts with compliance documents, bids that become deployments, and invoices generated from approved time reports (Business Ops add-on). [Contractor Billing](web-app/business-ops/contractor-billing)
+- **Cal OES MARS** — California mutual-aid reimbursement preparation, from F-5 and annual rates to F-42s, expense claims and invoice reconciliation (Business Ops add-on). [Cal OES MARS](web-app/business-ops/cal-oes-mars)
+- **Workforce, field costing and pay data** — protected compensation and pay facts, resource cost profiles, cost runs with margin, and the California CRD pay data report (Business Ops add-on). [Workforce](web-app/business-ops/workforce)
+
 ### Automation, security and integration
 
 - **Workflows** — event-driven automation with email, SMS, chat, webhook, API and file actions. [Workflows](web-app/workflows)
@@ -58,7 +67,7 @@ Screenshots in this documentation were taken from the current web application wi
 
 ## Who uses it
 
-Fire departments (volunteer, combination, career), EMS agencies, search and rescue teams, emergency management agencies and EOCs, incident management teams, CERT and community response programs, private security and campus security, industrial fire brigades and plant ERTs, delivery, transit and field-service operators, and the dispatch centres that serve several of them. Each has a [setup guide](setup-guides/overview).
+Fire departments (volunteer, combination, career), EMS agencies, search and rescue teams, emergency management agencies and EOCs, incident management teams, CERT and community response programs, private security and campus security, industrial fire brigades and plant ERTs, delivery, transit and field-service operators, contract service providers (wildland contractors, private fire protection, private ambulance), and the dispatch centres that serve several of them. Each has a [setup guide](setup-guides/overview).
 
 ## Contributing to the documentation
 

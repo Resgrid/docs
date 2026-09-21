@@ -39,7 +39,7 @@ New accounts start with every contact method **pending verification**; the membe
 
 ## Viewing and editing a person
 
-**View** shows the profile, group, roles, department flags (admin, disabled, hidden), current staffing and status, certifications, events and — where enabled — the equipment issued to them. **Edit** (or the person's profile page) changes:
+**View** shows the profile, group, roles, department flags (admin, disabled, hidden), current staffing and status, [certifications](business-ops/certifications) (with expiry, verification and credits), events and — where enabled — the equipment issued to them. **Edit** (or the person's profile page) changes:
 
 | Section | Fields |
 |---|---|
@@ -71,8 +71,9 @@ From the personnel list (or the [Dashboard](dashboard)) you can set a member's *
 
 - **Add Role** — name, description and initial members.
 - **Edit / View Role** — members in role; **Delete** removes the role (assignments are dropped).
+- **Required certifications** — which [certification](business-ops/certifications) types a member must hold for the role, with any-of groups and a grace period; enforcement (off / warn / enforce) is set under Certifications → Settings.
 
-Roles are used by call dispatch (dispatch to a role), [run cards](run-cards) (role requirements), [notifications](notifications) (low-availability alerts), [shifts](shifts) (role quotas), [checklists](checklists) and [work orders](work-orders) (assignment), security permissions (*Admins + selected roles*) and reports.
+Roles are used by call dispatch (dispatch to a role), [run cards](run-cards) (role requirements), [notifications](notifications) (low-availability alerts), [shifts](shifts) (role quotas), [checklists](checklists) and [work orders](work-orders) (assignment), [certification requirements](business-ops/certifications#3-role-requirements), deployment seats, security permissions (*Admins + selected roles*) and reports.
 
 ## Ranks
 

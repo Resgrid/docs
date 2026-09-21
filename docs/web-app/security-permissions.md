@@ -69,6 +69,21 @@ Some visibility permissions have a **Group only** option that restricts what a m
 | View restricted sections · View legacy logs · View records from other groups | |
 | Manage record definitions · Publish record definitions · Manage record reports · Manage record disclosures · Manage legal holds · Reassign draft records · Manage prevention data | Dept admins |
 
+### Workforce & Business Ops
+
+All default to *department administrators*. See the [Workforce & Business Ops overview](business-ops/overview).
+
+| Permission | Controls |
+|---|---|
+| Manage invoicing / View invoicing | Create, edit, send and void invoices, record payments, rate cards and billing profiles / read-only invoices, aging and PDFs. |
+| Manage certifications / View certifications / Manage certification setup | Other members' certification records, credits and unit records / the expiry dashboard / types, role requirements and settings. Members always see their own records. |
+| Manage deployments / Approve time reports | Deployments, rosters, equipment, expenses, files and status; see every deployment / approve and void submitted daily time reports. Rostered members always see their own deployments and file time. |
+| Manage bids / Manage contracts | Bids and the deployment wizard / service contracts, document requirements and compliance documents. |
+| Manage Cal OES MARS reimbursement | Agency, F-5, annual rates, agreements, handoff, observed statuses, invoice approval and payment reconciliation. Rostered members prepare their own F-42 and expense drafts without it. |
+| View internal costs | Aggregate field-cost summaries, resource cost profiles and usage readings (never a person's rate). |
+| Manage workforce and compensation / View workforce compensation | Employer, establishments, workers, employments, compensation profiles, work entries and pay-fact imports / read-only. Values also need a Protected Data Grant. |
+| Manage California pay data reporting / Export California pay data reports | The CRD report wizard and demographic records / freezing a run and downloading its files. Members always answer their own demographic response. |
+
 ### Advanced Data Protection
 
 | Permission | Purpose |

@@ -57,6 +57,12 @@ Lists all certifications across the department:
 - Expiry date
 - Area of certification
 
+### Certification Compliance Report
+
+The typed-catalog counterpart of the certifications report, built from the [Certifications](business-ops/certifications) dashboard: one grid for **people** and one for **units**, a column per certification type, cells coloured valid / expiring within the notification window / expired, with the *run on* date for auditors and accreditation files. Respects the personnel visibility matrix; can be scheduled like any other report.
+
+![Certification compliance report](/img/web-app/certifications/compliance-report.png)
+
 ### Log Report
 
 **Parameters:** Log ID
@@ -159,7 +165,7 @@ All parameter pages respect the **visibility matrix** — only showing personnel
 
 | Department type | How to set it up |
 |---|---|
-| **Volunteer fire** | Schedule the *Personnel hours* and *Call summary* reports monthly to the chief and treasurer (LOSAP points, run reimbursements); *Certifications* quarterly to the training officer. |
+| **Volunteer fire** | Schedule the *Personnel hours* and *Call summary* reports monthly to the chief and treasurer (LOSAP points, run reimbursements); *Certification compliance* quarterly to the training officer. |
 | **Career fire** | *Unit state history* and *Personnel staffing history* for payroll reconciliation; *Upcoming shift readiness* each morning. |
 | **EMS** | *Call summary* by type for the medical director; *Event attendance* for CE credit. |
 | **SAR** | *Personnel hours* per mission for volunteer-hour grants; *Department activity* YTD for the board. |
@@ -168,7 +174,7 @@ All parameter pages respect the **visibility matrix** — only showing personnel
 
 ## Technical reference
 
-`ReportsController` (+ `ChecklistReportsController`); routes `/User/Reports/{Index,PersonnelReport,StaffingReport,CertificationsReport,UpcomingShiftReadinessReport,DepartmentActivityReport,PersonnelHoursReportParams,PersonnelStaffingHistoryReportParams,UnitStateHistoryReportParams,ActionLogsParams,CallSummaryReportParams,ActiveCallsResourcesReport,FlaggedCallNotesReportParams,EventAttendanceReportParams,ChecklistComplianceReport,LogReport}`; scheduled delivery via `ProfileController.Reporting` and the worker; module switch `ReportsDisabled`.
+`ReportsController` (+ `ChecklistReportsController`); routes `/User/Reports/{Index,PersonnelReport,StaffingReport,CertificationsReport,CertificationComplianceReport,UpcomingShiftReadinessReport,DepartmentActivityReport,PersonnelHoursReportParams,PersonnelStaffingHistoryReportParams,UnitStateHistoryReportParams,ActionLogsParams,CallSummaryReportParams,ActiveCallsResourcesReport,FlaggedCallNotesReportParams,EventAttendanceReportParams,ChecklistComplianceReport,LogReport}`; scheduled delivery via `ProfileController.Reporting` and the worker; module switch `ReportsDisabled`.
 
 ### Internal Report Generation
 The `InternalRunReport` endpoint is an **anonymous access** endpoint intended for system-internal use (e.g., scheduled report delivery). It supports generating:

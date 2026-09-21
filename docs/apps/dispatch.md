@@ -164,6 +164,10 @@ Dispatch is the reference chat client: all channels, incident channels per call,
 
 With `Records.Field.Dispatch` enabled, dispatchers can start the NERIS incident report or a run record directly from the call. See [Records](../web-app/records/overview).
 
+### Deployments and pre-plans
+
+Dispatchers see the department's **deployments** read-only (roster, window, identifiers, time-report status) so a call's crew and assignment are in view; time reports, usage and F-42 drafting are done from the Responder and Unit apps. A call's contact shows its **pre-plan** and **alert hazards** in the dispatch alert and on the Site Info tab. See [Deployment Finance](../web-app/business-ops/deployment-finance) and [Contacts](../web-app/contacts).
+
 ## Settings & Configuration
 
 | Setting | Description |
