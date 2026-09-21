@@ -56,6 +56,13 @@ const paths = {
     </>
   ),
   zap: <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />,
+  briefcase: (
+    <>
+      <rect x="2" y="7" width="20" height="14" rx="2" />
+      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+      <path d="M2 13h20" />
+    </>
+  ),
   smartphone: (
     <>
       <rect x="5" y="2" width="14" height="20" rx="2" />

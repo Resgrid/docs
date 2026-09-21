@@ -44,7 +44,7 @@ Set a unit's status from the list, the [Dashboard](dashboard), the Unit app or t
 
 ## Equipment, checklists and tracking
 
-From a unit you also reach its **equipment** (everything issued to it in [Inventory](inventory)), its [checklists](checklists) (target type *Unit*), its [work orders](work-orders) and its **hardware GPS tracking** bindings.
+From a unit you also reach its **equipment** (everything issued to it in [Inventory](inventory)), its [checklists](checklists) (target type *Unit*), its [work orders](work-orders), its **certifications & inspections** (registration, insurance, pump and ladder tests, DOT inspections — see [Certifications](business-ops/certifications#unit-certifications-and-inspections)) and its **hardware GPS tracking** bindings.
 
 ## Setup examples
 

@@ -45,7 +45,7 @@ The department's own address (a station or district office) is used to locate th
 
 ## Module settings
 
-`/User/Department/ModuleSettings` — switch modules on or off for the whole department: Messaging, Mapping, Shifts, Logs / Records, Reports, Documents, Calendar, Notes, Training, Inventory, **Checklists**, **Maintenance** (work orders). Switching a module off hides it from the menu and the apps; data is kept.
+`/User/Department/ModuleSettings` — switch modules on or off for the whole department: Messaging, Mapping, Shifts, Logs / Records, Reports, Documents, Calendar, Notes, Training, Inventory, **Checklists**, **Maintenance** (work orders), **Business Operations** (invoicing, contractor billing, Cal OES MARS, workforce — the pages also need the [Business Ops add-on](business-ops/overview)). Switching a module off hides it from the menu and the apps; data is kept.
 
 ![Module settings](/img/web-app/department/module-settings.png)
 

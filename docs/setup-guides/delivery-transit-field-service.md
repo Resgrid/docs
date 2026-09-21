@@ -64,6 +64,15 @@ From the **Operational report templates** pack: *Delivery Run Report* (Quick ent
 - Workflows: *Call closed (Delivery)* → email the customer contact with the proof-of-delivery export; *Record finalized (Run report)* → upload to the ERP SFTP; *Work order overdue* → Slack.
 - Weather alerts for winter operations.
 
+## 9 — Workforce & Business Ops
+
+- **Certifications** (free): drivers — CDL-A/B and endorsements, DOT medical certificate, annual MVR review, FMCSA Clearinghouse query, drug & alcohol program, ELDT, road test, school-bus permit; vehicles — DOT annual inspection, registration, insurance, IFTA. Role requirements *Driver* = CDL + DOT medical + D&A program in **Enforce** (DOT compliance); unit certifications drive the *Vehicle out of service* decision.
+- **Invoicing** (Business Ops): rate card *Service job* (flat per call), *Labour hour* (hourly personnel), *Mileage*, *Parts* (material); billing profiles per customer with GST/PST components where needed; online payments so customers pay from the invoice link; *Invoice Overdue* workflow to the office.
+- **Contracts & rate schedules** (Business Ops, field-service contracts): a contract per client with a rate schedule (technician hourly bands, vehicle day rate) so recurring service deployments bill from daily time reports.
+- **Field costing** (Business Ops): vehicle cost profiles (fuel per mile, maintenance from work orders, depreciation) and usage readings from the Unit app; call cost runs to price routes.
+
+See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
+
 ## First-week checklist
 
 - [ ] Every vehicle as a unit with a tracker binding
@@ -71,3 +80,5 @@ From the **Operational report templates** pack: *Delivery Run Report* (Quick ent
 - [ ] One route built and run end-to-end in the Unit app
 - [ ] Pre-trip checklist scheduled per vehicle with out-of-service on failure
 - [ ] Delivery Run Report definition published and exported via workflow
+- [ ] CDL / DOT medical / inspection types enforced; vehicles carry their inspection records
+- [ ] Rate card and one billing profile created; test invoice sent

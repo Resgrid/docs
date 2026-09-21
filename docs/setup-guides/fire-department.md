@@ -113,6 +113,16 @@ Assign roles and stations; enter certifications with expiry dates.
 - **Communication tests**: monthly all-call page test.
 - **Chat**: department and station channels; incident channels are automatic.
 
+## 13 — Workforce & Business Ops
+
+- **Certifications** (free): add FF1/FF2, Driver/Operator, Hazmat Ops, FO1, NREMT/state EMT and BLS from the template gallery plus NFPA 1911 pump and aerial tests for apparatus; role requirements *Firefighter* = FF1 + Hazmat Ops + (EMT **or** Paramedic), *Engineer* = DO-Pumper; start in **Warn only**, notify 60/30/14/7 days, move to **Enforce** after a year.
+- **Deployment Finance** (free): every strike team or mutual-aid assignment as a deployment (*Cost recovery*), created from the Records external order; crews file daily time reports in the Responder / Unit apps, an officer approves them, the DTR PDFs and time CSV go into the reimbursement package.
+- **Cal OES MARS** (Business Ops, California): agency profile verified each January, F-5 drafted from units, Salary Survey and Administrative Rate submissions, agreements per classification, one F-42 per request after each assignment, expense claims for lodging and meals, reconcile every MARS invoice.
+- **Invoicing** (Business Ops): a rate card for cost recovery — *Hazmat response* (hourly unit, hazmat units, 2-hour minimum), *False alarm fee*, *Standby* — billing profiles for businesses and property managers; online payments if the treasury allows.
+- **Field costing** (Business Ops): resource cost profiles for apparatus, role-default compensation per rank; a cost run after each deployment to compare with the reimbursement.
+
+See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
+
 ## First-week checklist
 
 - [ ] Every member verified email + mobile and installed Responder
@@ -122,3 +132,5 @@ Assign roles and stations; enter certifications with expiry dates.
 - [ ] Daily apparatus checklist scheduled and running
 - [ ] Records activated; one Run record finalized end-to-end
 - [ ] Security permissions reviewed; 2FA on for admins
+- [ ] Certification types added and role requirements set (Warn only)
+- [ ] One deployment created from a Records external order with a test time report approved

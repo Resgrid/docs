@@ -60,9 +60,20 @@ Use *Review required* for the IAP forms (planning section chief reviews), *Quick
 - Workflows: *Call created (Incident)* → email the team roster and post to the team Slack; *Record finalized (ICS 209)* → email the agency administrator.
 - Voice: PTT channels for Command and Operations.
 
+## 8 — Workforce & Business Ops
+
+- **Certifications** (free): NWCG position qualifications (FFT1, CRWB, ENGB, DIVS), Red Card, RT-130, Work Capacity Test, ICS-300/400 and IS courses for every team member; role requirements per ICS position in **Warn only**; the compliance report before each season.
+- **Deployment Finance** (free): every team deployment (IROC / EMAC order) as a deployment created from the Records external order, with the roster prefilled from accepted fills; members file daily time reports in the Responder app; the finance/admin unit leader approves them and exports the time CSV and DTR PDFs for the incident's cost package.
+- **Cal OES MARS** (Business Ops, California): F-42 per request from the deployment, expense claims for travel, portal handoff by the authorized representative.
+- **Field costing** (Business Ops): a cost run per deployment for the after-action financial summary.
+
+See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
+
 ## First-week checklist
 
 - [ ] Roles = ICS positions; certifications entered
 - [ ] Command definition templates built and tested in the Incident Command app
 - [ ] ICS 202/204/205/206/214 definitions published with per-incident numbering
 - [ ] One exercise incident run end-to-end: call, command board, forms, AAR
+- [ ] NWCG / ICS types added; positions carry requirements
+- [ ] Deployment created from an external order with roster prefilled

@@ -71,6 +71,14 @@ Enable Records and create definitions from the **SAR Mission Pack**: *SAR Missio
 - Workflows: *Call created* → email the sheriff's dispatch a confirmation; *Message sent (poll)* → webhook to a roster sheet.
 - Voice: PTT channels per team where radio coverage is poor.
 
+## 10 — Workforce & Business Ops
+
+- **Certifications** (free): SARTECH I–III, WFR/WFA, rope and swiftwater technician, avalanche, K9 team, helicopter operations, ICS-100/200; role requirements *Field team member* = SARTECH II **or** III, *Team leader* = SARTECH I; **Warn only** with holder notifications 60/30/7 days; the compliance report to the training officer quarterly.
+- **Deployment Finance** (free): mutual-aid missions (state or EMAC deployments) as *Operational only* or *Cost recovery* deployments; volunteer hours per member from the daily time reports and the time CSV for grant reporting; expenses with receipts for reimbursement claims.
+- **Field costing** (Business Ops, optional): resource cost profiles for UTVs, boats and drones to value in-kind contributions in grant applications.
+
+See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
+
 ## First-week checklist
 
 - [ ] Roles match your capability matrix; certifications entered
@@ -78,3 +86,4 @@ Enable Records and create definitions from the **SAR Mission Pack**: *SAR Missio
 - [ ] Test callout by SMS import received by all
 - [ ] Search-area layers loaded on the map and in Responder
 - [ ] SAR Mission Summary definition published; a training mission recorded end-to-end
+- [ ] SARTECH and first-aid types added; team roles carry requirements

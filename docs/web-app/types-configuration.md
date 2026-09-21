@@ -80,6 +80,8 @@ Define categories for personnel certifications (EMT-B, Paramedic, Firefighter I,
 |-------|-------------|
 | Type Name | Certification type name (required, unique) |
 
+The **Manage typed catalog** button opens the full [Certifications](business-ops/certifications) module, where each type also gets a stable code, category, person/unit scope, default validity, verification and credit-hour rules, and where you can add 90+ common credentials from the template gallery. Types created here appear in that catalog too; open them there to add the code, scope and rules.
+
 ## Document Categories
 
 Categorize department documents:

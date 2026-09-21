@@ -23,6 +23,7 @@ Every guide assumes you have already created your department (hosted at [resgrid
 | Industrial fire brigade, plant emergency response team | [Industrial emergency response](industrial-emergency-response) | Dispatch, units, hazmat protocols, checklists, work orders with safety holds, inventory (serialized), records (industrial pack), indoor maps |
 | Delivery, courier, field service, bus / transit operator | [Delivery, transit & field service](delivery-transit-field-service) | Units as vehicles, routes, calls as jobs, records (delivery run / route EOD), hardware GPS tracking |
 | Central dispatch centre serving several agencies | [Multi-agency dispatch centre](multi-agency-dispatch-center) | Department links, resource orders, run cards, Dispatch app, Big Board |
+| Wildland fire contractor, private fire protection, private ambulance / event medical, rescue or safety contractor | [Contract services provider](contract-services-provider) | Certifications, rate schedules, contracts, bids → deployments, daily time reports, contractor billing, invoicing, online payments, field costing |
 
 ## The order that works for everyone
 
@@ -38,6 +39,7 @@ Whatever the guide, this order avoids rework:
 8. **Security & permissions** — tighten what the defaults leave open (delete calls, view PII).
 9. **Dispatch settings** — how groups/units/shifts dispatch; email/SMS import; run cards.
 10. **Everything else** — records, checklists, inventory, shifts, calendar, workflows, notifications — one module at a time, with a champion for each.
+11. **Workforce & Business Ops** — certifications first (free), then deployments, and — with the Business Ops add-on — invoicing, contracts and bids, Cal OES MARS, workforce and field costing; every guide ends with a section on it.
 
 ## Which app for whom
 

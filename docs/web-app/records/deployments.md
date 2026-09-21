@@ -7,6 +7,8 @@ title: Deployments & Connectors
 
 **Deployments** track the external resource orders your department fills — a strike team sent on a wildland assignment through IROC, a crew loaned under EMAC, a Canadian request through CIFFC — from the order through mobilization, release and close-out. The ordering system stays authoritative: the order document is stored as an **immutable, checksummed snapshot** and nothing is ever written back.
 
+To track the **time, expenses and billing** of the crew you send on an order, create a [Deployment Finance](../business-ops/deployment-finance) deployment from it (**Deployment Finance → Create from external order**); the order stays here.
+
 :::note Preview feature
 Deployments and connectors are a **Preview** feature. Fixtures were built from published IROC, CIFFC and EMAC documentation, not live integrations. Verify against your ordering system.
 :::

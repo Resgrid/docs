@@ -151,6 +151,10 @@ Unit-targeted checklists (apparatus daily / weekly, SCBA, equipment checks) run 
 
 With `Records.Field.Unit` enabled the crew authors **Unit activity** and run records from the app, with the unit's times prefilled from status changes. See [Records](../web-app/records/overview).
 
+### Deployments
+
+With `Operations.Deployments` enabled the hidden **Deployments** tab lists the deployments the active unit is rostered on. The crew files the **daily time report** for the whole crew (every seat plus the unit itself: *Deployment / Standby / Travel*, from–to, unpaid break), records **usage readings** (odometer, engine hours, fuel) per phase, and — on Cal OES cost-recovery deployments — drafts and validates the **F-42**. Submitted reports are approved on the web and feed [Contractor Billing](../web-app/business-ops/contractor-billing) or [Cal OES MARS](../web-app/business-ops/cal-oes-mars). See [Deployment Finance](../web-app/business-ops/deployment-finance).
+
 ### Hardware GPS trackers
 
 Vehicles with a hardware tracker report position alongside (or instead of) the app; the web administrator sets the source priority. See [Hardware GPS Tracking](../web-app/unit-tracking).

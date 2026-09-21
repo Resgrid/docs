@@ -44,6 +44,14 @@ Use **Orders** for cross-agency moves: the centre (or an agency) raises an order
 
 Records stay per agency (each agency's NERIS identity and definitions). The centre uses **Reports → Active calls and resources** and its own Run records for centre activity; for regional statistics ask agencies to schedule **report exports** to a shared mailbox, or use **saved reports** per agency.
 
+## 7 — Workforce & Business Ops
+
+- **Certifications** (free): dispatcher credentials (EMD, CPR, state telecommunicator certification as custom types) with role requirements on *Dispatcher* in **Warn only**; the compliance report for accreditation.
+- **Deployment Finance** (free): if the centre coordinates mutual-aid strike teams for member agencies, the sending agency owns the deployment in its own department; the centre only links the Records external order.
+- **Invoicing** (Business Ops): bill member agencies per call or per month with a rate card (*Dispatched call* flat per call, *Dispatcher hour*) and billing profiles per agency contact; aging for the board.
+
+See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
+
 ## Setup checklist
 
 - [ ] Centre department created; dispatchers with the Dispatcher role and Dispatch app login permission
@@ -51,3 +59,4 @@ Records stay per agency (each agency's NERIS identity and definitions). The cent
 - [ ] Regional call type / priority naming agreed and applied in every agency
 - [ ] Big Board running with linked units visible
 - [ ] One resource order filled and returned end-to-end
+- [ ] Dispatcher certification types added; agency billing profiles created if you invoice members

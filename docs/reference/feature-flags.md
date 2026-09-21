@@ -47,6 +47,15 @@ Writes go through the feature-toggle service, so caches are invalidated and an a
 | `Records.QualityReview` | Quality review rubrics and sampling. | `Records.System` | M0186 |
 | `Records.Analytics` | Records analytics dashboards. | `Records.System` | M0187 |
 | `Security.DepartmentProtectedDataEnrollment` | Platform-wide admission gate for **new** Advanced Data Protection enrollments (operator-managed; never affects departments already enrolled). | — | M0126 |
+| `Business.Operations` | Master switch for every paid [Business Ops](../web-app/business-ops/overview) surface; the purchase itself is the Business Ops add-on. | — | M0211 (off) |
+| `Invoicing.CustomerInvoicing` | Invoicing: billing profiles, rate cards, invoices, payments, aging. Also needs the Business Operations module switch and the add-on. | `Business.Operations` | M0211 (off) |
+| `Payments.StripeConnect` | Operator-only per-region kill switch for online payment collection (on in the US cluster, off in the EU cluster at launch). Departments cannot override it. | — | M0212 (off, permanent) |
+| `Invoicing.OnlinePayments` | Customers pay invoices through the department's own Stripe account. | `Invoicing.CustomerInvoicing`, `Payments.StripeConnect` | M0212 (off) |
+| `Operations.Deployments` | Deployment Finance: deployments, rosters, daily time reports, expenses, files, external-order link. **Free** — no add-on. | — | M0219 (off) |
+| `Invoicing.ContractorBilling` | Rate schedules, contracts, bids, the deployment wizard and invoice generation from time reports. | `Business.Operations` | M0219 (off) |
+| `CostRecovery.CalOesMars` | Cal OES MARS cost recovery. | `Business.Operations` | M0219 (off) |
+| `Workforce.InternalCosting` | Workforce compensation, work entries, resource costing and cost runs. | `Business.Operations` | M0224 (off) |
+| `Compliance.CaliforniaPayDataReporting` | California CRD pay data report wizard and demographic self-identification; the department's Advanced Data Protection state must also be *Enabled*. | `Business.Operations` | M0224 (off) |
 
 ## Other gates
 
@@ -54,8 +63,8 @@ Besides flags, a page can be hidden by:
 
 | Gate | Where |
 |---|---|
-| **Module switches** (Messaging, Mapping, Shifts, Logs/Records, Reports, Documents, Calendar, Notes, Training, Inventory, Checklists, Maintenance) | Department Settings → Module Settings (`DepartmentModuleSettings`) |
-| **Plan and add-ons** (PTT, ADP, Readiness Pro, Enterprise SSO) | Subscription & Billing; entitlement checked against the billing API (`SubscriptionsService`, `ReadinessAccessService`) |
+| **Module switches** (Messaging, Mapping, Shifts, Logs/Records, Reports, Documents, Calendar, Notes, Training, Inventory, Checklists, Maintenance, Business Operations) | Department Settings → Module Settings (`DepartmentModuleSettings`) |
+| **Plan and add-ons** (PTT, ADP, Readiness Pro, Business Ops, Enterprise SSO) | Subscription & Billing; entitlement checked against the billing API (`SubscriptionsService`, `ReadinessAccessService`, `BusinessOperationsAccessService`) |
 | **Permissions** | Security & Permissions |
 | **Records activation** | Records → Activate (`RmsDepartmentCutover`) |
 | **Installation config** | e.g. NERIS submission switched off system-wide, external connectors off, tracker gateway disabled |
