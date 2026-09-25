@@ -10,6 +10,12 @@ This page is the generic, screen-by-screen walk-through. For concrete values —
 
 This guide walks you through every step needed to get your Resgrid department configured and ready for day-to-day use. Work through the sections in order — each one builds on the previous.
 
+## Use Setup Wizard and Setup Report
+
+When enabled for your deployment, department administrators can open **Setup Wizard** from the Department or Help menu. Choose your operating profile and areas to use now, learn about every product area and optional add-on, then follow links to the existing setup screens. Use **Setup Report** to verify fresh evidence after saving. Personal learning choices and feature interest never purchase, enable or send anything.
+
+Setup Report replaces the old setup score with verified, failed and unknown checks. Missing evidence is not a pass. Setup and the deterministic Admin Assist do not require an AI add-on. See [Help & Setup](../web-app/help-setup) for resumable progress, worklist review and add-on prerequisites. The examples below require local review; they are not approved staffing, clinical or response policy.
+
 ## Before You Begin
 
 Collect the following information so you have it handy as you configure each section:

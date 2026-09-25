@@ -42,6 +42,28 @@ These variables are available in **every** workflow regardless of trigger event 
 | `{{ timestamp.time }}` | string | Current time (department TZ) as `HH:mm:ss` or `hh:mm tt` |
 | `{{ timestamp.day_of_week }}` | string | Day name (e.g., "Monday") |
 
+### Run Variables
+
+Set for every step of every run.
+
+| Variable | Type | Description |
+|----------|------|-------------|
+| `{{ run.id }}` | string | Workflow run ID |
+| `{{ run.attempt }}` | int | Attempt number (1 on the first try) |
+| `{{ run.idempotency_key }}` | string | 32 hex characters, the same on every retry of this step's delivery and different for every event. Use it as an `Idempotency-Key`, a FHIR identifier or HL7 `MSH-10` so a retried delivery isn't recorded twice |
+
+### Template Helpers
+
+Available in every workflow template. Pipe a value into them.
+
+| Helper | Example | Result |
+|--------|---------|--------|
+| `json_escape` | `"{{ call.notes \| json_escape }}"` | The value escaped for use inside a JSON string (quotes, backslashes, control characters, `<`, `>`, `&`) |
+| `xml_escape` | `<note>{{ call.notes \| xml_escape }}</note>` | The value escaped for XML text or attributes; characters XML can't carry are dropped |
+| `hl7_escape` | `OBX\|1\|TX\|NOTE\|\|{{ call.notes \| hl7_escape }}` | HL7 v2 escaping of `\| ^ ~ \ &`, with CR and LF turned into `\X0D\` and `\X0A\` |
+| `fhir_datetime` | `{{ call.closed_on \| fhir_datetime }}` | `2026-09-24T14:05:00Z` (UTC) |
+| `hl7_ts` | `{{ call.closed_on \| hl7_ts }}` | `20260924140500+0000` (UTC) |
+
 ### User Variables (Triggering User)
 
 Populated from the user who triggered the event. If no specific user is associated with the event (e.g., Unit Added, Shift Created), these variables are empty/null.
@@ -98,6 +120,11 @@ Populated from the user who triggered the event. If no specific user is associat
 | `{{ call.form_data }}` | string | Custom form data |
 | `{{ call.is_deleted }}` | bool | Whether the call is deleted |
 | `{{ call.deleted_reason }}` | string | Deletion reason |
+| `{{ call.part2_consent_on_file }}` | bool | 42 CFR Part 2 consent (or another Part 2 basis) is on file for the call. Never protected, so conditions can use it |
+
+:::note Advanced Data Protection
+In a department with [Advanced Data Protection](../web-app/data-protection), the protected call fields above (name, nature, notes, address, geolocation, type, incident, reference and external numbers, completion notes, contact name and number, what3words, form data, deletion reason) render as `REDACTED`. A workflow with an approved [Protected Workflow](../web-app/protected-workflows) release also gets the fields it was approved for under `protected.call.*` (for example `protected.call.completed_notes`, `protected.call.form` with the form data parsed, `protected.call.subject_ids.<key>` for the call's subject identifiers, and `protected.call.udf.<field name>` for released call custom fields), in its output template only. Subject identifiers are never available under `call.*`. Anywhere else, `protected.*` renders as an empty string.
+:::
 
 #### Call Collection Variables
 

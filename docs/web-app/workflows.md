@@ -44,6 +44,10 @@ Displays all workflows configured for the department with:
 
 Navigate to **Department → Workflows** and click **New Workflow**.
 
+A trigger can have any number of workflows. When the event happens, every enabled workflow on that trigger gets its own run, with its own steps, retries and history. Your plan limits how many workflows a department can have in total.
+
+To start from a ready-made workflow, pick one under **Start from a template**: a JSON webhook for new calls or an email when a call closes. Departments using [Protected Workflows](protected-workflows) also see the FHIR R4 and HL7 v2 EHR samples. A template creates the workflow **disabled**, with a placeholder destination and no credential, so nothing runs until you set the URL and credential on each step and enable it.
+
 ![New workflow](/img/web-app/workflows/new.png)
 
 ### Workflow Fields
@@ -98,6 +102,10 @@ Hover over an array variable to see the child properties available inside each i
 :::
 
 See the [Workflows Configuration](../configuration/workflows) page for the full template variable reference.
+
+:::tip Escaping values in structured payloads
+Pass free text through `json_escape`, `xml_escape` or `hl7_escape` when you put it inside a JSON string, an XML document or an HL7 v2 field, for example `"notes": "{{ call.notes | json_escape }}"`. A quote or line break in the value then can't break the payload. `fhir_datetime` and `hl7_ts` format a date in UTC for FHIR and HL7. See [Workflow Variables](../reference/workflow-variables#template-helpers).
+:::
 
 ## Trigger Event Types
 
@@ -290,6 +298,9 @@ Navigate to **Department → Workflows → Credentials** to manage stored creden
 | **Azure Blob Storage** | Connection String (or Account Name + Account Key), Container Name |
 | **Box** | Developer Token or JWT credentials (Client ID, Client Secret, Enterprise ID, Private Key) |
 | **Dropbox** | App Key, App Secret, OAuth2 Refresh Token |
+| **OAuth2 Client Credentials** | Token URL (https), Client ID, Scope, Audience (optional), and a **client authentication**: **Client secret**, or **Private key JWT** (SMART Backend Services, RS384 or ES384) where Resgrid generates and keeps the key pair and publishes the public key at `/api/v4/workflow-credentials/{id}/jwks.json`. The HTTP action fetches a bearer token and reuses it until 60 seconds before it expires. Use it for Microsoft Dataverse, Entra-protected Azure Functions or Logic Apps, and FHIR EHRs. |
+
+HTTP Bearer, HTTP Basic and HTTP API Key credentials are applied from their type, so the stored fields need no extra `authType`.
 
 ### Creating a Credential
 
@@ -343,6 +354,12 @@ The **Pending** view lists all currently pending and in-progress workflow runs f
 - **Cancel** — Cancel an individual pending run
 - **Clear All** — Cancel all pending runs for the department (with confirmation dialog)
 
+## Protected Workflows (Advanced Data Protection)
+
+In a department with [Advanced Data Protection](data-protection), workflow templates receive `REDACTED` in place of protected values. An administrator can approve a specific workflow as a [Protected Workflow](protected-workflows). It can then send selected fields, available as `protected.call.*`, to one pinned HTTPS destination through API POST or PUT steps. Any later edit to the workflow sends the approval back for re-approval. Every send is recorded in a disclosure log.
+
+Protected API steps also have delivery options for EHR integration: a checked content type (JSON, FHIR JSON, XML, SOAP, HL7 v2), a success rule (for example an HL7 `AA` acknowledgement), response values saved encrypted on the call, and an idempotency header. See [EHR integration](protected-workflows#ehr-integration).
+
 ## Setup examples
 
 | Department type | How to set it up |
@@ -367,6 +384,8 @@ When a workflow step fails:
 4. All retry attempts are visible in the run logs for auditing
 
 The `Max Retry Count` has a server-side ceiling of **5** to prevent infinite retry abuse.
+
+A [Protected Workflow](protected-workflows) retries only failures another attempt could fix: a connection error, a timeout, a 5xx or a 429. Anything else (a 4xx, a rejected acknowledgement, an invalid payload) fails the run at once and notifies the department administrators.
 
 ### Template Sandboxing
 Scriban templates are executed in a sandboxed environment to prevent abuse:
