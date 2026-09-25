@@ -25,7 +25,7 @@ ADP is one control inside a HIPAA / privacy / ePCR compliance program that your 
 
 - **Search, reporting, exports, integrations and offline access** cannot see protected content (Records narrative search is withdrawn; export columns are written as `REDACTED` unless an egress acknowledgement is recorded).
 - **Big Board** shows a reduced *protected incident* shell instead of call details.
-- **Workflows** receive redacted payloads.
+- **Workflows** receive redacted payloads by default. Administrators can approve a specific [Protected Workflow](protected-workflows) to send selected fields to one pinned HTTPS destination; every such disclosure is recorded in a hash-chained audit log.
 - **Text, email, push and voice notifications** send generic content by default (*"A protected dispatch is available — sign in to Resgrid"*). Relaxing a channel is a separate, acknowledged policy change.
 - Resgrid support cannot read protected values without an explicit, audited, department-approved support grant. Key loss is recoverable only through the documented recovery process.
 
@@ -54,6 +54,10 @@ The page then shows **migration progress** (rows processed, current table, anoma
 
 Cancel the add-on on the subscription page. Protection stays active until the end of the current billing period, then an overnight migration decrypts the data back to standard storage (**offboarding**). Until that date the managing member can **revoke offboarding**. Re-enabling later requires purchasing the add-on again and a new enrollment.
 
+## Protected Workflows
+
+The **Protected Workflows** section of this page turns on the one deliberate exception to workflow redaction. It needs a versioned warning acknowledgement, a fresh verification, and the **Configure Protected Data Delivery** permission. You can also require a second administrator to approve each protected workflow. See [Protected Workflows](protected-workflows) for setup, the approval rules and a Dataverse example.
+
 ## Emergency contacts
 
 The Data Protection page also hosts the member's **emergency contacts** for this department (name, relationship, phone, alternate phone, email, notes, primary flag), stored under the department's protection settings.
@@ -76,4 +80,5 @@ The Data Protection page also hosts the member's **emergency contacts** for this
 | Permissions | `ManageDepartmentDataProtection` (31), `ViewProtectedCallData` (32), `EditProtectedCallData` (33), `ViewProtectedPersonnelData` (34), `ViewProtectedContactData` (35), `ViewProtectedOperationalData` (36), `ExportProtectedData` (37), `ConfigureProtectedDataEgress` (38), `BreakGlassProtectedData` (39) |
 | State | `DepartmentDataProtectionPolicies.State` (durable); migration and offboarding run by workers in the department's window |
 | Grant | `IProtectedGrantContext` / `__ResgridProtectedGrant` form field carries the step-up grant on writes |
+| Protected Workflows | Toggle and two-person rule on `DepartmentProtectedDataEgressPolicies`; releases and the disclosure chain in `WorkflowProtectedReleases` / `ProtectedWorkflowDisclosures`; broker workload purpose `protected-workflow` |
 | Design | `int-Coordination/docs/architecture/department-protected-data-implementation-plan.md` |
