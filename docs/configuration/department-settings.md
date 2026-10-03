@@ -119,7 +119,7 @@ Dispatch settings control how the dispatch system interacts with shifts, groups,
 
 ## Mapping Settings
 
-These settings control how long personnel and unit location data remains visible on maps.
+These settings control how long personnel and unit location data remains visible on maps, and which Mapbox base map style every department map uses.
 
 | Setting                                  | Default | Description                                                              |
 | ---------------------------------------- | ------- | ------------------------------------------------------------------------ |
@@ -127,6 +127,8 @@ These settings control how long personnel and unit location data remains visible
 | Unit Location TTL                        | —       | How long unit location pins remain on the map                            |
 | Personnel Allow No-Location Overwrite    | Off     | A status update without GPS can overwrite a previous status that had GPS |
 | Unit Allow No-Location Overwrite         | Off     | A unit state without GPS can overwrite a previous state that had GPS     |
+| Day Map Style                            | Automatic (Streets) | Mapbox base map for the website and for the apps in light mode: Streets, Outdoors, Light, Dark, Satellite, Satellite with Streets, Navigation Day or Navigation Night |
+| Night Map Style                          | Automatic | Base map the apps use in dark mode; Automatic follows the day style (Dark for road maps, Navigation Night for Navigation Day, unchanged for Outdoors and satellite) |
 
 ## Module Settings
 

@@ -62,9 +62,21 @@ How the letterhead renders on record prints. Identity and logo come from the [De
 
 Every save is a new layout version stamped in the provenance footer of every print. Per-definition layouts can override this.
 
-## NERIS settings
+## NERIS reporting
 
-Covered in [NERIS incident reports](incident-reports#neris-settings): entity ID, environment, credentials, enable / auto-submit, protected egress acknowledgement and the call-type crosswalk.
+| Setting | Meaning |
+|---|---|
+| **Use NERIS workflows** | On by default. Turn it off if your department does not report to NERIS. |
+
+Turning NERIS workflows off affects only NERIS:
+
+- Incident reports finalize without the NERIS rules. Required custom fields and evidence checks still apply. Conditional sections show as suggestions.
+- Nothing is validated with or submitted to NERIS. Queued submissions wait, and submission recovery is paused.
+- The NERIS settings screen, the NERIS figures on the dashboard and analytics, and the health alert for failed submissions are hidden.
+
+Everything else in Records keeps working: incident reports and analyses, review, numbering, retention, disclosures, search and printing. The NERIS profile, credential, call-type crosswalk and submission history are kept. When NERIS is turned back on, submission continues from where it stopped.
+
+While NERIS workflows are on, the NERIS profile itself is covered in [NERIS incident reports](incident-reports#neris-settings): entity ID, environment, credentials, enable / auto-submit, protected egress acknowledgement and the call-type crosswalk.
 
 ## Public-records disclosure
 
@@ -79,5 +91,5 @@ Covered in [NERIS incident reports](incident-reports#neris-settings): entity ID,
 | Item | Value |
 |---|---|
 | Route | `/User/Records/Settings` |
-| Model | `RecordsDepartmentSettings` (department setting 74 holds retention overrides; settings 70–77 belong to the Records settings screen) |
+| Model | `RecordsDepartmentSettings` (department setting 74 holds retention overrides; settings 70–77 and 111 `RecordsNerisWorkflowsEnabled` belong to the Records settings screen) |
 | Related | `/User/IncidentReports/Settings` (NERIS), `/User/Department/Profile` (letterhead identity) |

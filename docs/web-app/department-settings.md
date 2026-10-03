@@ -62,7 +62,7 @@ The department's own address (a station or district office) is used to locate th
 | **Default call statuses** | The status personnel / units are set to when **dispatched** and when **released** from a call; per-unit-type overrides for types with custom statuses. |
 | **Rest period** | Deprioritise a unit or person for N minutes after a dispatch so the same resources are not sent back-to-back. |
 | **New call form fields** | Which built-in fields appear on the New Call form and which are required (name, nature, priority and type are always shown and required). |
-| **Unit status timers** | Highlight a unit on the Big Board when it has sat in a status too long (e.g. dispatched > 4 min without departing). |
+| **Unit status timers** | Highlight a unit on the Big Board when it has sat in a status too long (e.g. dispatched > 4 min without departing). Dispatchers can acknowledge, mute or annotate the alert from the Big Board's Unit Alerts widget — see [Big Board](../apps/big-board). |
 | **Run cards & automatic dispatch** | Selection mode, auto-dispatch, minimum staffing, move-ups, closest-unit tuning (maximum location age, radius, include stale, order by driving ETA, shortlist size), station coverage minimums — see [Run Cards](run-cards). |
 | **Check-in timers** | Auto-enable on new calls, default timer configs and per-type/priority overrides — see [Call Check-in Timers](call-checkin-timers). |
 
@@ -96,6 +96,23 @@ The department's own address (a station or district office) is used to locate th
 ## Mapping & Big Board settings
 
 `/User/Department/MappingSettings` — for personnel and units: **TTL in minutes** for locations shown on maps (0 = show forever) and **allow a status with no location to hide the previous location**. See [Mapping](mapping).
+
+**Map Style** picks the Mapbox base map every map in your department shows — the website and the Dispatch, Responder, Unit, IC and Big Board apps on iOS, Android and web:
+
+| Setting | Choices | Notes |
+|---|---|---|
+| **Day map style** | Automatic (Streets), Streets, Outdoors (terrain), Light, Dark, Satellite, Satellite with Streets, Navigation Day, Navigation Night | Used on the website, and in the apps when the device is in light mode. |
+| **Night map style** | Automatic, or any of the styles above | Used by the apps when the device is in dark mode. **Automatic** follows the day style: road maps go Dark, Navigation Day goes Navigation Night, and Outdoors and the satellite styles stay as they are. The website always shows the day style. |
+
+Previews of both styles centred on your department appear under each picker. Apps pick up a change the next time they load their configuration (sign-in or app restart). If your Resgrid installation has no Mapbox token for the website, website maps keep the standard map and the style applies in the apps only; the page says so. The **Department Mapbox Override** (your own Mapbox style and public `pk.` token) takes precedence everywhere: the website and all the apps then render your custom style (in light and dark mode) on your token.
+
+The apps also receive the Mapbox token to use from the server when they load their configuration: your department's override token, or else the token your Resgrid installation configures for that app. Each app checks the token with Mapbox once, stores it on the device, and falls back to the token built into the app when none is sent or the token is invalid, expired or revoked — so a token can be rotated without an app update.
+
+| Department type | Suggested style |
+|---|---|
+| Wildland fire, SAR | Outdoors (terrain contours), or Satellite with Streets |
+| Structure fire, EMS, transport | Navigation Day / Navigation Night for driving, or Streets |
+| Dispatch centre wall displays | Light or Dark to keep pins and polygons high-contrast |
 
 ## API settings
 

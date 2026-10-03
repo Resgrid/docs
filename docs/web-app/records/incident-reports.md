@@ -91,6 +91,8 @@ For fire and hazmat incidents NERIS takes a separate **incident analysis** (caus
 
 Self-hosted operators can switch NERIS off system-wide (*NERIS submission is switched off system-wide*).
 
+A department that does not report to NERIS can turn **Use NERIS workflows** off in [Records settings](settings#neris-reporting). Incident reports are then ordinary department records: they finalize without the NERIS rules, the validate and submit actions are hidden, and this screen redirects to Records settings. The profile and crosswalk are kept for when NERIS is turned back on.
+
 ## Setup examples
 
 | Department | Recommended configuration |

@@ -56,6 +56,18 @@ Displays all department units with their current status:
 - **Font size**: Adjustable from 4pt to 30pt
 - **Group filtering**: Hide specific groups
 - **Group sort order**: Custom weighted sorting
+- **Status timer highlighting**: When the department has [unit status timers](../web-app/department-settings) set, units that have sat in a status too long move to the top in amber (warning) or red (alert) with the time in status. Acknowledged units keep their edge colour with a check mark; muted units show a muted bell and drop back into the list.
+
+#### Unit Alerts Widget
+A compact panel listing only the units that are over a unit status timer, most urgent first.
+
+Dispatchers (anyone with the **Create Call** permission) can tap an alert to:
+- **Acknowledge** it: the unit stays in the list, marked *Seen by* with their name, so everyone knows it is being handled.
+- **Mute** it: the unit moves into a collapsed *Muted* section until the status changes, or for 15, 30 or 60 minutes. When a timed mute runs out, the unit comes back as acknowledged.
+- **Add a note** explaining the situation, e.g. *"MUG not departed, technical malfunction reported."* or *"Second crew member unavailable, alternative ambulance dispatched."*
+- **Clear** an acknowledgement to show the alert at full strength again.
+
+Acknowledgements are shared: every Big Board in the department updates right away. They only cover the status the unit was in. When the unit reports a new status, the acknowledgement ends. A unit acknowledged at the warning level comes back unacknowledged when it reaches the alert level. Status timers only highlight units on the board; they do not send pages or notifications.
 
 #### Calls Widget
 Displays active dispatch calls:
