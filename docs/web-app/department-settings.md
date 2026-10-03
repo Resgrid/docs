@@ -101,8 +101,10 @@ The department's own address (a station or district office) is used to locate th
 
 | Setting | Choices | Notes |
 |---|---|---|
-| **Day map style** | Automatic (Streets), Streets, Outdoors (terrain), Light, Dark, Satellite, Satellite with Streets, Navigation Day, Navigation Night | Used on the website, and in the apps when the device is in light mode. |
-| **Night map style** | Automatic, or any of the styles above | Used by the apps when the device is in dark mode. **Automatic** follows the day style: road maps go Dark, Navigation Day goes Navigation Night, and Outdoors and the satellite styles stay as they are. The website always shows the day style. |
+| **Day map style** | Automatic (Streets); **Mapbox styles:** Streets, Outdoors (terrain), Light, Dark, Satellite, Satellite with Streets, Navigation Day, Navigation Night; **Community styles:** see below | Used on the website, and in the apps when the device is in light mode. |
+| **Night map style** | Automatic, or any of the styles above | Used by the apps when the device is in dark mode. **Automatic** follows the day style: road maps go Dark, Navigation Day goes Navigation Night, and Outdoors, the satellite styles and every community style stay as they are. The website always shows the day style. |
+
+**Community styles** are the designer maps from the [Mapbox gallery](https://www.mapbox.com/gallery)'s community templates: American Memory, Basic, Basic Overcast, Blueprint, Bubble, Cali Terrain, Decimal, Finland Topo, Frank, Ice Cream, Lè Shine, Mineral, Minimo, Moonlight, Neon Glow, North Star, Pencil, Standard Oil Company, Mapbox Streets Japan and Unicorn. Several are artistic and show little street detail (Bubble, Neon Glow and Unicorn especially), so check the preview before using one for dispatch. Two gallery styles that Mapbox does not publish for use by other accounts (NASA's Black Marble, Water World) are not offered.
 
 Previews of both styles centred on your department appear under each picker. Apps pick up a change the next time they load their configuration (sign-in or app restart). If your Resgrid installation has no Mapbox token for the website, website maps keep the standard map and the style applies in the apps only; the page says so. The **Department Mapbox Override** (your own Mapbox style and public `pk.` token) takes precedence everywhere: the website and all the apps then render your custom style (in light and dark mode) on your token.
 
@@ -112,7 +114,8 @@ The apps also receive the Mapbox token to use from the server when they load the
 |---|---|
 | Wildland fire, SAR | Outdoors (terrain contours), or Satellite with Streets |
 | Structure fire, EMS, transport | Navigation Day / Navigation Night for driving, or Streets |
-| Dispatch centre wall displays | Light or Dark to keep pins and polygons high-contrast |
+| Dispatch centre wall displays | Light or Dark to keep pins and polygons high-contrast; Moonlight or Decimal for a minimal backdrop |
+| Marine / coastal rescue | North Star (nautical chart look) |
 
 ## API settings
 
