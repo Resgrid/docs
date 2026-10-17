@@ -62,6 +62,10 @@ The **Protected Workflows** section of this page turns on the one deliberate exc
 
 The Data Protection page also hosts the member's **emergency contacts** for this department (name, relationship, phone, alternate phone, email, notes, primary flag), stored under the department's protection settings.
 
+## Imports and ADP
+
+[Import & Migration](import-and-migration/overview) works in an enrolled department. Protected fields in an import — a person's ID number, department notes and home address, and a certification's number, area and issuer — are written through the same protection layer as the Resgrid screens, so they are encrypted from the moment they are saved, never stored in plaintext first. Uploaded files are always stored encrypted, and with ADP they are kept only **72 hours** after a successful import by default (instead of 7 days). Resgrid support never sees protected values through Import & Migration, whatever support access you grant. An import and an ADP migration window never run at the same time: each waits for the other to finish.
+
 ## Setup examples
 
 | Department | Recommendation |

@@ -90,6 +90,15 @@ All default to *department administrators*. See the [Workforce & Business Ops ov
 |---|---|
 | Manage data protection settings · View / edit protected call data · View protected personnel / contact / operational data · Export protected data · Configure protected data delivery · Emergency break-glass access | See [Advanced Data Protection](data-protection). |
 
+### Import & Migration
+
+These two are fixed to **department administrators** (and the managing user). They are not listed on this screen and cannot be widened to other members or roles.
+
+| Permission | Controls |
+|---|---|
+| **Manage Department Import** (72, `ManageDepartmentImport`) | Everything in [Import & Migration](import-and-migration/overview): upload files, match columns and values, fix issues, approve and run imports, roll them back, activate and invite imported people, and grant or revoke Resgrid support access. |
+| **Manage Record Imports** (73, `ManageRecordImports`) | Reserved for importing third-party incident history into [Records](records/overview) and deleting such an import. Kept separate so a configuration import never implies the right to write history into Records; not used by the current release. |
+
 ## Two-factor enforcement
 
 **Require 2FA for admins**: *Disabled*, *Department admins + managing user*, or *… + group admins*. You cannot enable it until you and the managing user both have 2FA on your own accounts. Affected members are sent to the setup page at next login.

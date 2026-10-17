@@ -56,6 +56,14 @@ Writes go through the feature-toggle service, so caches are invalidated and an a
 | `CostRecovery.CalOesMars` | Cal OES MARS cost recovery. | `Business.Operations` | M0219 (off) |
 | `Workforce.InternalCosting` | Workforce compensation, work entries, resource costing and cost runs. | `Business.Operations` | M0224 (off) |
 | `Compliance.CaliforniaPayDataReporting` | California CRD pay data report wizard and demographic self-identification; the department's Advanced Data Protection state must also be *Enabled*. | `Business.Operations` | M0224 (off) |
+| <a id="onboarding-flags"></a>`Onboarding.MigrationWizard` | [Import & Migration](../web-app/import-and-migration/overview): the self-service import of configuration, people and apparatus. Master switch; department administrators only. | — | M0276 (off) |
+| `Onboarding.OperationsData` | Import & Migration wave 2B: dispatch configuration, shifts, calendar, geography, contacts and Records prevention data. Not used by the current release. | `Onboarding.MigrationWizard` | M0276 (off) |
+| `Onboarding.ReadinessData` | Import & Migration wave 2C: inventory, checklists, maintenance plans, open work orders and Business Ops profiles. Not used by the current release. | `Onboarding.MigrationWizard` | M0276 (off) |
+| `Onboarding.OperationalHistory` | Import & Migration phase 3: closed calls, training results and certification history. Not used by the current release. | `Onboarding.MigrationWizard` | M0276 (off) |
+| `Onboarding.HistoricalRecords` | Import & Migration phase 3R: third-party incident history into Records. Not used by the current release. | `Onboarding.MigrationWizard`, `Records.System` | M0276 (off) |
+| `Onboarding.VendorPacks` | Import & Migration phase 3B: sample-validated vendor export packs. Not used by the current release. | `Onboarding.MigrationWizard` | M0276 (off) |
+| `Onboarding.DepartmentPackage` | Import & Migration phase 4: Resgrid department package export, cluster moves and configuration cloning. Not used by the current release. | `Onboarding.MigrationWizard` | M0276 (off) |
+| `Onboarding.ManagedMigration` | Operator-only: offers the **Operate** support access level (Resgrid staff run an import with two-person control) and the *Please do the migration for us* request, for a department with an agreed managed migration. Never enabled globally; set per department. | `Onboarding.MigrationWizard` | M0276 (off, permanent) |
 
 ## Other gates
 

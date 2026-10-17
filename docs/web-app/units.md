@@ -27,6 +27,10 @@ A **unit** is anything that responds as one thing and has a status of its own: a
 
 Adding is blocked when the plan's unit limit is reached.
 
+:::tip Have a spreadsheet?
+To add many units and unit types at once — from an apparatus list or the system you are leaving — use [Import & Migration](import-and-migration/overview) (**Department menu → Import & Migration**, department administrators, where it is turned on). Every row is checked and previewed before anything is saved. See the [Units field reference](import-and-migration/units).
+:::
+
 ## Unit status
 
 Set a unit's status from the list, the [Dashboard](dashboard), the Unit app or the API. Statuses come from the default set — Available, Delayed, Unavailable, Committed, Out of Service — or, more usually, from [custom unit statuses](custom-statuses) defined per unit type (Responding, On Scene, Transporting, At Hospital, Returning …). A status can require a **destination** (a station or an active call) and carries an optional note and location. Statuses drive dispatch availability, the map, Big Board and reports.

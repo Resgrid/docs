@@ -45,6 +45,10 @@ Setting your department address establishes the geographic center for mapping an
 Ensure your department address is accurate. This address is used as the default center point for maps throughout the system including the Big Board, Dispatch Map, and Mapping modules. An incorrect address will cause maps to center on the wrong location.
 :::
 
+## Moving from another system
+
+If your department already has its people, stations and apparatus in spreadsheets or in another product, choose **Import or migration** in the first step of the Setup Wizard (see [Setup Wizard, Setup Report and Admin Assist](../web-app/help-setup#start-setup)). It offers **Open Import & Migration**, where you upload your files or the Resgrid starter workbook, check and fix every row, and approve the import; nothing is saved until you approve it, and imported people receive nothing until you invite them. The button appears for department administrators when Import & Migration is turned on for the department. See [Import & Migration](../web-app/import-and-migration/overview).
+
 ## After Setup
 
 Once the Setup Wizard is complete, you should proceed to configure the following areas in order:
@@ -55,6 +59,8 @@ Once the Setup Wizard is complete, you should proceed to configure the following
 4. **[Department Settings](department-settings.md)** — Fine-tune department-wide settings
 5. **[Custom Statuses](custom-statuses.md)** — Set up your status and staffing options
 6. **[Types](types.md)** — Define call types, unit types, and other categories
+
+Steps 1, 2, 3, 5 and 6 can also be done in bulk from a spreadsheet with [Import & Migration](../web-app/import-and-migration/overview).
 
 ## Clearing the Department Cache
 

@@ -27,6 +27,10 @@ title: Groups & Stations
 | **PrintNode printer / Print calls to printer** | With a PrintNode account, calls dispatched to this group's members or units are printed on the station printer. |
 | **Group admins / Group users** | Assign members. A person can be in **one group only**. |
 
+:::tip Have a spreadsheet?
+To create all your stations and groups at once — with addresses and parent groups — use [Import & Migration](import-and-migration/overview) (**Department menu → Import & Migration**, department administrators, where it is turned on). Every row is checked and previewed before anything is saved. See the [Stations and groups field reference](import-and-migration/stations-and-groups).
+:::
+
 ## Geofence (response area)
 
 **Geofence** on a station opens a map; click to draw the boundary of the station's first-due area and pick a **district colour**. Geofences are used by:

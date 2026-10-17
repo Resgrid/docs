@@ -85,6 +85,15 @@ When **Department Admins and Select Roles** is selected, you can specify which p
 | Contact Edit             | Everyone      | Who can edit contact records                                    |
 | Contact Delete           | Everyone      | Who can delete contact records                                  |
 
+### Import & Migration
+
+| Permission                    | Default             | Description                                                     |
+| ----------------------------- | ------------------- | --------------------------------------------------------------- |
+| Manage Department Import (72) | Dept Admins (fixed) | Who can use [Import & Migration](../web-app/import-and-migration/overview): upload, match, fix, approve and run imports, roll back, activate and invite imported people, and grant support access |
+| Manage Record Imports (73)    | Dept Admins (fixed) | Reserved for importing third-party incident history into Records; not used by the current release |
+
+Both are fixed to department administrators and the managing user: they do not appear in the permissions list and cannot be granted to other members or roles.
+
 ## Lock to Group
 
 Some visibility permissions support a **Lock to Group** option. When enabled, personnel can only see data (locations, users, units) that belongs to their own group. This is useful for large departments where groups operate independently and should only see their own members on maps and in personnel lists.

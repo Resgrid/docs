@@ -37,6 +37,10 @@ Two ways:
 
 New accounts start with every contact method **pending verification**; the member verifies email and phone from their profile before dispatches and messages are sent to those channels ([contact verification](../configuration/contact-verification)). Adding is blocked when the plan's personnel limit is reached.
 
+:::tip Have a spreadsheet?
+To bring in a whole roster at once — from a spreadsheet or the system you are leaving — use [Import & Migration](import-and-migration/overview) (**Department menu → Import & Migration**, department administrators, where it is turned on). Every row is checked before anything is saved, and imported people stay dormant until you invite them. See the [People field reference](import-and-migration/people).
+:::
+
 ## Viewing and editing a person
 
 **View** shows the profile, group, roles, department flags (admin, disabled, hidden), current staffing and status, [certifications](business-ops/certifications) (with expiry, verification and credits), events and — where enabled — the equipment issued to them. **Edit** (or the person's profile page) changes:
