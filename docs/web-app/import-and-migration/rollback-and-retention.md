@@ -64,6 +64,7 @@ Changes are undone in the reverse order they were written — people before the 
 | **Brought back** a member removed earlier | Removes them again, as they were before, together with what the import added — unless they accepted their invitation since. |
 | **Retired** a record (*Replace*) | Brings it back, unless a record with the same name has been created since. |
 | **Made a different call priority the default** | Restores the previous default. |
+| **Changed a setting** ([Configure](configure)) | Puts back the value it replaced, unless someone changed the setting since. A next number is never lowered, and a replaced logo is not restored (a logo added where there was none is removed). |
 | **Linked** an existing record | Nothing to undo. |
 
 <a id="rollback-keeps"></a>
@@ -76,6 +77,8 @@ Rollback never deletes something people have started to use. These records stay 
 | The record is in use: a person accepted their invitation; a station still has members, units or child groups; a role still has members; a certification, unit or point of interest type is still used; a status set still has buttons added since. | `IMP-ROLLBACK-HAS-ACTIVITY` |
 | Someone changed the record after the import, so restoring the old values would overwrite their work. | `IMP-ROLLBACK-CHANGED-SINCE` |
 | Something the import added to an existing member was changed afterwards — review the person's group, roles and details on the Personnel screen. | `IMP-ROLLBACK-MEMBER-UPDATE` |
+| A next number the import raised: numbers only go up, so it stays. Nothing to do unless you want a different numbering. | `IMP-ROLLBACK-NUMBER-KEPT` |
+| The import replaced the department logo; the previous one is not kept. Upload it again on the Profile screen. | `IMP-ROLLBACK-LOGO-REPLACED` |
 | An account could not be closed — remove the person on the Personnel screen. | `IMP-ROLLBACK-ACCOUNT` |
 | The record could not be undone, or cannot be undone automatically. | `IMP-ROLLBACK-FAILED`, `IMP-ROLLBACK-NO-WRITER`, `IMP-ROLLBACK-MANUAL` |
 

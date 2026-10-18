@@ -22,7 +22,7 @@ The **Review & import** tab of a workspace, or **Review and import** on a ready 
 |---|---|
 | **Stat tiles** | Totals across the data sets: **Add**, **Update or link**, **Unchanged**, **Invite to join**, **Blocked** (opens the Issues tab). |
 | **What will happen** | A bar chart per data set and a table: data set, status, *Add*, *Update or link*, *Unchanged*, *Skip*, *Blocked*. |
-| **Approve** | The [capacity statement](#capacity), anything that stops approval, the data sets in this import, the statements to confirm, the [write mode](#write-modes) and **Approve and import**. |
+| **Approve** | The [capacity statement](#capacity), anything that stops approval, the [settings that change first](#configuration), the data sets in this import, the statements to confirm, the [write mode](#write-modes) and **Approve and import**. |
 
 <a id="enable"></a>
 ## Turning it on
@@ -42,6 +42,11 @@ Part of Import & Migration: the `Onboarding.MigrationWizard` flag on for your de
 
 How rows are matched to existing records is described on each field reference page — for example [People](people#people-matching) are matched by email.
 
+<a id="configuration"></a>
+## Settings changed first
+
+The settings you accepted on the [Configure](configure) tab go with every import you approve. The **Approve** panel shows *N settings will be changed first, before any data.* with the count per group, **Review the settings** opens the Configure tab, and one more statement is ticked: *I have reviewed the settings that will change. Each one can be rolled back while nobody has changed it since.* An import can be settings alone, without a data set.
+
 <a id="capacity"></a>
 ## Plan capacity
 
@@ -57,6 +62,7 @@ Capacity is checked again when the import starts, and each new person or unit is
 <a id="blockers"></a>
 ## What stops approval
 
+- *Some accepted settings cannot be changed as they stand: fix them on the Configure tab first.* See [Configure → Statuses](configure#statuses).
 - *An import is already waiting or running for this workspace.* Only one import or rollback runs per department at a time.
 - *No data set is ready yet: fix the open issues first.*
 - The capacity messages above.

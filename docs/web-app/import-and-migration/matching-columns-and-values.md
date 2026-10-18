@@ -38,6 +38,22 @@ Part of Import & Migration: the `Onboarding.MigrationWizard` flag on for your de
 
 Resgrid proposes a destination from the column headers (see [From files to data sets](uploading-and-checks#data-sets)). While it is not confirmed, the Data sets table shows an *N% sure* chip and, below 85%, a blocking issue *We're not sure what this file contains*. Pick the right kind of data under **What does this file contain?** and select **Confirm** (or **Change** after it has been confirmed). Changing the destination proposes a fresh set of column matches for it.
 
+<a id="glossary"></a>
+## Glossary
+
+When you have told Resgrid which products you are moving from ([Where your data comes from](uploading-and-checks#products)), a **Glossary** panel on the data set page (and, closed, on the Files and Configure tabs) lists each product's words next to what Resgrid calls that kind of record — for example, from Aladtec:
+
+| In Aladtec | In Resgrid |
+|---|---|
+| Members | People *(Suggested name)* |
+| Work groups | Stations and groups |
+| Positions | Roles |
+| Qualifications | Certification types |
+| Schedules | Shifts (not imported) |
+| Payroll | Not imported |
+
+A word that lands in a data set names it as **What does this file contain?** does, so you can pick the right destination. *(not imported)* means Resgrid has that feature but an import doesn't fill it; **Not imported** means Resgrid keeps no such record. Features are named as your department names them. **Suggested name** marks a word that the [Configure tab](configure#suggestions) offers as your name for the feature. Words are shown in your language when the product has them (DIVERA 24/7 in German, for example), otherwise as the product shows them.
+
 <a id="match-columns"></a>
 ## Matching columns
 

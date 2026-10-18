@@ -39,6 +39,7 @@ Passwords, national ID numbers, card and bank numbers, dates of birth, alarm and
 ## Where to find it
 
 - **Department menu → Import & Migration** (below *Subscription & Billing*). The item appears only for department administrators, and only when the feature is turned on for your department.
+- **Admin Assist → Import & Migration**: the button in the toolbar on every Admin Assist tab, and the **Import & Migration** card beside the review on **Setup Report** and **Admin AI → Overview**. See [Help & Setup](../help-setup#start-setup).
 - **Setup Wizard → step 1 → Import or migration → Open Import & Migration** — the starting point for a new department. See [Help & Setup](../help-setup#start-setup).
 - Directly at `/User/DepartmentImport`.
 
@@ -60,6 +61,7 @@ Inside a workspace the heading shows the mode, the target go-live date, *N of N 
 | **Overview** | Your progress (journey steps with *Done* / *Needs attention* / *To do* chips), the **Next step** card, stat tiles (rows checked, ready to import, need attention, imported, people to invite), one card per data set, the top issues, help from Resgrid and the timeline. | this page |
 | **Files & data sets** | Upload files, download the starter workbook and templates, see each data set; open one to match its columns and values. | [Uploading and checks](uploading-and-checks), [Matching](matching-columns-and-values) |
 | **Issues** | Everything the checks found, grouped by problem, with one-click fixes. The tab shows the number of open blocking issues. | [Fixing issues](fixing-issues) |
+| **Configure** | The settings the import changes — department record, profile and logo, modules, names, map, numbering, permissions — with suggestions from your operating profile and your data. | [Configure Resgrid](configure) |
 | **Review & import** | The preview, the statements you confirm and **Approve and import**. | [Review and import](review-and-import) |
 | **Verify & activate** | Results, the activation checklist, administrators, invitations and sign-off. | [Verify and activate](verify-and-activate) |
 | **History** | Every run with its progress and counts; pause, resume, cancel and roll back. | [Rollback and retention](rollback-and-retention) |
@@ -88,8 +90,9 @@ The **Your progress** list on the Overview tab follows these steps. Steps 3–6 
 | 2 | **Get your files** | Download the [starter workbook](starter-workbook) or export from your current system, then upload. | Uploads in pieces, scans the file, splits workbooks into data sets and works out what each one contains ([details](uploading-and-checks)). |
 | 3 | **Match columns and values** | Confirm what each file contains, which column fills which field, and how codes in your file map to Resgrid options ([details](matching-columns-and-values)). Skipped for the starter workbook. | Re-checks after every change. |
 | 4 | **Fix issues** | Work through grouped issues: accept a warning, exclude rows, set a value, or fix the file and upload it again ([details](fixing-issues)). | Runs the [verification ladder](uploading-and-checks#ladder). |
+| 4a | **Configure Resgrid** | Describe your department, then accept, change or decline the settings the import will change: names, modules, numbering and more ([details](configure)). | Suggests values from your operating profile and your data; changes nothing until you approve. |
 | 5 | **Review & approve** | Read the preview, tick the statements, choose how existing records are treated, approve with your second factor ([details](review-and-import)). | Freezes what you approved; a second administrator may need to approve too. |
-| 6 | **Import** | Watch progress on the History tab, or leave. You can pause or cancel between chunks. | Writes in dependency order, in small chunks, journaling every change. |
+| 6 | **Import** | Watch progress on the History tab, or leave. You can pause or cancel between chunks. | Changes the accepted settings first, then writes in dependency order, in small chunks, journaling every change. |
 | 7 | **Verify** | Review the checks that compare what was written with what was approved ([details](verify-and-activate)). | Reconciles counts and refreshes caches and search. |
 | 8 | **Activate & invite** | Confirm administrators, invite people, sign off ([details](verify-and-activate#invite-people)). | Sends invitations in small batches outside night hours. |
 | 9 | **After import** | Roll back within the window, or let files and checked data expire ([details](rollback-and-retention)). | Deletes files and checked data on schedule. |

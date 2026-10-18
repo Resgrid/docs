@@ -43,6 +43,18 @@ If the connection drops or the page reloads, select the **same file** again and 
 
 The original file name is shown to you but never used to store the file, and the file itself is kept only for its [retention period](rollback-and-retention#retention-schedule).
 
+<a id="products"></a>
+## Where your data comes from
+
+On the Files tab, **Where your data comes from** records the products you are moving from. Choose one under **Add a product** and select **Add product**; remove one with the **×** beside it. You can choose several. The list is grouped by what Resgrid has for each product:
+
+| Badge | Products | What you get |
+|---|---|---|
+| **Glossary available** | Active911, Aladtec, D4H Team Manager, DIVERA 24/7, Emergency Reporting, ESO Fire RMS, First Due, GIS layers (ArcGIS, CalTopo), IamResponding, Mark43 CAD, NERIS, NFIRS 5.0, Ontario Standard Incident Report (SIR), PSTrax, UKG TeleStaff, Vector LMS (TargetSolutions), Vector Scheduling (CrewSense) | The product's [glossary](matching-columns-and-values#glossary): what its words are called in Resgrid. Its words for Resgrid's features are suggested on the [Configure tab](configure#suggestions) (for example *Members* for Personnel from Aladtec). |
+| **No direct import — use a spreadsheet** | Alpine RedAlert NMX, CentralSquare, Fire Service Rota, Firehouse Software, FireManager, FirstIn, Gartan, Hexagon HxGN OnCall, Motorola PremierOne / Flex, Operative IQ, PageOne, SARCALL, Shiftboard, Station Boss, Tyler New World, When I Work, Who's Responding, ZOLL FireRMS | Nothing beyond a spreadsheet: Resgrid found no reliable public information about these products' exports. Export your data to a spreadsheet or CSV and match its columns ([starter workbook](starter-workbook)). |
+
+Not listed? Export your data to a spreadsheet or CSV: every file is matched the same way. Resgrid does not read any of these products' files directly yet, and choosing a product changes nothing about how your files are read, matched or recognized on a later import. A product can't be removed while a data set of the import comes from it (*A data set in this import comes from that product, so it can't be removed.*).
+
 <a id="continue"></a>
 ## Continuing an earlier import
 

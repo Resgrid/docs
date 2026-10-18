@@ -49,6 +49,17 @@ The department's own address (a station or district office) is used to locate th
 
 ![Module settings](/img/web-app/department/module-settings.png)
 
+## Terminology
+
+`/User/Department/Terminology` (**Department settings → Terminology**, also **Rename modules and record types** on Module settings) — use your department's own words. A name set here replaces Resgrid's name for that module or record type in the navigation, on page titles, wherever record types are listed and in the Responder, Unit, IC and Dispatch apps, for every member and in every language. Only the label changes: permissions, links and integrations are not affected. Leave a box empty to keep Resgrid's name.
+
+| Section | Names |
+|---|---|
+| **Modules** | Calls, Personnel, Units, Contacts, Mapping, Shifts, Records, Logs, Reports, Documents, Calendar, Notes, Trainings, Inventory, Readiness, Work Orders, Checklists, Workforce & Business. Shown in the navigation, as the title of the module's main page and in the apps' menus; sentences elsewhere that mention a module keep Resgrid's wording. |
+| **Record types** | Run, Training, Work, Meeting, Coroner, Callback, Unit activity, NERIS incident report — the built-in Records and Logs types, wherever a type is chosen, listed, printed or exported. To add a type of your own, such as Public Education, create a [record definition](records/settings). |
+
+A name is up to 50 characters; invisible characters are removed and runs of spaces become one. A longer name is not saved and stays in its box for correcting (*Your other names were saved.*). Department administrators only. The apps read the names through `GET /api/v4/Config/GetTerminology`. [Import & Migration](import-and-migration/configure#names) can set them too, together with the rest of a migration's configuration.
+
 ## Call & dispatch settings
 
 `/User/Department/DispatchSettings`

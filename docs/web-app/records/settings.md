@@ -124,6 +124,8 @@ The **Next numbers** table lists every sequence the current pattern and prefixes
 | Never restart the sequence | `{PREFIX}-{SEQ}` | Defaults | `RUN-000001` (with 6 sequence digits) |
 | Incident reports follow a November fiscal year named by the year it ends in | `{PREFIX}{YY}-{SEQ}`, year starting November 1 | Incident reports `EZKT` | `EZKT27-0001` from November 1, 2026 |
 
+Moving to Resgrid with Import & Migration? Its Configure tab can set record numbering for you, including the next numbers that continue your old system's ([Configure → Record numbering](../import-and-migration/configure#record-numbering)).
+
 ## Retention
 
 Shipped defaults: **7 years** for standard records; **permanent** for Coroner and other restricted classes. Retention is your department's responsibility under your jurisdiction's rules.

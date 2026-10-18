@@ -38,7 +38,7 @@ The module needs the `Onboarding.MigrationWizard` feature flag (off by default, 
 <a id="exports"></a>
 ## Exports to request from your current vendor
 
-Ask for these while your contract is still active. One file per kind of data, or one workbook with a sheet each, is ideal.
+Ask for these while your contract is still active. One file per kind of data, or one workbook with a sheet each, is ideal. Once your workspace exists, tell Resgrid which products you are moving from ([Where your data comes from](uploading-and-checks#products)) to see what their words are called in Resgrid.
 
 | Export | Needed for | Ask for these columns |
 |---|---|---|
@@ -63,7 +63,7 @@ Ask for the files to be:
 <a id="not-imported"></a>
 ## What is and isn't imported
 
-**Imported in this release:** the twelve data sets on the [overview](overview#import-migration), with the fields listed on each field reference page. Columns that do not match a field can be left out or, for people and units, [kept as custom fields](matching-columns-and-values#custom-fields).
+**Imported in this release:** the twelve data sets on the [overview](overview#import-migration), with the fields listed on each field reference page. Columns that do not match a field can be left out or, for people and units, [kept as custom fields](matching-columns-and-values#custom-fields). The department's own settings — name, time zone, address, profile and logo, modules, names, map, numbering and a few permissions — are set on the [Configure](configure) tab rather than from a file.
 
 **Never imported**, whatever the file says:
 

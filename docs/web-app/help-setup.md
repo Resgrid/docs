@@ -38,6 +38,8 @@ Step 1 asks how you are starting. Choose **Fresh setup**, **Review existing setu
 
 **Import or migration** offers **Open Import & Migration** — *Bring data from your current systems with Import & Migration. Admin Assist then verifies the result.* — where you bring people, stations, apparatus and settings from spreadsheets or the system you are leaving; nothing is saved until you review and approve it (see [Import & Migration](import-and-migration/overview)). The button appears when Import & Migration is turned on for your department and you are a department administrator.
 
+Import & Migration is also one click away whatever you chose: Admin Assist shows an **Import & Migration** button in its toolbar on every tab, and an **Import & Migration** card (with **Open Import & Migration**) beside the review on **Setup Report** and **Admin AI → Overview**. Both appear only when Import & Migration is turned on for your department and you are a department administrator.
+
 <a id="setup-journey"></a>
 
 ## The nine-step journey
