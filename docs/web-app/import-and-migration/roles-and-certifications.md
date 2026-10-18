@@ -85,8 +85,8 @@ Starter workbook sheet **People's certifications**; CSV template `resgrid-person
 | `Person [person]` | `person` | Reference | Yes | Who holds the certification, by the person's source ID or email. Refers to [People](people#sheet-personnel). Example: `alex.rivera@example.org`. Headers recognized: person, member, email, employee, name. |
 | `Certification [certification_type]` | `certification_type` | Reference | Yes | Which certification, by its name, code or source ID. Refers to [Certification types](#sheet-certification-types). Example: `Firefighter I`. Headers recognized: certification, certification type, qualification, type, course. |
 | `Certificate number [number]` | `number` | Text |  | The number on the certificate. Up to 200 characters. Department-only; protected by Advanced Data Protection when your department uses it. Example: `FF-2019-0042`. Headers recognized: number, certificate number, license number, cert number. |
-| `Area [area]` | `area` | Text |  | Where the certification is valid (a state or region), when that matters. Up to 200 characters. Department-only; protected by Advanced Data Protection when your department uses it. Example: `Illinois`. Headers recognized: area, state, jurisdiction. |
-| `Issued by [issued_by]` | `issued_by` | Text |  | Who issued the certificate. Up to 200 characters. Department-only; protected by Advanced Data Protection when your department uses it. Example: `State Fire Academy`. Headers recognized: issued by, issuer, authority. |
+| `Area [area]` | `area` | Text |  | Where the certification is valid (a state or region), when that matters. Up to 200 characters. Department-only. Example: `Illinois`. Headers recognized: area, state, jurisdiction. |
+| `Issued by [issued_by]` | `issued_by` | Text |  | Who issued the certificate. Up to 200 characters. Department-only. Example: `State Fire Academy`. Headers recognized: issued by, issuer, authority. |
 | `Issued on [issued_on]` | `issued_on` | Date |  | The date the certificate was issued. Example: `2019-05-14`. Headers recognized: issued, issued on, issue date, received, date issued, certified on. |
 | `Expires on [expires_on]` | `expires_on` | Date |  | The date the certificate expires. Leave empty when it does not expire. Example: `2027-05-14`. Headers recognized: expires, expires on, expiration, expiration date, expiry, valid until. |
 
@@ -134,5 +134,5 @@ More rules:
 - **Expires on** must not be before **Issued on**.
 - **Certifications that have already expired** are imported marked *Expired*, and nobody is emailed. **Certifications expiring soon** get no reminders while the holder is dormant. Both are [statements you confirm](review-and-import#l8-consequences) before approving.
 - A person's **roles** that require certifications are retried at the end of the import, after the certifications are written — approve People and People's certifications in the same import so [certification requirements](../business-ops/certifications) do not leave those roles out.
-- **Certificate number**, **Area** and **Issued by** are protected by [Advanced Data Protection](../data-protection) when your department uses it.
+- **Certificate number** is protected by [Advanced Data Protection](../data-protection) when your department uses it. **Area** and **Issued by** are not: they describe the qualification, and qualification-based dispatch reads them.
 - On the [value matching](matching-columns-and-values#match-values) page, unknown roles and certification types can be **created new** with just their name.
