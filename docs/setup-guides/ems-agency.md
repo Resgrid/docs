@@ -19,7 +19,7 @@ Resgrid is not an ePCR. Keep patient care records in your ePCR system; use Resgr
 | Staffing reset | Off (crews are on shift, not on call). |
 | Require password reset via email | On. |
 | Modules | Shifts, Checklists, Inventory, Records on; Maintenance with Readiness Pro. |
-| Dispatch settings | Default statuses dispatched → *Responding*, released → *Available*; rest period 10 min; unit status timers 2 min (dispatched without en route) and 20 min (at hospital). |
+| Dispatch settings | Default statuses dispatched → *Responding*, released → *Available* (units already back in service or out of service keep their status); rest period 10 min; unit status timers 2 min (dispatched without en route) and 20 min (at hospital). Turn on **Close call when last unit clears** if crews report every status through to available, so a call closes when its last ambulance clears ([details](../web-app/dispatch-calls#closing-a-call-automatically)). |
 
 ## 2 — Types
 
@@ -35,7 +35,7 @@ Resgrid is not an ePCR. Keep patient care records in your ePCR system; use Resgr
 
 - **Stations**: one per base/post with address and geofence (used for closest-unit selection).
 - **Roles**: EMT, AEMT, Paramedic, Supervisor, Dispatcher, Driver.
-- **Custom statuses** (EMS template): units — Available · Responding · On scene · Transporting · At hospital · Returning · Out of service · Posting; personnel — On duty · Off duty · Responding · On scene.
+- **Custom statuses** (EMS template): units — Available · Responding · On scene · Transporting · At hospital · Returning · Out of service · Posting; personnel — On duty · Off duty · Responding · On scene. Add an *At station* unit status with base type **In Quarters** so closest-unit selection measures those units from their base, and keep a status for units available on the road (base type **Available**, not Returning). Give *Out of service* the base type **Unavailable** or **Maintenance** so closing a call never puts it back in service, and give the transport statuses **Transporting** and **At Hospital** ([base types and call automation](../configuration/custom-statuses#base-types-and-call-automation)).
 
 ## 4 — Units and crews
 
@@ -44,7 +44,8 @@ Create each ambulance with roles **Driver/EMT** and **Attendant/Paramedic** (bot
 ## 5 — Dispatch
 
 - Calls from your CAD by email import; or dispatchers use the **Dispatch app**.
-- **Run cards**: *ALS emergency* (Echo/Delta): ALS ambulance ×1 + Paramedic role ×1; *BLS*: BLS ambulance ×1; *MCI* alarm level 2 adds ALS ×2 + Supervisor ×1. Closest-unit mode, *Order by driving ETA* on, minimum staffing *Fully staffed*, auto-dispatch on with a 10-minute rest period.
+- **Run cards**: *ALS emergency* (Echo/Delta): ALS ambulance ×1 + Paramedic role ×1; *BLS*: BLS ambulance ×1; *MCI* alarm level 2 adds ALS ×2 + Supervisor ×1. Closest-unit mode, *Order by driving ETA* on, minimum staffing *Fully staffed*, auto-dispatch on with a 10-minute rest period. Set *In-quarters turnout* and *Mobile turnout* (for example 120 s and 30 s) so a crew already on the road can outrank a nearer crew that still has to leave the station.
+- **Adding resources** to a call already out (the Dispatch app's *Dispatch additional resources*, or **Update** on the website) shows what the run card still needs after the units already on the call. A unit's status in the Dispatch app starts on the call the unit is working, so dispatchers don't pick the incident for each status.
 - **Destinations**: create hospital and ED POIs under Mapping so crews pick a destination on the call.
 - **Protocols**: pre-arrival instruction protocols by chief complaint if you dispatch in-house.
 
@@ -97,6 +98,7 @@ See the [Workforce & Business Ops overview](../web-app/business-ops/overview) fo
 - [ ] Every ambulance created with two required roles and a Unit tablet
 - [ ] Crews set unit staffing at shift start
 - [ ] Hospital destination POIs created
+- [ ] Every unit status has a base type (out of service → Unavailable or Maintenance; available → Available or In Quarters)
 - [ ] Narcotics checklist with witness runs each shift
 - [ ] Medication lots with expiry entered; expiration alert reviewed
 - [ ] ADP decision made and, if enrolled, verification prompt tested on the Dispatch console

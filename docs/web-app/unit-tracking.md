@@ -41,7 +41,7 @@ Then, for HTTPS profiles, **Create credential** (choose the **authentication mod
 
 The binding's **Tracking status** shows last received, last valid fix, last error code and delivery health. Department administrators (outside production) can **Send test JSON** to validate a generic payload without authenticating or storing it. **Disable tracking** revokes every credential for the binding.
 
-Positions from hardware trackers flow through the same pipeline as app positions: the unit appears on the Mapping page, in the Dispatch and Big Board apps, feeds closest-unit [run-card](run-cards) selection and can be captured as *Unit tracking fixes* evidence on a [Record](records/authoring#evidence).
+Positions from hardware trackers flow through the same pipeline as app positions: the unit appears on the Mapping page, in the Dispatch and Big Board apps, feeds closest-unit [run-card](run-cards) selection and the New Call nearest-units board (except while the unit is in an **In Quarters** status, when its station's location is used instead — see [How closest-unit mode measures a unit](run-cards#how-closest-unit-mode-measures-a-unit)) and can be captured as *Unit tracking fixes* evidence on a [Record](records/authoring#evidence).
 
 ## Setup examples
 

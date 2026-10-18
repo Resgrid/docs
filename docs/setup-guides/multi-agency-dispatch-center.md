@@ -47,7 +47,7 @@ Records stay per agency (each agency's NERIS identity and definitions). The cent
 ## 7 — Workforce & Business Ops
 
 - **Certifications** (free): dispatcher credentials (EMD, CPR, state telecommunicator certification as custom types) with role requirements on *Dispatcher* in **Warn only**; the compliance report for accreditation.
-- **Deployment Finance** (free): if the centre coordinates mutual-aid strike teams for member agencies, the sending agency owns the deployment in its own department; the centre only links the Records external order.
+- **Deployment Finance** (free): if the centre coordinates mutual-aid strike teams for member agencies, the sending agency records the external order under **Deployments → External orders** and owns the resulting deployment in its own department.
 - **Invoicing** (Business Ops): bill member agencies per call or per month with a rate card (*Dispatched call* flat per call, *Dispatcher hour*) and billing profiles per agency contact; aging for the board.
 
 See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.

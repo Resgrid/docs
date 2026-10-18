@@ -101,7 +101,7 @@ Staffing suppression allows you to prevent notifications from going to personnel
 | Setting                       | Required | Description                                              |
 | ----------------------------- | -------- | -------------------------------------------------------- |
 | Enable Staffing Suppress      | No       | Enables the suppression of notifications                 |
-| Staffing Levels to Suppress   | Yes (if enabled) | Select which staffing levels should be suppressed |
+| Staffing Levels to Suppress   | Yes (if enabled) | Select which staffing levels should be suppressed. Pick a meaning (*Any "Off Duty" status*) to suppress every staffing level with that [meaning](custom-statuses#staffing-meanings) |
 
 ## Dispatch Settings
 
@@ -116,6 +116,12 @@ Dispatch settings control how the dispatch system interacts with shifts, groups,
 | Unit Dispatch Also Dispatch to Assigned Personnel | Off    | When dispatching a unit, also notify personnel assigned to unit roles          |
 | Unit Dispatch Also Dispatch to Group             | Off     | When dispatching a unit, also notify the unit's station group                  |
 | Personnel On Unit Set Unit Status                | Off     | When personnel on a unit change status, update the unit status accordingly     |
+| Hold to Set Status                               | Off     | In the Unit and Responder apps, crews press and hold a status button for two seconds to set it instead of tapping it and then pressing Next or Submit. A status that needs a note, or a destination the app can't fill from the active call, still opens that step |
+| Close Call When Last Unit Clears                 | Off     | An active call closes on its own when the last unit dispatched to it reports back in service or out of service. See [Closing a call automatically](../web-app/dispatch-calls#closing-a-call-automatically) |
+
+The **unit call release status** (and its per-unit-type overrides) is set on the units still working a call when it is closed or they are taken off it. A unit already back in service, out of service, unavailable or on a break, or working another open call, keeps its status: closing a call never puts a unit that was taken out of service back in the dispatchable pool. Custom statuses are read by their [base type](custom-statuses), so give an *Out of Service* status the base type **Unavailable** or **Maintenance**.
+
+The **unit call dispatch status** and **unit call release status** are picked by meaning: **Default**, **Leave the unit's status unchanged**, or a status meaning such as *Dispatched* or *En Route*. Each unit then gets the first option of its own unit type's status set with that meaning, so one setting works for unit types with different custom statuses. Default is *Dispatched*, else *Responding*, else *En Route* on dispatch and *Cleared*, else *Available*, else *In Quarters* on release (the built-in *Responding* and *Released* for unit types without custom statuses). The page lists any unit type whose status set has no option with the meaning; its units keep their status. See [Unit status on dispatch and release](../web-app/department-settings#unit-status-on-dispatch-and-release).
 
 ## Mapping Settings
 

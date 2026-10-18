@@ -53,6 +53,18 @@ Notifications can target:
 
 When creating a notification, the system captures the current state of relevant resources (staffing levels, unit states) for comparison when evaluating triggers.
 
+<a id="matching-statuses-by-meaning"></a>
+
+### Matching statuses by meaning
+
+Rules on a personnel status, staffing level or unit status change, and the *current states* an availability alert counts, can pick a specific status or a **meaning**. The meanings are listed after your statuses as *Any "On Scene" status*, *Any "Off Duty" status* and so on. A meaning matches every status with that [meaning](custom-statuses#status-meanings), built-in or your own, in every status set. One rule then covers unit types with different custom statuses, and keeps working when you rename a status or add one with the same meaning. A status with no meaning only matches a rule that names it.
+
+| Rule | Pick |
+|---|---|
+| Tell the chief when any unit goes out of service | Unit status changed to *Any "Unavailable" status* (and *Any "Maintenance" status*) |
+| Count available engines whatever their set calls it | Current states *Any "Available" status* and *Any "In Quarters" status* |
+| Watch members going off duty | Staffing changed to *Any "Off Duty" status* |
+
 ## Deleting Notifications
 
 Removes a notification rule by ID.
@@ -78,7 +90,7 @@ The notification list performs extensive resolution to display human-readable in
 
 ## Technical reference
 
-`NotificationsController`; routes `/User/Notifications/{Index,New,Delete}`; model `DepartmentNotification` (event type, threshold, target group/role/users, channels); evaluated by the notification worker on status/staffing/unit/inventory/checklist events.
+`NotificationsController`; routes `/User/Notifications/{Index,New,Delete}`; model `DepartmentNotification` (event type, threshold, target group/role/users, channels); evaluated by the notification worker on status/staffing/unit/inventory/checklist events. Status values in a rule (`BeforeData`, `CurrentData`) are tokens (`StatusMatch`): a status value, `b` + a base type for a meaning (e.g. `b20` Maintenance), or `-1` for any; the editor loads them from the Custom Statuses JSON endpoints with `includeMeanings=true`.
 
 ### Interactions with Other Modules
 | Module | Interaction |

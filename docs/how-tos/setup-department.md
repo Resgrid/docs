@@ -350,7 +350,7 @@ There are three types of custom statuses:
 | **Button Text** | The label shown on the status button (e.g. `Responding`). |
 | **Button Color** | Background colour for the button (use the colour picker). |
 | **Text Color** | Text colour for the button. |
-| **Base Type** | Maps this custom status to a system-level behaviour so Resgrid knows its meaning. Options: *Available*, *Not Responding*, *Responding*, *On Scene*, *Dispatched*, *Cleared*, *Returning*, *Staging*, *Unavailable*, or *None*. |
+| **Meaning** | The status's meaning (base type). Resgrid uses it, not the button text, for availability, the unit status on dispatch and release, notifications, reports and the apps; a status left on *None* is unknown to all of them. Options include *Available*, *In Quarters*, *Dispatched*, *Responding*, *En Route*, *On Scene*, *At Patient*, *Transporting*, *At Hospital*, *Returning*, *Cleared*, *Unavailable*, *Maintenance* and more; see [Status meanings](../web-app/custom-statuses#status-meanings). |
 | **Require GPS** | Check if selecting this status should require the user's GPS location. |
 | **Detail Type** | What additional picker appears when this status is selected: **None** (no picker), **Calls** (pick an active call), **Stations** (pick a station), or **Calls and Stations** (pick either). |
 | **Note Type** | Whether a free-text note is shown: **None**, **Optional**, or **Required**. |
@@ -369,10 +369,11 @@ There are three types of custom statuses:
 | **Button Text** | The label (e.g. `Available`, `Light Duty`, `Off Duty`). |
 | **Button Color** | Background colour. |
 | **Text Color** | Text colour. |
+| **Meaning** | The staffing level's meaning: *Available*, *Delayed*, *Unavailable*, *Committed*, *On Shift*, *Off Duty*, *On Call* or *None*. Dispatch recommendations, availability counts and notification muting use it. |
 | **Note Type** | **None**, **Optional**, or **Required**. |
 
 :::info
-Personnel Staffing levels do **not** have Base Type, Require GPS, or Detail Type options — those fields only apply to Personnel Status and Unit Status types.
+Personnel Staffing levels do **not** have Require GPS or Detail Type options — those fields only apply to Personnel Status and Unit Status types. Their Base Type uses the staffing meanings above, not the status ones.
 :::
 
 4. Click **Save**.
@@ -390,7 +391,7 @@ You can create a different status set for each unit type. For example, your engi
 | **Button Text** | The label (e.g. `In Service`, `Responding`, `Out of Service`). |
 | **Button Color** | Background colour. |
 | **Text Color** | Text colour. |
-| **Base Type** | Maps to system behaviour — same options as personnel statuses. |
+| **Meaning** | Maps to system behaviour — same options as personnel statuses. |
 | **Require GPS** | Check if GPS location is required when selecting this status. |
 | **Detail Type** | **None**, **Calls**, **Stations**, or **Calls and Stations**. |
 | **Note Type** | **None**, **Optional**, or **Required**. |

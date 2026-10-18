@@ -160,8 +160,8 @@ The following system events can trigger workflows:
 
 | Event | Description | Key Variables |
 |-------|-------------|---------------|
-| Call Added | New call/dispatch created | `call.*`, `user.*` (reporting user) |
-| Call Updated | Existing call updated | `call.*`, `user.*` (reporting user) |
+| Call Added | New call/dispatch created; for a [pending call](../web-app/dispatch-calls#pending-and-scheduled-calls), when it is dispatched | `call.*`, `user.*` (reporting user) |
+| Call Updated | Existing call updated; also when a pending call is saved or edited | `call.*`, `user.*` (reporting user) |
 | Call Closed | Call closed | `call.*`, `user.*` (reporting user) |
 
 ### Personnel Events

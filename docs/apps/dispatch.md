@@ -37,9 +37,9 @@ The dispatch console is the primary interface, providing a multi-panel view that
 
 #### Stats Header
 Real-time statistics banner displaying:
-- **Active calls** count
-- **Pending calls** count
-- **Scheduled calls** count
+- **Active calls** count (calls that have been dispatched)
+- **Pending calls** count — calls saved but not yet dispatched, waiting for a dispatcher; tap to open **Pending Calls**
+- **Scheduled calls** count — calls waiting for their dispatch time; tap to open **Scheduled Calls**
 - **Available units** count
 - **Available personnel** count
 - **On-duty personnel** count
@@ -47,7 +47,7 @@ Real-time statistics banner displaying:
 - **Weather widget** (based on department map center coordinates)
 
 #### Active Calls Panel
-- List of all active, pending, and scheduled calls with priority indicators
+- List of active calls with priority indicators (pending and scheduled calls have their own screens, below)
 - **Call filter mode** — tap a call to filter all panels (units, personnel, notes, activity log) to show only data related to that call
 - Priority colour-coded call filter banner when active
 - Clear filter button to return to all-data view
@@ -66,7 +66,7 @@ Real-time statistics banner displaying:
 
 #### Personnel & Unit Action Panels
 - When a personnel member or unit is selected, a dedicated actions panel appears in the activity log area
-- **Change status** of selected personnel or unit
+- **Change status** of selected personnel or unit. A unit's status starts on the call the unit is working, so the dispatcher does not pick the incident for every status: the call its latest status belongs to (unless that status cleared it), otherwise the one open call it is dispatched to. A call the unit's last clear ended does not count: the call that clear named or, when it named none (back in quarters at its station), every call the unit was sent to before it. A scheduled call counts once it has gone out or its dispatch time has passed. These are the same rules the server uses to [link a status to a call](../web-app/dispatch-calls#which-call-a-status-belongs-to). A unit with more than one call left starts on its last destination or the call selected on the console. The dispatcher can still pick another destination, and a status saved with no destination is still linked to the unit's call by the server
 - **Change staffing** of selected personnel
 - View detailed information about the selected resource
 
@@ -99,14 +99,23 @@ Real-time statistics banner displaying:
 - **Create new calls** with:
   - Name, nature/description, priority, and type
   - Contact name and information
-  - **Five location input methods**: address search, GPS coordinates, [what3words](https://what3words.com), Plus Code search, and interactive map picker
-  - **Dispatch selection**: multi-select users, groups, roles, units, or everyone
+  - **Five location input methods**: address search, GPS coordinates, [what3words](https://what3words.com), Plus Code search, and interactive map picker. A call saved with a typed address that was never searched is geocoded by the server when it is created, so it still gets a location; a department that makes the location *required* needs a real point (search, coordinates or map pick)
+  - External ID and Reference ID (the referring system's case or ticket numbers)
+  - **Dispatch selection**: multi-select users, groups, roles, units, or everyone. The picker lists every unit, group, role and person whatever their status (it no longer shows *Everyone* alone when opened before the lists finish loading)
+  - **Schedule dispatch** for a future time (web and desktop), or **Save as pending (do not dispatch yet)**: the call is saved and numbered, nobody is notified and the field apps do not see it; any recipients picked are kept as the proposed dispatch. The button becomes **Save Pending Call** and the call opens on **Pending Calls**
 - **Call detail view** with priority header, static map preview, and action buttons
+  - A pending call shows a *Pending — not yet dispatched* banner with **Dispatch**; a scheduled call shows *Scheduled for* its time with **Dispatch now**
   - Add notes, attach images, attach files, route to call in native Maps
   - Tabbed content: Info, Contact, Protocols, Dispatched resources, Timeline
-  - Close call (permission-gated)
+  - Close call (permission-gated) — **Notify everyone on the call** (on by default) tells the dispatched personnel, groups, roles, units and command team it closed; a call under an active incident command is refused with the reason shown
 - **Edit call** with the same form schema as creation
 - Web-specific implementations (`.web.tsx`) for call views, creation, and editing
+
+### Pending and Scheduled Calls
+Both are under **Calls** in the side menu (Pending Calls shows a count badge) and behind the console's tiles. They work like the web app's [pending and scheduled calls](../web-app/dispatch-calls#pending-and-scheduled-calls).
+- **Pending Calls** — calls waiting for a dispatcher, oldest first, with search: number, name, type, priority, address and when it was received. **Dispatch** opens the recipient picker with any proposed recipients already selected; confirming sends the call and it moves to the active calls. **Cancel Call** closes it as Cancelled without notifying anyone. Pending calls come from *Save as pending* here or on the web, or from another system through the API (`IsPending`).
+- **Scheduled Calls** — calls waiting for their dispatch time, with **Dispatch now** to send one early and **Reschedule** on the call.
+- Both lists refresh when the server reports a call was added, changed or closed.
 
 ### Additional Screens
 - **Calls list** — searchable paginated list of all calls
@@ -149,12 +158,14 @@ Real-time statistics banner displaying:
 ### Real-Time Updates (SignalR)
 - Persistent WebSocket connection for real-time event updates
 - Personnel status/staffing updates, unit status updates, call updates
-- Auto-reconnect with background resume refresh
-- Events trigger automatic data refresh across all console panels
+- Auto-reconnect with background resume refresh; after any reconnect the console reloads units, calls and personnel, so changes made while the connection was down are not missed
+- Events trigger automatic data refresh across all console panels. Unit statuses are always reloaded from the server (never from the device's saved copy), and a status change that arrives while a reload is already running triggers one more reload, so the console matches the web dashboard
 
 ### Run cards and recommendations
 
-When the department uses [Run Cards](../web-app/run-cards), the New Call screen shows the recommended units and personnel for the call's priority and type (or dispatches them automatically), lets the dispatcher escalate alarm levels, and surfaces move-up recommendations.
+When the department uses [Run Cards](../web-app/run-cards), the New Call screen shows the recommended units and personnel for the call's priority and type (or dispatches them automatically), lets the dispatcher escalate alarm levels, and surfaces move-up recommendations. The recommendation refreshes once the call has a location (from the address search, coordinates, what3words, Plus Code or the map picker); closest-unit selection needs that location, measures units in an **In Quarters** status from their station and adds the department's [turnout times](../web-app/run-cards#how-closest-unit-mode-measures-a-unit).
+
+**Adding resources to an active call** (**Dispatch additional resources** on the call, or the add button on a call in the console's Active Calls panel) shows the run card recommendation at the top of the recipient picker: what the call's run card still needs at its current alarm level, after counting the units and people already on the call, picked the same way as at creation (station-based or closest unit). **Apply recommendation** ticks them; nothing is sent until **Confirm**. When the call already covers its run card the picker says so, and anyone can still be added by hand. To dispatch the next level's resources in full, use **Strike Next Alarm**.
 
 ### Chat, moderation and the Assistant
 
@@ -166,7 +177,13 @@ With `Records.Field.Dispatch` enabled, dispatchers can start the NERIS incident 
 
 ### Deployments and pre-plans
 
-Dispatchers see the department's **deployments** read-only (roster, window, identifiers, time-report status) so a call's crew and assignment are in view; time reports, usage and F-42 drafting are done from the Responder and Unit apps. A call's contact shows its **pre-plan** and **alert hazards** in the dispatch alert and on the Site Info tab. See [Deployment Finance](../web-app/business-ops/deployment-finance) and [Contacts](../web-app/contacts).
+Dispatchers see the department's **deployments** read-only (roster, window, identifiers, time-report numbers and status) so a call's crew and assignment are in view; time reports, usage and F-42 drafting are done from the Responder and Unit apps. A call's contact shows its **pre-plan** and **alert hazards** in the dispatch alert and on the Site Info tab. See [Deployment Finance](../web-app/business-ops/deployment-finance) and [Contacts](../web-app/contacts).
+
+### Department terminology
+
+Names a department sets under [Terminology](../web-app/department-settings#terminology) replace the app's own labels: the side menu (Calls, Map, Personnel, Units, Contacts, Records), the console's **Units**, **Personnel**, **Notes** and **Map** panel titles, the **Calls** tab in a unit's or person's action panel, the Map and Records screen titles, and record types in Field Records. Labels that combine a module with other words, such as *Active Calls* or *Units on Call*, keep the app's wording. The names load when the app starts or a dispatcher signs in.
+
+![Dispatch with Units renamed Apparatus and Contacts renamed Pre-Plans](/img/apps/dispatch/terminology.png)
 
 ## Settings & Configuration
 

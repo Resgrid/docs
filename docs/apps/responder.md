@@ -29,6 +29,8 @@ Resgrid Responder is a cross-platform application designed for **individual firs
 - Set your **personnel status** from department-configured options (e.g., Available, Responding, On Scene, Not Responding) with optional destination (call or station) and notes
 - Set your **personnel staffing** level (e.g., On Shift, Available, Off Duty) with notes
 - GPS coordinates are automatically captured with each status change
+- Your **current status** is outlined in red with a **Current** tag; when it has [next statuses](../configuration/custom-statuses#next-statuses) configured, the Home status buttons offer only those, with a **Show all statuses** link
+- **Hold to set**: with the department's *Hold to Set Status* setting on, press and hold a status button for two seconds to set it (a fill and countdown show progress; letting go early cancels). Statuses that need a note or a destination open that step, and its Save button is held the same way
 - **Offline queue** persists status changes when offline and automatically retries when connectivity returns
 
 ### Home Dashboard
@@ -37,7 +39,7 @@ Resgrid Responder is a cross-platform application designed for **individual firs
 - Quick-action status and staffing buttons
 
 ### Calls
-- View all **active dispatch calls** with priority indicators and search
+- View all **active dispatch calls** with priority indicators and search. Calls a dispatcher has saved as pending (not yet dispatched) never appear; they show up once they are sent
 - **Create new calls** with:
   - Name, nature/description, priority, and type
   - Contact name and information
@@ -46,7 +48,7 @@ Resgrid Responder is a cross-platform application designed for **individual firs
 - **Call detail view** with tabbed content: info, contact, protocols, dispatched resources, and timeline
 - Add **notes**, **images**, and **file attachments** to calls
 - **Route to call** via native maps for turn-by-turn navigation
-- Edit and close existing calls (permission-gated)
+- Edit and close existing calls (permission-gated) — **Notify everyone on the call** (on by default) tells the dispatched personnel, groups, roles, units and command team it closed; a call under an active incident command is refused with the reason shown
 
 ### Personnel & Units
 - View all **department personnel** with status, staffing, group, and role information
@@ -118,11 +120,17 @@ When `Records.Field.Responder` is enabled, members author Records in the field (
 
 With `Operations.Deployments` enabled the **Deployments** entry in the sidebar lists every deployment the member is rostered on (status, finance mode, window, incident and request numbers). Per deployment the member can:
 
-- **Time** — start the day's **daily time report** and add their own entries (*Deployment / Standby / Travel*, from–to, unpaid break, notes); the app checks for overlaps and end-before-start before **Submit report**. Approval stays on the web.
+- **Time** — start the day's **daily time report** and add their own entries (*Deployment / Standby / Travel*, from–to, unpaid break, notes); the app checks for overlaps and end-before-start before **Submit report**. Approval stays on the web. Reports are listed by the number the department issues them: `#3` with the built-in numbers, or its own format such as `DTR-2026-0003` when one is set under [Document numbering](../web-app/department-settings#document-numbering).
 - **Usage** — record **odometer, engine hours and fuel** readings for a unit by phase (*Mobilization, Standby, Incident, Return*); conflicting readings are marked *Needs review*.
 - **F-42** (Cal OES MARS, cost-recovery deployments) — draft the F-42 from the submitted time reports and **Validate** it against the portal rules; the handoff and every observation are web-only.
 
 Contacts attached to a call show the **pre-plan** (construction, shutoffs, water supply, access, hazards) and **site files** on the call's Site Info tab. See [Deployment Finance](../web-app/business-ops/deployment-finance), [Cal OES MARS](../web-app/business-ops/cal-oes-mars) and [Contacts](../web-app/contacts).
+
+### Department terminology
+
+Names a department sets under [Terminology](../web-app/department-settings#terminology) replace the app's own labels for every member, in every language: the side menu (Contacts, Map, Notes, Calendar, Shifts, Checklists, Records, Work orders), the **People**, **Units** and **Calls** tabs on the home screen, those modules' screen titles, and record types in Field Records (the list, the new-record chooser and record headings). Anything not renamed keeps the app's own, translated label. The app loads the names when it starts or a member signs in and keeps the last ones it received while offline.
+
+![Responder with Contacts renamed Pre-Plans and Units renamed Apparatus](/img/apps/responder/terminology.png)
 
 ## Settings & Configuration
 

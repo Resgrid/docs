@@ -27,6 +27,7 @@ ADP is one control inside a HIPAA / privacy / ePCR compliance program that your 
 - **Big Board** shows a reduced *protected incident* shell instead of call details.
 - **Workflows** receive redacted payloads by default. Administrators can approve a specific [Protected Workflow](protected-workflows) to send selected fields to one pinned HTTPS destination; every such disclosure is recorded in a hash-chained audit log.
 - **Text, email, push and voice notifications** send generic content by default (*"A protected dispatch is available — sign in to Resgrid"*). Relaxing a channel is a separate, acknowledged policy change.
+- **If encryption is briefly unavailable** when a unit status is saved (the protection service cannot be reached), the status is still recorded and every dashboard, Big Board and Dispatch console still updates, but the app that sent it is told the save failed. The live update carries only the status itself — no note or position — so workflows and integrations never receive the unencrypted values.
 - Resgrid support cannot read protected values without an explicit, audited, department-approved support grant. Key loss is recoverable only through the documented recovery process.
 
 ## How members see protected data

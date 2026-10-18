@@ -14,7 +14,7 @@ title: Overview
 | Module | What it does | Free or add-on |
 |---|---|---|
 | [Certifications](certifications) | Catalog of certifications, licences, inspections and permits for **people and units**, expiry dashboard, role requirements with optional enforcement, continuing-education credits, compliance report. | Free |
-| [Deployment Finance](deployment-finance) | A **deployment** wraps the units, personnel and equipment sent to an incident with daily time reports (DTRs), expenses, files and a manifest — for an operational record, a cost-recovery claim or a customer invoice. | Free |
+| [Deployments](deployment-finance) (Deployment Finance) | A **deployment** wraps the units, personnel and equipment sent to an incident with daily time reports (DTRs), expenses, files and a manifest — for an operational record, a cost-recovery claim or a customer invoice. External resource orders (IROC, EMAC, CIFFC) are recorded and worked here too; each order creates its linked deployment. | Free |
 | [Invoicing](invoicing) | Customer billing profiles, rate cards, invoices with line items generated from calls, PDF and e-mail delivery, payments, accounts-receivable aging. | **Business Ops** add-on |
 | [Online Payments](online-payments) | Customers pay invoices online through the department's **own Stripe account**; Resgrid never holds the money. | Business Ops add-on |
 | [Rate Schedules](rate-schedules), [Contracts & Compliance](contracts-and-compliance), [Bids & Deployment Wizard](bids-and-deployment-wizard), [Contractor Billing](contractor-billing) | Explicit per-band contractor rate tables, service contracts with document requirements, priced bids that become a scheduled deployment call, and the billing engine that turns approved DTRs into an invoice and packet. | Business Ops add-on |
@@ -33,11 +33,11 @@ The left sidebar has a collapsible **Workforce & Business Ops** group. Inside it
 | **Workforce** | Business Operations module on, Workforce or Pay Data entitlement, and you are an administrator or hold a workforce permission. Members who only need to answer their own demographic questionnaire see **My demographic response** instead. |
 | **Certifications** | You are an administrator or hold *View certifications*. |
 | **Invoicing** | *View invoicing* permission, the **Business Operations module switch** on and the `Invoicing.CustomerInvoicing` flag. A lapsed add-on still shows the pages, read-only. |
-| **Deployment Finance** | The `Operations.Deployments` flag. Members see only deployments they are rostered on. |
+| **Deployments** | The `Operations.Deployments` flag. Members see only deployments they are rostered on. **External orders** also need `Records.System`, an activated Records module and *Create records*. |
 | **Bids** / **Contracts** | Administrator or *Manage bids* / *Manage contracts*, module switch on and an active add-on with the `Invoicing.ContractorBilling` flag. |
 | **Cal OES MARS** | Module switch on and an active add-on with the `CostRecovery.CalOesMars` flag. Managers open the readiness dashboard; rostered members open their own action queue. |
 
-Deployment Finance is deliberately **not** the same page as [Records → Deployments](../records/deployments): the Records page tracks the *external resource order* (IROC, EMAC, CIFFC); Deployment Finance tracks the *money and time* of the crew you sent. A Deployment Finance deployment can be created **from** a Records external order so the two stay linked.
+**Deployments** is where deployments and external resource orders are created and run: recording an order (**Deployments → External orders → New external order**) creates its linked deployment, and the order's fills keep the roster and status up to date. [Records → Deployment reports](../records/deployments) is the read-only side: printable reports, manifests, time reports, documents and CSV/JSON exports, plus older orders that were never linked.
 
 ## Turning it on
 
@@ -94,11 +94,11 @@ The add-on entitlement is read from the Billing API. On a self-hosted installati
 
 | Item | Value |
 |---|---|
-| Controllers | `Invoicing`, `Certifications`, `Deployments`, `DeploymentWizard`, `RateSchedules`, `Contracts`, `Bids`, `CalOesMars`, `Workforce`, `BusinessOperationsBilling` (all `/User/...`); public `PayController` (`/pay/{token}`) |
+| Controllers | `Invoicing`, `Certifications`, `Deployments`, `DeploymentOrders`, `DeploymentWizard`, `RateSchedules`, `Contracts`, `Bids`, `CalOesMars`, `Workforce`, `BusinessOperationsBilling` (all `/User/...`); public `PayController` (`/pay/{token}`) |
 | Entitlement | `IBusinessOperationsAccessService.CanUse{Invoicing,ContractorBilling,CostRecovery,Workforce,PayDataReporting}Async` — master flag `Business.Operations` + capability flag + module switch (`DepartmentModuleSettings.BusinessOperationsDisabled`) + an active `PaymentAddons` row of type `BusinessOperations` (4); fails closed, no grace |
 | Flags | `Business.Operations`, `Invoicing.CustomerInvoicing`, `Invoicing.OnlinePayments`, `Payments.StripeConnect` (operator only), `Operations.Deployments`, `Invoicing.ContractorBilling`, `CostRecovery.CalOesMars`, `Workforce.InternalCosting`, `Compliance.CaliforniaPayDataReporting` |
 | Permissions | 40–41 invoicing, 42–44 certifications, 74–78 workforce, 79 Cal OES MARS, 116–119 deployments / bids / contracts / time reports |
 | Workers | 29 invoice maintenance (every 15 min), 31 bid expiration, 32 deployment-finance + MARS reminders, 33 compliance expiry (all daily, early morning), 34 certification expiry (hourly tick, one sweep per department-local day), 49 pay-data readiness (daily) |
 | Workflow triggers | Invoices 52–57 and 94–95, contractor 74–86, certifications 23 and 87–93, 180–187 |
-| API | `api/v4/Invoices`, `Certifications`, `Deployments`, `TimeReports`, `RateSchedules`, `ServiceContracts`, `Bids`, `CalOesMars`, `FieldCost` |
+| API | `api/v4/Invoices`, `Certifications`, `Deployments`, `DeploymentOrders` (external-order commands), `TimeReports`, `RateSchedules`, `ServiceContracts`, `Bids`, `CalOesMars`, `FieldCost` |
 | Search | Invoices, rate cards, bids, contracts, deployments and certification types are indexed in [unified search](../search); MARS, workforce and time-report data are not |

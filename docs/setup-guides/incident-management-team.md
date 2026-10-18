@@ -63,7 +63,7 @@ Use *Review required* for the IAP forms (planning section chief reviews), *Quick
 ## 8 — Workforce & Business Ops
 
 - **Certifications** (free): NWCG position qualifications (FFT1, CRWB, ENGB, DIVS), Red Card, RT-130, Work Capacity Test, ICS-300/400 and IS courses for every team member; role requirements per ICS position in **Warn only**; the compliance report before each season.
-- **Deployment Finance** (free): every team deployment (IROC / EMAC order) as a deployment created from the Records external order, with the roster prefilled from accepted fills; members file daily time reports in the Responder app; the finance/admin unit leader approves them and exports the time CSV and DTR PDFs for the incident's cost package.
+- **Deployment Finance** (free): every team deployment (IROC / EMAC order) as a deployment created by recording the order under **Deployments → External orders**, with the roster filled from accepted fills; members file daily time reports in the Responder app; the finance/admin unit leader approves them and exports the time CSV and DTR PDFs for the incident's cost package.
 - **Cal OES MARS** (Business Ops, California): F-42 per request from the deployment, expense claims for travel, portal handoff by the authorized representative.
 - **Field costing** (Business Ops): a cost run per deployment for the after-action financial summary.
 

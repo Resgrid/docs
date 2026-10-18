@@ -19,8 +19,10 @@ Call Types are assignable on Call Creation and are also used in other systems to
 You cannot delete a Call Type once it's been used. If you wish to delete the Call Type you need to delete or update any systems where you used it, for example Protocols, Call Templates, Command Definitions, etc. Once those have been deleted or updated to another type you can then delete the Call Type. 
 
 :::tip Call Types in Calls
-Call Type names are used in the Call when stored in the Database, thus changes or deletion of the call type won't impact previously entered calls.
+A call stores its type's name and remembers which call type it was logged with. Renaming a call type keeps its earlier calls linked to it, so check-in timer overrides, run cards and protocols set up for that type still apply to them, and protocol triggers and call templates that name the type are renamed with it. The calls themselves keep showing the name they were logged with.
 :::
+
+Each call type can have a **Class**: Fire, Medical, Rescue, Traffic Collision, Hazardous Materials, Alarm, Service Call, Law Enforcement, Disaster or Weather, Mutual Aid, Non-Emergency Activity or Other. Resgrid uses the class, not the name, for reports, defaults and integrations, so you can name call types however you like. The edit page suggests a class from the name (*Suggested from the name: Fire*), but never sets one for you. See [Classes and meanings](../web-app/types-configuration#classes-and-meanings).
 
 ## Call Priorities
 
@@ -35,6 +37,7 @@ Once you create one new Call Priority the default ones will be deactivated and y
 | Name                 | Description                                                  |
 | -------------------- | ------------------------------------------------------------ |
 | Priority Name        | Name of the Call Priority that is selectable/shown           |
+| Meaning              | Which standard priority it means (Low, Medium, High or Emergency), used to compare and sort priorities by urgency |
 | Priority Color       | Color of the Priority also the Color of Text in Report       |
 | Sort Order           | Lower means first on the lists, default (0) is order created |
 | Is Default           | Can only be ONE, is the default Priority for automation      |
@@ -56,6 +59,8 @@ There are no default Unit Types in the Resgrid system. Unit Types allow you to a
 When you create Custom Statuses (Actions) for Units, you need to assign that status to a Unit Type and then that Unit Type to a Unit (when you add or update a Unit in the Units Module) for the actions to be visible for a particular unit in the Resgrid Unit or Web Application.
 
 ![Add Unit Type](/img/configuration/types/NewUnitType.png)
+
+Each unit type can also have a **Class** (Engine, Aerial, Rescue, Tanker, Ambulance, Medical Response, Wildland, Hazardous Materials, Command, Support, Watercraft, Aircraft, Patrol or Other) that tells Resgrid what kind of unit it is, whatever you call it. As with call types, the edit page suggests one from the name and you confirm it.
 
 ## Certification Types
 

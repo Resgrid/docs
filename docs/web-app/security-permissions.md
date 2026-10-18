@@ -77,7 +77,7 @@ All default to *department administrators*. See the [Workforce & Business Ops ov
 |---|---|
 | Manage invoicing / View invoicing | Create, edit, send and void invoices, record payments, rate cards and billing profiles / read-only invoices, aging and PDFs. |
 | Manage certifications / View certifications / Manage certification setup | Other members' certification records, credits and unit records / the expiry dashboard / types, role requirements and settings. Members always see their own records. |
-| Manage deployments / Approve time reports | Deployments, rosters, equipment, expenses, files and status; see every deployment / approve and void submitted daily time reports. Rostered members always see their own deployments and file time. |
+| Manage deployments / Approve time reports | Deployments, rosters, equipment, expenses, files and status, and external orders (which also need *Create records*); see every deployment / approve and void submitted daily time reports. Rostered members always see their own deployments and file time. |
 | Manage bids / Manage contracts | Bids and the deployment wizard / service contracts, document requirements and compliance documents. |
 | Manage Cal OES MARS reimbursement | Agency, F-5, annual rates, agreements, handoff, observed statuses, invoice approval and payment reconciliation. Rostered members prepare their own F-42 and expense drafts without it. |
 | View internal costs | Aggregate field-cost summaries, resource cost profiles and usage readings (never a person's rate). |
@@ -131,6 +131,19 @@ These two are fixed to **department administrators** (and the managing user). Th
 
 ![SSO](/img/web-app/security/sso.png)
 
+## API keys
+
+`/User/Security/ApiKeys` (the **API Keys** button on the Security page) — keys that let another system call the Resgrid API for the department without a member's login. Department admins only; creating or revoking a key asks for a fresh second factor, so the admin needs [two-factor sign-in](account-security) set up first.
+
+![API keys](/img/web-app/security/api-keys.png)
+
+- **Create a key**: a name (what it is for), what it may do (**scopes**: read calls, create calls including pending and scheduled ones, update and dispatch calls, close calls, read reference data, read units), when it expires (30 days to 2 years) and, optionally, the IP addresses or CIDR ranges it may be used from.
+- The key (`rgk_…`) is shown **once**, right after it is created. Copy it into the other system then; it cannot be shown again.
+- The list shows each key's prefix, scopes, created, expiry and **last used** time, and its status (*Active*, *Expired*, *Revoked*). **Revoke** stops a key at once.
+- A department can hold up to 25 active keys. Creating and revoking keys is audit-logged.
+
+How an integration uses a key, the endpoints each scope opens and the error codes: [API authentication → Department API keys](../api/authentication#department-api-keys).
+
 ## Setup examples
 
 | Department | Recommended permission changes |
@@ -146,7 +159,8 @@ These two are fixed to **department administrators** (and the managing user). Th
 
 | Item | Value |
 |---|---|
-| Controller | `SecurityController` (`Index`, `Audits`, `ViewAudit`, `Sso`, `SsoNew`, `SsoEdit`, `ScimSetup`, `SecurityPolicy`) |
+| Controller | `SecurityController` (`Index`, `Audits`, `ViewAudit`, `Sso`, `SsoNew`, `SsoEdit`, `ScimSetup`, `SecurityPolicy`, `ApiKeys`, `CreateApiKey`, `RevokeApiKey`) |
+| API keys | Table `DepartmentApiKeys` (migration M0265): name, key prefix, keyed HMAC-SHA256 hash of the key (never the key), scopes, allowed IP ranges, created, expires, last used, revoked. `IDepartmentApiKeysService`; API scheme `DepartmentApiKey` (header `X-Resgrid-ApiKey`) runs only on actions marked `[DepartmentApiKeyScope]`. Config: `SecurityConfig.DepartmentApiKeyPepper` (blank = derived from the encryption key), `DepartmentApiKeyMaxLifetimeDays` (730), `DepartmentApiKeyMaxActivePerDepartment` (25), `DepartmentApiKeyMaxFailuresPerAddress` / `DepartmentApiKeyFailureWindowMinutes` (20 per 10 min). Audit types `DepartmentApiKeyCreated`, `DepartmentApiKeyRevoked`. |
 | Actions | `SetPermission?type=&level=`, `SetPermissionData?type=` (role ids), `GetRolesForPermission?type=`, `GetAuditLogsList` |
 | Model | `Permission` (`PermissionType`, `Action` 0–3, `LockToGroup`, `Data` = role ids); `PermissionTypes` enum; `AuditLog` |
 | Cache | Permission changes raise `SecurityRefreshEvent` to invalidate the authorization matrix; `Resgrid.Console --SecurityRefresh` refreshes it manually |

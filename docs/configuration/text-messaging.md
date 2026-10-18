@@ -57,6 +57,7 @@ Personnel can text commands to the department number to update their status with
 - Texts are matched against the registered mobile number of each person
 - The system parses the command and updates the person's status or staffing accordingly
 - Confirmation is typically sent back via the notification system
+- Replying to a dispatch text to respond to the call (or to a station) sets the person's status to your department's own personnel status with the meaning **Responding** (the first by order). Without custom personnel statuses, or when none of them has that meaning, it sets the built-in *Responding to Scene* or *Responding to Station*. Give your responding status that [meaning](custom-statuses#status-meanings) so SMS replies set it
 
 ## Contact Verification and SMS
 

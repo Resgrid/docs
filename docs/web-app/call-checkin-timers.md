@@ -77,7 +77,7 @@ Department admins configure default timers that apply to all calls (unless overr
 | **Duration (minutes)** | How often a check-in is required (e.g., 30 minutes) |
 | **Warning Threshold (minutes)** | Additional minutes after the duration before the timer goes Critical |
 | **Enabled** | Whether this config is active |
-| **Active For States** | Optional; comma-separated list of personnel/unit state IDs — if set, the timer only activates when a dispatched entity is in one of these states |
+| **Active For States** | Optional; comma-separated list of personnel/unit state IDs or status meanings (`b` + base type, e.g. `b3` for On Scene) — if set, the timer only activates when a dispatched entity is in one of these states |
 
 Admins can add and delete default timer configs from the **Dispatch Settings** section of **Department Settings**.
 
@@ -108,6 +108,7 @@ The **Active For States** setting restricts when a timer is active based on the 
 - **Personnel-based timers** (Personnel, IC, PAR, HazmatExposure, SectorRotation, Rehab): The timer activates if any dispatched person's current action type matches one of the allowed state IDs.
 - **UnitType timers**: The timer activates if any dispatched unit of the specified type is currently in one of the allowed states.
 - If **Active For States** is empty, the timer is always active regardless of entity states.
+- The list also offers each status **meaning**, shown as *Any "On Scene" status*. A meaning matches every status with that [meaning](custom-statuses#status-meanings), built-in or custom, in any status set, so one timer covers unit types with different custom statuses. A status with no meaning never matches a meaning entry.
 
 ---
 

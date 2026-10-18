@@ -46,12 +46,13 @@ Writes go through the feature-toggle service, so caches are invalidated and an a
 | `Records.Investigations` | Investigation cases. | `Records.System` | M0186 |
 | `Records.QualityReview` | Quality review rubrics and sampling. | `Records.System` | M0186 |
 | `Records.Analytics` | Records analytics dashboards. | `Records.System` | M0187 |
+| `Search.Unified` | [Search](../web-app/search): the Search page and search results in the top-bar box (the **Go to** shortcuts work without it). The installation must also run the search host (`SearchConfig.Enabled`). | — | M0208 (off) |
 | `Security.DepartmentProtectedDataEnrollment` | Platform-wide admission gate for **new** Advanced Data Protection enrollments (operator-managed; never affects departments already enrolled). | — | M0126 |
 | `Business.Operations` | Master switch for every paid [Business Ops](../web-app/business-ops/overview) surface; the purchase itself is the Business Ops add-on. | — | M0211 (off) |
 | `Invoicing.CustomerInvoicing` | Invoicing: billing profiles, rate cards, invoices, payments, aging. Also needs the Business Operations module switch and the add-on. | `Business.Operations` | M0211 (off) |
 | `Payments.StripeConnect` | Operator-only per-region kill switch for online payment collection (on in the US cluster, off in the EU cluster at launch). Departments cannot override it. | — | M0212 (off, permanent) |
 | `Invoicing.OnlinePayments` | Customers pay invoices through the department's own Stripe account. | `Invoicing.CustomerInvoicing`, `Payments.StripeConnect` | M0212 (off) |
-| `Operations.Deployments` | Deployment Finance: deployments, rosters, daily time reports, expenses, files, external-order link. **Free** — no add-on. | — | M0219 (off) |
+| `Operations.Deployments` | Deployment Finance (**Workforce & Business Ops → Deployments**): deployments, rosters, daily time reports, expenses, files, external orders (which also need `Records.System`). **Free** — no add-on. Read-only [deployment reports](../web-app/records/deployments) need only `Records.System`. | — | M0219 (off) |
 | `Invoicing.ContractorBilling` | Rate schedules, contracts, bids, the deployment wizard and invoice generation from time reports. | `Business.Operations` | M0219 (off) |
 | `CostRecovery.CalOesMars` | Cal OES MARS cost recovery. | `Business.Operations` | M0219 (off) |
 | `Workforce.InternalCosting` | Workforce compensation, work entries, resource costing and cost runs. | `Business.Operations` | M0224 (off) |

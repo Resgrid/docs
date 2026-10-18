@@ -32,7 +32,7 @@ When Records is enabled the left menu shows **Records** in place of *Logs* (neve
 | **Investigations** | Restricted case files (members only). |
 | **Analytics** | Response performance, workload, executive, accreditation, readiness and community-risk dashboards. |
 
-From **All records** the toolbar offers **Reports** (export this list, saved reports, analytics, accountability, quality review) and **Manage** (records requests, deployments, definitions, report exports, release health, field rollout, settings).
+From **All records** the toolbar offers **Reports** (export this list, saved reports, analytics, accountability, quality review) and **Manage** (records requests, deployment reports, definitions, report exports, release health, field rollout, settings).
 
 ## Turning it on: activation
 
@@ -91,7 +91,7 @@ NERIS reports additionally: Submitted → Accepted / Rejected → Corrected
 - [Investigations](investigations) — restricted case files with chain of custody.
 - [Analytics](analytics) · [Quality review](quality-review) · [Accountability](accountability)
 - [Saved reports & exports](reports-and-exports) — CSV/JSON, saved reports, report exports for agencies.
-- [Deployments & connectors](deployments) — mutual-aid orders your department fills.
+- [Deployment reports](deployments) — read-only deployment history, reports and exports; external orders are created and worked in [Workforce & Business Ops → Deployments](../business-ops/deployment-finance#external-orders).
 - [Legal holds & records requests](legal-holds-and-disclosures)
 - [Records settings](settings) — numbering, retention, group visibility, print layout, NERIS, disclosure defaults.
 

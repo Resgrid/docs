@@ -47,6 +47,8 @@ The **key** (lower-case letters, digits, dots and dashes; may not start with `sy
 | **Mutual Aid and Deployment Pack** | Deployment (External Order) | Mutual aid |
 | **Incident Support (ICS Logistics, Finance and Administration)** | ICS 202, 203, 204, 205, 205A, 206, 207, 208, 209, 210, 211, 213, 213RR, 214, 215, 215A, 217A, 218, 219, 220, 221, 225, 260; OF-286, OF-288, OF-294, OF-296, OF-297, OF-315; SF-261; Incident Action Plan package; ICS Canada variants | Incident support / Incident business |
 
+Records of the **Deployment (External Order)** type are created and changed only from [Workforce & Business Ops → Deployments](../business-ops/deployment-finance#external-orders); opening *new* or *edit* for one in Records sends you there, and opening one shows its read-only [deployment report](deployments).
+
 Templates marked **Preview** are usable but still being validated with departments. Each template shows its sources and review date; after you create from one, the editor shows **differences from the template** as it evolves.
 
 ## The definition editor

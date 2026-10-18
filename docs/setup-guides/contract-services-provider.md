@@ -56,7 +56,7 @@ One schedule per season or per agency rate agreement (**clone** last season's an
 
 1. **Bid** per resource order or event: customer, contract, lines from the schedule (crew × hours/day × days, engine, mileage), valid until, requested window, delivery location; **Send bid** as PDF.
 2. **Mark as accepted** → **Schedule deployment call**: the wizard sets the call, ticks the units, seats the crew (certification colours and overlapping deployments visible), equipment, rates & premiums, and creates the call + deployment + roster + calendar item.
-3. Agency-ordered work without a bid: **Deployment Finance → New Deployment** (*Billable*, contact, contract, identifiers) or **Create from external order** when the order came through Records.
+3. Agency-ordered work without a bid: **Deployments → New Deployment** (*Billable*, contact, contract, identifiers), or **Deployments → External orders → New external order** when the agency sent a resource order (IROC, VIPR, EMAC); the order creates the linked deployment.
 
 ## 6 — Time, expenses and approval
 

@@ -64,7 +64,7 @@ A compact panel listing only the units that are over a unit status timer, most u
 Dispatchers (anyone with the **Create Call** permission) can tap an alert to:
 - **Acknowledge** it: the unit stays in the list, marked *Seen by* with their name, so everyone knows it is being handled.
 - **Mute** it: the unit moves into a collapsed *Muted* section until the status changes, or for 15, 30 or 60 minutes. When a timed mute runs out, the unit comes back as acknowledged.
-- **Add a note** explaining the situation, e.g. *"MUG not departed, technical malfunction reported."* or *"Second crew member unavailable, alternative ambulance dispatched."*
+- **Add a note** explaining the situation, e.g. *"MUG not departed, technical malfunction reported."* or *"Second crew member unavailable, alternative ambulance dispatched."* A department can make the note a required reason with **Reason when acknowledging**, next to the unit status timers: for alerts only, or for warnings and alerts. Acknowledge and Mute then stay disabled until a reason is entered.
 - **Clear** an acknowledgement to show the alert at full strength again.
 
 Acknowledgements are shared: every Big Board in the department updates right away. They only cover the status the unit was in. When the unit reports a new status, the acknowledgement ends. A unit acknowledged at the warning level comes back unacknowledged when it reaches the alert level. Status timers only highlight units on the board; they do not send pages or notifications.
@@ -176,6 +176,7 @@ Each widget has a dedicated configuration tab accessible from the Configure scre
 ### Real-Time Updates (SignalR)
 - Persistent WebSocket connection for real-time event updates
 - Personnel status/staffing, unit status, and call updates propagate instantly to all widgets
+- Unit statuses are reloaded from the server on every update (never from a cached copy), and an update that arrives while a reload is already running triggers one more reload, so the board matches the web dashboard
 - Auto-reconnect with status display in the sidebar
 - Manual reconnect button available in the side menu
 
