@@ -28,7 +28,8 @@ New to the module? Start with [Getting started](getting-started), which walks th
 
 1. The department's managing member buys the add-on from **Subscription → Incident Back Office** (or **Incident Back Office** in the sidebar, which opens the add-on page when the department does not have it yet).
 2. An administrator checks **Department → Module Settings**. Three switches control the module: **Incident Back Office** (the whole module), **Incident finance desks** (procurement, budget, time, cost, claims) and **Coordination boards**. All three are on by default.
-3. Give people the permissions they need under **Department → Security**. Every desk has its own *view* and *manage* permissions, and the finance steps (approve, commit, certify, approve time, export cost) are separate permissions so that the same person does not request, approve and pay.
+3. The department needs the rollout as well: **Incident Back Office** for the module, **Incident Business** for the finance desks and **Incident Coordination** for the boards and situation desk. Resgrid switches these on for hosted departments; a self-hosted operator turns them on with the [feature flag](../../reference/feature-flags) console.
+4. Give people the permissions they need under **Department → Security**. Every desk has its own *view* and *manage* permissions, and the finance steps (approve, commit, certify, approve time, export cost) are separate permissions so that the same person does not request, approve and pay.
 
 If the add-on lapses, every incident stays readable but nothing can be changed until it is renewed; a banner says so on every page.
 

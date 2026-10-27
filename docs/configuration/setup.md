@@ -83,7 +83,7 @@ Steps 4 to 6 of the wizard link to these screens. The configuration guides cover
 
 When everything is set up, mark the Setup Report reviewed in step 9 and, if you want, choose a date to review it again.
 
-Steps 1, 2, 3, 5 and 6 can also be done in bulk from a spreadsheet with [Import & Migration](../web-app/import-and-migration/overview).
+Stations and groups, personnel and their certifications, units, statuses and types (call types, call priorities, unit types, roles, certification types and point of interest types) can also be set up in bulk from a spreadsheet with [Import & Migration](../web-app/import-and-migration/overview). Department settings, module choices and call import are not imported from a file.
 
 ## Clearing the Department Cache
 

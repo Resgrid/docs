@@ -108,7 +108,7 @@ When the department is enrolled in [Advanced Data Protection](data-protection), 
 - New and edited items are searchable within about **1–2 minutes**.
 - The first time anyone in a department searches, Resgrid builds the department's search index. Until it finishes, the page says *Your department's search index is being built* and results may be incomplete for a few minutes.
 - *The search index is not available right now* means the search service is briefly unavailable — try again shortly.
-- **Every call** the department has ever logged is searchable, active or closed, however old.
+- **Every call** the department has ever logged is searchable, active or closed, however old — on the hosted service, and on any installation that leaves `CallRebuildYears` at 0. An installation that sets it to a positive number indexes only that many recent years and turns the call history backfill off, so calls older than that are not found.
 
 ## Setup examples
 

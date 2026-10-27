@@ -118,7 +118,7 @@ Within one workspace, a row that was already imported is recognized by its **Sou
 - **Every import can be rolled back** within its window. Records the import created are removed, changed records get their earlier values back, and anything used since stays for you to check by hand. See [Rollback](rollback-and-retention).
 - **One import writes at a time.** An import holds a department lock that keeps a second import, an Advanced Data Protection migration and department deletion out — but your department keeps working normally while it runs.
 - **Resgrid support sees only what you choose to share,** for as long as you choose, and every staff action is on your timeline. See [Getting help from support](getting-help-from-support).
-- **Sensitive data stays out.** Columns that look like passwords, ID numbers, card numbers, dates of birth or medical data are dropped before anything is stored, and uploaded files are encrypted and deleted on a schedule.
+- **Sensitive data stays out of your department's records.** Columns that look like passwords, ID numbers, card numbers, dates of birth or medical data are left out when the file is read: their values are never checked, held as workspace data, shown on screen or imported. The file you uploaded still contains them — it is stored encrypted and deleted on [a schedule](rollback-and-retention#retention-schedule), so take those columns out of the export before you upload it.
 
 <a id="not-yet"></a>
 ## Not in this release

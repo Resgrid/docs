@@ -13,6 +13,10 @@ The screenshots on these pages come from a fictional demo incident, the *Cedar R
 
 ## Set up your department
 
+:::note The rollout comes first
+Incident Back Office is rolled out department by department, on top of the add-on, the module switches and permissions. The **Incident Back Office** rollout opens the module, **Incident Business** the finance desks, and **Incident Coordination** the boards and the situation desk. On the hosted service ask Resgrid to switch on the ones you need; on a self-hosted installation the operator turns them on with the [feature flag](../../reference/feature-flags) console. Without the rollout, buying the add-on and leaving the switches on is not enough.
+:::
+
 ### 1. Add the add-on
 
 The department's managing member adds **Incident Back Office** from **Subscription → Incident Back Office**. Until the department has the add-on, the **Incident Back Office** entry in the sidebar opens the same add-on page, with the price, what is included and a **Buy** button. Incident Back Office is billed monthly per department (USD 250 in the US, EUR 350 in the EU), even if your main subscription is annual.
