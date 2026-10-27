@@ -11,6 +11,8 @@ Feature flag: `Records.Prevention.Permits` (requires occupancies). Menu: **Recor
 
 ![Permits](/img/web-app/prevention/permits.png)
 
+<AcademyVideo id="14-records" />
+
 ## Permit types
 
 **Permits → Permit types** defines what you issue: name, **code**, **validity (days)** used to compute the expiry from the issue date, whether it **requires plan review**, a **conditions template** pre-filled on new permits and a **fee** (reference only — invoicing is recorded, not collected, here).
@@ -32,7 +34,7 @@ Feature flag: `Records.Prevention.Permits` (requires occupancies). Menu: **Recor
 
 ![Permit details](/img/web-app/prevention/permit-details.png)
 
-The list filters by state, type and **expiring soon**; analytics reports issued / denied / expired / revoked counts and average days from applied to issued.
+The list filters by permit number (part of it, in the department's [format](settings#other-record-numbers), however it is typed), state, type and **expiring soon**; analytics reports issued / denied / expired / revoked counts and average days from applied to issued.
 
 ## Setup examples
 

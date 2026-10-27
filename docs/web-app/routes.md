@@ -11,6 +11,8 @@ The Routes module provides route planning, execution tracking, and deviation mon
 
 **Navigation:** Department Menu → Routes
 
+<AcademyVideo id="07-mapping" />
+
 ## Overview
 
 The Routes system is built around six core concepts that work together to plan and execute routes:

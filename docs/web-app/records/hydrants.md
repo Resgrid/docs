@@ -11,6 +11,8 @@ Feature flag: `Records.Prevention.Hydrants`. Menu: **Records → Hydrants**.
 
 ![Hydrants](/img/web-app/prevention/hydrants.png)
 
+<AcademyVideo id="14-records" />
+
 ## The hydrant list and map
 
 The header shows *N hydrants, N out of service, N due for a flow test*. The **Map** colours each hydrant by flow class (black = out of service). Filter, search by number or address, or open one for details.

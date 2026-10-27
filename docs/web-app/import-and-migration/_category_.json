@@ -1,0 +1,9 @@
+{
+  "label": "Import & Migration",
+  "position": 54,
+  "link": {
+    "type": "generated-index",
+    "slug": "/web-app/import-and-migration",
+    "description": "Bring people, stations and groups, roles and certifications, unit types and units, custom statuses, call types and priorities, and points of interest into Resgrid from spreadsheets or the system you are leaving. Every row is checked and previewed before anything is saved, imports can be rolled back, and imported people stay dormant until you invite them."
+  }
+}

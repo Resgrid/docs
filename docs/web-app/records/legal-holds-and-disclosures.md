@@ -25,7 +25,7 @@ Holds list who placed and released them; **Release hold** requires the authority
 
 ## Records requests (disclosures)
 
-**Records → Manage → Records requests** (requires *Manage record disclosures*). A request carries a statutory clock, so it is tracked here rather than answered ad hoc.
+**Records → Manage → Records requests** (requires *Manage record disclosures*). A request carries a statutory clock, so it is tracked here rather than answered ad hoc. The queue filters by state and by request number (part of it, however it is typed: `prr 2027 3` finds `PRR-2027-0003`).
 
 ![Records requests](/img/web-app/records/disclosures.png)
 

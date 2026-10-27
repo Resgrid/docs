@@ -15,6 +15,8 @@ Typical use: a behavioral health agency writes crisis-call outcomes back to its 
 Protected Workflows send decrypted protected data, which may include protected health information, to external systems you configure. Resgrid cannot control how the receiving system stores or uses this data. Only enable a workflow if the recipient is your organization or a party covered by a business associate agreement with your organization, and only release the fields the recipient needs.
 :::
 
+<AcademyVideo id="19-adp" />
+
 ## Before you start
 
 - ADP must be **Enabled** (or Rotating) for your department.

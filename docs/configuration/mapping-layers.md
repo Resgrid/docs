@@ -10,6 +10,8 @@ Mapping Layers in Resgrid allow you to add custom geographic data overlays to yo
 If you need to upload a building floor plan, indoor map, or venue schematic — and draw named polygon zones (e.g., "Room 405a", "Staging Area B") on top of it — use **Custom Maps** instead of a standard layer. Custom Maps support multi-floor images geo-projected onto real-world coordinates, zone-based call locations, pre-plan attachments, and offline mobile caching. See the [Custom Maps](../web-app/custom-maps) documentation.
 :::
 
+<AcademyVideo id="07-mapping" />
+
 ## Why Mapping Layers Matter
 
 Standard maps show streets and terrain but lack the operational context your department needs. Mapping layers let you overlay your own geographic data — such as first-due response districts, hydrant locations, pre-plan locations, mutual aid boundaries, or flood zones — directly onto the maps your personnel use for dispatch and response. POIs mark important fixed locations that responders need to quickly find during operations.

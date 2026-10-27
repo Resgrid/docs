@@ -11,6 +11,8 @@ title: Subscription & Billing
 
 ![Subscription](/img/web-app/subscription/index.png)
 
+<AcademyVideo id="20-plans" />
+
 ## Subscription Dashboard
 
 **Authorization:** `Department_Update` + `CanUserManageSubscription` runtime check

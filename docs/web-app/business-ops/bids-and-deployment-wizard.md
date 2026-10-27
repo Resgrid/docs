@@ -7,9 +7,11 @@ title: Bids & Deployment Wizard
 
 A **bid** is a priced estimate for a customer — an engine and crew for a 10-day fire assignment, four guards for a festival weekend, an ALS unit on standby for a race. Its lines snapshot rates from the customer's [rate schedule](rate-schedules), it goes out as a PDF, and when the customer accepts, **Schedule deployment call** runs the **deployment wizard** that creates the call, the [deployment](deployment-finance) and the roster in one step — seats checked against certifications and other deployments.
 
-Business Ops add-on with `Invoicing.ContractorBilling`. Menu: **Workforce & Business Ops → Bids** (administrators and holders of *Manage bids*).
+Business Ops add-on with `Invoicing.ContractorBilling`. Menu: **Workforce & Business Ops → Bids** (administrators and holders of *Manage bids*). The list filters by status and by bid number (part of it, in the department's own [format](../department-settings#document-numbering), however it is typed).
 
 ![Bids](/img/web-app/bids/index.png)
+
+<AcademyVideo id="16-business" />
 
 ## Creating a bid
 

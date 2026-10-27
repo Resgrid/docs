@@ -10,6 +10,8 @@ This quick start runs the current Resgrid Core stack on one 64-bit Linux server 
 The stack has single instances of its database, cache, message bus, and object store. Production use requires security review, monitoring, capacity planning, tested backups, and a recovery plan. Never deploy the committed template credentials.
 :::
 
+<AcademyVideo id="23-self-hosting" />
+
 ## 1. Prepare the host
 
 Install Docker Engine, Docker Compose v2, OpenSSL, and curl on a 64-bit Linux server. Ubuntu Server 24.04 LTS is a practical baseline. Start Docker and verify:

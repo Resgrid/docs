@@ -7,9 +7,11 @@ title: Inspections
 
 Fire and life-safety inspections of [occupancies](occupancies): programs that define *what* is inspected and *how often*, code sets the inspection is checked against, the inspection itself with a checklist, and the violations that come out of it with correction windows, notices and re-inspections.
 
-Feature flag: `Records.Prevention.Inspections` (requires occupancies). Menu: **Records → Inspections**.
+Feature flag: `Records.Prevention.Inspections` (requires occupancies). Menu: **Records → Inspections**. The list filters by state, program and inspection number (part of it, in the department's [format](settings#other-record-numbers), however it is typed).
 
 ![Inspections](/img/web-app/prevention/inspections.png)
+
+<AcademyVideo id="14-records" />
 
 ## Setting up
 

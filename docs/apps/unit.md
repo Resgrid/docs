@@ -6,6 +6,8 @@ sidebar_position: 3
 
 Resgrid Unit is a cross-platform application designed for **vehicle and apparatus-level operations**. Where the Responder app is designed for individual personnel, the Unit app is designed to represent a **shared device mounted in or associated with a unit** (engine, ambulance, patrol car, etc.), providing crews with live dispatch data, voice channels, GPS tracking, and status reporting with minimal interaction required.
 
+<AcademyVideo id="04-apps" />
+
 ## Ideal Use Cases
 
 - **Apparatus-Mounted Tablets** — Mount a tablet in the cab of an engine, ambulance, or command vehicle as a dedicated dispatch terminal with live map, call details, and status controls.
@@ -30,7 +32,9 @@ Resgrid Unit is a cross-platform application designed for **vehicle and apparatu
 
 ### Real-Time Map (Home Tab)
 - Full **Mapbox GL** interactive map as the primary home screen
-- Renders map pins for personnel, units, stations, and calls with custom icons
+- Renders map pins for personnel, units, stations, and calls with custom icons: the department's [uploaded icons](../web-app/mapping#custom-map-icons) for unit types, call types, POI types and personnel roles, on phones, tablets, the browser and the desktop app; the built-in pin when there is none or it cannot load
+- Call pins take the color of the call's priority and unit and personnel pins the color of their status ([icons by status and priority](../web-app/mapping#icons-by-status-and-priority))
+- A **legend** button (bottom right of the map, above the recenter button) opens the [map icon legend](../web-app/mapping#map-icon-legend) as a sheet: every icon the map can show, by call type and priority, unit type and status, and role and status, with the status and priority colors and stations and points of interest. The names and icons are the department's own (custom call types, priorities, statuses, unit types and status sets, and uploaded icons) and load fresh each time the legend opens
 - **Dark/light theme** toggle for map style
 - **Camera follow modes**: normal tracking vs. locked navigation mode (heading-oriented, tilted perspective for turn-by-turn navigation)
 - **Recenter button** snaps camera back to current GPS position
@@ -45,6 +49,9 @@ Resgrid Unit is a cross-platform application designed for **vehicle and apparatu
 - Status changes are sent to the API and propagated in real-time via SignalR
 - **Offline queue**: status changes made while offline are persisted and retried when connectivity returns
 - Colour-coded status card in the sidebar reflects the current state
+- The unit's **current status** is outlined in red with a **Current** tag, in the sidebar buttons and in the status sheet
+- **Next statuses**: when the current status has [next statuses](../configuration/custom-statuses#next-statuses) configured, only those are offered, with a **Show all statuses** link for anything out of sequence
+- **Hold to set**: with the department's *Hold to Set Status* setting on, a status is set by pressing and holding its button for two seconds. A fill sweeps across the button with a countdown, and letting go early cancels. A status that needs nothing more saves straight away (a call destination is taken from the active or dispatched call); one that needs a note or a destination opens that step, whose submit button is held the same way
 
 ### Unit Role Assignments
 - Role management bottom sheet from the sidebar roles card
@@ -58,7 +65,7 @@ Resgrid Unit is a cross-platform application designed for **vehicle and apparatu
 - Quick access to turn-by-turn navigation to the call location
 
 ### Calls
-- **Call list** with search and pull-to-refresh
+- **Call list** with search and pull-to-refresh. Pending calls (saved but not yet dispatched) never appear; they show up once a dispatcher sends them
 - **Create new calls** with:
   - Name, nature/description, priority, and type
   - Contact name and information
@@ -67,7 +74,7 @@ Resgrid Unit is a cross-platform application designed for **vehicle and apparatu
 - **Call detail view** with tabs: Info, Contact, Protocols, Dispatched resources, and Timeline
 - Add **notes**, **images**, and **file attachments** to calls
 - **Route to call** in native Maps for turn-by-turn navigation
-- Set as active call, edit, and close calls (permission-gated)
+- Set as active call, edit, and close calls (permission-gated) — **Notify everyone on the call** (on by default) tells the dispatched personnel, groups, roles, units and command team it closed; a call under an active incident command is refused with the reason shown
 
 ### Push-to-Talk (PTT) Voice
 - **LiveKit WebRTC** integration for real-time voice channels
@@ -153,11 +160,15 @@ With `Records.Field.Unit` enabled the crew authors **Unit activity** and run rec
 
 ### Deployments
 
-With `Operations.Deployments` enabled the hidden **Deployments** tab lists the deployments the active unit is rostered on. The crew files the **daily time report** for the whole crew (every seat plus the unit itself: *Deployment / Standby / Travel*, from–to, unpaid break), records **usage readings** (odometer, engine hours, fuel) per phase, and — on Cal OES cost-recovery deployments — drafts and validates the **F-42**. Submitted reports are approved on the web and feed [Contractor Billing](../web-app/business-ops/contractor-billing) or [Cal OES MARS](../web-app/business-ops/cal-oes-mars). See [Deployment Finance](../web-app/business-ops/deployment-finance).
+With `Operations.Deployments` enabled the hidden **Deployments** tab lists the deployments the active unit is rostered on. The crew files the **daily time report** for the whole crew (every seat plus the unit itself: *Deployment / Standby / Travel*, from–to, unpaid break), records **usage readings** (odometer, engine hours, fuel) per phase, and — on Cal OES cost-recovery deployments — drafts and validates the **F-42**. Submitted reports are approved on the web and feed [Contractor Billing](../web-app/business-ops/contractor-billing) or [Cal OES MARS](../web-app/business-ops/cal-oes-mars). Reports are listed by the number the department issues them: `#3` with the built-in numbers, or its own format such as `DTR-2026-0003` when one is set under [Document numbering](../web-app/department-settings#document-numbering). See [Deployment Finance](../web-app/business-ops/deployment-finance).
 
 ### Hardware GPS trackers
 
 Vehicles with a hardware tracker report position alongside (or instead of) the app; the web administrator sets the source priority. See [Hardware GPS Tracking](../web-app/unit-tracking).
+
+### Department terminology
+
+Names a department sets under [Terminology](../web-app/department-settings#terminology) replace the app's own labels: the Map, Calls, Contacts and Notes tabs, the Checklists, Inventory and Records entries and their screen titles, and record types in Field Records (the list, the new-record chooser and record headings). The names load when the app starts or the crew signs in, and are cleared when someone signs out.
 
 ## Settings & Configuration
 

@@ -9,6 +9,8 @@ Workshifts (static shifts) provide a simpler scheduling mechanism compared to th
 
 ![New workshift](/img/web-app/workshifts/new.png)
 
+<AcademyVideo id="08-shifts" />
+
 ## Overview
 
 Workshifts define fixed time blocks with assigned units, differing from the dynamic signup-based Shifts system.

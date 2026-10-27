@@ -7,6 +7,8 @@ title: Account Security
 
 Settings that belong to *you* rather than to the department: two-factor authentication, active sessions, username, password and account deletion. All of them live under your **profile dropdown** (your name, top-left).
 
+<AcademyVideo id="02-security" />
+
 ## Two-factor authentication (2FA)
 
 **Profile dropdown → Two-Factor Authentication.**

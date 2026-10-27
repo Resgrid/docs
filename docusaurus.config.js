@@ -163,6 +163,12 @@ const config = {
             ],
           },
           {
+            href: 'https://academy.resgrid.com/',
+            label: 'Academy',
+            position: 'right',
+            className: 'navbar-external-link',
+          },
+          {
             href: 'https://resgrid.com',
             label: 'Resgrid.com',
             position: 'right',
@@ -219,6 +225,10 @@ const config = {
               {
                 label: 'Documentation',
                 href: 'https://docs.resgrid.com',
+              },
+              {
+                label: 'Resgrid Academy',
+                href: 'https://academy.resgrid.com/',
               },
               {
                 label: 'Blog',

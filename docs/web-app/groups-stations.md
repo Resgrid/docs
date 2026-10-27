@@ -9,6 +9,8 @@ title: Groups & Stations
 
 ![Groups](/img/web-app/groups/index.png)
 
+<AcademyVideo id="01-people" />
+
 ## Where to find it
 
 **Department dropdown → Stations and Groups** (`/User/Groups`). The list shows every group with type, parent, members and **Edit** / **Geofence** / **Delete** buttons.
@@ -26,6 +28,10 @@ title: Groups & Stations
 | **Dispatch email / Message email** | Optional addresses: mail sent to the dispatch address creates a call dispatched to this group; the message address delivers a message to the group. |
 | **PrintNode printer / Print calls to printer** | With a PrintNode account, calls dispatched to this group's members or units are printed on the station printer. |
 | **Group admins / Group users** | Assign members. A person can be in **one group only**. |
+
+:::tip Have a spreadsheet?
+To create all your stations and groups at once — with addresses and parent groups — use [Import & Migration](import-and-migration/overview) (**Department menu → Import & Migration**, department administrators, where it is turned on). Every row is checked and previewed before anything is saved. See the [Stations and groups field reference](import-and-migration/stations-and-groups).
+:::
 
 ## Geofence (response area)
 

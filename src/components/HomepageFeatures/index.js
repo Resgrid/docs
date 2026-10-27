@@ -2,6 +2,12 @@ import React from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import Icon from './Icons';
+import AcademyVideo from '@site/src/components/AcademyVideo';
+import {
+  ACADEMY_URL,
+  ACADEMY_WALKTHROUGHS_URL,
+  academyLessons,
+} from '@site/src/components/AcademyVideo/catalog';
 import styles from './styles.module.css';
 
 /* ─────────────────────────────────────────────
@@ -405,6 +411,59 @@ export default function HomepageFeatures() {
             {Paths.map((props) => (
               <PathCard key={props.link} {...props} />
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Resgrid Academy ── */}
+      <section className={clsx(styles.section, styles.sectionAcademy)}>
+        <div className="container">
+          <div className={styles.academyPanel}>
+            <div className={styles.academyCopy}>
+              <span className={styles.eyebrow}>Resgrid Academy</span>
+              <h2 className={styles.sectionTitle}>Prefer to watch? Learn Resgrid in short videos</h2>
+              <p className={styles.sectionSubtitle}>
+                Narrated video lessons with captions, chapters and transcripts,
+                learning paths for administrators, dispatchers, members and
+                specialists, and step-by-step configuration walkthroughs in the
+                web app. Pages in these docs that have a matching video show it
+                at the top.
+              </p>
+              <div className={styles.academyActions}>
+                <a
+                  href={ACADEMY_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.helpButtonPrimary}>
+                  <Icon name="video" size={18} />
+                  Browse video lessons
+                </a>
+                <a
+                  href={ACADEMY_WALKTHROUGHS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.helpButton}>
+                  Configuration walkthroughs
+                  <Icon name="externalLink" size={16} />
+                </a>
+              </div>
+              <span className={styles.academyListLabel}>Jump to a lesson</span>
+              <ul className={styles.chipList}>
+                {academyLessons.map((lesson) => (
+                  <li key={lesson.id}>
+                    <a
+                      href={lesson.page}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title={lesson.title}
+                      className={styles.chip}>
+                      {lesson.topic}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <AcademyVideo id="00-start" stacked />
           </div>
         </div>
       </section>

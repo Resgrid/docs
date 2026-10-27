@@ -15,6 +15,8 @@ The User Defined Fields module allows departments to define, manage, and view cu
 
 ---
 
+<AcademyVideo id="17-automation" />
+
 ## Overview
 
 UDF fields are defined once per entity type and automatically appear in the relevant create/edit/view forms throughout the web application. The system uses a **versioned definition** model — each time a department updates its field configuration, a new version of the definition is created. Existing records remain linked to the version that was active when they were saved, preserving historical data integrity.

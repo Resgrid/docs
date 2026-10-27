@@ -6,6 +6,8 @@ sidebar_position: 5
 
 Resgrid Big Board is a cross-platform application designed for **station displays, command centers, and situational awareness dashboards**. It features a fully customizable widget-based dashboard where users can add, remove, resize, and rearrange information panels to create the perfect overview for their operational needs. The app is primarily optimized for large screens — wall-mounted displays, desktop monitors, and tablets.
 
+<AcademyVideo id="04-apps" />
+
 ## Ideal Use Cases
 
 - **Station Wall Displays** — Mount a TV or monitor at a fire station or EMS base showing live personnel status, active calls, units, and a map with real-time positions.
@@ -56,6 +58,18 @@ Displays all department units with their current status:
 - **Font size**: Adjustable from 4pt to 30pt
 - **Group filtering**: Hide specific groups
 - **Group sort order**: Custom weighted sorting
+- **Status timer highlighting**: When the department has [unit status timers](../web-app/department-settings) set, units that have sat in a status too long move to the top in amber (warning) or red (alert) with the time in status. Acknowledged units keep their edge colour with a check mark; muted units show a muted bell and drop back into the list.
+
+#### Unit Alerts Widget
+A compact panel listing only the units that are over a unit status timer, most urgent first.
+
+Dispatchers (anyone with the **Create Call** permission) can tap an alert to:
+- **Acknowledge** it: the unit stays in the list, marked *Seen by* with their name, so everyone knows it is being handled.
+- **Mute** it: the unit moves into a collapsed *Muted* section until the status changes, or for 15, 30 or 60 minutes. When a timed mute runs out, the unit comes back as acknowledged.
+- **Add a note** explaining the situation, e.g. *"MUG not departed, technical malfunction reported."* or *"Second crew member unavailable, alternative ambulance dispatched."* A department can make the note a required reason with **Reason when acknowledging**, next to the unit status timers: for alerts only, or for warnings and alerts. Acknowledge and Mute then stay disabled until a reason is entered.
+- **Clear** an acknowledgement to show the alert at full strength again.
+
+Acknowledgements are shared: every Big Board in the department updates right away. They only cover the status the unit was in. When the unit reports a new status, the acknowledgement ends. A unit acknowledged at the warning level comes back unacknowledged when it reaches the alert level. Status timers only highlight units on the board; they do not send pages or notifications.
 
 #### Calls Widget
 Displays active dispatch calls:
@@ -69,6 +83,7 @@ Interactive **Mapbox GL** map with live pins:
 - **Toggle markers**: Show/hide calls, stations, units, personnel
 - **Show linked calls**: Display calls linked to the active call
 - **Hide labels**: Clean map view for distance viewing
+- **Status and priority colors**: call pins take the color of the call's priority and unit and personnel pins the color of their status, with the department's [uploaded icons](../web-app/mapping#custom-map-icons) and status icons ([icons by status and priority](../web-app/mapping#icons-by-status-and-priority))
 - **Custom center coordinates**: Set latitude and longitude for the default view
 
 #### Weather Widget
@@ -164,6 +179,7 @@ Each widget has a dedicated configuration tab accessible from the Configure scre
 ### Real-Time Updates (SignalR)
 - Persistent WebSocket connection for real-time event updates
 - Personnel status/staffing, unit status, and call updates propagate instantly to all widgets
+- Unit statuses are reloaded from the server on every update (never from a cached copy), and an update that arrives while a reload is already running triggers one more reload, so the board matches the web dashboard
 - Auto-reconnect with status display in the sidebar
 - Manual reconnect button available in the side menu
 

@@ -19,6 +19,8 @@ Custom Maps are designed for:
 
 ---
 
+<AcademyVideo id="07-mapping" />
+
 ## Overview
 
 A Custom Map consists of three nested layers:

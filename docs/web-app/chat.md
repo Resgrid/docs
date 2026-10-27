@@ -11,6 +11,10 @@ Feature flag: `Chat.System` (free for all plans; used for staged rollout). If ch
 
 ![Chat](/img/web-app/chat/index.png)
 
+<AcademyVideo id="12-chat" />
+
+<AcademyVideo id="13-assistant" />
+
 ## Where to find it
 
 - **Chat bubble** at the bottom-right of every web page opens a floating chat panel.
@@ -43,7 +47,7 @@ Identities: people, **units** ("Engine 6" — the human sender is always recorde
 
 ## The Assistant
 
-The Assistant is a conversational helper inside chat (and, when configured, over SMS and other messaging platforms). It understands commands such as *"set me responding"*, *"who is on shift tonight?"*, *"what calls are active?"*, *"page Station 2"*, and — when allowed — *"dispatch Engine 1 to the structure fire on Pine Ridge"*. Anything it does not recognise as a command is answered by a guard-railed language model that only has access to your department's data through Resgrid's own permissions.
+The Assistant is a conversational helper inside chat (and, when configured, over SMS and other messaging platforms). It understands commands such as *"set me responding"*, *"who is on shift tonight?"*, *"what calls are active?"*, *"page Station 2"*, and — when allowed — *"dispatch Engine 1 to the structure fire on Pine Ridge"*. *"Close call C1445"* asks you to confirm first, and is refused while the call has an active incident command (close the command first). Anything it does not recognise as a command is answered by a guard-railed language model that only has access to your department's data through Resgrid's own permissions.
 
 The Assistant conversation is **text only**: attachments, reactions, pins and threads are disabled there.
 

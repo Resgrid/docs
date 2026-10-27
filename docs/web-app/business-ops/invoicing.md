@@ -11,11 +11,13 @@ Needs the **Business Ops** add-on, the *Business Operations* module switch and t
 
 ![Invoicing](/img/web-app/invoicing/index.png)
 
+<AcademyVideo id="16-business" />
+
 ## The pages
 
 | Tab | What it is for |
 |---|---|
-| **Invoices** | Outstanding and overdue balances, the invoice list with a status filter, **New invoice**. |
+| **Invoices** | Outstanding and overdue balances, the invoice list with number and status filters, **New invoice**. The number filter finds part of an invoice number in the department's own [format](../department-settings#document-numbering), however it is typed. |
 | **Rate Cards** | What you charge per call: hourly unit or personnel time, flat fees, mileage, materials. |
 | **Aging** | Open balances grouped by how far past due they are. |
 | **Billing settings** | Your legal name, remit-to address, registrations, invoice footer and the **Online payments** tab. |

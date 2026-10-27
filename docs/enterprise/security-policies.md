@@ -6,6 +6,8 @@ sidebar_position: 4
 
 The Department Security Policy feature allows administrators to enforce compliance-oriented controls across their entire department. These policies govern authentication requirements, session behavior, network restrictions, and password rules — designed to meet the needs of enterprise organizations and government agencies operating under frameworks like NIST, CJIS, or FedRAMP.
 
+<AcademyVideo id="02-security" />
+
 ## Overview
 
 Security policies are stored per-department in the `DepartmentSecurityPolicies` table and enforced at login time by the Resgrid API. When a user attempts to authenticate (via password or SSO), the system checks the department's security policy and blocks access if any requirement is not met.

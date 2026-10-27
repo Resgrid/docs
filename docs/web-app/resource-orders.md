@@ -9,6 +9,8 @@ Resource Orders enable cross-department resource requesting and fulfillment. The
 
 ![Resource orders](/img/web-app/orders/index.png)
 
+<AcademyVideo id="15-deployments" />
+
 ## Overview
 
 The resource ordering system allows departments to:

@@ -6,6 +6,8 @@ sidebar_position: 2
 
 Resgrid as of the v4 version of the API uses the JWT (JSON Web Token) <https://jwt.io/> standard with OpenID Connect. You need to auth to the Resgrid API via a specific endpoint before you can call operations against the API.
 
+A system-to-system integration that should not sign in as a person can use a [department API key](#department-api-keys) instead.
+
 ## Connect Operation
 
 To Authenticate with the Resgrid API you need to submit a POST request to the the `v4/connect/token` endpoint. Once this is done you will have the data needed to make subsequent calls the the other functions on the Resgrid API.
@@ -96,3 +98,55 @@ Example Response:
     "NextPageUrl":null
 }
 ```
+
+
+## Department API keys
+
+Use a **department API key** when another system, rather than a person, calls Resgrid: a scheduling or case-management system that feeds in follow-up calls, a records system that reads calls, a CAD bridge. The key belongs to the department, not to a member, so there is no username or password to store in that system and nothing breaks when someone leaves.
+
+A department admin creates keys under **Security → API Keys** in the web app ([Security & Permissions](../web-app/security-permissions#api-keys)). Each key:
+
+- can only call the endpoints of the **scopes** you choose (below), and nothing else;
+- has an **expiry date** (30 days to 2 years) after which it stops working;
+- can be **revoked** at any time, which takes effect at once;
+- can optionally be limited to **source addresses** (IP addresses or CIDR ranges);
+- is shown **once**, when it is created. Resgrid stores only a keyed hash of it, so a lost key cannot be recovered: revoke it and create another.
+
+Send the key in the `X-Resgrid-ApiKey` header. There is no token exchange and no refresh step. Never put a key in a URL or query string, and do not send a bearer token with it.
+
+```bash
+curl -X POST "https://api.resgrid.com/api/v4/Calls/SaveCall" \
+  -H "X-Resgrid-ApiKey: rgk_XXXXXXXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" \
+  -H "Content-Type: application/json" \
+  -d '{ "Name": "Follow-up visit", "Nature": "Post-discharge check", "Priority": 1, "Type": "Follow-up", "IsPending": true, "ExternalId": "EHR-55120" }'
+```
+
+### Scopes
+
+| Scope | Endpoints (`api/v4/...`) |
+|---|---|
+| `calls.read` | `Calls/GetActiveCalls`, `Calls/GetCall`, `Calls/GetCalls`, `Calls/GetPendingCalls`, `Calls/GetAllPendingScheduledCalls`, `Calls/GetNewCallFieldPolicy` |
+| `calls.create` | `Calls/SaveCall`, including pending (`IsPending`) and scheduled (`DispatchOn` / `DispatchOnUtc`) calls |
+| `calls.update` | `Calls/EditCall`, `Calls/DispatchCallNow`, `Calls/UpdateScheduledDispatchTime` |
+| `calls.close` | `Calls/CloseCall` |
+| `reference.read` | `CallTypes/GetAllCallTypes`, `CallPriorities/GetAllCallPriorites`, `Dispatch/GetCallTemplates`, `Groups/GetAllGroups`, `Dispatch/GetRolesForCallGrid` (what you need to fill in a call and its dispatch list) |
+| `units.read` | `Units/GetAllUnits`, `UnitStatus/GetAllUnitStatuses` |
+
+Give a key only the scopes it needs. A system that only feeds in pending calls needs `calls.create` (and `reference.read` if it looks up types, priorities, groups or roles). No other endpoint accepts a key, whatever its scopes: deleting calls, personnel, messages and settings are always out of reach.
+
+### What a key acts as
+
+A request made with a key acts for the key's department. Department-wide checks run as the department's managing user, narrowed to the key's scopes, so a call created with a key shows the managing user as the reporting user. Use `ExternalId` (or `ReferenceId`) to carry your own system's id. Departments using [Advanced Data Protection](../web-app/data-protection) receive the protected fields through the broker's encrypt-only lane, the same as other unattended integrations; reads return them redacted.
+
+### Errors
+
+| Response | Meaning |
+|---|---|
+| `401` | The key is missing, unknown, expired, revoked or used from an address it is not allowed from. Also returned by every endpoint a key cannot call. |
+| `403` | The key is valid but does not have the scope this endpoint needs, or the request also carries a bearer token. |
+
+After repeated invalid keys from one address, further attempts from that address are refused for a few minutes.
+
+### Rotating a key
+
+Create the new key, switch the other system to it, check its **Last used** column in **Security → API Keys**, then revoke the old one. Every create and revoke is written to the [audit log](../web-app/security-permissions#audit-logs).

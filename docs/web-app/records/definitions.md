@@ -34,6 +34,8 @@ The **key** (lower-case letters, digits, dots and dashes; may not start with `sy
 
 ### Template packs
 
+Every pack is available to every department, whatever [organization type](../department-settings#organization-types) you chose. The *Category* column and the setup examples below are guidance, not a restriction: a multi-discipline organization can use the SAR, CERT, EOC and security templates side by side. The only check when you use a template is that the jurisdiction profile you pick supports it.
+
 | Pack | Templates | Category |
 |---|---|---|
 | **Operational report templates** | Security Patrol Log · Security Incident Report · Delivery Run Report · Bus/Route End-of-Day Summary · General Shift/Activity Summary · Job/Service Completion | Security, Delivery, Transit, Operations, Field service |
@@ -46,6 +48,8 @@ The **key** (lower-case letters, digits, dots and dashes; may not start with `sy
 | **Exercise, Drill and AAR/IP Pack** | After-Action Report / Improvement Plan (links to Work Orders, Checklists, training) | Exercise |
 | **Mutual Aid and Deployment Pack** | Deployment (External Order) | Mutual aid |
 | **Incident Support (ICS Logistics, Finance and Administration)** | ICS 202, 203, 204, 205, 205A, 206, 207, 208, 209, 210, 211, 213, 213RR, 214, 215, 215A, 217A, 218, 219, 220, 221, 225, 260; OF-286, OF-288, OF-294, OF-296, OF-297, OF-315; SF-261; Incident Action Plan package; ICS Canada variants | Incident support / Incident business |
+
+Records of the **Deployment (External Order)** type are created and changed only from [Workforce & Business Ops → Deployments](../business-ops/deployment-finance#external-orders); opening *new* or *edit* for one in Records sends you there, and opening one shows its read-only [deployment report](deployments).
 
 Templates marked **Preview** are usable but still being validated with departments. Each template shows its sources and review date; after you create from one, the editor shows **differences from the template** as it evolves.
 

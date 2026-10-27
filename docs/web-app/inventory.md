@@ -9,6 +9,8 @@ Inventory tracks **what your department owns, where it is kept and who is carryi
 
 ![Inventory on hand](/img/web-app/inventory/on-hand.png)
 
+<AcademyVideo id="13-inventory" />
+
 ## Where to find it
 
 **Left menu → Inventory.** The workspace is a set of tabs; three related workspaces are reachable from the toolbar:

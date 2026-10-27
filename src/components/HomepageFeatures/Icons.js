@@ -186,6 +186,15 @@ const paths = {
       <polyline points="2 12 12 17 22 12" />
     </>
   ),
+  play: (
+    <polygon fill="currentColor" points="6 3 20 12 6 21 6 3" />
+  ),
+  video: (
+    <>
+      <polygon points="23 7 16 12 23 17 23 7" />
+      <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+    </>
+  ),
   github: (
     <path
       fill="currentColor"

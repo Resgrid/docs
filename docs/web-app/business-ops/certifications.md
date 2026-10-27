@@ -11,6 +11,8 @@ Free for every department. Menu: **Workforce & Business Ops → Certifications**
 
 ![Certification dashboard](/img/web-app/certifications/dashboard.png)
 
+<AcademyVideo id="09-training" />
+
 ## The pages
 
 | Tab | What it is for |

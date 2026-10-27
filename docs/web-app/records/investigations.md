@@ -7,9 +7,11 @@ title: Investigations
 
 Fire and arson investigations, cause-and-origin work and any other case that needs **restricted, need-to-know access**. A case is visible only to its **members**, every read is written to an **access audit**, evidence items carry an append-only **chain of custody**, and findings must be **approved by someone other than their author** before they can be recommended as an amendment to the incident report.
 
-Feature flag: `Records.Investigations`; requires the *View restricted records* permission **and** case membership. Menu: **Records → Investigations**.
+Feature flag: `Records.Investigations`; requires the *View restricted records* permission **and** case membership. Menu: **Records → Investigations**. Your cases can be filtered by a case number or by the number of an evidence item in the case (`EV-2026-0042` finds its case), however the number is typed.
 
 ![Investigations](/img/web-app/prevention/investigations.png)
+
+<AcademyVideo id="14-records" />
 
 ## Opening a case
 

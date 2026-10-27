@@ -11,6 +11,8 @@ The four mobile apps — **Responder**, **Unit**, **Dispatch** and **Incident Co
 
 ![Dashboard](/img/web-app/home/dashboard.png)
 
+<AcademyVideo id="00-start" />
+
 ## A map of the modules
 
 | Area | Modules | Start here |
@@ -19,7 +21,7 @@ The four mobile apps — **Responder**, **Unit**, **Dispatch** and **Incident Co
 | **People & apparatus** | [Personnel](personnel) · [Units](units) · [Hardware GPS Tracking](unit-tracking) · [Groups & Stations](groups-stations) · [Custom Statuses](custom-statuses) · [Contacts](contacts) · [Shifts](shifts) · [Workshifts](workshifts) · [Calendar](calendar) | *Personnel* |
 | **Records & reporting** | [Records (RMS)](records/overview) · [Logs (legacy)](logs) · [Reports](reports) · [Documents](documents) · [Notes](notes) · [Trainings](trainings) | *Records overview* |
 | **Readiness & logistics** | [Checklists](checklists) · [Work Orders](work-orders) · [Inventory](inventory) · [Resource Orders](resource-orders) · [Communication Tests](communication-tests) | *Checklists* |
-| **Workforce & Business Ops** | [Overview](business-ops/overview) · [Invoicing](business-ops/invoicing) · [Online Payments](business-ops/online-payments) · [Certifications](business-ops/certifications) · [Deployment Finance](business-ops/deployment-finance) · [Rate Schedules](business-ops/rate-schedules) · [Contracts & Compliance](business-ops/contracts-and-compliance) · [Bids & Deployment Wizard](business-ops/bids-and-deployment-wizard) · [Contractor Billing](business-ops/contractor-billing) · [Cal OES MARS](business-ops/cal-oes-mars) · [Workforce](business-ops/workforce) · [Field Costing](business-ops/field-costing) · [Pay Data Reporting](business-ops/pay-data-reporting) | *Business Ops overview* |
+| **Workforce & Business Ops** | [Overview](business-ops/overview) · [Invoicing](business-ops/invoicing) · [Online Payments](business-ops/online-payments) · [Certifications](business-ops/certifications) · [Deployments](business-ops/deployment-finance) · [Rate Schedules](business-ops/rate-schedules) · [Contracts & Compliance](business-ops/contracts-and-compliance) · [Bids & Deployment Wizard](business-ops/bids-and-deployment-wizard) · [Contractor Billing](business-ops/contractor-billing) · [Cal OES MARS](business-ops/cal-oes-mars) · [Workforce](business-ops/workforce) · [Field Costing](business-ops/field-costing) · [Pay Data Reporting](business-ops/pay-data-reporting) | *Business Ops overview* |
 | **Communication** | [Messages](messages) · [Chat](chat) · [Notifications](notifications) · [Distribution Lists](distribution-lists) · [Connect](connect) | *Messages* |
 | **Configuration** | [Department Settings](department-settings) · [Types & Configuration](types-configuration) · [Templates](templates) · [Protocols](protocols) · [Forms](forms) · [User Defined Fields](user-defined-fields) · [Workflows](workflows) · [Command Definitions](command-definitions) · [Department Links](department-links) · [Call Check-in Timers](call-checkin-timers) | *Department Settings* |
 | **Security & account** | [Security & Permissions](security-permissions) · [Advanced Data Protection](data-protection) · [Account Security](account-security) · [Profile & Account](profile-account) · [Subscription & Billing](subscription-billing) · [Help & Setup](help-setup) | *Security & Permissions* |

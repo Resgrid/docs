@@ -11,6 +11,8 @@ title: Contacts
 
 ![Contacts](/img/web-app/contacts/index.png)
 
+<AcademyVideo id="10-knowledge" />
+
 ## The contact list
 
 The list is a tree: **All Contacts**, **No Category** and one node per **category**. Categories carry a colour, a map icon and *Display on map* so key premises show on the [map](mapping). A category with contacts cannot be deleted — reassign them first.

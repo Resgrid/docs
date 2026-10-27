@@ -11,7 +11,7 @@ title: Navigation
 
 | Region | What is there |
 |---|---|
-| **Left sidebar** | The modules: Home, Calls, Personnel, Units, Contacts, Mapping, Shifts, **Records** (a collapsible group, or Logs), Reports, Documents, Calendar, Notes, Trainings, Inventory, **Readiness** (Work Orders, Checklists) and **Workforce & Business Ops** (Workforce, Certifications, Invoicing, Deployment Finance, Bids, Contracts, Cal OES MARS). Groups expand in place; modules that are switched off or that you lack permission for are hidden. Collapse the sidebar with the hamburger icon on small screens. |
+| **Left sidebar** | The modules: Home, Calls, Personnel, Units, Contacts, Mapping, Shifts, **Records** (a collapsible group, or Logs), Reports, Documents, Calendar, Notes, Trainings, Inventory, **Readiness** (Work Orders, Checklists) and **Workforce & Business Ops** (Workforce, Certifications, Invoicing, Deployments, Bids, Contracts, Cal OES MARS). Groups expand in place; modules that are switched off or that you lack permission for are hidden. Collapse the sidebar with the hamburger icon on small screens. |
 | **Your name (top-left)** | Profile menu: **Profile** (edit your details, contact methods, notification preferences), **Mailbox**, **Chat**, **Your Departments** (switch between departments you belong to), **Two-Factor Authentication**, **Logout**. |
 | **Top bar** | Unread **messages** and **active calls** icons, the **search box**, the **Department menu**, **Help**, language flag and logout. |
 | **Department menu (department name, top-right)** | Everything an administrator configures — see below. |
@@ -50,7 +50,7 @@ Only administrators (and group administrators for a few items) see this menu.
 
 ## Search
 
-The search box finds calls, personnel, units, contacts, notes, documents, records, invoices, bids, contracts, deployments and pages by name or number. Type at least two characters; results open in place. Records narrative search is included when your department's search index allows it.
+The search box in the top bar finds calls (and their notes), people, units, contacts, occupancies, messages, notes, documents, deployments, invoices and more by name, number, address or text, and offers **Go to** shortcuts to pages and actions (*New Call*, *Add Person* …). Press **Enter** or pick **Search all results** for the full [Search](search) page, with type and date filters, Records reports and CSV export.
 
 ![Search results](/img/web-app/home/search-results.png)
 

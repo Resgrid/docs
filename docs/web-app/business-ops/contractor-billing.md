@@ -11,6 +11,8 @@ Business Ops add-on with `Invoicing.ContractorBilling`. Lives on the deployment 
 
 ![Billing tab](/img/web-app/deployment-finance/view-billing.png)
 
+<AcademyVideo id="16-business" />
+
 ## The billing tab
 
 | Panel | What it shows |

@@ -6,6 +6,8 @@ sidebar_position: 3
 
 Stations and Groups define the organizational structure of your department in Resgrid. Groups represent logical groupings of personnel (such as divisions, platoons, or teams), while Stations are a special type of group that have a physical location. Personnel are assigned to groups, units are assigned to stations, and many features such as dispatch, shifts, and notifications rely on this organizational hierarchy.
 
+<AcademyVideo id="01-people" />
+
 ## Why Stations and Groups Matter
 
 Your group structure is foundational to how Resgrid operates. Dispatch uses groups to determine who to notify, shifts are organized around groups, permissions can be scoped to groups, and mapping uses station locations for routing and display. Without properly configured groups and stations, dispatch targeting, shift management, and location-based features will not function correctly.

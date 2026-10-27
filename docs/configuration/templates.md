@@ -6,6 +6,8 @@ sidebar_position: 7
 
 Templates in Resgrid provide two features that speed up call creation: **Call Quick Templates** and **Call Note Autofills**. Call Quick Templates pre-fill call creation fields with commonly used values, allowing dispatchers to create recurring call types with a single click. Call Note Autofills provide pre-written text snippets that can be quickly inserted into call notes during an active call.
 
+<AcademyVideo id="05-calls" />
+
 ## Why Templates Matter
 
 During an emergency, speed is critical. Dispatchers often create the same types of calls repeatedly (e.g., "Structure Fire", "Medical Emergency", "Traffic Accident") with similar details. Templates eliminate the need to type the same information every time, reducing call creation time and ensuring consistency across dispatches. Call Note Autofills similarly speed up documentation during active calls.

@@ -10,6 +10,8 @@ This page describes the original inventory *types* screen. Since the 2026 invent
 
 Inventory Types in Resgrid define the categories of items your department tracks in the inventory system. Each type represents a class of supply or equipment — such as "SCBA Bottles", "Medical Supplies", "Hose Sections", or "Batteries" — and includes configuration for units of measure and expiration tracking.
 
+<AcademyVideo id="13-inventory" />
+
 ## Why Inventory Types Matter
 
 Before you can track inventory in Resgrid, you must define what kinds of items you want to track. Inventory Types provide the classification system that organizes your supplies and equipment. They enable consistent tracking across stations, allow for expiration monitoring on perishable items (like medical supplies), and provide the foundation for inventory adjustments and reporting.

@@ -6,6 +6,8 @@ sidebar_position: 15
 
 Adding Personnel is how you bring members of your department into the Resgrid system. Each person gets their own account with login credentials, allowing them to receive dispatch notifications, update their status and staffing, access the web and mobile applications, and participate in all department operations. Personnel can be added by creating new accounts or by inviting existing Resgrid users.
 
+<AcademyVideo id="01-people" />
+
 ## Why Adding Personnel Matters
 
 Personnel are the foundation of your Resgrid department. Until members are added to the system, they cannot receive dispatch notifications, update their status, view calls, or interact with any department features. Properly onboarding personnel — including assigning them to groups and roles — ensures they receive the right notifications and have appropriate access to department resources.

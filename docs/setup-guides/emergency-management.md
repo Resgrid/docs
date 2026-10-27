@@ -72,7 +72,7 @@ From the **EOC Coordination Pack**: *EOC Duty / Shift Log* (Quick entry, one per
 ## 9 — Workforce & Business Ops
 
 - **Certifications** (free): ICS-100/200/300/400, IS-700/800, CEM/AEM for staff and ESF partners in your department; role requirements on *EOC section chief* (ICS-300 + IS-800) in **Warn only**.
-- **Deployment Finance** (free): every EMAC or state deployment your county sends or receives as a deployment (*Cost recovery*), created from the Records external order; daily time reports and expenses with receipts build the reimbursement package; the time CSV feeds the finance section.
+- **Deployment Finance** (free): every EMAC or state deployment your county sends or receives as a deployment (*Cost recovery*), created by recording the external order under **Deployments → External orders**; daily time reports and expenses with receipts build the reimbursement package; the time CSV feeds the finance section.
 - **Cal OES MARS** (Business Ops, California operational areas): agency profile, agreements and F-42s for fire and rescue resources dispatched through the mutual-aid system; the readiness dashboard before fire season.
 - **Contacts**: shelter operators, ESF partners and vendors with pre-plans (occupant loads, shutoffs) and site files (floor plans of shelters).
 

@@ -6,6 +6,8 @@ sidebar_position: 17
 
 Units in Resgrid represent physical apparatus, vehicles, or teams that respond to calls. Examples include fire engines, ambulances, rescue trucks, command vehicles, or specialized teams. Each unit can have a type, be assigned to a station, have defined roles (positions), and maintain its own status independent of individual personnel.
 
+<AcademyVideo id="03-units" />
+
 ## Why Adding Units Matters
 
 Units are a core component of dispatch operations. When a call comes in, dispatchers often dispatch units rather than (or in addition to) individual personnel. Each unit tracks its own state (Available, Responding, On Scene, etc.), can be staffed with personnel in specific roles, and appears on maps with location tracking. Without properly configured units, dispatch operations, unit tracking, and resource management will not function.

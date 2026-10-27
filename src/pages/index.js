@@ -76,6 +76,14 @@ function HomepageHeader() {
             </Link>
             <span className={styles.heroMetaDivider} aria-hidden="true">·</span>
             <a
+              href="https://academy.resgrid.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.heroMetaLink}>
+              Video lessons
+            </a>
+            <span className={styles.heroMetaDivider} aria-hidden="true">·</span>
+            <a
               href="https://github.com/Resgrid"
               target="_blank"
               rel="noopener noreferrer"

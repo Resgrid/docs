@@ -11,6 +11,8 @@ Every guide assumes you have already created your department (hosted at [resgrid
 
 ## Pick the guide closest to you
 
+Nothing in Resgrid is locked to one kind of organization. The organization type you chose at sign-up (change it under [Department Settings](../web-app/department-settings#organization-types)) only describes you; every template pack, module and suggestion is open to every department. If you run several kinds of teams, combine the guides that match them and tick each sector in the [operating profile](../web-app/help-setup#operating-profile).
+
 | Organization | Guide | Typical modules |
 |---|---|---|
 | Volunteer, combination or career fire department | [Fire department](fire-department) | Dispatch, run cards, personnel/units, shifts, checklists, work orders, inventory, Records + NERIS, prevention |

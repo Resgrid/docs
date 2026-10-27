@@ -19,6 +19,8 @@ See [Windows laptop](./laptop), [RICK](./rick), or [Kubernetes/k3s](./multi) for
 The self-hosted version is provided without warranty or a guarantee of suitability. The supplied manifests are a starting point, not a substitute for capacity planning, security review, monitoring, tested backups, or a disaster-recovery plan. Do not use template credentials in a real deployment.
 :::
 
+<AcademyVideo id="23-self-hosting" />
+
 ## What the single-server stack runs
 
 The current stack includes the web application, API, events hub, background worker and database migrations, text-to-speech service, MCP server, PostgreSQL, Redis, RabbitMQ, RustFS object storage, and Caddy ingress. Hardware GPS tracking and inbound-email dispatch are optional Compose profiles.

@@ -15,6 +15,8 @@ title: Workflows
 
 **Navigation:** Department Menu → Workflows
 
+<AcademyVideo id="17-automation" />
+
 ## Overview
 
 Workflows follow an **Event → Transform → Action** pipeline:
@@ -113,8 +115,8 @@ Workflows can subscribe to any of the following system events:
 
 | Event | Description |
 |-------|-------------|
-| **Call Added** | New call/dispatch created |
-| **Call Updated** | Existing call updated |
+| **Call Added** | New call/dispatch created. A [pending call](dispatch-calls#pending-and-scheduled-calls) fires it when it is dispatched, not when it is saved |
+| **Call Updated** | Existing call updated (also fires when a pending call is saved or edited) |
 | **Call Closed** | Call closed |
 | **Unit Status Changed** | Unit status changed |
 | **Personnel Staffing Changed** | Personnel staffing level changed |

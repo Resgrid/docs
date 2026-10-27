@@ -6,6 +6,8 @@ sidebar_position: 11
 
 Security and Permissions in Resgrid control who can perform specific actions within your department. The permissions system allows department administrators to restrict access to features like call creation, personnel management, document creation, and more. Each permission can be set to allow everyone, only department admins, department and group admins, or admins plus specific personnel roles.
 
+<AcademyVideo id="02-security" />
+
 ## Why Permissions Matter
 
 As your department grows, not every member should have the same level of access. Dispatchers may need to create calls but not manage personnel. Group leaders may need to view their group's personnel but not all department personnel. The permissions system gives you fine-grained control over who can do what, ensuring operational security and preventing accidental changes to critical data.
@@ -84,6 +86,15 @@ When **Department Admins and Select Roles** is selected, you can specify which p
 | Contact View             | Everyone      | Who can view contact records                                    |
 | Contact Edit             | Everyone      | Who can edit contact records                                    |
 | Contact Delete           | Everyone      | Who can delete contact records                                  |
+
+### Import & Migration
+
+| Permission                    | Default             | Description                                                     |
+| ----------------------------- | ------------------- | --------------------------------------------------------------- |
+| Manage Department Import (72) | Dept Admins (fixed) | Who can use [Import & Migration](../web-app/import-and-migration/overview): upload, match, fix, approve and run imports, roll back, activate and invite imported people, and grant support access |
+| Manage Record Imports (73)    | Dept Admins (fixed) | Reserved for importing third-party incident history into Records; not used by the current release |
+
+Both are fixed to department administrators and the managing user: they do not appear in the permissions list and cannot be granted to other members or roles.
 
 ## Lock to Group
 

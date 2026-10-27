@@ -6,6 +6,8 @@ sidebar_position: 2
 
 Department Settings is the central configuration hub for your Resgrid department. These settings control department-wide behavior including time display, personnel sorting, map configuration, status/staffing resets, dispatch behavior, module visibility, and more. Changes made here affect every user in your department.
 
+<AcademyVideo id="02-department-settings" />
+
 ## Why Department Settings Matter
 
 Department Settings define the global behavior and defaults for your entire organization. They control how data is displayed, how automated resets work, how dispatch interacts with shifts and groups, and which modules are available to your users. Misconfigured settings can lead to incorrect time displays, missed notifications, mapping issues, or features being unavailable to your team.
@@ -78,10 +80,12 @@ The staffing reset feature automatically resets all personnel staffing levels to
 | --------------------- | ------------------ | ------------ | ---------------------------------------------------- |
 | Enable Staffing Reset | No                 | Off          | Turns on the daily automatic staffing reset          |
 | Time to Reset         | Yes (if enabled)   | —            | The time of day (in department time zone) to reset   |
-| Reset Staffing To     | Yes (if enabled)   | Unavailable  | The staffing level to set all personnel to           |
+| Reset Staffing To     | Yes (if enabled)   | Unavailable  | A staffing [meaning](custom-statuses#staffing-meanings) or one of your staffing levels to set all personnel to |
+
+Pick a meaning (for example *Unavailable*) and the reset uses whichever of your levels has that meaning when it runs, so it keeps working after you rename or replace levels.
 
 :::warning Staffing Reset and Custom Staffing
-When you update or remove custom staffing levels, make sure to also update the Reset Staffing To value here. If the configured reset staffing level no longer exists, the reset may not function as expected. Also notify your personnel to update any personal scheduled staffing changes they have configured.
+A value saved before meanings existed, or a level you have since deleted, shows as *(saved earlier, no longer offered)* with a warning under it. The reset then uses, in order: your level with the same meaning; a level without a meaning whose name matches (for example *Unavailable*) or suggests the same meaning; otherwise the saved value as before. When nothing fits, the warning says the reset changes nobody. Pick a meaning or one of your levels and save to clear the warning. Also notify your personnel to update any personal scheduled staffing changes they have configured.
 :::
 
 ## Status Reset
@@ -92,7 +96,9 @@ Similar to staffing reset, the status reset automatically resets all personnel s
 | -------------------- | ------------------ | ----------- | ---------------------------------------------------- |
 | Enable Status Reset  | No                 | Off         | Turns on the daily automatic status reset            |
 | Time to Reset        | Yes (if enabled)   | —           | The time of day (in department time zone) to reset   |
-| Reset Status To      | Yes (if enabled)   | Standing By | The status to set all personnel to                   |
+| Reset Status To      | Yes (if enabled)   | Available   | A status [meaning](custom-statuses#status-meanings) or one of your statuses to set all personnel to |
+
+A status saved before meanings existed, or one since deleted, follows the same rules as the staffing reset above.
 
 ## Staffing Suppression
 
@@ -101,7 +107,7 @@ Staffing suppression allows you to prevent notifications from going to personnel
 | Setting                       | Required | Description                                              |
 | ----------------------------- | -------- | -------------------------------------------------------- |
 | Enable Staffing Suppress      | No       | Enables the suppression of notifications                 |
-| Staffing Levels to Suppress   | Yes (if enabled) | Select which staffing levels should be suppressed |
+| Staffing Levels to Suppress   | Yes (if enabled) | Select which staffing levels should be suppressed. Pick a meaning (*Any "Off Duty" status*) to suppress every staffing level with that [meaning](custom-statuses#staffing-meanings) |
 
 ## Dispatch Settings
 
@@ -116,10 +122,16 @@ Dispatch settings control how the dispatch system interacts with shifts, groups,
 | Unit Dispatch Also Dispatch to Assigned Personnel | Off    | When dispatching a unit, also notify personnel assigned to unit roles          |
 | Unit Dispatch Also Dispatch to Group             | Off     | When dispatching a unit, also notify the unit's station group                  |
 | Personnel On Unit Set Unit Status                | Off     | When personnel on a unit change status, update the unit status accordingly     |
+| Hold to Set Status                               | Off     | In the Unit and Responder apps, crews press and hold a status button for two seconds to set it instead of tapping it and then pressing Next or Submit. A status that needs a note, or a destination the app can't fill from the active call, still opens that step |
+| Close Call When Last Unit Clears                 | Off     | An active call closes on its own when the last unit dispatched to it reports back in service or out of service. See [Closing a call automatically](../web-app/dispatch-calls#closing-a-call-automatically) |
+
+The **unit call release status** (and its per-unit-type overrides) is set on the units still working a call when it is closed or they are taken off it. A unit already back in service, out of service, unavailable or on a break, or working another open call, keeps its status: closing a call never puts a unit that was taken out of service back in the dispatchable pool. Custom statuses are read by their [base type](custom-statuses), so give an *Out of Service* status the base type **Unavailable** or **Maintenance**.
+
+The **unit call dispatch status** and **unit call release status** are picked by meaning: **Default**, **Leave the unit's status unchanged**, or a status meaning such as *Dispatched* or *En Route*. Each unit then gets the first option of its own unit type's status set with that meaning, so one setting works for unit types with different custom statuses. Default is *Dispatched*, else *Responding*, else *En Route* on dispatch and *Cleared*, else *Available*, else *In Quarters* on release (the built-in *Responding* and *Released* for unit types without custom statuses). The page lists any unit type whose status set has no option with the meaning; its units keep their status. See [Unit status on dispatch and release](../web-app/department-settings#unit-status-on-dispatch-and-release).
 
 ## Mapping Settings
 
-These settings control how long personnel and unit location data remains visible on maps.
+These settings control how long personnel and unit location data remains visible on maps, and which Mapbox base map style every department map uses.
 
 | Setting                                  | Default | Description                                                              |
 | ---------------------------------------- | ------- | ------------------------------------------------------------------------ |
@@ -127,6 +139,8 @@ These settings control how long personnel and unit location data remains visible
 | Unit Location TTL                        | —       | How long unit location pins remain on the map                            |
 | Personnel Allow No-Location Overwrite    | Off     | A status update without GPS can overwrite a previous status that had GPS |
 | Unit Allow No-Location Overwrite         | Off     | A unit state without GPS can overwrite a previous state that had GPS     |
+| Day Map Style                            | Automatic (Streets) | Mapbox base map for the website and for the apps in light mode: Streets, Outdoors, Light, Dark, Satellite, Satellite with Streets, Navigation Day, Navigation Night, or one of 20 Mapbox gallery community styles (Blueprint, Moonlight, North Star and others) |
+| Night Map Style                          | Automatic | Base map the apps use in dark mode; Automatic follows the day style (Dark for road maps, Navigation Night for Navigation Day, unchanged for Outdoors, satellite and community styles) |
 
 ## Module Settings
 

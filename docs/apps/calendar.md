@@ -6,6 +6,8 @@ sidebar_position: 1
 
 Resgrid provides a suite of purpose-built applications for emergency services and incident management. All applications are built with **React Native** and **Expo**, sharing a common technology foundation while being tailored to specific operational roles.
 
+<AcademyVideo id="04-apps" />
+
 ## Supported Platforms
 
 Every Resgrid application supports the following platforms from a single codebase:

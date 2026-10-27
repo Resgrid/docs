@@ -9,6 +9,8 @@ Distribution Lists manage email distribution groups for the department. The modu
 
 ![Distribution lists](/img/web-app/distribution-lists/index.png)
 
+<AcademyVideo id="06-communication" />
+
 ## Distribution List Management
 
 **Authorization:** `Department_Update` policy

@@ -6,6 +6,8 @@ sidebar_position: 10
 
 Distribution Lists in Resgrid allow you to create email-based communication groups within your department. A distribution list has an email address that, when emailed, forwards the message to all members of the list. Lists can be configured as Internal (using Resgrid's messaging system) or External (connecting to an outside email server to monitor an inbox and distribute messages).
 
+<AcademyVideo id="06-communication" />
+
 ## Why Distribution Lists Matter
 
 Departments often need to communicate with subsets of their personnel — for example, all officers, all training staff, or all members of a particular committee. Distribution lists provide a simple way to email a group of people without needing to maintain separate email groups outside of Resgrid. They integrate directly with your department's personnel roster, so membership stays current as people join or leave.

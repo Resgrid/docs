@@ -13,9 +13,11 @@ You can still author and finalize incident reports for your own records. Submiss
 
 ![Incident reports queue](/img/web-app/incident-reports/index.png)
 
+<AcademyVideo id="14-records" />
+
 ## Where to find it
 
-**Records → All records → Incident reports** (or the *Incident reports* tile on the dashboard). The queue lists reports by year and state: *Incomplete*, *Awaiting review*, *Submitted*, *Accepted*, *Rejected*, *Corrected*.
+**Records → All records → Incident reports** (or the *Incident reports* tile on the dashboard). The queue lists reports by year (the department's [numbering year](settings#fiscal-year-numbering) of the call, so a fiscal year's reports stay together) and state: *Incomplete*, *Awaiting review*, *Submitted*, *Accepted*, *Rejected*, *Corrected*.
 
 ## Starting a report
 
@@ -90,6 +92,8 @@ For fire and hazmat incidents NERIS takes a separate **incident analysis** (caus
 | **Status** | Contract version, last token issued, last successful call, last error, submission queue counts. |
 
 Self-hosted operators can switch NERIS off system-wide (*NERIS submission is switched off system-wide*).
+
+A department that does not report to NERIS can turn **Use NERIS workflows** off in [Records settings](settings#neris-reporting). Incident reports are then ordinary department records: they finalize without the NERIS rules, the validate and submit actions are hidden, and this screen redirects to Records settings. The profile and crosswalk are kept for when NERIS is turned back on.
 
 ## Setup examples
 

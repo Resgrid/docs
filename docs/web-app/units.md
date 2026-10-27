@@ -9,6 +9,8 @@ A **unit** is anything that responds as one thing and has a status of its own: a
 
 ![Units](/img/web-app/units/index.png)
 
+<AcademyVideo id="03-units" />
+
 ## Where to find it
 
 **Left menu → Units.** Units are listed by station/group with type, current state and timestamp. Buttons: **Events**, **Logs**, **Edit**, **Delete**; select several to **set status** at once (only units sharing the same status set can be selected together). **Unit Staffing** and **New Unit** are in the toolbar.
@@ -26,6 +28,10 @@ A **unit** is anything that responds as one thing and has a status of its own: a
 | **Custom fields** | Any [User Defined Fields](user-defined-fields) configured for units (VIN, radio ID, capacity …). |
 
 Adding is blocked when the plan's unit limit is reached.
+
+:::tip Have a spreadsheet?
+To add many units and unit types at once — from an apparatus list or the system you are leaving — use [Import & Migration](import-and-migration/overview) (**Department menu → Import & Migration**, department administrators, where it is turned on). Every row is checked and previewed before anything is saved. See the [Units field reference](import-and-migration/units).
+:::
 
 ## Unit status
 

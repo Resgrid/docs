@@ -5,6 +5,8 @@ title: Dashboard & Work Queue
 
 # Records Dashboard & Work Queue
 
+<AcademyVideo id="14-records" />
+
 ## Records dashboard
 
 **Records → Records dashboard** is the "what needs doing" page for officers and records staff.
@@ -34,8 +36,8 @@ Each tile links to the filtered queue. If a source is unavailable the dashboard 
 
 | Control | Notes |
 |---|---|
-| **Search records** | Record numbers, summaries and other safe fields. Narrative text is included when the department's search index allows it (it is withdrawn under Advanced Data Protection). |
-| **Records for year** | Defaults to the current year; *All years* is available. |
+| **Search records** | Record numbers, summaries and other safe fields. Narrative text is included when the department's search index allows it (it is withdrawn under Advanced Data Protection). Numbers are found however they are typed, whatever [format](settings#numbering) the department uses: `RUN26-0001`, `run-26-1`, `26-0001`, `0001` and `RUN` all find `RUN26-0001`. |
+| **Records for year** | Defaults to the current year; *All years* is available. The year is the department's numbering year, read in the department's time zone: with a [fiscal year start](settings#fiscal-year-numbering) of November 1, *2027* lists the records numbered 2027, including those from November and December 2026. |
 | **Type** | A definition (Run, Training, NERIS incident, your own definitions …). |
 | **State** | Draft, Ready for review, Returned, Approved, Finalized, Amended, Voided, Cancelled, Submitted, Accepted, Rejected. |
 | **Owner / Group** | Who owes the record; which station/group it is anchored to. |

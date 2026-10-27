@@ -9,6 +9,8 @@ The Templates module provides call quick templates and call note autofills that 
 
 ![Call templates](/img/web-app/templates/index.png)
 
+<AcademyVideo id="05-calls" />
+
 ## Call Quick Templates
 
 ### Template List
