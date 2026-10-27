@@ -11,6 +11,8 @@ title: Trainings
 
 ![Trainings](/img/web-app/trainings/index.png)
 
+<AcademyVideo id="09-training" />
+
 ## Training List
 
 Displays all trainings for the department.

@@ -11,6 +11,8 @@ Feature flag: `Records.Prevention.Occupancy`. Menu: **Records → Occupancies**.
 
 ![Occupancies](/img/web-app/prevention/occupancies.png)
 
+<AcademyVideo id="14-records" />
+
 ## The occupancy list
 
 Search by number, name or address; filter by status, **review overdue** and **hazmat on site**. Each row links to the details page. **New occupancy** opens the editor.
@@ -36,9 +38,10 @@ Hazards flagged *Alert crews* are pushed to the apps and the dispatch **alert no
 - **Hazards** — add / remove hazards.
 - **Inspections** — schedule an inspection from a program; list of past inspections with result and open violations.
 - **Permits** — permits issued against the occupancy; **New permit**.
+- **Smoke and CO alarms** — alarms left per year (smoke only, CO only, combination), open alarm requests and recent [community risk reduction](community-risk-reduction) activity at the site; **New alarm request** and **Record alarm left** (needs `Records.Prevention.Crr`).
 - **Linked contacts** — the owner, manager or company from [Contacts](../contacts).
 - **Mark reviewed** — records the pre-plan review date (the list flags occupancies whose review date has passed).
-- **Merge into** — merges a duplicate into a target occupancy; hazards, links and history move and this record becomes a pointer.
+- **Merge into** — merges a duplicate into a target occupancy; hazards, links, CRR activity, alarm requests and history move and this record becomes a pointer.
 - **Delete** — inspections, permits and hazards keep their history but lose the parent.
 
 The occupancy also feeds the **Contacts pre-plan summary** and the dispatch projection the apps use.

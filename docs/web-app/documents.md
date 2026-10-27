@@ -11,6 +11,8 @@ title: Documents
 
 ![Documents](/img/web-app/documents/index.png)
 
+<AcademyVideo id="10-knowledge" />
+
 ## Document List
 
 **Authorization:** `Documents_View` policy

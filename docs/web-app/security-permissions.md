@@ -9,6 +9,8 @@ title: Security & Permissions
 
 ![Security and permissions](/img/web-app/security/index.png)
 
+<AcademyVideo id="02-security" />
+
 ## Permission levels
 
 Every permission is set to one of four levels. Changes take effect at the member's next login.

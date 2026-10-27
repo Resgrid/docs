@@ -15,6 +15,8 @@ The Weather Alerts module automatically ingests severe weather alerts from gover
 
 ---
 
+<AcademyVideo id="07-mapping" />
+
 ## Overview
 
 The Weather Alert system connects to external weather providers, polls for alerts on a configurable schedule, and surfaces them inside Resgrid. The end-to-end flow is:

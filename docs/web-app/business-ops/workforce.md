@@ -15,6 +15,8 @@ Identifiers, addresses, pay rates, earnings, demographic responses and export fi
 
 ![Workforce](/img/web-app/workforce/index.png)
 
+<AcademyVideo id="16-business" />
+
 ## The pages
 
 The workforce home shows three panels — **Employer**, **Field costing** and **Pay data reporting** — with counts and links.

@@ -9,6 +9,10 @@ title: Dispatch & Calls
 
 ![Calls dashboard](/img/web-app/dispatch/calls-dashboard.png)
 
+<AcademyVideo id="05-calls" />
+
+<AcademyVideo id="06-dispatch-settings" />
+
 ## Where to find it
 
 **Left menu → Calls.** The Calls page shows:
@@ -78,6 +82,10 @@ Once the call has a location, the **Nearest Units** table lists every unit you m
 | **Shift / Role mix** | Crew on shift and the roles they hold. |
 
 Available units come first, ordered by response time — the fastest unit is at the top. A stale position is flagged on the row but does not push the unit down the list. Units with no position at all, and unavailable units, come last.
+
+![The New Call map drawing only available units](/img/web-app/dispatch/new-call-map-available.png)
+
+The call map draws only the **available** units and personnel, colored by their status, so it shows who can be sent. Busy and unavailable resources are left off the map but stay in the dispatch lists with their status, so a dispatcher can still pick one to reassign. **Update Call** and the [Dispatch app's](../apps/dispatch) New Call and Edit Call maps work the same way.
 
 Press **Create Call**. Notifications go out immediately through the queue: push to the apps, SMS, email and voice according to each member's [notification preferences](profile-account#notifications) and [contact verification](../configuration/contact-verification) status. Notification text is generic when the department is enrolled in [Advanced Data Protection](data-protection). A call saved as pending or scheduled for later sends nothing until it is dispatched, and opens on the *Pending calls* page instead of the Calls dashboard.
 

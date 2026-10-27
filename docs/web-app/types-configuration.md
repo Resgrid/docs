@@ -11,6 +11,8 @@ title: Types & Configuration
 
 ![Types](/img/web-app/types/index.png)
 
+<AcademyVideo id="05-calls" />
+
 ## Unit Types
 
 Define categories for units (Engine, Ladder, Ambulance, etc.):
@@ -22,7 +24,13 @@ Define categories for units (Engine, Ladder, Ambulance, etc.):
 | Type Name | Unit type name (required, unique) |
 | Class | What kind of unit it is (Engine, Aerial, Ambulance …), see [Classes and meanings](#classes-and-meanings) |
 | Custom State ID | Associate with a custom unit state set |
-| Map Icon Type | Icon used on maps |
+| Map Icon Type | Built-in icon used on maps |
+| Custom icon | Optional image of your own. Units of this type show it beside their name in lists, pickers and the apps, and on the map in place of the map icon. See [Custom map icons](mapping#custom-map-icons) |
+| Status map icons | On Edit: opens the page where you upload an icon for each status of the type's status set, shown on the map while a unit of the type is in that status. See [Status and priority icons](mapping#status-and-priority-icons) |
+
+The **Custom icon** field shows the image rules next to the file picker and a live preview: how the icon looks on a light map, on a dark map, in a list and as the stored 128 × 128 image. It is labelled with the type name you typed. The file is checked as soon as you choose it, so a file that cannot be used is never uploaded.
+
+![Custom icon picker with a new icon chosen](/img/web-app/types/custom-icon-preview.png)
 
 ### Operations
 - **Create** — `Department_Update` + `CanUserAddUnitTypeAsync`
@@ -41,7 +49,9 @@ Define incident categories (Fire, EMS, MVA, etc.):
 |-------|-------------|
 | Type Name | Call type name (required) |
 | Class | What kind of call it is (Fire, Medical, Rescue …), see [Classes and meanings](#classes-and-meanings) |
-| Map Icon Type | Icon used on maps |
+| Map Icon Type | Built-in icon used on maps |
+| Custom icon | Optional image of your own. Calls of this type show it beside the type in the call lists and the apps, and on the map in place of the map icon. See [Custom map icons](mapping#custom-map-icons) |
+| Priority map icons | On Edit: opens the page where you upload an icon for each call priority, shown on the map while a call of the type has that priority. See [Status and priority icons](mapping#status-and-priority-icons) |
 
 Calls remember which call type they were logged with, so **renaming a call type** keeps its old calls linked to it (check-in timer overrides, run cards and protocols keyed on the type still apply to them). Protocol triggers and call templates that name the type are renamed with it.
 
@@ -78,6 +88,8 @@ Push notification and iOS push sound upload features are currently disabled (cod
 - **Delete** — Soft-deletes (`IsDeleted = true`)
 
 Until you add a priority of your own, calls use the four built-in priorities (Low, Medium, High, Emergency). Once you add one, your priorities replace the built-in ones.
+
+A priority's meaning also sets the color of its calls' map pins ([icons by status and priority](mapping#icons-by-status-and-priority)): Low green, Medium yellow, High orange, Emergency red, and gray for a priority with no meaning whose name suggests none. The [Map Icon Legend](mapping#map-icon-legend) lists each of your priorities under the color it takes.
 
 <a id="classes-and-meanings"></a>
 
@@ -202,6 +214,7 @@ All operations use:
 | Call type link | `Call.CallTypeId`: the call type a call was logged with (`Call.Type` keeps the name). Worked out from the name when a call is saved (`CallTypeLink`); a call already linked keeps its link after a rename. Null when the name matches no call type |
 | Rename | Editing a call type's name also renames it in protocol triggers (`IProtocolsService.RenameCallTypeInTriggersAsync`) and call quick templates (`ITemplatesService.RenameCallTypeInTemplatesAsync`) |
 | API | v4 `CallTypes` and `CallPriorities` results include `BaseType`; v4 call results include `TypeId` (the linked call type's id, or null) |
+| Custom icons | `UnitType.IconKey` / `CallType.IconKey` point at the type's row in `TypeIcons` (migration M0285). Uploads are read by `TypeIconUploads`, checked and re-encoded by `TypeIconRenditions` (PNG, JPEG, GIF first frame or WebP; at most 1 MB and 4096 px; at least 16 px; stored as a 128 × 128 transparent PNG) and saved after the type's own fields. The picker is the shared partial `_TypeIconPicker` with `resgrid.types.iconpicker.js`. Deleting a type deletes its icon. See [Custom map icons](mapping#technical-reference-for-custom-icons) |
 | Migration | M0272 (`M0272_AddListBaseTypes`, PostgreSQL `M0272_AddListBaseTypesPg`): adds `BaseType` (default -1) to `CallTypes`, `UnitTypes` and `DepartmentCallPriorities`, adds `Calls.CallTypeId` and links existing calls to their department's call type of the same name |
 
 ### Interactions with Other Modules
@@ -214,5 +227,5 @@ All operations use:
 | **Notes** | Note categories used for filtering |
 | **Contacts** | Contact note types used for note classification |
 | **Certifications** | Certification types used in personnel profiles |
-| **Mapping** | Map icon types for calls and units |
+| **Mapping** | Map icon types, custom icons and status / priority icons for calls and units ([Custom map icons](mapping#custom-map-icons), [Map icon legend](mapping#map-icon-legend)) |
 | **Dashboard** | Personnel status ordering affects status display |

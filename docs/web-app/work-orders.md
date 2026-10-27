@@ -13,11 +13,13 @@ Work Orders and the preventive-maintenance engine are part of the paid **Readine
 
 ![Work orders list](/img/web-app/work-orders/index.png)
 
+<AcademyVideo id="12-maintenance" />
+
 ## Where to find it
 
 **Left menu → Work Orders.** The landing page is the filterable list. The toolbar links to **New work order**, **Preventive maintenance** (recurring schedules), **Operations policy**, **Bulk operations**, **Maintenance reports** and **Service history**.
 
-Filters: status, priority, type, target (unit / group / equipment), **Assigned to me**.
+Filters: **number**, status, priority, type, target (unit / group / equipment), **Assigned to me**. The number filter finds part of a work order number in the department's own [format](department-settings#document-numbering), however it is typed: `MNT-26-0007`, `mnt26 0007` and `0007` all find `MNT26-0007`.
 
 ## Lifecycle of a work order
 

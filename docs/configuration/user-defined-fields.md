@@ -6,6 +6,8 @@ sidebar_position: 23
 
 User Defined Fields (UDFs) allow departments to extend the built-in data model with custom fields tailored to their specific operational, compliance, or reporting requirements. UDFs can be added to **Calls**, **Personnel**, **Units**, and **Contacts**, and are rendered automatically in web forms, mobile apps, and exports.
 
+<AcademyVideo id="17-automation" />
+
 ## Why User Defined Fields Matter
 
 Every department captures information that the standard system fields do not cover. A hazmat team may need a "Chemical Class" field on calls. A government agency may require a "Certification Level" field on personnel records. A fire department may track a "Service Date" on each unit. UDFs let department admins define these fields without any custom development, while preserving full audit trails and historical data integrity.

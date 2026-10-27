@@ -11,6 +11,8 @@ title: Notes
 
 ![Notes](/img/web-app/notes/index.png)
 
+<AcademyVideo id="10-knowledge" />
+
 ## Note List
 
 Displays all notes for the department.

@@ -1,0 +1,8 @@
+{
+  "label": "Incident Back Office",
+  "position": 22,
+  "link": {
+    "type": "generated-index",
+    "description": "Run the logistics, finance and coordination side of large incidents: activations and operational periods, organization and check-in, resource requests, lodging, feeding, water, services and vendors, procurement, budget, time, cost share, claims, disaster recovery and coordination boards."
+  }
+}

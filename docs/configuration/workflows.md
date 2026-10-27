@@ -6,6 +6,8 @@ sidebar_position: 22
 
 Workflows in Resgrid provide an event-driven automation engine that connects system events to external actions. When something happens in the system — a call is created, a unit changes status, a personnel staffing level changes — workflows can automatically send emails, post messages to Slack or Teams, call external APIs, upload files to cloud storage, and more. Each workflow uses Scriban templates to transform event data into the exact output format your external systems require.
 
+<AcademyVideo id="17-automation" />
+
 ## Why Workflows Matter
 
 Departments increasingly need to integrate Resgrid with external systems — CAD platforms, records management systems, alerting services, analytics dashboards, communication channels, and cloud storage. Without workflows, these integrations require custom development or manual processes. Workflows let department admins create these integrations through the web interface without writing code, using a visual template editor with preview capabilities.

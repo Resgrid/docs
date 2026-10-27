@@ -17,11 +17,14 @@ Resgrid is written in C# on .NET with SQL Server or PostgreSQL as the primary st
 - **Setting up a department?** Pick the recipe for your organisation under [Setup guides](setup-guides/overview).
 - **Hosting it yourself?** See [Self-hosted](self-hosted/quick-start).
 - **Integrating?** See the [API](api/authentication) and [Workflows](web-app/workflows).
+- **Prefer video?** [Resgrid Academy](https://academy.resgrid.com/) has short narrated lessons, learning paths by role and step-by-step configuration walkthroughs. Pages here with a matching video show it near the top.
 :::
 
 :::info Screenshots
 Screenshots in this documentation were taken from the current web application with sample data. The interface is updated over time; functionality stays the same even when a screen looks a little different.
 :::
+
+<AcademyVideo id="00-start" />
 
 ## What is in the box
 

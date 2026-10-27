@@ -6,6 +6,8 @@ sidebar_position: 11
 
 Security and Permissions in Resgrid control who can perform specific actions within your department. The permissions system allows department administrators to restrict access to features like call creation, personnel management, document creation, and more. Each permission can be set to allow everyone, only department admins, department and group admins, or admins plus specific personnel roles.
 
+<AcademyVideo id="02-security" />
+
 ## Why Permissions Matter
 
 As your department grows, not every member should have the same level of access. Dispatchers may need to create calls but not manage personnel. Group leaders may need to view their group's personnel but not all department personnel. The permissions system gives you fine-grained control over who can do what, ensuring operational security and preventing accidental changes to critical data.

@@ -11,6 +11,8 @@ title: Notifications
 
 ![Notifications](/img/web-app/notifications/index.png)
 
+<AcademyVideo id="06-communication" />
+
 ## Notification List
 
 Displays all configured notification rules with resolved human-readable descriptions of:

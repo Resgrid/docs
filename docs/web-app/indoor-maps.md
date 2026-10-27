@@ -19,6 +19,8 @@ The older `/User/IndoorMaps/*` links still work — they redirect to the equival
 
 Read the full guide: [Custom Maps → Managing floors, Managing zones, Using custom maps in dispatch](custom-maps).
 
+<AcademyVideo id="07-mapping" />
+
 ## Setup examples
 
 | Department | Use |

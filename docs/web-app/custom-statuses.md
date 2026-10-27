@@ -11,6 +11,8 @@ title: Custom Statuses
 
 ![Custom statuses](/img/web-app/custom-statuses/index.png)
 
+<AcademyVideo id="03-custom-statuses" />
+
 ## Overview
 
 **Authorization:** `CustomStates_View` policy
@@ -104,7 +106,8 @@ An option's **Meaning** (stored as its base type) is what the option is, whateve
 - checks [notification](notifications#matching-statuses-by-meaning) rules on status and staffing changes, and the active states of [check-in timers](call-checkin-timers#active-for-states-filtering);
 - times units against the [unit status timers](department-settings) and flags them on the Big Board. A unit in a status with no meaning is never timed, so give the status your units get on dispatch a meaning such as *Dispatched*;
 - mutes dispatch notifications for the staffing levels you suppress, and counts statuses in reports and rollups;
-- handles SMS replies to a dispatch, and shows and sets statuses in the Dispatch, Responder, Unit, Big Board and Incident Commander apps.
+- handles SMS replies to a dispatch, and shows and sets statuses in the Dispatch, Responder, Unit, Big Board and Incident Commander apps;
+- colors unit and personnel pins on the map and in the apps ([icons by status and priority](mapping#icons-by-status-and-priority)). A status with no meaning set takes the color its name suggests, or shows a gray pin when the name suggests none. The [Map Icon Legend](mapping#map-icon-legend) lists each of your statuses under the color it takes, so a status listed under gray still needs a meaning.
 
 The built-in statuses and staffing levels already have a meaning. An option you add has none until you pick one. Resgrid treats an option with no meaning as **unknown**: it is neither available nor busy, dispatch and release never pick it, and a rule that targets a meaning doesn't match it.
 

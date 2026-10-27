@@ -17,6 +17,8 @@ Admins define tests, run them on-demand or on a schedule, and then review per-us
 
 ---
 
+<AcademyVideo id="06-communication" />
+
 ## Overview
 
 A Communication Test consists of three components:

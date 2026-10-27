@@ -13,6 +13,8 @@ The Voice module manages VoIP voice channels and audio streams for department co
 Voice capability is checked at every action via `CanDepartmentUseVoiceAsync`. This feature requires an appropriate subscription plan or PTT addon.
 :::
 
+<AcademyVideo id="18-ptt" />
+
 ## Voice Channels
 
 ### Channel List

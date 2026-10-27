@@ -16,6 +16,8 @@ Before you begin you will need the following:
 - A Windows 7 or newer computer with an Audio Line In connection or a usb audio sound card like StarTech.com 7.1 USB Sound Card
 - A scanner like WS1065 with an Audio Line Out connection
 
+<AcademyVideo id="22-relay" />
+
 ## Installing Resgrid Relay
 
 Download the latest release from Githib releases page. This will be a zip file that you need to unzip the file on your computer How to Unzip Files on Windows and we recommend putting the resulting folder in C:\ResgridRelay.

@@ -11,6 +11,12 @@ title: Help & Setup
 
 <a id="start-setup"></a>
 
+<AcademyVideo id="01-setup-wizard" />
+
+<AcademyVideo id="14-admin-assist" />
+
+<AcademyVideo id="21-ai" />
+
 ## Start or resume setup
 
 Department administrators can open **Admin Assist** from the top of the Department menu when setup is enabled for the deployment. It opens on **Setup Wizard**, with **Setup Report**, **Explore Resgrid & Addons** and **Admin AI** beside it. An unfinished setup also appears on the dashboard. Dismissing that prompt affects only your account; the menu remains available. Setup Wizard, Setup Report and Explore do not require Admin AI or an AI add-on; the Admin AI tab stays disabled until Admin AI is enabled for the department.

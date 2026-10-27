@@ -9,6 +9,8 @@ A **deployment** records the units, personnel and equipment you sent somewhere: 
 
 This is also where you **create and run external resource orders** (IROC, EMAC, CIFFC or a local order). Creating an order creates its linked deployment and opens it. As the order's fills are accepted, mobilized and released, the deployment's roster and status follow. Plans and Admin Assist call this free capability **Deployment Finance**.
 
+<AcademyVideo id="15-deployments" />
+
 ## Where to find it
 
 Menu: **Workforce & Business Ops → Deployments**. Administrators and holders of *Manage deployments* see every deployment, along with the **External orders**, **Create from external order** and **New Deployment** buttons. Everyone else sees **My Deployments**: the deployments they are rostered on, where they can file time.

@@ -6,6 +6,8 @@ sidebar_position: 5
 
 Resgrid Big Board is a cross-platform application designed for **station displays, command centers, and situational awareness dashboards**. It features a fully customizable widget-based dashboard where users can add, remove, resize, and rearrange information panels to create the perfect overview for their operational needs. The app is primarily optimized for large screens — wall-mounted displays, desktop monitors, and tablets.
 
+<AcademyVideo id="04-apps" />
+
 ## Ideal Use Cases
 
 - **Station Wall Displays** — Mount a TV or monitor at a fire station or EMS base showing live personnel status, active calls, units, and a map with real-time positions.
@@ -81,6 +83,7 @@ Interactive **Mapbox GL** map with live pins:
 - **Toggle markers**: Show/hide calls, stations, units, personnel
 - **Show linked calls**: Display calls linked to the active call
 - **Hide labels**: Clean map view for distance viewing
+- **Status and priority colors**: call pins take the color of the call's priority and unit and personnel pins the color of their status, with the department's [uploaded icons](../web-app/mapping#custom-map-icons) and status icons ([icons by status and priority](../web-app/mapping#icons-by-status-and-priority))
 - **Custom center coordinates**: Set latitude and longitude for the default view
 
 #### Weather Widget

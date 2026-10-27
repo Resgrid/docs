@@ -67,6 +67,7 @@ Choose which year names it:
 - The year comes from when the record started, not when it was finalized: an October report finalized in November keeps the old fiscal year's number.
 - Records request numbers (`PRR-2027-0001`) and prevention numbers follow the same year: occupancies `OCC-`, inspections `INSP-`, permits `PRM-`, investigations `INV-` and evidence `EV-`, each with its own sequence. A request takes the year it was received; the others take the year they were created. Their formats can be changed under [Other record numbers](#other-record-numbers).
 - Record numbering and [call numbering](../department-settings#fiscal-year-numbering) each have their own year start, so dispatch can follow the calendar year while reports follow a fiscal year.
+- The year filters on the [records queue](dashboard-and-queue#filtering-and-search) and the incident report queue use the same year, so *2027* lists every record numbered 2027.
 - February 29 can't be used as a start day, since not every year has one. A year start that isn't valid is not saved, and nothing else under Numbering changes in that save.
 - Changing the year start never renumbers records. If the new year's name matches numbers already issued, the sequence continues after the highest of them instead of starting again, so no number is issued twice.
 - Next numbers typed in the same save as a year start change are not applied, because they belonged to the old year's sequences. Save the year start first, then raise the numbers on the new rows.

@@ -13,9 +13,11 @@ You can still author and finalize incident reports for your own records. Submiss
 
 ![Incident reports queue](/img/web-app/incident-reports/index.png)
 
+<AcademyVideo id="14-records" />
+
 ## Where to find it
 
-**Records → All records → Incident reports** (or the *Incident reports* tile on the dashboard). The queue lists reports by year and state: *Incomplete*, *Awaiting review*, *Submitted*, *Accepted*, *Rejected*, *Corrected*.
+**Records → All records → Incident reports** (or the *Incident reports* tile on the dashboard). The queue lists reports by year (the department's [numbering year](settings#fiscal-year-numbering) of the call, so a fiscal year's reports stay together) and state: *Incomplete*, *Awaiting review*, *Submitted*, *Accepted*, *Rejected*, *Corrected*.
 
 ## Starting a report
 

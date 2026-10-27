@@ -10,6 +10,10 @@ This page is the generic, screen-by-screen walk-through. For concrete values —
 
 This guide walks you through every step needed to get your Resgrid department configured and ready for day-to-day use. Work through the sections in order — each one builds on the previous.
 
+<AcademyVideo id="01-setup-wizard" />
+
+<AcademyVideo id="02-department-settings" />
+
 ## Use Setup Wizard and Setup Report
 
 When enabled for your deployment, department administrators can open **Setup Wizard** from the Department or Help menu. Choose your operating profile and areas to use now, learn about every product area and optional add-on, then follow links to the existing setup screens. Use **Setup Report** to verify fresh evidence after saving. Personal learning choices and feature interest never purchase, enable or send anything.

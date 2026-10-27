@@ -6,6 +6,8 @@ sidebar_position: 2
 
 Resgrid Responder is a cross-platform application designed for **individual first responder personnel**. It enables emergency responders to manage their status, view dispatch calls, communicate with team members, track their location in real-time, use push-to-talk voice channels, and coordinate through shifts and calendars — all from a single mobile interface.
 
+<AcademyVideo id="04-apps" />
+
 ## Ideal Use Cases
 
 - **On-Scene First Responders** — Volunteer firefighters, EMS personnel, or search & rescue team members who need to quickly update their status (responding, available, on-scene), view dispatch call details, and navigate to incident locations.
@@ -63,6 +65,9 @@ Resgrid Responder is a cross-platform application designed for **individual firs
 
 ### Map
 - Full **Mapbox GL** interactive map with pins for personnel, units, calls, stations, and POIs
+- Pins use the department's [uploaded icons](../web-app/mapping#custom-map-icons) for unit types, call types, POI types and personnel roles (a person shows their first role, in role order, with an icon); personnel cards show that role icon beside the name
+- Call pins take the color of the call's priority and unit and personnel pins the color of their status ([icons by status and priority](../web-app/mapping#icons-by-status-and-priority))
+- A **legend** button (top right of the map) opens the [map icon legend](../web-app/mapping#map-icon-legend) as a sheet: every icon the map can show, by call type and priority, unit type and status, and role and status, with the status and priority colors and stations and points of interest. The names and icons are the department's own (custom call types, priorities, statuses, unit types and status sets, and uploaded icons) and load fresh each time the legend opens. Members who can't see personal information don't see personnel pins, so their legend leaves out personnel too
 - **Real-time updates** via SignalR for live position tracking
 - **Heading-locked navigation mode** with tilted perspective for turn-by-turn orientation
 - Recenter button to snap camera to current GPS position

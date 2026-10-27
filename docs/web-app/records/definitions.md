@@ -34,6 +34,8 @@ The **key** (lower-case letters, digits, dots and dashes; may not start with `sy
 
 ### Template packs
 
+Every pack is available to every department, whatever [organization type](../department-settings#organization-types) you chose. The *Category* column and the setup examples below are guidance, not a restriction: a multi-discipline organization can use the SAR, CERT, EOC and security templates side by side. The only check when you use a template is that the jurisdiction profile you pick supports it.
+
 | Pack | Templates | Category |
 |---|---|---|
 | **Operational report templates** | Security Patrol Log · Security Incident Report · Delivery Run Report · Bus/Route End-of-Day Summary · General Shift/Activity Summary · Job/Service Completion | Security, Delivery, Transit, Operations, Field service |

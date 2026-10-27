@@ -15,6 +15,8 @@ Business Ops add-on with `CostRecovery.CalOesMars`. Menu: **Workforce & Business
 
 ![Readiness dashboard](/img/web-app/cal-oes-mars/index.png)
 
+<AcademyVideo id="16-business" />
+
 ## Readiness dashboard
 
 Pick a **check date** (a dispatch date) and the dashboard lists **blockers** (stop new F-42s from reaching *Ready for portal*) and **warnings**, each with a **Fix** link: no agency profile or an unverified one, no annual submission covering the date, no agreement, F-5 mismatches, an authority profile that no longer covers the date. Below: the **annual submissions in effect**, the **agency** card (*Edit agency*, *Mark verified today*), **at-a-glance counts** (F-5 resources and mismatches, agreements, open work items, returned items, invoices awaiting local approval) and links to the **official sources** and the MARS portal.

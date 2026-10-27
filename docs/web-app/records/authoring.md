@@ -7,6 +7,8 @@ title: Authoring Records
 
 This page covers the day-to-day work of writing, finishing and correcting records: run reports after a call, training records, work and meeting records, unit activity, and any department-designed form. NERIS incident reports have their own page — see [NERIS incident reports](incident-reports).
 
+<AcademyVideo id="14-records" />
+
 ## Creating a record
 
 **Records → All records → New Record**, then choose the **definition** (record type). Some types can also be started from elsewhere:

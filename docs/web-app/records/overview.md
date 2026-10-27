@@ -9,6 +9,8 @@ title: Records Overview
 
 ![Records dashboard](/img/web-app/records/dashboard.png)
 
+<AcademyVideo id="14-records" />
+
 ## Who it is for
 
 | If you are… | Records gives you… |
@@ -118,7 +120,7 @@ Records has its own permission set under **Department → Security & Permissions
 
 | Item | Value |
 |---|---|
-| Controllers | `RecordsController`, `RecordDefinitionsController`, `IncidentReportsController`, `IncidentAnalysisController`, `RecordDocumentsController`, `RecordEvidenceController`, `RecordLegalHoldsController`, `DisclosuresController`, `RecordOccupanciesController`, `RecordInspectionsController`, `RecordHydrantsController`, `RecordPermitsController`, `RecordCrrController`, `RecordInvestigationsController`, `RecordsAnalyticsController`, `RecordsQualityController`, `RecordSavedReportsController`, `RecordsExportTemplatesController`, `RecordDeploymentsController`, `RecordDeploymentConnectorsController`, `RecordsHealthController`, `RecordsInventoryController`, `RecordSubmissionsController` |
+| Controllers | `RecordsController`, `RecordDefinitionsController`, `IncidentReportsController`, `IncidentAnalysisController`, `RecordDocumentsController`, `RecordEvidenceController`, `RecordLegalHoldsController`, `DisclosuresController`, `RecordOccupanciesController`, `RecordInspectionsController`, `RecordHydrantsController`, `RecordPermitsController`, `RecordCrrController`, `RecordAlarmRequestsController`, `RecordInvestigationsController`, `RecordsAnalyticsController`, `RecordsQualityController`, `RecordSavedReportsController`, `RecordsExportTemplatesController`, `RecordDeploymentsController`, `RecordDeploymentConnectorsController`, `RecordsHealthController`, `RecordsInventoryController`, `RecordSubmissionsController` |
 | Feature flags | `Records.System`, `Records.Field.{Responder,Unit,IncidentCommand,Dispatch}`, `Records.Prevention.{Occupancy,Inspections,Hydrants,Permits,Crr}`, `Records.Investigations`, `Records.QualityReview`, `Records.Analytics` |
 | Cutover fact | `RmsDepartmentCutover` (activation is append-only; not a department setting) |
 | Permissions | `PermissionTypes` 50–67 and 69 (`CreateRecord` … `ReassignRecordDrafts`, `RecordsPreventionAdmin`) |

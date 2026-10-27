@@ -520,6 +520,48 @@
 }
 
 /* ─────────────────────────────────────────────
+   Resgrid Academy panel
+   ───────────────────────────────────────────── */
+
+.sectionAcademy {
+  padding-top: 0;
+}
+
+.academyPanel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  gap: 2.5rem;
+  align-items: center;
+  padding: 2.25rem;
+  border-radius: 22px;
+  border: 1px solid var(--docs-color-border);
+  background: linear-gradient(135deg, rgba(33, 96, 253, 0.06), rgba(34, 184, 255, 0.05));
+}
+
+:global(html[data-theme='dark']) .academyPanel {
+  background: linear-gradient(135deg, rgba(26, 144, 255, 0.1), rgba(94, 63, 255, 0.08));
+}
+
+.academyPanel .sectionSubtitle {
+  margin-bottom: 1.25rem;
+}
+
+.academyActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.academyListLabel {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--docs-color-text-100);
+}
+
+/* ─────────────────────────────────────────────
    Administer / Self-host / Develop
    ───────────────────────────────────────────── */
 
@@ -732,7 +774,8 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .guidesPanel {
+  .guidesPanel,
+  .academyPanel {
     grid-template-columns: 1fr;
     gap: 1.75rem;
     padding: 2rem;

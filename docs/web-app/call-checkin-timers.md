@@ -13,6 +13,8 @@ The Call Check-In Timer system is an accountability and safety feature that trac
 
 ---
 
+<AcademyVideo id="05-calls" />
+
 ## Overview
 
 When check-in timers are enabled on a call, a **Check-In Timers** panel appears on the View Call page. The panel shows a table with:

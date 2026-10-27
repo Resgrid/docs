@@ -15,6 +15,8 @@ ADP is one control inside a HIPAA / privacy / ePCR compliance program that your 
 
 ![Data protection](/img/web-app/security/data-protection.png)
 
+<AcademyVideo id="19-adp" />
+
 ## What is protected — and what is not
 
 | Protected (encrypted) | Stays plaintext |

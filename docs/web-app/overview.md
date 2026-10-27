@@ -11,6 +11,8 @@ The four mobile apps — **Responder**, **Unit**, **Dispatch** and **Incident Co
 
 ![Dashboard](/img/web-app/home/dashboard.png)
 
+<AcademyVideo id="00-start" />
+
 ## A map of the modules
 
 | Area | Modules | Start here |

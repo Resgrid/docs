@@ -11,6 +11,8 @@ Feature flag: `Dispatch.RunCards`. Menu: **Department dropdown → Dispatch Sett
 
 ![Run cards](/img/web-app/run-cards/index.png)
 
+<AcademyVideo id="05-calls" />
+
 ## Department-wide dispatch settings
 
 **Department → Dispatch Settings → Run Cards & Automatic Dispatch** sets the defaults every card inherits:

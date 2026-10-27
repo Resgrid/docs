@@ -6,6 +6,8 @@ sidebar_position: 4
 
 Resgrid Dispatch is a cross-platform application designed for **dispatchers and coordinators** operating from a dispatch center, station, or remote location. It provides a comprehensive multi-panel dispatch console with real-time resource management, live mapping, activity logging, push-to-talk voice, and integrated call management — all optimized for tablet and desktop use with responsive multi-column layouts.
 
+<AcademyVideo id="04-apps" />
+
 ## Ideal Use Cases
 
 - **Dispatch Centers** — Dedicated dispatch operators monitoring and managing calls, personnel, and units from a desktop or wall-mounted display.
@@ -72,6 +74,9 @@ Real-time statistics banner displaying:
 
 #### Map Widget
 - Embedded **Mapbox GL** map with auto-fetched pins for personnel, units, stations, and calls
+- Pins use the department's [uploaded icons](../web-app/mapping#custom-map-icons) for unit types, call types, POI types and personnel roles, in the browser, the desktop app and on tablets
+- Call pins take the color of the call's priority and unit and personnel pins the color of their status ([icons by status and priority](../web-app/mapping#icons-by-status-and-priority)); pins redraw when a status or call changes, in the browser and desktop app as well as on tablets
+- Role icons also show in the personnel panel, the combined resources list and the personnel list (inside each person's status ring), beside each role on a person's screen, and in the dispatch recipient picker beside every role and person
 - Expand to full-screen map view
 - Real-time position updates via SignalR
 
@@ -102,6 +107,7 @@ Real-time statistics banner displaying:
   - **Five location input methods**: address search, GPS coordinates, [what3words](https://what3words.com), Plus Code search, and interactive map picker. A call saved with a typed address that was never searched is geocoded by the server when it is created, so it still gets a location; a department that makes the location *required* needs a real point (search, coordinates or map pick)
   - External ID and Reference ID (the referring system's case or ticket numbers)
   - **Dispatch selection**: multi-select users, groups, roles, units, or everyone. The picker lists every unit, group, role and person whatever their status (it no longer shows *Everyone* alone when opened before the lists finish loading)
+  - The location map on New Call and Edit Call draws only the **available** units and personnel near the call, so it shows who can be sent; busy resources stay in the picker with their status for reassigning
   - **Schedule dispatch** for a future time (web and desktop), or **Save as pending (do not dispatch yet)**: the call is saved and numbered, nobody is notified and the field apps do not see it; any recipients picked are kept as the proposed dispatch. The button becomes **Save Pending Call** and the call opens on **Pending Calls**
 - **Call detail view** with priority header, static map preview, and action buttons
   - A pending call shows a *Pending — not yet dispatched* banner with **Dispatch**; a scheduled call shows *Scheduled for* its time with **Dispatch now**

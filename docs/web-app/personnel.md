@@ -9,6 +9,8 @@ The **Personnel** page is your roster: every member of the department with their
 
 ![Personnel](/img/web-app/personnel/index.png)
 
+<AcademyVideo id="01-people" />
+
 ## Where to find it
 
 **Left menu → Personnel.** The page lists members grouped by station/group (or sorted by first/last name — see *Department Settings → Sorting*). Use the group tree on the left to filter, the search box to find someone, and the checkboxes to **set status** or **set staffing** for several people at once.
@@ -73,7 +75,8 @@ From the personnel list (or the [Dashboard](dashboard)) you can set a member's *
 
 ![Roles](/img/web-app/personnel/roles.png)
 
-- **Add Role** — name, description and initial members.
+- **Add Role** — name, description, initial members and an optional [map icon](mapping#personnel-role-icons-and-role-order).
+- **Role order** — department administrators drag the rows or use the arrows and click **Save order**. A person's map pin uses the icon of the first role they hold, in this order, that has one.
 - **Edit / View Role** — members in role; **Delete** removes the role (assignments are dropped).
 - **Required certifications** — which [certification](business-ops/certifications) types a member must hold for the role, with any-of groups and a grace period; enforcement (off / warn / enforce) is set under Certifications → Settings.
 

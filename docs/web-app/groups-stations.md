@@ -9,6 +9,8 @@ title: Groups & Stations
 
 ![Groups](/img/web-app/groups/index.png)
 
+<AcademyVideo id="01-people" />
+
 ## Where to find it
 
 **Department dropdown → Stations and Groups** (`/User/Groups`). The list shows every group with type, parent, members and **Edit** / **Geofence** / **Delete** buttons.

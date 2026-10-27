@@ -6,6 +6,8 @@ sidebar_position: 6
 
 Text Messaging configuration allows your department to enable two powerful SMS-based features: **Text-to-Call** and **Text Commands**. Text-to-Call lets authorized personnel create new calls by sending a text message, while Text Commands allow personnel to update their status or staffing level via SMS without needing the mobile app or web interface.
 
+<AcademyVideo id="05-calls" />
+
 ## Why Text Messaging Matters
 
 Not all personnel have reliable internet access or may not always have the Resgrid mobile app available. Text messaging provides a fallback communication channel that works on any mobile phone. It enables personnel to interact with Resgrid using basic SMS, ensuring critical dispatch and status functions remain accessible even in low-connectivity situations.

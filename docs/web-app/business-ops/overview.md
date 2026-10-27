@@ -9,6 +9,8 @@ title: Overview
 
 ![Workforce & Business Ops in the sidebar](/img/web-app/business-ops/navigation.png)
 
+<AcademyVideo id="16-business" />
+
 ## The modules
 
 | Module | What it does | Free or add-on |

@@ -11,6 +11,8 @@ Units normally report their position from the **Unit app** on a phone or tablet.
 
 ![Hardware tracking](/img/web-app/units/tracking-index.png)
 
+<AcademyVideo id="03-units" />
+
 ## Concepts
 
 | Term | Meaning |

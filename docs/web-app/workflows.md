@@ -15,6 +15,8 @@ title: Workflows
 
 **Navigation:** Department Menu → Workflows
 
+<AcademyVideo id="17-automation" />
+
 ## Overview
 
 Workflows follow an **Event → Transform → Action** pipeline:

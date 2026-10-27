@@ -9,6 +9,8 @@ Dispatch Protocols define structured response procedures with trigger-based acti
 
 ![Protocols](/img/web-app/protocols/index.png)
 
+<AcademyVideo id="10-knowledge" />
+
 ## Protocol List
 
 **Authorization:** `Protocol_View` policy

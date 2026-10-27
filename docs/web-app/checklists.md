@@ -13,6 +13,8 @@ Checklists are included with every Resgrid plan. The optional **Work Orders / Ma
 
 ![Checklists home](/img/web-app/checklists/index.png)
 
+<AcademyVideo id="11-checklists" />
+
 ## Where to find it
 
 **Left menu → Checklists.** The module has five tabs across the top:

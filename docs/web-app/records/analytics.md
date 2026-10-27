@@ -20,7 +20,7 @@ Feature flag: `Records.Analytics`. Menu: **Records → Analytics**.
 | **Workload** | Records by definition, by person, by unit and by station group; personnel hours and hours per member; training records and hours; median hours to finalize; median review turnaround; return rate. |
 | **Accreditation** | The figures accreditation bodies (e.g. CFAI) ask for: response-time compliance against targets, training hours, inspections completed on schedule, hydrants tested within 12 months, occupancies inspected within 12 months, CRR audience reached. |
 | **Readiness** | Composed from Checklists, Work Orders and Inventory (each module authorizes you itself): checklist completion and on-time rate, expected/missed checks by day, unit readiness board, work orders open by priority and age, mean time to repair, safety holds, equipment issued / out for repair / expiring within 30 days, readiness packets captured. |
-| **Community risk** | Occupancy risk profile (hazmat on site, no sprinklers, vacant, occupants needing assistance), inspections pass rate and days to correction, open violations by severity, permits issued / denied / expired, hydrants by flow class and tested within 12 months, CRR activities and audience. |
+| **Community risk** | Occupancy risk profile (hazmat on site, no sprinklers, vacant, occupants needing assistance), inspections pass rate and days to correction, open violations by severity, permits issued / denied / expired, hydrants by flow class and tested within 12 months, CRR activities and audience, and smoke / CO alarms left by type, reason and month. |
 
 ![Response performance](/img/web-app/analytics/response-performance.png)
 

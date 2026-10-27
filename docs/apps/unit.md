@@ -6,6 +6,8 @@ sidebar_position: 3
 
 Resgrid Unit is a cross-platform application designed for **vehicle and apparatus-level operations**. Where the Responder app is designed for individual personnel, the Unit app is designed to represent a **shared device mounted in or associated with a unit** (engine, ambulance, patrol car, etc.), providing crews with live dispatch data, voice channels, GPS tracking, and status reporting with minimal interaction required.
 
+<AcademyVideo id="04-apps" />
+
 ## Ideal Use Cases
 
 - **Apparatus-Mounted Tablets** — Mount a tablet in the cab of an engine, ambulance, or command vehicle as a dedicated dispatch terminal with live map, call details, and status controls.
@@ -30,7 +32,9 @@ Resgrid Unit is a cross-platform application designed for **vehicle and apparatu
 
 ### Real-Time Map (Home Tab)
 - Full **Mapbox GL** interactive map as the primary home screen
-- Renders map pins for personnel, units, stations, and calls with custom icons
+- Renders map pins for personnel, units, stations, and calls with custom icons: the department's [uploaded icons](../web-app/mapping#custom-map-icons) for unit types, call types, POI types and personnel roles, on phones, tablets, the browser and the desktop app; the built-in pin when there is none or it cannot load
+- Call pins take the color of the call's priority and unit and personnel pins the color of their status ([icons by status and priority](../web-app/mapping#icons-by-status-and-priority))
+- A **legend** button (bottom right of the map, above the recenter button) opens the [map icon legend](../web-app/mapping#map-icon-legend) as a sheet: every icon the map can show, by call type and priority, unit type and status, and role and status, with the status and priority colors and stations and points of interest. The names and icons are the department's own (custom call types, priorities, statuses, unit types and status sets, and uploaded icons) and load fresh each time the legend opens
 - **Dark/light theme** toggle for map style
 - **Camera follow modes**: normal tracking vs. locked navigation mode (heading-oriented, tilted perspective for turn-by-turn navigation)
 - **Recenter button** snaps camera back to current GPS position

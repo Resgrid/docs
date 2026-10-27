@@ -11,6 +11,10 @@ Feature flag: `Chat.System` (free for all plans; used for staged rollout). If ch
 
 ![Chat](/img/web-app/chat/index.png)
 
+<AcademyVideo id="12-chat" />
+
+<AcademyVideo id="13-assistant" />
+
 ## Where to find it
 
 - **Chat bubble** at the bottom-right of every web page opens a floating chat panel.

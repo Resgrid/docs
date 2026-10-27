@@ -11,6 +11,8 @@ title: Shifts
 
 ![Shifts](/img/web-app/shifts/index.png)
 
+<AcademyVideo id="08-shifts" />
+
 ## Shift Lifecycle
 
 ```

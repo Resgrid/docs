@@ -6,6 +6,8 @@ sidebar_position: 14
 
 Notifications in Resgrid allow you to configure automated alerts that are triggered by specific system events. When an event occurs (such as a personnel status change, a unit going out of service, or staffing levels dropping below a threshold), the system can automatically notify designated personnel, roles, groups, or the entire department.
 
+<AcademyVideo id="06-communication" />
+
 ## Why Notifications Matter
 
 In emergency operations, awareness of changing conditions is critical. A key responder going unavailable, a unit going out of service, or staffing dropping below safe levels are all situations that require immediate attention. Notification rules automate this awareness, ensuring the right people are informed when important events occur — without requiring someone to manually monitor the system.

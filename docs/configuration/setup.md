@@ -8,6 +8,8 @@ New departments are set up with **Admin Assist**, which opens on its **Setup Wiz
 
 **Department menu → Admin Assist.** Only department administrators see it, and only when setup is enabled for your Resgrid installation. An unfinished setup also shows a prompt on the dashboard. The full guide to every tab, step and check is [Help & Setup](../web-app/help-setup).
 
+<AcademyVideo id="01-setup-wizard" />
+
 ## Why Setup Matters
 
 Proper initial setup is critical because many other features in Resgrid depend on your department's core settings. For example, your department address is used as the default map center, your time zone affects all scheduling and status timestamps, and your department name appears across all communications and reports. Skipping or misconfiguring setup can lead to incorrect time displays, mapping issues, and confusion for your personnel.

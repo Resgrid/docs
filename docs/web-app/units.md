@@ -9,6 +9,8 @@ A **unit** is anything that responds as one thing and has a status of its own: a
 
 ![Units](/img/web-app/units/index.png)
 
+<AcademyVideo id="03-units" />
+
 ## Where to find it
 
 **Left menu → Units.** Units are listed by station/group with type, current state and timestamp. Buttons: **Events**, **Logs**, **Edit**, **Delete**; select several to **set status** at once (only units sharing the same status set can be selected together). **Unit Staffing** and **New Unit** are in the toolbar.

@@ -6,6 +6,8 @@ sidebar_position: 4
 
 Call Import creates calls in Resgrid from dispatch emails. Your county or regional dispatch center, CAD system, paging service or alerting platform sends its dispatch email to your department's **dispatch import email** address. Resgrid reads each email with the format you choose, creates a call and dispatches it, the same as a call entered by hand. Calls can also come in by text message, set up separately under [Text messaging](text-messaging).
 
+<AcademyVideo id="05-calls" />
+
 ## Why Call Import Matters
 
 Many departments receive dispatch alerts from a county or regional dispatch center via email or pager. Without Call Import, someone would need to enter each call into Resgrid by hand. With it, dispatches flow into Resgrid on their own and trigger notifications, mapping and every other call feature with no manual step.

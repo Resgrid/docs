@@ -11,6 +11,12 @@ Only **department administrators** see these pages. Every change is audited.
 
 ![Department settings](/img/web-app/department/settings.png)
 
+<AcademyVideo id="02-department-settings" />
+
+<AcademyVideo id="06-dispatch-settings" />
+
+<AcademyVideo id="02-security" />
+
 ## General settings
 
 `/User/Department/Settings`
@@ -18,6 +24,7 @@ Only **department administrators** see these pages. Every change is audited.
 | Setting | What it does |
 |---|---|
 | **Department name** | Shown everywhere, including notifications and prints. |
+| **Organization type** | What kind of organization you are (volunteer fire, community paramedicine, security and patrol, multi-discipline response …), first chosen at sign-up. Change it here at any time. It is a description only: every template, Records pack, checklist and module stays available whatever you pick. If you do several kinds of work, pick the closest match and tick every sector in the [operating profile](help-setup#operating-profile), which drives setup suggestions. See [Organization types](#organization-types). |
 | **Time zone** | All times in the web site, apps, reports and schedules are shown in this zone. |
 | **Use 24-hour time** | Clock format. |
 | **Managing user** | The account owner — the only person who can change billing, purchase add-ons, enrol in data protection or delete the department. |
@@ -28,6 +35,24 @@ Only **department administrators** see these pages. Every change is audited.
 | **Require security PIN** | Force every member to confirm dangerous assistant / text actions with their 4-digit PIN. |
 | **Require password reset via email** | Administrators can no longer set a member's password; reset sends the member a single-use link. |
 | **TTS language** | Voice / dialect for voice dispatch prompts. |
+
+### Organization types
+
+The list is grouped:
+
+| Group | Types |
+|---|---|
+| Fire and rescue | Volunteer Fire · Career Fire · Combination Fire · Wildland Fire · Search and Rescue · HAZMAT |
+| EMS and health care | EMS · Private Ambulance and Interfacility Transport · Hospital and Health System · Community Paramedicine and Mobile Integrated Health · Crisis and Mental Health Response |
+| Emergency management and community response | Emergency Management · Public Safety · CERT · Disaster Response · Relief Organization · Multi-Discipline Response |
+| Security and events | Security · Event and Venue Operations |
+| Industrial and utilities | Industrial Emergency Response · Oil and Gas · Power · Chemical · Nuclear · Other Industrial |
+| Contractors and field services | Emergency Response Contractor · Drone and Aerial Survey · Repair Services · Delivery Services · Bus and Shuttle |
+| Other | Other Public · Other Private · Other |
+
+What the type does **not** do: it never hides or limits Records template packs, checklist, command board, status or certification templates, modules, the dashboard or Admin Assist suggestions. Every department can use all of them. What it is used for: the workflow variable `{{ department.type }}` and, for Resgrid operators, feature-flag targeting.
+
+A department whose type came from an older sign-up list keeps it; the page shows it as the first option until you choose another.
 
 ### Personnel staffing reset / status reset
 
@@ -334,7 +359,7 @@ Step 2 of the journey asks you to confirm the address and time zone on [General 
 | Controller | `DepartmentController` |
 | Routes | `/User/Department/{Settings,Profile,ModuleSettings,DispatchSettings,CallSettings,TextSettings,UnitSettings,ShiftSettings,MappingSettings,Api,Invites,OperatingProfile,DeleteDepartment,ClearDepartmentCache}`; `/User/Department/SetupWizard` redirects to `/User/AdminAssist/SetupWizard` (see [Help & Setup](help-setup#technical-reference)) |
 | Policy | `Department_Update` (administrators); managing-user checks for billing, ADP and deletion |
-| Storage | `Department` row + `DepartmentSettings` rows keyed by `DepartmentSettingTypes` (e.g. 32 = ModuleSettings, 58–60 = run-card dispatch, 70–77 = Records settings, 115 = CallNumberingConfig: `Pattern`, `SequenceWidth` and the numbering year start `YearStartMonth` / `YearStartDay` / `YearLabel`, 117 = DocumentNumberingConfig: numbering year start and one pattern per document kind, 118 = DepartmentTerminology: the department's own names as `{Key, Text}` pairs, e.g. `module.units` / `record-type.run`). Custom document sequences live in `DocumentNumberSequences` (M0268). Call number sequences live in `CallNumberSequences`: one row per department and sequence (the text the pattern writes around `{SEQ}`), holding the last number issued and any raised next number |
+| Storage | `Department` row (organization type in `Department.DepartmentType`, text from `DepartmentTypeCatalog`) + `DepartmentSettings` rows keyed by `DepartmentSettingTypes` (e.g. 32 = ModuleSettings, 58–60 = run-card dispatch, 70–77 = Records settings, 115 = CallNumberingConfig: `Pattern`, `SequenceWidth` and the numbering year start `YearStartMonth` / `YearStartDay` / `YearLabel`, 117 = DocumentNumberingConfig: numbering year start and one pattern per document kind, 118 = DepartmentTerminology: the department's own names as `{Key, Text}` pairs, e.g. `module.units` / `record-type.run`). Custom document sequences live in `DocumentNumberSequences` (M0268). Call number sequences live in `CallNumberSequences`: one row per department and sequence (the text the pattern writes around `{SEQ}`), holding the last number issued and any raised next number |
 | Unit dispatch / release status | Settings 50 (`UnitCallDispatchStatusToSet`) and 51 (`UnitCallReleaseStatusToSet`), read as a `StatusTarget`: -1 or unset = Default, -2 = leave unchanged, 1000 + an `ActionBaseTypes` value = that meaning (e.g. 1006 Dispatched, 1023 In Quarters), 0–999 = a built-in `UnitStateTypes` value saved before meanings (read by its meaning on custom sets). Resolved per unit by `StatusTargetResolver.ResolveUnit` (first active option by order; default chains Dispatched → Responding → En Route and Cleared → Available → In Quarters). Per-unit-type overrides are a separate setting and take precedence |
 | Cache | Settings cached up to a day; **Clear department cache** enqueues a cache-clear event |
-| Data endpoints | `GetStationsForGrid`, `GetRecipientsForGrid`, `GetDepartmentTypes`, `GetCallEmailTypes`, `GetCallTextTypes`, `GetAvailableNumbers?country=&areaCode=`, `ProvisionNumber`, `GetSubscriptionLimitWarning`, `GetPrinterNetPrinters?key=` |
+| Data endpoints | `GetStationsForGrid`, `GetRecipientsForGrid`, `GetDepartmentTypes` (organization type values), `GetCallEmailTypes`, `GetCallTextTypes`, `GetAvailableNumbers?country=&areaCode=`, `ProvisionNumber`, `GetSubscriptionLimitWarning`, `GetPrinterNetPrinters?key=` |

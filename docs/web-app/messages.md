@@ -11,6 +11,8 @@ title: Messages
 
 ![Inbox](/img/web-app/messages/inbox.png)
 
+<AcademyVideo id="06-communication" />
+
 ## Inbox
 
 **Authorization:** `Messages_View` policy

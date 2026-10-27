@@ -8,6 +8,8 @@ Custom Statuses and Staffing allow you have your own actions for personnel and u
 
 You can have Custom Statuses for Personnel Actions (Statuses), Personal Staffing Levels and for each Unit Type defined in the system.
 
+<AcademyVideo id="03-custom-statuses" />
+
 ## Default Statuses and Staffing Levels
 Resgrid default custom Statuses and Staffings are as follows
 

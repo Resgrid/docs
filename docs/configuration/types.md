@@ -6,6 +6,8 @@ sidebar_position: 21
 
 Under the Department Menu in the Types menu option allows you set a number a department wide and module specific types or selection options. 
 
+<AcademyVideo id="05-calls" />
+
 ## Call Types
 
 By default there are no Call Types defined. A call type allows you organize calls into a category for example, "Structure Fire" or "Motor Vehicle Accident".

@@ -6,6 +6,8 @@ sidebar_position: 2
 
 Department Settings is the central configuration hub for your Resgrid department. These settings control department-wide behavior including time display, personnel sorting, map configuration, status/staffing resets, dispatch behavior, module visibility, and more. Changes made here affect every user in your department.
 
+<AcademyVideo id="02-department-settings" />
+
 ## Why Department Settings Matter
 
 Department Settings define the global behavior and defaults for your entire organization. They control how data is displayed, how automated resets work, how dispatch interacts with shifts and groups, and which modules are available to your users. Misconfigured settings can lead to incorrect time displays, missed notifications, mapping issues, or features being unavailable to your team.
@@ -78,10 +80,12 @@ The staffing reset feature automatically resets all personnel staffing levels to
 | --------------------- | ------------------ | ------------ | ---------------------------------------------------- |
 | Enable Staffing Reset | No                 | Off          | Turns on the daily automatic staffing reset          |
 | Time to Reset         | Yes (if enabled)   | —            | The time of day (in department time zone) to reset   |
-| Reset Staffing To     | Yes (if enabled)   | Unavailable  | The staffing level to set all personnel to           |
+| Reset Staffing To     | Yes (if enabled)   | Unavailable  | A staffing [meaning](custom-statuses#staffing-meanings) or one of your staffing levels to set all personnel to |
+
+Pick a meaning (for example *Unavailable*) and the reset uses whichever of your levels has that meaning when it runs, so it keeps working after you rename or replace levels.
 
 :::warning Staffing Reset and Custom Staffing
-When you update or remove custom staffing levels, make sure to also update the Reset Staffing To value here. If the configured reset staffing level no longer exists, the reset may not function as expected. Also notify your personnel to update any personal scheduled staffing changes they have configured.
+A value saved before meanings existed, or a level you have since deleted, shows as *(saved earlier, no longer offered)* with a warning under it. The reset then uses, in order: your level with the same meaning; a level without a meaning whose name matches (for example *Unavailable*) or suggests the same meaning; otherwise the saved value as before. When nothing fits, the warning says the reset changes nobody. Pick a meaning or one of your levels and save to clear the warning. Also notify your personnel to update any personal scheduled staffing changes they have configured.
 :::
 
 ## Status Reset
@@ -92,7 +96,9 @@ Similar to staffing reset, the status reset automatically resets all personnel s
 | -------------------- | ------------------ | ----------- | ---------------------------------------------------- |
 | Enable Status Reset  | No                 | Off         | Turns on the daily automatic status reset            |
 | Time to Reset        | Yes (if enabled)   | —           | The time of day (in department time zone) to reset   |
-| Reset Status To      | Yes (if enabled)   | Standing By | The status to set all personnel to                   |
+| Reset Status To      | Yes (if enabled)   | Available   | A status [meaning](custom-statuses#status-meanings) or one of your statuses to set all personnel to |
+
+A status saved before meanings existed, or one since deleted, follows the same rules as the staffing reset above.
 
 ## Staffing Suppression
 

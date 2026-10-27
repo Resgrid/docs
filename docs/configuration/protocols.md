@@ -6,6 +6,8 @@ sidebar_position: 8
 
 Protocols in Resgrid are structured decision-support guides that can be attached to calls during dispatch. They provide step-by-step instructions, questionnaires, and reference documents that help dispatchers and responders follow standardized procedures based on the type and priority of a call. Protocols can be automatically suggested based on call characteristics or manually attached during dispatch.
 
+<AcademyVideo id="10-knowledge" />
+
 ## Why Protocols Matter
 
 Emergency response organizations rely on standard operating procedures to ensure consistent, safe, and effective responses. Protocols in Resgrid digitize these procedures and make them available at the point of dispatch. When a call is created, relevant protocols are automatically identified based on triggers (such as call priority and type), ensuring that responders always have the right guidance for the situation.

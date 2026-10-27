@@ -42,7 +42,7 @@ Writes go through the feature-toggle service, so caches are invalidated and an a
 | `Records.Prevention.Inspections` | Inspection programs, code sets, inspections, violations. | `Records.Prevention.Occupancy` | M0186 |
 | `Records.Prevention.Hydrants` | Hydrants and water sources. | `Records.System` | M0186 |
 | `Records.Prevention.Permits` | Permits and plan review. | `Records.Prevention.Occupancy` | M0186 |
-| `Records.Prevention.Crr` | Community risk reduction activities. | `Records.System` | M0186 |
+| `Records.Prevention.Crr` | Community risk reduction activities, smoke / CO alarm counts and alarm requests (M0284). | `Records.System` | M0186 |
 | `Records.Investigations` | Investigation cases. | `Records.System` | M0186 |
 | `Records.QualityReview` | Quality review rubrics and sampling. | `Records.System` | M0186 |
 | `Records.Analytics` | Records analytics dashboards. | `Records.System` | M0187 |
