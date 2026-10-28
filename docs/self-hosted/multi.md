@@ -151,13 +151,17 @@ Also keep `deploy/generated/` and snapshots of the `data-rustfs-0` volume.
 **Restore** (database):
 
 ```bash
+day=2026-10-27                     # the date of the backup you are restoring
+kubectl -n resgrid get deploy -o jsonpath='{range .items[*]}{.metadata.name}{" "}{.spec.replicas}{"\n"}{end}' > replicas-$day.txt
 kubectl -n resgrid scale deployment --all --replicas=0
 kubectl -n resgrid wait --for=delete pod -l 'app notin (db,redis,rabbitmq,rustfs)' --timeout=5m
-gunzip -c resgrid-2026-10-27.sql.gz | kubectl -n resgrid exec -i statefulset/db -- sh -c 'psql -q -U "$POSTGRES_USER" -d postgres'
-kubectl -n resgrid scale deployment web api events worker tts mcp --replicas=1
+gunzip -c resgrid-$day.sql.gz | kubectl -n resgrid exec -i statefulset/db -- sh -c 'psql -q -U "$POSTGRES_USER" -d postgres'
+while read -r name replicas; do kubectl -n resgrid scale deployment "$name" --replicas="$replicas"; done < replicas-$day.txt
 ```
 
-`kubectl scale` only changes the desired replica count; the pods terminate afterwards. Wait for the API, events and worker pods to be gone (the `wait` above, or `kubectl -n resgrid get pods` until only the StatefulSet pods are left) before loading the dump, or they write to the database while it is being replaced. Adjust the label selector to the labels your manifests set.
+`kubectl scale` only changes the desired replica count; the pods terminate afterward. Wait for the API, events and worker pods to be gone (the `wait` above, or `kubectl -n resgrid get pods` until only the StatefulSet pods are left) before loading the dump, or they write to the database while it is being replaced. Adjust the label selector to the labels your manifests set.
+
+Record the replica counts first and replay them (the `replicas-$day.txt` round trip above) rather than scaling a fixed list back to 1: `--all` stops the optional Deployments too, and a hard-coded `--replicas=1` would also undo scaling such as three `web` and `api` replicas.
 
 This replays the database only. For a full recovery also restore the `data-rustfs-0` snapshot from the same backup, with your cluster's snapshot or CSI tooling, while the `rustfs` StatefulSet is scaled to 0 — database rows point at the TTS audio and import objects in it, so a database-only restore leaves records referencing objects that no longer exist. The Unified search index needs no backup: the worker rebuilds it.
 

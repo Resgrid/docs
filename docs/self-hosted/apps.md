@@ -20,7 +20,9 @@ The Resgrid **Responder** and **Unit** apps from the App Store and Google Play w
 
 1. Open the app. On the login screen tap **Change Server URL**.
 2. In **Server**, choose **Custom**.
-3. In **Server URL** enter `https://<your API hostname>`, for example `https://dispatchapi.example.com` or `https://rgapi.rick.internal`. Only the base URL: no `/api/v4`, no trailing slash. If the server serves HTTPS on a port other than 443 (`RESGRID_HTTPS_PORT` in `.env`, set when 443 was already taken), add the port: `https://dispatchapi.example.com:8443`.
+3. In **Server URL** enter `https://<your API hostname>`, for example `https://dispatchapi.example.com`. Only the base URL: no `/api/v4`, no trailing slash. If the server serves HTTPS on a port other than 443 (`RESGRID_HTTPS_PORT` in `.env`, set when 443 was already taken), add the port: `https://dispatchapi.example.com:8443`.
+
+   A private name such as `https://rgapi.rick.internal` works for iPhones, which trust the local CA. It cannot work for the Android apps: `.internal` is reserved for private networks and no public CA will issue a certificate for it, so Android needs a hostname under a domain you own ([RICK: publicly trusted certificate](./rick#publicly-trusted-certificate-android-apps)).
 4. Save, then log in with your Resgrid user name and password.
 
 ### Resgrid Unit

@@ -42,7 +42,7 @@ The self-hosted version is provided without warranty or a guarantee of suitabili
 
 Optional: offline map tiles (`maps` profile), hardware GPS trackers (`tracking`), inbound email dispatch (`relay`). MongoDB and Microsoft SQL Server are no longer used; every database is PostgreSQL.
 
-`db` and `rabbitmq` are bound to `127.0.0.1` by Compose. The others publish their port on every interface of the server, so on an internet-facing host let only 80 and 443 (and 25 if you run the relay) through the firewall.
+`db` and `rabbitmq` are bound to `127.0.0.1` by Compose. The others publish their port on every interface of the server, so on an internet-facing host let only 80 and 443 in from the internet (plus 25 if you run the relay), and keep the rest for your LAN or VPN: 5155 for MCP, and 5004, 5023 and 5027 for GPS trackers when those optional services are on.
 
 ## Requirements
 
@@ -128,15 +128,16 @@ Last, it walks you through the **optional features**: modules such as Records, U
 Unattended installs can answer every question with a variable:
 
 ```bash
-RESGRID_WEB_HOST=dispatch.example.com \
-RESGRID_API_HOST=dispatchapi.example.com \
-RESGRID_EVENTS_HOST=dispatchevents.example.com \
-RESGRID_TLS=admin@example.com \
-RESGRID_FEATURES=records,search \
-curl -fsSL https://raw.githubusercontent.com/Resgrid/resgrid-setup/master/setup.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Resgrid/resgrid-setup/master/setup.sh \
+  | RESGRID_WEB_HOST=dispatch.example.com \
+    RESGRID_API_HOST=dispatchapi.example.com \
+    RESGRID_EVENTS_HOST=dispatchevents.example.com \
+    RESGRID_TLS=admin@example.com \
+    RESGRID_FEATURES=records,search \
+    bash
 ```
 
-The one-liner pipes the script straight into Bash and leaves no `setup.sh` behind, so use that same form for the first unattended install. Once the stack is in `~/resgrid`, later runs use `cd ~/resgrid && bash setup.sh` with the same variables.
+The install one-liner pipes the script straight into Bash and leaves no `setup.sh` behind, so use that same form for the first unattended install. The variables go on the **`bash`** side of the pipe: assignments apply only to the command they precede, so putting them in front of `curl` sets them for `curl` and the installer never sees them. Once the stack is in `~/resgrid`, later runs use `cd ~/resgrid && RESGRID_FEATURES=... bash setup.sh`.
 
 Other variables: `RESGRID_INSTALL_DIR`, `RESGRID_HTTP_PORT` / `RESGRID_HTTPS_PORT` (if 80/443 are taken; Let's Encrypt then can't be used), `RESGRID_TLS_CERT_FILE` + `RESGRID_TLS_KEY_FILE` (your own certificate), `RESGRID_FEATURES` (optional features, comma separated, or `all` / `none`), `RESGRID_NONINTERACTIVE=1` (never ask), `RESGRID_NO_START=1` (configure only).
 
@@ -248,24 +249,32 @@ Back up the database, `.env`, `certs/` and the RustFS object storage:
 ```bash
 mkdir -p backups
 day=$(date +%F)
-docker compose exec -T db sh -c 'pg_dumpall -U "$POSTGRES_USER" --clean --if-exists' > backups/resgrid-$day.sql \
-  && gzip -f backups/resgrid-$day.sql
-cp .env backups/env-$day
-tar -czf backups/certs-$day.tar.gz certs
-docker compose stop rustfs && docker compose cp rustfs:/data backups/rustfs-$day && docker compose start rustfs
+(
+  set -e
+  docker compose exec -T db sh -c 'pg_dumpall -U "$POSTGRES_USER" --clean --if-exists' > backups/resgrid-$day.sql
+  gzip -f backups/resgrid-$day.sql
+  cp .env backups/env-$day
+  tar -czf backups/certs-$day.tar.gz certs
+  docker compose stop rustfs
+  docker compose cp rustfs:/data backups/rustfs-$day
+)
+rc=$?
+docker compose start rustfs
+[ "$rc" -eq 0 ] || echo "BACKUP INCOMPLETE: see the output above; do not rely on $day"
 ```
 
-Compress only after `pg_dumpall` succeeds (as above) or run the pipeline under `set -o pipefail`: `pg_dumpall | gzip` returns `gzip`'s status, so a failed dump otherwise leaves a `.sql.gz` that looks valid and is empty or truncated. Check that `backups/resgrid-$day.sql.gz` exists and is a plausible size before you rely on it.
+The subshell and `set -e` stop at the first failure instead of carrying on to a command that succeeds and leaves a partial backup looking usable; `docker compose start rustfs` runs outside it so object storage comes back even when the copy fails. Compressing only after `pg_dumpall` succeeds matters for the same reason: `pg_dumpall | gzip` returns `gzip`'s status, so a failed dump otherwise leaves a `.sql.gz` that looks valid and is empty or truncated. Before you rely on a backup, check that all four artifacts for that date exist and are a plausible size.
 
 RustFS holds the TTS audio and import files that database rows point at, so skipping it leaves records referencing objects that no longer exist. The Unified search index is not in the list: the worker rebuilds it.
 
 Restore onto an install with the same `.env` and `certs/`:
 
 ```bash
+day=2026-10-27                     # the date of the backup you are restoring
 docker compose stop web api events worker tts mcp
-gunzip -c backups/resgrid-2026-10-27.sql.gz | docker compose exec -T db sh -c 'psql -q -U "$POSTGRES_USER" -d postgres'
+gunzip -c backups/resgrid-$day.sql.gz | docker compose exec -T db sh -c 'psql -q -U "$POSTGRES_USER" -d postgres'
 docker compose stop rustfs
-docker compose cp backups/rustfs-2026-10-27/. rustfs:/data
+docker compose cp backups/rustfs-$day/. rustfs:/data
 docker compose up -d
 ```
 
