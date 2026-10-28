@@ -1,289 +1,129 @@
 ---
 sidebar_position: 3
+title: Docker reference
 ---
 
-# Docker
+# Docker reference
 
-## Docker Container Images
+Resgrid Core is published as Docker images and configured entirely with environment variables. The [self-hosted deployments](../self-hosted/installation) set everything up for you; this page is the reference behind them.
 
-Resgrid is split into 4 distinct Docker containers. All of our container images are available under the Resgrid, LLC organization on the Docker Hub.
+## Images
 
-**resgridwebcore** This is the web application docker image and is used to host the website application that users will interact with.
+All images are on Docker Hub under `resgridllc`, tagged `latest` and with a build version (`4.<build>.0`). They run as a non-root user, listen on port **8080**, contain no shell, and start through a small `wait` program that waits for the hosts in `WAIT_HOSTS` (for example `db:5432,redis:6379,rabbitmq:5672`) before starting.
 
-Docker Pull Command:
+| Image | Service | Health endpoint |
+|---|---|---|
+| `resgridllc/resgridwebcore` | Web application | `/Health/GetCurrent` |
+| `resgridllc/resgridwebservices` | REST API and OpenID Connect token server | `/health`, `/api/v4/Health/GetCurrent` |
+| `resgridllc/resgridwebevents` | Real-time events (SignalR hubs `/eventingHub`, `/geolocationHub`, `/chatHub`) | `/health/GetCurrent` |
+| `resgridllc/resgridworkersconsole` | Background jobs and database migrations | — |
+| `resgridllc/resgridwebtts` | Text-to-speech (Piper) | `/health` |
+| `resgridllc/resgridwebmcp` | Model Context Protocol server (`POST /mcp`) | `/health/current` |
+| `resgridllc/resgridtrackergateway` | GPS tracker ingest (TCP/UDP 5004, 5023, 5027) | `/health/live`, `/health/ready` |
+| `resgridllc/resgridrelay` | Inbound email to dispatch (SMTP 2525) | — |
+| `resgridllc/resgridwebbroker` | Protected-data broker for the Advanced Data Protection add-on; not used by self-hosted installs | `/health` |
+
+The images are `linux/amd64` today. Supporting services: PostgreSQL 18 (all databases), Redis, RabbitMQ 4 (with `deprecated_features.permit.transient_nonexcl_queues = true`) and any S3-compatible object store (RustFS in the reference deployments). MongoDB and SQL Server are no longer required.
+
+## How settings are read
+
+Every static field of every class in [Core/Resgrid.Config](https://github.com/Resgrid/Core/tree/master/Core/Resgrid.Config) can be set with an environment variable named:
+
+```text
+RESGRID__{ClassName}__{FieldName}
+```
+
+- `RESGRID` in capitals, then two underscores between the parts: `RESGRID__DataConfig__ConnectionString`.
+- Class and field names are **case-sensitive**. A misspelled name is **silently ignored** (the container logs the value it applied at start-up, `Resgrid.Config: Setting Value for ...`).
+- Enum values must be **numbers** (`RESGRID__SystemBehaviorConfig__Environment=0`).
+- Lists and dictionaries can't be set this way.
+- A few field names contain spelling mistakes that must be kept: `ExternalAudioUrlParamPasshprase`, `RabbbitPassword`, `RabbbitExchange`.
+
+Two settings have only two parts and are read by the worker: `RESGRID__DODBUPGRADE=true` (create and migrate the database schema at start-up) and `RESGRID__EVENTSONLY`.
+
+## Required settings
+
+The complete, commented template is [`.env.example`](https://github.com/Resgrid/resgrid-setup/blob/master/.env.example) in resgrid-setup. The settings every install needs:
+
+| Setting | Value |
+|---|---|
+| `RESGRID__SystemBehaviorConfig__ResgridBaseUrl` / `ResgridApiBaseUrl` / `ResgridEventingBaseUrl` | Public HTTPS URLs of the web app, API and events hub. The apps learn the events URL from the API. |
+| `RESGRID__SystemBehaviorConfig__Environment` | `0` Production, `1` Staging, `2` QA, `3` Development |
+| `RESGRID__SystemBehaviorConfig__ExternalLinkUrlParamPassphrase`, `ExternalAudioUrlParamPasshprase`, `ApiTokenEncryptionPassphrase` | Random secrets |
+| `RESGRID__SecurityConfig__EncryptionKey` | Random, **exactly 32 characters** |
+| `RESGRID__SecurityConfig__EncryptionSaltValue` | Random |
+| `RESGRID__ApiConfig__BackendInternalApikey` | Random; the web app uses it to get API tokens for chat, messages, maps and the events connection |
+| `RESGRID__ApiConfig__BypassSslChecks` | `false`. With `true` the web app, API and events refuse to start in Production; make the containers trust your CA instead (`SSL_CERT_DIR`/`SSL_CERT_FILE`). |
+| `RESGRID__DataConfig__DatabaseType` / `DocDatabaseType` | `1` (PostgreSQL) |
+| `RESGRID__DataConfig__ConnectionString` and `CoreConnectionString` | Same value: `User ID=…;Password=…;Host=db;Port=5432;Database=resgrid;Pooling=true;` (`CoreConnectionString` is used by the repositories and the migration runner) |
+| `RESGRID__DataConfig__DocumentConnectionString` | `…;Database=resgriddoc;` |
+| `RESGRID__OidcConfig__DatabaseType` / `ConnectionString` | `1` / `…;Database=resgridoidc;` |
+| `RESGRID__OidcConfig__EncryptionCert` / `SigningCert` | Base64 PKCS#12 certificates **with an empty password** (key encipherment / digital signature) |
+| `RESGRID__WorkerConfig__DatabaseType` / `WorkerDbConnectionString` / `PayloadKey` | `1` / `…;Database=resgridworkers;` / random |
+| `RESGRID__JwtConfig__EventsClientSecret` | Random; same value for the API and events containers |
+| `RESGRID__CacheConfig__RedisConnectionString` | `redis:6379,password=…,allowAdmin=True` |
+| `RESGRID__ServiceBusConfig__RabbitHostname` / `RabbitUsername` / `RabbbitPassword` | RabbitMQ host and credentials |
+| `RESGRID__WebConfig__IngressProxyNetwork` / `IngressProxyNetworkCidr` | Network your reverse proxy connects from; forwarded headers are only trusted from it |
+| `RESGRID__TtsConfig__ServiceBaseUrl`, `StaticPromptAdminKey`, `S3Endpoint`, `S3AccessKey`, `S3SecretKey`, `S3Bucket` | Text-to-speech service URL, admin key and its bucket |
+| `RESGRID__SystemBehaviorConfig__AllowSignupWithoutBilling` | `true` to allow **Sign Up** on a self-hosted server (no billing service); set to `false` once your department exists |
+| `ASPNETCORE_ENVIRONMENT` / `ASPNETCORE_URLS` | `Production` / `http://+:8080` |
+
+Generate the OpenID Connect certificates with OpenSSL:
 
 ```bash
-docker pull resgridllc/resgridwebcore
+openssl req -x509 -newkey rsa:2048 -sha256 -days 3650 -nodes -keyout enc.key -out enc.crt \
+  -subj "/CN=Resgrid OIDC Server Encryption Certificate" -addext "keyUsage=keyEncipherment"
+openssl pkcs12 -export -out enc.pfx -inkey enc.key -in enc.crt -passout pass:
+openssl base64 -A -in enc.pfx        # -> RESGRID__OidcConfig__EncryptionCert
 ```
 
-**resgridwebservices** This is the web api that is used by the website and applications to communicate with the Resgrid system
+Repeat with `keyUsage=digitalSignature` for `RESGRID__OidcConfig__SigningCert`. Replacing either certificate later signs every user out; changing the encryption key or salt makes encrypted data unreadable.
 
-Docker Pull Command:
+## Common optional settings
 
-```bash
-docker pull resgridllc/resgridwebservices
+| Setting | Purpose |
+|---|---|
+| `RESGRID__SystemBehaviorConfig__OutboundEmailType` | `1` SMTP, `0` Postmark |
+| `RESGRID__OutboundEmailServerConfig__Host`, `Port`, `EnableSsl`, `UserName`, `Password`, `FromMail`, `PostmarkApiKey` | Outbound email |
+| `RESGRID__SystemBehaviorConfig__ErrorLoggerType` | `2` console, `1` Sentry (`RESGRID__ExternalErrorConfig__ExternalErrorServiceUrlForApi`, `ForWebsite`, `ForWebjobs`, `ForEventing`) |
+| `RESGRID__MappingConfig__LeafletTileUrl`, `LeafletAttribution` | Web map tiles (`{z}/{x}/{y}` URL; `{0}` is replaced by `WebsiteOSMKey` if set) |
+| `RESGRID__MappingConfig__NominatimUrl`, `OsrmUrl` | Address search and routing for the web map |
+| `RESGRID__MappingConfig__GoogleMapsApiKey`, `GoogleMapsJSKey`, `What3WordsApiKey`, `LocationIQApiKey` | Geocoding providers |
+| `RESGRID__MappingConfig__ResponderAppMapboxKey`, `UnitAppMapBoxKey` | Maps in the mobile apps |
+| `RESGRID__WebConfig__RecaptchaPublicKey`, `RecaptchaPrivateKey` | reCAPTCHA on Sign Up and Forgot Password; leave empty to disable |
+| `RESGRID__ImportConfig__S3Endpoint`, `S3AccessKey`, `S3SecretKey`, `S3Bucket` | Storage for Department Import |
+| `RESGRID__SecurityConfig__SystemApiKey` | Server-to-server key (header `X-Resgrid-SystemApiKey`), used by the email relay |
+| `RESGRID__SecurityConfig__DepartmentApiKeyPepper` | Pepper for department API keys |
+| `RESGRID__TwoFactorConfig__AuthenticatorSeedEncryptionEnabled` | Encrypt authenticator (TOTP) seeds at rest |
+| `RESGRID__SystemBehaviorConfig__FullHealthCheckKey` | Key for the detailed `/health/full` endpoints (header `X-Resgrid-Health-Key`) |
+| `RESGRID__SearchConfig__Enabled`, `IndexPath`, `S3Endpoint`, `S3AccessKey`, `S3SecretKey`, `S3Bucket`, `S3UseSsl`, `S3ForcePathStyle` | Built-in search index (off by default). `IndexPath` is local scratch space (`/data/search`, a tmpfs or `emptyDir` in resgrid-setup); with the `S3*` settings the index is kept in object storage so every container shares it. resgrid-setup sets these when you turn on the *Unified search* feature. |
+| `RESGRID__AttachmentScanningConfig__Enabled`, `Host`, `Port` | Virus scanning of uploaded files through a ClamAV daemon (`clamav:3310`); set by the *Attachment virus scanning* feature |
+| `RESGRID__UnitTrackingConfig__Enabled`, `NativeGatewayEnabled`, `EnableQueclink`, `EnableGt06`, `EnableTeltonika`, `CredentialPepper` | GPS tracker gateway |
+| `RESGRID__McpConfig__CorsAllowedOrigins` | MCP CORS origins |
+| `RESGRID__ChatConfig__Novu*` | Push notifications through a Novu instance |
+
+## Settings used by resgrid-setup
+
+These entries in `.env` are read by the setup scripts and Docker Compose, not by Resgrid:
+
+| Setting | Purpose |
+|---|---|
+| `RESGRID_WEB_HOST`, `RESGRID_API_HOST`, `RESGRID_EVENTS_HOST`, `RESGRID_TLS`, `RESGRID_HTTP_PORT`, `RESGRID_HTTPS_PORT` | Hostnames, certificate mode and ports for Caddy |
+| `RESGRID_FEATURES` | Optional features that are on (section names from `features/catalog.ini`); see [Optional features and upgrades](../self-hosted/features-and-upgrades) |
+| `RESGRID_FEATURES_OFFERED` | Optional features setup has asked about; later runs only ask about new ones |
+| `COMPOSE_PROFILES` | Optional services to run (`maps`, `clamav`, `tracking`, `relay`); Docker Compose reads it from `.env` itself. `RESGRID_OPTIONAL` plays the same part on Kubernetes. |
+
+Feature flags themselves live in the `featureflags` table of the `resgrid` database (`isenabledglobally` switches a flag for every department) and are cached in Redis under keys containing `FeatureFlag`. After changing them with SQL, delete those keys (`redis-cli --scan --pattern '*FeatureFlag*'`) or wait for the cache to expire; `./setup.sh features` does both for you.
+
+## Trusting a private certificate authority
+
+The containers verify certificates when they call your public URLs (for example the web app's server-side calls to the API). With a private CA, mount its certificate into each container and add the directory to `SSL_CERT_DIR`:
+
+```yaml
+environment:
+  SSL_CERT_DIR: /etc/ssl/certs:/usr/local/share/resgrid-ca
+volumes:
+  - ./certs/ca:/usr/local/share/resgrid-ca:ro
 ```
 
-**resgridworkersconsole** This is the backend workers that are used to process operations from RabbitMQ or scheduled tasks.
-
-Docker Pull Command:
-
-```bash
-docker pull resgridllc/resgridworkersconsole
-```
-
-**resgridwebevents** This is the web api that houses the SignalR hubs used for live updating applications based on events.
-
-Docker Pull Command:
-
-```bash
-docker pull resgridllc/resgridwebevents
-```
-
-## Settings
-
-To configure the Resgrid system in a Docker or Kubernetes context we recommend using environment variables. To see all the config options available you can take a look at our Github repo <https://github.com/Resgrid/Core/tree/master/Core/Resgrid.Config>, every static class in the Resgrid.Config project can be set by an environment variable.
-
-The pattern for how Resgrid processes environment is as follows:
-
-```
-RESGRID__{CLASSNAME}__{PROPERTYNAME}
-```
-
-Resgrid at the start of the name must be in all caps, there are two (2) underscores separating the parts, in between RESGRID and classname and classname and popertyname.
-
-## Environment Variables
-
-Resgrid is configured via Environment Variables for the Docker Containers that are run. 
-
-```text title="~/resgrid/resgrid.env"
-# -----------------------------------------------
-# ------ Resgrid Environment Variables ----------
-# -----------------------------------------------
-
-# DOCUMENTATION FOR THESE VARIABLES IS FOUND UNDER
-# https://resgrid-core.readthedocs.io/en/latest/docker/index.html
-
-# -----------------------------------------------
-# --- System Behavior Config Section ------------
-# -----------------------------------------------
-
-# Url to access the Resgrid api (required)
-# Note: localhost will only support local access, you must replace localhost (or localhost:5152) with an IP Address or server name for external (non-local) access
-RESGRID__SystemBehaviorConfig__ResgridApiBaseUrl=http://localhost:5152
-
-# Url to access the Resgrid web interface (required)
-# Note: localhost will only support local access, you must replace localhost (or localhost:5151) with an IP Address or server name for external (non-local) access
-RESGRID__SystemBehaviorConfig__ResgridBaseUrl=http://localhost:5151
-
-# Url to access the Resgrid events site (required)
-# Note: localhost will only support local access, you must replace localhost (or localhost:5153) with an IP Address or server name for external (non-local) access
-RESGRID__SystemBehaviorConfig__ResgridEventingBaseUrl=http://localhost:5153
-
-# Environment system is currently running in
-# 0 => Production
-# 1 => Staging
-# 2 => QA
-# 3 => Development
-RESGRID__SystemBehaviorConfig__Environment=3
-
-# Error logging system use by Resgrid
-# 0 => Elk-Elastic (MUST: Configure ELK Config Section)
-# 1 => Sentry.io (MUST: )
-RESGRID__SystemBehaviorConfig__ErrorLoggerType=0
-
-# Outbound Email Provider
-# 0 => Postmark (MUST: Configure Postmark Config Section)
-# 1 => Smtp (MUST: Configure Outbound Email Config Section)
-RESGRID__SystemBehaviorConfig__OutboundEmailType=1
-
-# String passphase to symmetrically encrypt external url values
-# Note: Recommended to change for security purposes
-RESGRID__SystemBehaviorConfig__ExternalLinkUrlParamPassphrase=NvM28Q8EJejQSdxS
-
-# String passphase to symmetrically encrypt call audio url
-# Note: Recommended to change for security purposes
-RESGRID__SystemBehaviorConfig__ExternalAudioUrlParamPasshprase=5a4tALka7bz6h4CY
-
-# -----------------------------------------------
-# --- Cache Config Section ----------------------
-# -----------------------------------------------
-
-# Redis server connection string
-RESGRID__CacheConfig__RedisConnectionString=redis:6379,Password=,allowAdmin=True 
-
-# -----------------------------------------------
-# --- Data Config Section -----------------------
-# -----------------------------------------------
-
-# Microsoft SQL Server Connection String for main Resgrid Database
-RESGRID__DataConfig__ConnectionString=Server=db;Database=Resgrid;User Id=sa;Password=Resgrid123!!;MultipleActiveResultSets=True;TrustServerCertificate=True;Connection Timeout=30;
-
-# -----------------------------------------------
-# --- Mapping Geolocation Config Section --------
-# -----------------------------------------------
-
-# Google Maps JS API Key
-# https://developers.google.com/maps/documentation/javascript/get-api-key
-RESGRID__MappingConfig__GoogleMapsJSKey=
-
-# Google Maps Geocoding API Key
-# https://developers.google.com/maps/documentation/geocoding/get-api-key
-RESGRID__MappingConfig__GoogleMapsApiKey=
-
-# what 3 words api key
-# https://developer.what3words.com/public-api
-RESGRID__MappingConfig__What3WordsApiKey=
-
-# -----------------------------------------------
-# --- Error Config Section ----------------------
-# -----------------------------------------------
-
-# String to tag the Environment for error logging
-RESGRID__ExternalErrorConfig__Environment=dev
-
-# -----------------------------------------------
-# --- ELK Config Section ------------------------
-# -----------------------------------------------
-
-# Url for Elastic Kilbana error log ingestion service
-RESGRID__ExternalErrorConfig__ElkServiceUrl=http://elk:9200
-
-# -----------------------------------------------
-# --- Sentry.io Config Section ------------------
-# -----------------------------------------------
-
-# NOTE: For Sentry.io, you should create 3 projects, 1 for the website, 1 for the api and 1 for workers (webjobs)
-# https://docs.sentry.io/product/sentry-basics/integrate-frontend/create-new-project/
-
-# Sentry.io Project Url for Resgrid API System
-RESGRID__ExternalErrorConfig__ExternalErrorServiceUrl=
-
-# Sentry.io Project Url for Resgrid website
-RESGRID__ExternalErrorConfig__ExternalErrorServiceUrlForWebsite=
-
-# Sentry.io Project Url for webjobs
-RESGRID__ExternalErrorConfig__ExternalErrorServiceUrlForWebjobs=
-
-# -----------------------------------------------
-# --- Oidc Config Section -----------------------
-# -----------------------------------------------
-
-# Microsoft SQL Server Connection String for Resgrid OpenId Connect database
-RESGRID__OidcConfig__ConnectionString=Server=db;Database=ResgridOIDC;User Id=sa;Password=Resgrid123!!;MultipleActiveResultSets=True;
-
-# OpenId Connect Encryption Certificate
-# Note: This is the Encipherment Certificate, for secutiry purposes you MUST generate a new certificate.
-# See: https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#registering-a-certificate-recommended-for-production-ready-scenarios
-RESGRID__OidcConfig__EncryptionCert=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
-
-# OpenId Connect Signging Certificate
-# Note: This is the Digital Signature Certificate, for secutiry purposes you MUST generate a new certificate.
-# See: https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#registering-a-certificate-recommended-for-production-ready-scenarios
-RESGRID__OidcConfig__SigningCert=MIIJagIBAzCCCSYGCSqGSIb3DQEHAaCCCRcEggkTMIIJDzCCBZAGCSqGSIb3DQEHAaCCBYEEggV9MIIFeTCCBXUGCyqGSIb3DQEMCgECoIIE7jCCBOowHAYKKoZIhvcNAQwBAzAOBAgj6gbYBzTqYgICB9AEggTIk9hROm0SVgyw3Q86rWYvuxpqJIsBXlzbWyT6IWMdfMK7prc0EbaUH0RQ8u8L0FVFhG0miIWiJqE/n/sfTNvb9VOwROMA4i/EBJjRHIn1YAX1FiRKK6D+4oO3o1ddvjmzqKWOq3lVqLrgpgBVGK6zysczskpFvNTCDVaDZ65EEEclR+F+2jKYC12HAZ0ATv/YZl6c5R94z3L02wVvWjKvSPC2rGJrwL9KyEjtpQXuMHo3rk+YbJTLGJlDZSGJSNsnq+rfJUKWFiwcs7yH5VXDbCjRbTHddjh10+msNdf2O/Bw1lLb9WhGTMcq7haVmjgdshOoXu+mZjDVw/9asUURr2oPolVhmVXreChFwucwonLWGt/IlBPL0jdH3ex4g94DnF2/Gc8xVBK+g+NfN20x6Qwx0ae1al2FqkDTsnasiMlIH/LYBKAp24+ZZGoB68dO3VGl0/+hHt3VgJuxC46/nayajB9UlZzi7SICyeQXslPtKrQgX7wM6KL6dFmYUH+QFrPmcj1DbvPv69viTAU6XlaAHE9Y0TS1WWNloZCRMWTtghgFrQ/pYwWwYpWFskz/z5IkB08eH8Zr8PyoWAsR/xb2HM8nyUsA342zAA2fNcGKslgRHBuy6rSBHwSfwTYb060HgFGcPHDOie8gVY9zZysY9Nzr+won+gaDiT31cdRbpOVQ+ujGI9XHWG+pe9dAyASgf/nm5ld0pZ28MWhMSWeovw2TGHz+y3tUYYeLS6/SY8iGeoe9dfGHJ3t2aKDIX2TyG50c6UZ98QqeyTxQhbalN8F6oTPFllmnkqoWSIW4dR/VBWmWZYSjB83jTVtAoM0PRUW1dI0OsPTQFQ5CLF0Ex4gnp21rY03mwo9BVv5jQ5jz/gLm4FpaPbdHfFsRGPH8VtDHg6rabrnbRalPplgbZavXqOTW+TvP+FhV5VZBSjhblapRSA0SSL0KujuHJGQ0gbbHsHE+abmnKHjiXHq2I5ED0cN1uy7hbYWe84TU4kAwPfJV6efCmpYGsq4vrjCPYMntcH0LuS8i9TbXzXDTFArIwX3ssTr0I9j8BkACqk78cCzZ5xnPUjpt/fN+C6w9UuTuvXk6rjWInX8P+jfu+LexnvpimBbbPAg4Wxt2SF+7l21LBLANYpPQLvB86WTbBVaofjV7vzLG2djNU7IuCbmJW7ojpP1BCYscTB67W75mC6RCNe4VatpCSInJTjpm/uZ8q5O1pvmB6NotMmf7BCbPws427iMtwYjWkQ5HZr55M8r+lZIapVzNs/gZLcEhqMtIoEB9T4IEDnujyxczkYq4rHuDViRv+sWPiC3VPVt65Hhh4PFcJDfwY46BcRtbjrkLQpY9svkSDN2kGrliyP5sVN+GlC9+RYjNyttpU0CQ6lursvIVVFSmNwwB7+AjELIq38t/Fl31yPI2ycDz1oy/4sxVc/bujO4b+1punX6OzLsmaKwRNEmT6tBue4gDY4t22BR/e719GZ8S8IhOELBxFHjGGQxZzlPoIJSzhEqdeFiVj6bA0zKPzt61iNz+/qixzHNgqK/n2p4+t4BlSzOxWlf6J1p73omWCKL7D/c1jAoVR2bHYB6U/hRWq/r27FzPCan7DjMR8t+k0v6n6MflVmOWMXQwEwYJKoZIhvcNAQkVMQYEBAEAAAAwXQYJKwYBBAGCNxEBMVAeTgBNAGkAYwByAG8AcwBvAGYAdAAgAFMAbwBmAHQAdwBhAHIAZQAgAEsAZQB5ACAAUwB0AG8AcgBhAGcAZQAgAFAAcgBvAHYAaQBkAGUAcjCCA3cGCSqGSIb3DQEHBqCCA2gwggNkAgEAMIIDXQYJKoZIhvcNAQcBMBwGCiqGSIb3DQEMAQMwDgQIOnZ0V+bRe14CAgfQgIIDMHfuqSRK22tHwAMIncBTO/UuBY9Pl1eShpPrfni8m+R2163cbrtz3keiP+jFzmgjGGoZAtBVMPSRA8MKbDo1mpFdEBXylnT6qiUgHzyijnw+zElSslfsm+EtXP6YTL0Vd0Oz3F1IMlO7jFi5WiS0OiKs0OvTob9ThZLHTq6L+zf5Xnb7/vHcYp+ns7/ekuOvGItkCzPzOhsd+J79umTIYwi59sY80/1avbBZ2XssGMmN02o8TmI5qC/vpf9y1biTmzifNHcFgE0XZrgjdqphfnu8zG1a+S+WKiSKZuO38XTWFhVEB6O/rCahuBxhqExHExHapLp5fDOXChW2iEr3vyieEOSk167VE3eUlKy8T8CMkwsCh3w5u1kJCFogNUhDTKPFYWT/VPauQ+Th3shoRryxp6pz5FFzjx6bIJtv6jq3W8oJRjIEcl+O2XbHDNw5tTZ8U0RHHxp5YWf3kG6u5sJv8A+RStl3ax8txNt3FxJPcJw4I8Mkp9AXxndATLo3n9RQ0BHaHKaMTRIMs/XuUISagYgYqKLUpMofaMNk7ppsbHpRq2uAt/Y2Fo0grwnmEuxK6PVYD/kqHPybRimd9G579c+1Y4MLfwZYSO/mkb3SK+5ejKvVR9diL8aIVuVw9jPZcym0LHupohIaCFwQR23QoHMXUY8mWL8rkhCR9FVC6bU6PsCxhseQQtpHLa37tNZUbBNMOsejjrbYhZhRneIiLvqPPc8or7pEv1ZikW3Q8jTn3vP5QbWBeGZQLd0tNNsmJZfgM90JnCkZMnf52fuShi6LEYt1gl9B+3a43+9v7l0zlnLpbCi31Ac09hIhaeJzFjVtXO95wHVGRFfX1Y1YbApFHQ5nSeKbj4lAU0BgcSPU5I8vNfWQs3Ctgn0H8mPbTrqZK90HSauheFp+ZzEM5ZhZ9Hg1DOld8giahO1/RFdtrcOs1UuBn//OPY836db0r7EUUCXOvfyBkpKN6CtIOdd/vTZ1T/NDCOLWEZstGYzhs3LXGoT0EdufYUsXJQhSFdwPaihXLuHKs9djZFp+8Nx8i9m9aqNOwwoCLxUQP6EsYUnaZkM1qQrF4sIocjA7MB8wBwYFKw4DAhoEFLJov7egG/ownZU20kBlmJVfwoZrBBQFPJOPydh2OAB9in+aCa5aKx+Q0gICB9A=
-
-# -----------------------------------------------
-# --- Outbound Email Config Section -------------
-# -----------------------------------------------
-
-# Email address that emails generated by the system will use (for SMTP and Postmark)
-RESGRID__OutboundEmailServerConfig__FromMail=resgrid@yourcompany.local
-
-# -----------------------------------------------
-# --- SMTP Email Config Section -----------------
-# -----------------------------------------------
-
-# Use SSL\TLS to connect to the SMTP server
-# true => Use SSL\TLS
-# false => Disabled
-RESGRID__OutboundEmailServerConfig__EnableSsl=false
-
-# SMTP Server Hostname
-RESGRID__OutboundEmailServerConfig__Host=mailserver
-
-# SMTP Server Port (Commonly 25 for non-ssl and 587 for ssl)
-RESGRID__OutboundEmailServerConfig__Port=25
-
-# SMTP Server Login Username
-RESGRID__OutboundEmailServerConfig__UserName=
-
-# SMTP Server Login Password
-RESGRID__OutboundEmailServerConfig__Password=
-
-# -----------------------------------------------
-# --- Postmark Config Section -------------------
-# -----------------------------------------------
-
-# API Key from Postmark (https://postmarkapp.com/support/article/1008-what-are-the-account-and-server-api-tokens)
-RESGRID__OutboundEmailServerConfig__PostmarkApiKey=
-
-# -----------------------------------------------
-# --- Service Bus Config Section ----------------
-# -----------------------------------------------
-
-# RabbitMQ Hostname
-RESGRID__ServiceBusConfig__RabbitHostname=rabbitmq
-
-# RabbitMQ Hostname2 (for 2nd host in 3 node RabbitMQ cluster)
-# Default is blank
-RESGRID__ServiceBusConfig__RabbitHostname2=
-
-# RabbitMQ Hostname3 (for 3nd host in 3 node RabbitMQ cluster)
-# Default is blank
-RESGRID__ServiceBusConfig__RabbitHostname3=
-
-# Username for RabbitMQ
-# Note: User must be able to create queues and topics for the / virtual host
-RESGRID__ServiceBusConfig__RabbitUsername=resgrid
-
-# Password for RabbitMQ
-RESGRID__ServiceBusConfig__RabbbitPassword=Resgrid321!
-
-# -----------------------------------------------
-# --- Worker Config Section ---------------------
-# -----------------------------------------------
-
-# Microsoft SQL Server Connection String for Worker Database
-RESGRID__WorkerConfig__WorkerDbConnectionString=Data Source=db;Initial Catalog=ResgridWorkers;User Id=sa;Password=Resgrid123!!;MultipleActiveResultSets=True;
-
-# Payload key for multiple agents
-# Note: Change this key if you are running multiple workers
-RESGRID__WorkerConfig__PayloadKey=YDm8wWFm4jVZADvDuaM7xmnCsLnydRrwJL3sxNZchL4nU4mkCgUu3fy87yaKBnPSe8g78qvMvTs3ySWutevavt3QbV7M9vdM
-
-# Have the Worker run the database Upgrade scripts at startup
-# Note: When this option is enabled the worker must startup first and perform the upgrade before other services use the db
-RESGRID__DODBUPGRADE=true
-
-# -----------------------------------------------
-# --- Web Config Section ------------------------
-# -----------------------------------------------
-
-# Allowed Ingress network for forwarded headers (k8s config)
-RESGRID__WebConfig__IngressProxyNetwork=10.42.0.0
-
-# CIDR for Ingress network mask
-RESGRID__WebConfig__IngressProxyNetworkCidr=16
-
-# -----------------------------------------------
-# --- Asp.Net Section ---------------------------
-# -----------------------------------------------
-
-ASPNETCORE_ENVIRONMENT=Production
-ASPNETCORE_URLS=http://0.0.0.0:80
-
-# -----------------------------------------------
-# --- Calendar Config Section -------------------
-# -----------------------------------------------
-
-# Enable or disable the external iCal feed endpoint (default: true)
-RESGRID__CalendarConfig__ICalFeedEnabled=true
-
-# PRODID value used in generated iCal files (default: -//Resgrid//Calendar//EN)
-RESGRID__CalendarConfig__ICalProductId=-//Resgrid//Calendar//EN
-
-# How long (in minutes) a feed response can be cached by subscribing clients (default: 15)
-RESGRID__CalendarConfig__ICalFeedCacheDurationMinutes=15
-```
-
-### System Behavior Config
-
+The containers must also resolve the public hostnames to your reverse proxy (Compose `extra_hosts`, Kubernetes `hostAliases`, or internal DNS).
