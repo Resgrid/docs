@@ -267,7 +267,11 @@ Back up first, then on rick1:
 
 `upgrade` gets the newest setup files (`git pull`) and runs `./setup.sh` again, which then runs `./rick.sh rollout`. Re-running setup is always safe: it backs up `.env`, adds the settings new versions need (with your node addresses), repairs missing or broken values and files, and `rollout` copies everything to the nodes, pulls the new images, restarts the kit (the worker migrates the database), asks only about new optional features and re-applies yours. It never replaces a value you set or deletes data. Offline, `RESGRID_NO_PULL=1 ./setup.sh` repairs the configuration and restarts with the images on the nodes.
 
-Kits configured before October 2026 (three nodes: web, infra, database) upgrade the same way. Setup maps the old settings onto the four roles (the old web node runs edge and app), and `rollout` copies the old database into the data node once, while the new database is empty, then stops the old containers without removing them. If the old checkout has no `rick.sh upgrade` yet: `cp .env ~/rick-env && git checkout -- .env && git pull && cp ~/rick-env .env && ./setup.sh`. Details: [Upgrade and repair](./features-and-upgrades#upgrade-and-repair).
+Kits configured before October 2026 (three nodes: web, infra, database) upgrade the same way. Setup maps the old settings onto the four roles (the old web node runs edge and app), and `rollout` copies the old database into the data node once, while the new database is empty, then stops the old containers without removing them.
+
+If the old checkout has no `rick.sh upgrade` yet: `cp .env ~/rick-env && git checkout -- .env && git pull && cp ~/rick-env .env && ./setup.sh`. Details: [Upgrade and repair](./features-and-upgrades#upgrade-and-repair).
+
+Check the copied database before you rely on it: the rollout marks the migration done (`.legacy-db-migrated` on the data node) and carries on even when loading the dump reported errors, and later rollouts then skip it. Sign in and confirm your departments, personnel, units and calls are there. If they are not, the dump of the old database is kept in `backups/legacy-db-<timestamp>.sql.gz` with its load errors in `backups/legacy-db-<timestamp>.sql.gz.log` on the data node: fix what the log reports, delete `.legacy-db-migrated`, and run `./rick.sh rollout` again. The old database container is only stopped, never removed, so it is still there as a fallback.
 
 ## Security
 

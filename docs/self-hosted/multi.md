@@ -139,18 +139,27 @@ Change settings in `deploy/generated/resgrid.env`, then run `./setup.sh` (re-app
 **Backup**:
 
 ```bash
-kubectl -n resgrid exec statefulset/db -- sh -c 'pg_dumpall -U "$POSTGRES_USER" --clean --if-exists' | gzip > resgrid-$(date +%F).sql.gz
+day=$(date +%F)
+kubectl -n resgrid exec statefulset/db -- sh -c 'pg_dumpall -U "$POSTGRES_USER" --clean --if-exists' > resgrid-$day.sql \
+  && gzip -f resgrid-$day.sql
 ```
+
+Compress only after `pg_dumpall` succeeds (as above) or run the pipeline under `set -o pipefail`: `pg_dumpall | gzip` returns `gzip`'s status, so a failed `kubectl exec` or dump otherwise leaves a `.sql.gz` that looks valid and is empty or truncated.
 
 Also keep `deploy/generated/` and snapshots of the `data-rustfs-0` volume.
 
-**Restore**:
+**Restore** (database):
 
 ```bash
 kubectl -n resgrid scale deployment --all --replicas=0
+kubectl -n resgrid wait --for=delete pod -l 'app notin (db,redis,rabbitmq,rustfs)' --timeout=5m
 gunzip -c resgrid-2026-10-27.sql.gz | kubectl -n resgrid exec -i statefulset/db -- sh -c 'psql -q -U "$POSTGRES_USER" -d postgres'
 kubectl -n resgrid scale deployment web api events worker tts mcp --replicas=1
 ```
+
+`kubectl scale` only changes the desired replica count; the pods terminate afterwards. Wait for the API, events and worker pods to be gone (the `wait` above, or `kubectl -n resgrid get pods` until only the StatefulSet pods are left) before loading the dump, or they write to the database while it is being replaced. Adjust the label selector to the labels your manifests set.
+
+This replays the database only. For a full recovery also restore the `data-rustfs-0` snapshot from the same backup, with your cluster's snapshot or CSI tooling, while the `rustfs` StatefulSet is scaled to 0 — database rows point at the TTS audio and import objects in it, so a database-only restore leaves records referencing objects that no longer exist. The Unified search index needs no backup: the worker rebuilds it.
 
 **Certificate renewal** (local CA): `./setup.sh renew-cert` re-issues the ingress certificate (valid 397 days).
 
@@ -166,7 +175,7 @@ The base keeps one replica of each stateful service so it runs on any cluster. F
 
 ## Optional services
 
-Optional services are the files in `deploy/optional/` listed in `RESGRID_OPTIONAL` (comma separated) in `deploy/generated/resgrid.env`; `./setup.sh` applies them on every run and removes the ones it applied before that you took off the list. `clamav` is managed by the virus-scanning feature. For GPS trackers or inbound email dispatch, enable their settings, add `tracking` or `relay` to `RESGRID_OPTIONAL` and run `./setup.sh`. Both create `LoadBalancer` services; the relay accepts unauthenticated SMTP, so firewall port 25.
+Optional services are the files in `deploy/optional/` listed in `RESGRID_OPTIONAL` (comma separated) in `deploy/generated/resgrid.env`; `./setup.sh` applies them on every run and removes the ones it applied before that you took off the list. `clamav` is managed by the virus-scanning feature. For GPS trackers or inbound email dispatch, enable their settings, add `tracking` or `relay` to `RESGRID_OPTIONAL` and run `./setup.sh`. Both create `LoadBalancer` services. The relay needs its department (`RESGRID__RELAY__Resgrid__DepartmentId`) and dispatch domains (`RESGRID__RELAY__Smtp__DepartmentAddressDomains__0`) set, and the domains' MX records pointed at the service: it only accepts recipients in those domains. It is not an open mail relay, but it accepts any sender and offers no TLS or SMTP authentication, so restrict port 25 to the senders you expect or put a filtering MTA that terminates TLS in front of it before exposing it to the internet.
 
 ## Troubleshooting
 

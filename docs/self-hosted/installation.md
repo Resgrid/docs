@@ -34,13 +34,15 @@ The self-hosted version is provided without warranty or a guarantee of suitabili
 | `events` | Real-time updates (SignalR) | 5153 |
 | `worker` | Background jobs, notifications and the **database schema migrations** | — |
 | `tts` | Text-to-speech for dispatch audio | 5154 |
-| `mcp` | Model Context Protocol server for AI assistants | 5155 (LAN only) |
+| `mcp` | Model Context Protocol server for AI assistants | 5155 (published on every interface; keep it off untrusted networks with a firewall) |
 | `db` | PostgreSQL 18: `resgrid`, `resgridoidc`, `resgridworkers`, `resgriddoc` | 127.0.0.1:5432 |
 | `redis` | Cache, real-time backplane, web session keys | — |
 | `rabbitmq` | Message bus | 127.0.0.1:5160 (management UI) |
 | `rustfs` | S3-compatible object storage (TTS audio, imports) | — |
 
 Optional: offline map tiles (`maps` profile), hardware GPS trackers (`tracking`), inbound email dispatch (`relay`). MongoDB and Microsoft SQL Server are no longer used; every database is PostgreSQL.
+
+`db` and `rabbitmq` are bound to `127.0.0.1` by Compose. The others publish their port on every interface of the server, so on an internet-facing host let only 80 and 443 (and 25 if you run the relay) through the firewall.
 
 ## Requirements
 
@@ -131,8 +133,10 @@ RESGRID_API_HOST=dispatchapi.example.com \
 RESGRID_EVENTS_HOST=dispatchevents.example.com \
 RESGRID_TLS=admin@example.com \
 RESGRID_FEATURES=records,search \
-bash setup.sh
+curl -fsSL https://raw.githubusercontent.com/Resgrid/resgrid-setup/master/setup.sh | bash
 ```
+
+The one-liner pipes the script straight into Bash and leaves no `setup.sh` behind, so use that same form for the first unattended install. Once the stack is in `~/resgrid`, later runs use `cd ~/resgrid && bash setup.sh` with the same variables.
 
 Other variables: `RESGRID_INSTALL_DIR`, `RESGRID_HTTP_PORT` / `RESGRID_HTTPS_PORT` (if 80/443 are taken; Let's Encrypt then can't be used), `RESGRID_TLS_CERT_FILE` + `RESGRID_TLS_KEY_FILE` (your own certificate), `RESGRID_FEATURES` (optional features, comma separated, or `all` / `none`), `RESGRID_NONINTERACTIVE=1` (never ask), `RESGRID_NO_START=1` (configure only).
 
@@ -205,9 +209,9 @@ Optional services run while their [Compose profile](https://docs.docker.com/comp
 
 **GPS trackers** (`tracking` profile): set `RESGRID__UnitTrackingConfig__Enabled`, `NativeGatewayEnabled` and at least one of `EnableQueclink`, `EnableGt06`, `EnableTeltonika` to `true`, add `tracking` to `COMPOSE_PROFILES`, then `docker compose up -d`. Trackers connect to TCP/UDP 5004 (Queclink), 5023 (GT06) and 5027 (Teltonika).
 
-**Inbound email dispatch** (`relay` profile): set `RESGRID__RELAY__Resgrid__DepartmentId` and the dispatch domain, point the domain's MX record at the server, add `relay` to `COMPOSE_PROFILES`, then `docker compose up -d`. The relay accepts any sender (no TLS or SMTP authentication): firewall port 25.
+**Inbound email dispatch** (`relay` profile): set `RESGRID__RELAY__Resgrid__DepartmentId` and the dispatch domains (`RESGRID__RELAY__Smtp__DepartmentAddressDomains__0`, and `GroupAddressDomains__0` for group dispatch), point the domains' MX records at the server, add `relay` to `COMPOSE_PROFILES`, then `docker compose up -d`. The relay turns mail addressed to `{dispatchcode}@<your dispatch domain>` into a Resgrid call; it is not an open mail relay, but it accepts any sender and offers no TLS or SMTP authentication, so the recipient-domain list is its only application-level gate. Restrict port 25 to the senders you expect with a firewall, or put a filtering MTA that terminates TLS in front of it, before exposing it to the internet.
 
-**MCP** for AI assistants listens on port 5155. Users log in inside the protocol, but the HTTP endpoint itself is unauthenticated: keep the port on your LAN or VPN.
+**MCP** for AI assistants listens on port 5155. Users log in inside the protocol, but the HTTP endpoint itself is unauthenticated, and Compose publishes 5155 on every interface of the server. Block the port from untrusted networks with a host firewall, or reach it over a VPN only.
 
 ## Operations
 
@@ -239,24 +243,33 @@ or the install one-liner again. Re-running setup is the upgrade and is always sa
 
 ### Backups
 
-Back up the database, `.env` and `certs/`:
+Back up the database, `.env`, `certs/` and the RustFS object storage:
 
 ```bash
 mkdir -p backups
-docker compose exec -T db sh -c 'pg_dumpall -U "$POSTGRES_USER" --clean --if-exists' | gzip > backups/resgrid-$(date +%F).sql.gz
-cp .env backups/env-$(date +%F)
-tar -czf backups/certs-$(date +%F).tar.gz certs
+day=$(date +%F)
+docker compose exec -T db sh -c 'pg_dumpall -U "$POSTGRES_USER" --clean --if-exists' > backups/resgrid-$day.sql \
+  && gzip -f backups/resgrid-$day.sql
+cp .env backups/env-$day
+tar -czf backups/certs-$day.tar.gz certs
+docker compose stop rustfs && docker compose cp rustfs:/data backups/rustfs-$day && docker compose start rustfs
 ```
+
+Compress only after `pg_dumpall` succeeds (as above) or run the pipeline under `set -o pipefail`: `pg_dumpall | gzip` returns `gzip`'s status, so a failed dump otherwise leaves a `.sql.gz` that looks valid and is empty or truncated. Check that `backups/resgrid-$day.sql.gz` exists and is a plausible size before you rely on it.
+
+RustFS holds the TTS audio and import files that database rows point at, so skipping it leaves records referencing objects that no longer exist. The Unified search index is not in the list: the worker rebuilds it.
 
 Restore onto an install with the same `.env` and `certs/`:
 
 ```bash
 docker compose stop web api events worker tts mcp
 gunzip -c backups/resgrid-2026-10-27.sql.gz | docker compose exec -T db sh -c 'psql -q -U "$POSTGRES_USER" -d postgres'
+docker compose stop rustfs
+docker compose cp backups/rustfs-2026-10-27/. rustfs:/data
 docker compose up -d
 ```
 
-Messages that a role or database "already exists" during a restore are expected.
+Messages that a role or database "already exists" during a restore are expected. Restore the database and the RustFS data from the same day: a database restored on its own points at objects the matching RustFS backup holds.
 
 ### Upgrading an install created before October 2026
 

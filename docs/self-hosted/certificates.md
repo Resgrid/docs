@@ -22,6 +22,8 @@ If either fails for the API or events hostname, the web app loads but logging in
 
 The installers set this up for you. For your own certificate, copy the full chain and key to `certs/site/fullchain.pem` and `certs/site/privkey.pem` (or pass `RESGRID_TLS_CERT_FILE` / `RESGRID_TLS_KEY_FILE` to `setup.sh`). The certificate must cover all three hostnames.
 
+If that certificate comes from your organization's own CA rather than a public one, trusting it on client devices is not enough: the containers call the public hostnames themselves (the web app's server-side calls to the API), so they must trust the CA too, or those calls fail. Mount the CA certificate into the containers and add its directory to `SSL_CERT_DIR` — [Trusting a private certificate authority](../reference/docker#trusting-a-private-certificate-authority). Do not turn certificate checks off instead: `RESGRID__ApiConfig__BypassSslChecks=true` makes the web, API and events containers refuse to start in Production.
+
 :::info Android apps need a public certificate
 The Resgrid **Responder** and **Unit** apps on Android only trust certificates from public certificate authorities; they ignore CAs installed by the user. If Android phones must use the apps, use Let's Encrypt or a publicly trusted certificate. Browsers on Android, and iPhones, can use the local CA. The [RICK guide](./rick#publicly-trusted-certificate-android-apps) shows how to get a public certificate for a kit that is never online.
 :::

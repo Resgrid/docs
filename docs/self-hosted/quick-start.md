@@ -42,6 +42,10 @@ With `internal` certificates, install `~/resgrid/certs/ca/resgrid-root-ca.crt` a
 
 Step-by-step per operating system: [Certificates](./certificates).
 
+:::caution Android apps need a public certificate
+Installing the local CA on an Android phone only makes its browsers trust the server. The Resgrid **Responder** and **Unit** Android apps ignore user-installed CAs, so they need a publicly trusted certificate: use Let's Encrypt or your own public certificate if Android phones must use the apps. Android browsers and iPhones work with the local CA.
+:::
+
 ## 4. Sign up
 
 Open `https://<web hostname>`, choose **Create an account**, and fill in the form. This creates your department and makes you its administrator.
