@@ -1,92 +1,63 @@
 ---
 sidebar_position: 1
+title: Quick start
 ---
 
 # Quick start
 
-This quick start runs the current Resgrid Core stack on one 64-bit Linux server for evaluation or a small self-hosted environment. For Windows, Raspberry Pi RICK, and Kubernetes/k3s layouts, start with the [deployment comparison](./installation).
+Run your own Resgrid server on one Linux machine in about 15 minutes. For a Windows laptop, a Kubernetes cluster or the Raspberry Pi Incident Command Kit, start from the [deployment comparison](./installation) instead.
 
 :::danger Evaluation is not production readiness
-The stack has single instances of its database, cache, message bus, and object store. Production use requires security review, monitoring, capacity planning, tested backups, and a recovery plan. Never deploy the committed template credentials.
+The single-server stack has one instance of its database, cache, message bus and object store. Production use needs a security review, monitoring, capacity planning, tested backups and a recovery plan.
 :::
 
 <AcademyVideo id="23-self-hosting" />
 
-## 1. Prepare the host
+## 1. Prepare a server
 
-Install Docker Engine, Docker Compose v2, OpenSSL, and curl on a 64-bit Linux server. Ubuntu Server 24.04 LTS is a practical baseline. Start Docker and verify:
-
-```bash
-docker info
-docker compose version
-openssl version
-```
-
-Plan three hostnames that all resolve to the server:
-
-- Web, for example `dispatch.example.com`
-- API, for example `dispatchapi.example.com`
-- Events, for example `dispatchevents.example.com`
-
-For an internet deployment, forward TCP 80/443 and create real DNS records. For a LAN-only test, the installer defaults to `.mylocal` names and Caddy's internal certificate.
-
-The infrastructure images come from `dhi.io`. If image pulls report an authorization error, authenticate with an entitled Docker account:
+A 64-bit Linux server (Ubuntu Server 24.04 LTS works well) with 4 CPU cores, 8 GB RAM and 40 GB of disk. Install Docker:
 
 ```bash
-docker login dhi.io
+curl -fsSL https://get.docker.com | sudo sh
+sudo usermod -aG docker $USER      # then log out and back in
 ```
 
-## 2. Run the installer
+Decide on three hostnames that point at the server: web (`dispatch.example.com`), API (`dispatchapi.example.com`) and events (`dispatchevents.example.com`). For a LAN-only test you can keep the defaults (`rg.mylocal`, `rgapi.mylocal`, `rgevents.mylocal`).
+
+## 2. Install
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Resgrid/resgrid-setup/master/setup.sh | bash
 ```
 
-The installer asks for hostnames/TLS mode, generates unique passwords and Resgrid encryption keys, creates new OpenIddict certificates, writes `.env`, and starts the stack.
+Answer the hostname questions. For the certificate question give an email address (internet-facing server, Let's Encrypt) or press Enter for `internal` (LAN or offline). The installer generates every secret, starts Resgrid and waits until it answers. The first start takes 5–10 minutes while the database is created.
 
-Automated example:
+## 3. Trust the certificate (internal only)
 
-```bash
-RESGRID_WEB_URL=dispatch.example.com \
-RESGRID_API_URL=dispatchapi.example.com \
-RESGRID_EVENTS_URL=dispatchevents.example.com \
-RESGRID_LETSENCRYPT_EMAIL=admin@example.com \
-bash setup.sh
+With `internal` certificates, install `~/resgrid/certs/ca/resgrid-root-ca.crt` as a trusted root on every computer and phone that uses Resgrid, and add the hostnames to their hosts file if you have no DNS:
+
+```text
+192.168.1.50  rg.mylocal rgapi.mylocal rgevents.mylocal
 ```
 
-Use `RESGRID_NO_START=1` to configure without pulling or starting containers.
+Step-by-step per operating system: [Certificates](./certificates).
 
-## 3. Verify migrations
+## 4. Sign up
+
+Open `https://<web hostname>`, choose **Create an account**, and fill in the form. This creates your department and makes you its administrator.
+
+![Sign up form](/img/self-hosted/sign-up.png)
+
+Then turn self-service sign-up off (`RESGRID__SystemBehaviorConfig__AllowSignupWithoutBilling=false` in `~/resgrid/.env`, then `docker compose up -d`), set up your department ([setup guide](../configuration/setup)) and [connect the mobile apps](./apps).
+
+## 5. Keep it running
 
 ```bash
 cd ~/resgrid
-docker compose ps
-docker compose logs -f worker
+docker compose ps                  # status
+docker compose logs -f worker      # logs
+./setup.sh features                # turn optional features (Records, Search, Chat, ...) on or off
+./setup.sh upgrade                 # upgrade and repair (always safe to run)
 ```
 
-The worker creates and migrates four PostgreSQL databases. First start can take several minutes.
-
-With internal TLS, add all three hostnames to every client's hosts file and accept/trust the certificate for the web, API, and events endpoints. Accepting only the web certificate is insufficient.
-
-When migrations settle, open the web hostname and use **Sign Up** to create the first account and department. There is no shared default administrator account.
-
-## 4. Operate and update
-
-```bash
-docker compose ps
-docker compose logs -f SERVICE
-docker compose pull
-docker compose up -d
-```
-
-Do not delete every Docker image during an update. Pulling and recreating this Compose project is sufficient and does not disturb unrelated containers.
-
-Before an update, securely back up `.env` and create a consistent PostgreSQL dump:
-
-```bash
-docker compose exec -T db pg_dumpall -U resgrid > "resgrid-$(date +%F).sql"
-```
-
-Keep the previous image digests and pre-update dump. Older application images may not work with a newly migrated schema, so rollback can require restoring PostgreSQL as well as the previous manifests/images.
-
-Continue with the full [self-hosted installation guide](./installation) for optional services, endpoints, configuration, backup scope, and rollback details.
+Back up `~/resgrid/.env`, `~/resgrid/certs/` and a database dump regularly; the [installation guide](./installation#backups) has the commands, plus optional offline maps, GPS trackers and email dispatch. [Optional features and upgrades](./features-and-upgrades) explains the feature menu and what an upgrade does.
