@@ -7,7 +7,7 @@ title: Shifts
 
 **Shifts** schedule who is on duty. Resgrid supports **assigned** shifts (you put people on the roster), **signup** shifts (members sign up for open slots, with per-group quotas), recurring shift patterns, trades between members and attendance tracking — and shifts can drive dispatch (*dispatch shift instead of group*) and checklist scheduling.
 
-**Left menu → Shifts.** *Your Shifts* shows the signed-in member's upcoming duty; *Shift Staffing* shows who is on for each shift today; administrators create shifts and set the days, groups and quotas. Settings: **Department Settings → Shifts**.
+**Left menu → Shifts.** *Your Shifts* shows the signed-in member's upcoming duty; *Shift Staffing* shows and approves who worked each shift day, past days included ([below](#shift-staffing)); administrators create shifts and set the days, groups and quotas. Settings: **Department Settings → Shifts**.
 
 ![Shifts](/img/web-app/shifts/index.png)
 
@@ -147,14 +147,43 @@ The trade system enables personnel to swap shifts:
 
 ## Shift Staffing
 
-**Authorization:** `Shift_View` policy
+Shift Staffing is where a supervisor records **who actually worked** each shift day. Every shift day is staffed **automatically** from the shift itself until a supervisor **approves** its staffing here; the approved staffing then replaces the automatic one for that day, and the [On-Shift Hours report](/web-app/reports/#on-shift-hours-report) shows which hours come from each.
+
+**Shifts → Shift Staffing**, or **Shift Staffing** at the top of a shift day's page (that opens the editor on the day). Department admins and department-wide shift managers see every shift and static shift; a group admin sees the shifts with one of their groups and staffs only those groups' slots.
 
 ![Shift staffing](/img/web-app/shifts/shift-staffing.png)
 
-The staffing view allows assigning specific personnel to shifts:
-- Admin users see all shifts
-- Non-admin users see only their group's shifts
-- Supports per-day, per-group personnel assignments
+### Staffing by Day
+
+The list at the top shows every shift day and [static shift](/web-app/workshifts/) day in a date range (past days included, up to 62 days at a time), with its type, time, hours, the number of people staffing it and whether its staffing is **Automatic** or **Approved** (with who approved it and when). An approved day also shows how it differs from the shift: *+2 / -0* means two people on the approved staffing are not on the shift's roster and nobody on the roster was left off. Filter it by shift type, and choose **Select** on a row to open that day below.
+
+### Automatic staffing
+
+| Shift type | Automatic staffing is |
+|---|---|
+| **Assigned** | The shift's standing roster, less anyone taken off that day, plus anyone a supervisor added for the day or who took the slot in a completed trade. |
+| **Signup** | Everyone signed up for the day (a signup still waiting for approval does not count), plus supervisor additions and trades. |
+| **Static shift** | The current crew of each of the static shift's units (the people in its unit roles). |
+
+Automatic staffing always reflects the shift as it is set up now, so changing a standing roster or a unit crew also changes the automatic staffing of past days. Approve the days you need recorded exactly.
+
+![A past day still staffed automatically](/img/web-app/shifts/shift-staffing-automatic.png)
+
+### Setting the staffing
+
+1. Choose the **Shift Type** (assigned or signup shift, or a static shift — static shifts are for department-wide supervisors), the shift and the day. Past days can be picked.
+2. **Current Staffing** shows the day's time, whether it is in progress or over, how it is staffed now, who the shift itself puts on the day and, for an approved day, who approved it, the note and the differences from the shift.
+3. Change the people in each picker. Shifts have one picker per group plus *Non-group personnel*; a static shift has one picker per unit, starting from the unit's current crew. A group another supervisor runs is shown but kept as it is.
+4. Choose **Approve Staffing**.
+
+What approving does depends on the day:
+
+- **The day has not ended:** the day's roster follows the approved staffing. People added are put on the day (a pending signup is approved), and people you remove from the pickers are taken off the day. Someone who joined the roster after the staffing was last approved is never taken off without being shown.
+- **The day is over:** the roster is not changed; the approved staffing records who worked it.
+
+**Revert to Automatic** removes the approved staffing of the day so it is staffed automatically again (it needs the whole shift, so a group admin of only some of its groups cannot). The roster is left as it is.
+
+![Static shift staffing by unit](/img/web-app/shifts/shift-staffing-static.png)
 
 ## Shift Calendar
 
@@ -181,7 +210,7 @@ Calendar items include:
 | Department type | How to set it up |
 |---|---|
 | **Volunteer fire** | Signup shifts per station (e.g. *Night duty crew* 18:00–06:00) with a quota of 4 and a required *Driver* role; allow multi-group signup for neighbouring stations; turn on *Dispatch shift instead of group* only once signups are reliable. |
-| **Career fire / EMS** | Assigned shifts on a 24/48 or 48/96 pattern, one shift group per station, personnel assigned by platoon; trades require officer approval. |
+| **Career fire / EMS** | Assigned shifts on a 24/48 or 48/96 pattern, one shift group per station, personnel assigned by platoon; trades require officer approval. The company officer approves each tour's staffing on **Shift Staffing** after it ends (call-backs added, sick leave removed), so the On-Shift Hours report matches payroll. |
 | **SAR** | Signup *on-call* weeks rather than shifts; use the Calendar for trainings. |
 | **Emergency management / EOC** | Assigned 12-hour EOC shifts during activations; roles per section; signup for volunteer positions. |
 | **Security** | Assigned shifts per client site, rotating patterns, trades allowed within the same site group. |
@@ -189,7 +218,9 @@ Calendar items include:
 
 ## Technical reference
 
-`ShiftsController`; routes `/User/Shifts/{Index,NewShift,EditShiftDetails,EditShiftDays,EditShiftGroups,ShiftCalendar,YourShifts,ShiftStaffing,ViewShift,Signup,RequestTrade,ProcessTrade}`; permission `CreateShift`; events `ShiftCreatedEvent`, `ShiftTradeRequestedEvent`, `ShiftTradeFilledEvent`; module switch `ShiftsDisabled`.
+`ShiftsController`; routes `/User/Shifts/{Index,NewShift,EditShiftDetails,EditShiftDays,EditShiftGroups,ShiftCalendar,YourShifts,ShiftStaffing,ClearShiftStaffing,ViewShift,Signup,RequestTrade,ProcessTrade}`; permission `CreateShift`; events `ShiftCreatedEvent`, `ShiftTradeRequestedEvent`, `ShiftTradeFilledEvent`; module switch `ShiftsDisabled`.
+
+Staffing: `IShiftStaffingService` (`ShiftStaffingService`) resolves each occurrence's effective staffing (`ShiftDayStaffing`, source `Automatic` or `Manual`). A shift day's approved staffing is the latest `ShiftStaffings` row (with `ShiftStaffingPersons`) for its shift and date; saving again adds a row, **Revert to Automatic** deletes them. A static shift day's approved staffing is its `WorkshiftFills` rows (`Approved`, `FilledById` = user id since migration M0305). Automatic staffing comes from `ShiftRosterBuilder` (on-duty roster entries) and, for static shifts, `UnitActiveRoles`. Roster changes on save go through `AssignUserToShiftDayAsync` / `RemoveUserFromShiftDayAsync`, so the usual roster-change notifications fire.
 
 ### Data Endpoints
 | Endpoint | Purpose |
@@ -204,6 +235,10 @@ Calendar items include:
 | `GetShiftsForDepartmentJson` | All shifts (id, name) |
 | `GetPersonnelNotOnShiftDay` | Personnel matching role requirements but not signed up |
 | `GetShiftDaysUserIsOn` | Shift days the current user is on |
+| `GetStaffingOverview` | Shift and static shift days in a range (at most 62 days) with their staffing source, for *Staffing by Day* |
+| `GetShiftDayStaffing` | One shift day's automatic and approved staffing, groups and differences |
+| `GetWorkshiftDays` | A static shift's days (department-local dates) |
+| `GetWorkshiftDayStaffing` | One static shift day's staffing per unit |
 
 ### Interactions with Other Modules
 | Module | Interaction |
@@ -215,4 +250,4 @@ Calendar items include:
 | **Calendar** | Shift days displayed on shift calendar |
 | **Workshifts** | Workshift days integrated into shift calendar |
 | **Department** | Multi-group signup and dispatch settings |
-| **Reports** | Shift readiness report analyzes fulfillment |
+| **Reports** | Shift readiness report analyzes fulfillment; the On-Shift Hours report totals hours from each day's staffing |
