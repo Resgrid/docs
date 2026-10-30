@@ -77,11 +77,21 @@ Once the call has a location, the **Nearest Units** table lists every unit you m
 |---|---|
 | **Unit** | Name, unit type, station and service area, and a badge when the call is inside the unit's own (or parent) boundary. |
 | **Status** | Current status, green when available. |
-| **ETA** | Time to the call. When the department sets [turnout times](run-cards#how-closest-unit-mode-measures-a-unit) it is the full response time, with *incl. N s turnout* underneath. *est.* marks a straight-line estimate; without the mark it is a routed drive time (Dispatch Settings → *Order by driving ETA*). Distance in km below. |
+| **ETA** | Time to the call. When the department sets [turnout times](run-cards#how-closest-unit-mode-measures-a-unit) it is the full response time, with *incl. N s turnout* underneath. *est.* marks a straight-line estimate; without the mark it is a routed drive time (Dispatch Settings → *Order by driving ETA*, see below for which units get one). Distance in km below. |
 | **Position** | *Live GPS* or *Station location*. A unit in an **In Quarters** status, or with no GPS position, is placed at its station. A GPS position older than the maximum location age is marked **stale**. |
 | **Shift / Role mix** | Crew on shift and the roles they hold. |
 
-Available units come first, ordered by response time — the fastest unit is at the top. A stale position is flagged on the row but does not push the unit down the list. Units with no position at all, and unavailable units, come last.
+Available units come first, in the order the department ranks closest units (Dispatch Settings → [Rank closest units by](run-cards#fastest-response-or-shortest-distance)): by response time by default, so the fastest unit is at the top, or by straight-line distance. A stale position is flagged on the row but does not push the unit down the list. Units with no position at all, and unavailable units, come last.
+
+**Drive times.** With **Order by driving ETA** on, Resgrid looks up road drive times the same way a run card does:
+
+- **Who gets one:** the **ETA shortlist size** best available units of *each unit type* (so ambulances and MUGs are each looked up, not just the nearest units overall), plus the closest responders.
+- **Shared positions:** units at the same position, such as two ambulances in quarters at one station, share one lookup. A call makes at most 25 lookups.
+- **Order within a type:** units with a looked-up drive time come before units with only an estimate, as in a run card. The first unit of each type is the one a closest-unit run card would pick for it, unless the run card skips it for staffing or a rest period.
+- **Order across types:** the types are merged by response time (or distance).
+- **The note** under the table says how many positions were looked up.
+
+In *Shortest distance* mode the drive times are still shown, but they don't change the order.
 
 ![The New Call map drawing only available units](/img/web-app/dispatch/new-call-map-available.png)
 
@@ -99,7 +109,7 @@ Press **Create Call**. Notifications go out immediately through the queue: push 
 |---|---|
 | **Call details** | Everything entered above, with the dispatch audio if the call came from a radio/TTS source. |
 | **Map** | Call location, responding personnel and units live, route lines. |
-| **Dispatched personnel / units** | Who was dispatched, their current status and timestamps (responding, on scene …). |
+| **Dispatched personnel / units** | Who was dispatched, their current status and timestamps (responding, on scene …). **Unit Times** (top of the page, next to Print) opens the [Call Unit Times report](reports#call-unit-times-report) for the call: each unit's key times and its full status history until it was back in service. |
 | **Notes** | Add notes (with your location if allowed); **flag** a note for follow-up with a reason. |
 | **Images and files** | Attach photos, documents, audio and video up to 10 MB; flag inappropriate items for [moderation](chat#moderation). |
 | **Check-in timers** | PAR / rehab / IC / hazmat countdowns with **Check In** buttons and history. |

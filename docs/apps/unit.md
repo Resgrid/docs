@@ -73,7 +73,7 @@ Resgrid Unit is a cross-platform application designed for **vehicle and apparatu
   - **Dispatch selection**: multi-select users, groups, roles, units, or everyone
 - **Call detail view** with tabs: Info, Contact, Protocols, Dispatched resources, and Timeline
 - Add **notes**, **images**, and **file attachments** to calls
-- **Route to call** in native Maps for turn-by-turn navigation
+- **Route to call** for turn-by-turn navigation, in the app chosen under **Settings → Navigation App** (the device's default, Google Maps, Apple Maps or Waze)
 - Set as active call, edit, and close calls (permission-gated) — **Notify everyone on the call** (on by default) tells the dispatched personnel, groups, roles, units and command team it closed; a call under an active incident command is refused with the reason shown
 
 ### Push-to-Talk (PTT) Voice
@@ -178,8 +178,9 @@ Names a department sets under [Terminology](../web-app/department-settings#termi
 | **Active Unit** | Select which unit this device represents (dropdown of assigned units) |
 | **Login Info** | Update username and password |
 | **Theme** | Light, Dark, or System |
-| **Language** | English, Spanish, or Arabic |
+| **Language** | English, Spanish, Swedish, German, Greek, French, Italian, Polish, Ukrainian or Arabic |
 | **Keep Alive** | Prevent screen from sleeping (useful for apparatus-mounted tablets) |
+| **Navigation App** | App this device opens for directions to a call, destination or map pin: *Device default* (Android: the default maps app or the system chooser; iOS: Apple Maps), *Google Maps*, *Apple Maps* (iOS only) or *Waze*. If the chosen app isn't installed the next option is tried; Waze then opens its web link. A call without usable coordinates is navigated to by its address. Kept when someone signs out. |
 | **Background Geolocation** | Enable/disable background GPS tracking |
 | **Bluetooth Device** | Scan and pair BLE PTT headsets |
 
