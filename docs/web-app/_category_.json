@@ -1,8 +1,8 @@
 {
-  "label": "Web Application",
+  "label": "System",
   "position": 4,
   "link": {
     "type": "generated-index",
-    "description": "Comprehensive documentation for all features and operations available in the Resgrid web application User Area."
+    "description": "Comprehensive documentation for all features and operations available in the Resgrid System User Area."
   }
 }

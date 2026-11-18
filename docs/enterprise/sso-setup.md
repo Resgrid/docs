@@ -4,10 +4,10 @@ sidebar_position: 2
 
 # SSO Setup Guide
 
-This guide walks department administrators through the complete process of configuring Single Sign-On for their Resgrid department. SSO can be managed through the **web application** (recommended for most administrators) or through the **REST API**.
+This guide walks department administrators through the complete process of configuring Single Sign-On for their Resgrid department. SSO can be managed through the **System** (recommended for most administrators) or through the **REST API**.
 
 :::tip Web UI vs API
-The web application provides a wizard-style setup experience with built-in IdP documentation, inline field hints, and quick-fill attribute mapping presets. The API is available for automation and programmatic configuration. Both approaches are documented side-by-side below.
+The System provides a wizard-style setup experience with built-in IdP documentation, inline field hints, and quick-fill attribute mapping presets. The API is available for automation and programmatic configuration. Both approaches are documented side-by-side below.
 :::
 
 ## Prerequisites
@@ -66,7 +66,7 @@ After registration, copy these values from your IdP:
 
 ## Step 2 — Create the SSO Configuration
 
-### Using the Web Application
+### Using the System
 
 1. Navigate to **Department Settings** → **Security** → **SSO & SCIM**
 2. Click **New SSO Configuration**
@@ -154,7 +154,7 @@ In the web UI, secret fields (Client Secret, IdP Certificate, Signing Certificat
 
 ## Step 3 — View and Update Your Configuration
 
-### Using the Web Application
+### Using the System
 
 All SSO configurations are listed on the **SSO & SCIM** index page (**Department Settings** → **Security** → **SSO & SCIM**). The page shows:
 
@@ -215,13 +215,13 @@ Authorization: Bearer <admin-token>
 
 Once your configuration is saved and enabled, test the SSO flow.
 
-### Using the Web Application
+### Using the System
 
 The SSO index page displays your department's **SSO Discovery URL** with the encrypted department token. Copy this URL and open it in a browser or share it with your IdP administrator to verify the configuration returns the expected values.
 
 ### Using the API
 
-Test the SSO discovery endpoint that mobile and web apps use:
+Test the SSO discovery endpoint that the mobile apps and the System use:
 
 ```bash
 GET /api/v4/connect/sso-config?departmentToken={encryptedToken}

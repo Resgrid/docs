@@ -58,7 +58,7 @@ There are no default Unit Types in the Resgrid system. Unit Types allow you to a
 
 ![Unit Types List](/img/configuration/types/UnitTypes.png)
 
-When you create Custom Statuses (Actions) for Units, you need to assign that status to a Unit Type and then that Unit Type to a Unit (when you add or update a Unit in the Units Module) for the actions to be visible for a particular unit in the Resgrid Unit or Web Application.
+When you create Custom Statuses (Actions) for Units, you need to assign that status to a Unit Type and then that Unit Type to a Unit (when you add or update a Unit in the Units Module) for the actions to be visible for a particular unit in the Resgrid Unit app or the System.
 
 ![Add Unit Type](/img/configuration/types/NewUnitType.png)
 

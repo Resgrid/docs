@@ -31,6 +31,8 @@ Call (`Type` 0), unit (1) and personnel (3) markers carry four icon fields:
 
 Draw `IconUrl` if set, else `PinIconUrl`, else the bundled `ImagePath` image. If a remote image fails to load, fall back to the next one. Stations, POIs and hydrants have no `PinIconUrl` or `IconStyle`; POIs and POI layers carry their own `IconUrl` when the POI type has an uploaded icon.
 
+Station markers (`Type` 2, `Id` `s{groupId}`) keep `ImagePath` `Station` and carry `IconUrl` when the department uploaded a station icon: the station's own icon, else the department's icon for every station. Draw it square, like any other uploaded icon. A station icon never changes with status.
+
 ## Styles
 
 A style is the color group of a status or priority meaning. Keys are stable wire values.
@@ -69,6 +71,7 @@ Returns the department's legend in the standard v4 envelope. Everything in it co
 | `Units` | Units with no type first (`Id` null), then each unit type by name; one state per status of the type's status set (`StatusSetName`, null for the built-in unit statuses) |
 | `Personnel` | Members with no role icon first (`Id` null), then each role with an uploaded icon, in role order; one state per personnel status |
 | `PoiTypes` | Each POI type: `PoiTypeId`, `Name`, `Color`, `PoiImage`, `ImagePath`, `Marker`, `IconUrl` |
+| `Stations` | First (`Id` null) the icon every station without its own shows: `IconUrl` is the department's station icon, or null for the bundled `ImagePath` `Station`. Then each station with an uploaded icon of its own, by name (`Id` is the station group id). No `States`. Older servers do not send this field |
 
 A row has `Id`, `Name`, `StatusSetName` (units), its own icon (`IconUrl`, `ImagePath`) and `States`. The `Name` of an `Id`-null row is a generic label in the server's language; clients should show their own localized label. A state has:
 
@@ -138,11 +141,22 @@ A row has `Id`, `Name`, `StatusSetName` (units), its own icon (`IconUrl`, `Image
     ],
     "Units": [],
     "Personnel": [],
-    "PoiTypes": []
+    "PoiTypes": [],
+    "Stations": [
+      {
+        "Id": null,
+        "Name": "Station",
+        "StatusSetName": null,
+        "IconUrl": "https://api.resgrid.com/api/v4/TypeIcons/6f1c0d9e2b7a4c3d8e5f9a0b1c2d3e4f",
+        "PinIconUrl": null,
+        "ImagePath": "Station",
+        "States": []
+      }
+    ]
   },
   "PageSize": 1,
   "Status": "success"
 }
 ```
 
-The Responder, Unit and IC apps show this legend as a sheet over their maps; the web app shows it at **Mapping → Map Icon Legend**. Both are built by `MapIconLegendBuilder` from the department's `MapIconResolver`.
+The Responder, Unit and IC apps show this legend as a sheet over their maps; the System shows it at **Mapping → Map Icon Legend**. Both are built by `MapIconLegendBuilder` from the department's `MapIconResolver`.

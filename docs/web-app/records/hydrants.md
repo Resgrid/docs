@@ -21,6 +21,20 @@ The header shows *N hydrants, N out of service, N due for a flow test*. The **Ma
 
 **New hydrant** or **Import hydrants** (CSV with a header row: `number, latitude, longitude, type, address, main_size, flow_gpm, owner` — existing numbers are updated).
 
+Files exported from another system import as they are:
+
+- `hydrant_type`, `flow_rate` and `location_address` are read as `type`, `flow_gpm` and `address`.
+- Flow is in gallons per minute unless the value says `L/min`.
+- `flow_rating_color` (also `flow_color`, `cap_color` or `bonnet_color`) sets the flow class of hydrants with no flow. It accepts the NFPA 291 colours (`light blue`, `green`, `orange`, `red`), the class letters `AA`–`C`, or a `#hex` colour. When a flow is known, the flow decides the class.
+- `status` (also `hydrant_status`, `service_status`, `operational_status` or `in_service`) takes hydrants out of service or returns them to service.
+  - Values such as `active`, `in service`, `operational` or `yes` mean in service.
+  - Values such as `out of service`, `temporarily out of service`, `inactive`, `broken`, `needs repair` or `no` mean out of service.
+  - The status as written becomes the out-of-service reason, for example *status: Broken*.
+  - A hydrant that is already out of service keeps its own reason and date.
+  - The import result says how many hydrants were set out of service and how many returned to service.
+- A type the import does not recognize is saved as *Other*. A flow or flow colour it cannot read is left blank. A status it does not recognize leaves the service state unchanged. All of these are listed after the import with how many rows held each value.
+- Any other column (status, zone, inspection dates…) is skipped and listed after the import.
+
 ![New hydrant](/img/web-app/prevention/hydrant-new.png)
 
 | Field | Notes |

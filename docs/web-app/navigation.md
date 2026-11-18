@@ -11,7 +11,7 @@ title: Navigation
 
 | Region | What is there |
 |---|---|
-| **Left sidebar** | The modules: Home, Calls, Personnel, Units, Contacts, Mapping, Shifts, **Records** (a collapsible group, or Logs), Reports, Documents, Calendar, Notes, Trainings, Inventory, **Readiness** (Work Orders, Checklists) and **Workforce & Business Ops** (Workforce, Certifications, Invoicing, Deployments, Bids, Contracts, Cal OES MARS). Groups expand in place; modules that are switched off or that you lack permission for are hidden. Collapse the sidebar with the hamburger icon on small screens. |
+| **Left sidebar** | The modules: Home (the [home dashboard](dashboard) — the customizable widget board, or the classic roster page), Calls, Personnel, Units, Contacts, Mapping, Shifts, **Records** (a collapsible group, or Logs), Reports, Documents, Calendar, Notes, Trainings, Inventory, **Readiness** (Work Orders, Checklists) and **Workforce & Business Ops** (Workforce, Certifications, Invoicing, Deployments, Bids, Contracts, Cal OES MARS). Groups expand in place; modules that are switched off or that you lack permission for are hidden. Collapse the sidebar with the hamburger icon on small screens. |
 | **Your name (top-left)** | Profile menu: **Profile** (edit your details, contact methods, notification preferences), **Mailbox**, **Chat**, **Your Departments** (switch between departments you belong to), **Two-Factor Authentication**, **Logout**. |
 | **Top bar** | Unread **messages** and **active calls** icons, the **search box**, the **Department menu**, **Help**, language flag and logout. |
 | **Department menu (department name, top-right)** | Everything an administrator configures — see below. |
@@ -64,6 +64,6 @@ The flag in the top bar switches the interface language (English, Spanish, Frenc
 
 ## Help
 
-**Help** links to the support portal, video tutorials, the blog, the status page and contact form. **Help → Setup report** (administrators) shows what is still missing from your department configuration, and the **dashboard tutorial** walks through the home page.
+**Help** links to the support portal, video tutorials, the blog, the status page and contact form. **Help → Setup report** (administrators) shows what is still missing from your department configuration, and the **dashboard tutorial** walks through the classic home page (the new [home dashboard](dashboard) shows a short welcome note instead and is arranged with **Customize**).
 
 ![Setup report](/img/web-app/home/setup-report.png)

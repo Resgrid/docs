@@ -438,5 +438,5 @@ Values are validated server-side and saved atomically with the parent record. Va
 ## Related
 
 - [User Defined Fields Configuration](../configuration/user-defined-fields.md) — Admin guide for configuring field definitions, data types, and validation rules
-- [User Defined Fields (Web App)](../web-app/user-defined-fields.md) — Web application usage guide
+- [User Defined Fields (System)](../web-app/user-defined-fields.md) — System usage guide
 - [API Authentication](authentication) — How to authenticate API requests

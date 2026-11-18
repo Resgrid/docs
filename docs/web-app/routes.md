@@ -55,15 +55,36 @@ Click **New Route Plan** to open the creation form.
 | Status | Yes | Draft, Active, Paused, or Archived |
 | Assigned Unit | No | Restricts the plan to a specific unit |
 | Route Color | No | Hex color used for map rendering |
-| Start Latitude / Longitude | Conditional | Explicit start coordinates (or use station) |
-| End Latitude / Longitude | Conditional | Explicit end coordinates (or use station) |
-| Use Station as Start | No | Use the unit's home station as the starting point |
-| Use Station as End | No | Use the unit's home station as the ending point |
-| Navigation Profile | Yes | Mapbox routing profile: Driving, Walking, Cycling, or Driving (Traffic) |
+| Start Latitude / Longitude | Conditional | Explicit start point: an address, what3words, typed coordinates or a click on the map (or use a station) |
+| End Latitude / Longitude | Conditional | Explicit end point (or use a station) |
+| Use Station as Start / End | No | Start or end at a station |
+| Start Station / End Station | No | Shown with the checkbox: **The unit's station** (the assigned unit's home station), or a named station |
+| Routing Profile | Yes | **Driving**, **Driving with traffic** (only where the installation's routing has live traffic), **Truck (vehicle size)**, **Walking** or **Cycling** |
+| Avoid | No | Tolls, highways, ferries, unpaved roads |
 | Optimize Stop Order | No | Reorder stops automatically for efficiency |
 | Geofence Radius (meters) | No | Default proximity radius for automatic stop check-in |
-| Estimated Distance (meters) | No | Pre-computed route distance |
-| Estimated Duration (seconds) | No | Pre-computed route duration |
+
+**Truck** routes around roads the assigned unit is too tall, wide or heavy for, using the unit's [vehicle size](units#vehicle-size-and-weight). The form shows the unit's size and which limits your installation's routing applies: Valhalla applies all of them, Mapbox height, width and weight only, Google and OSRM none. With no vehicle size set for the unit, Truck routes like Driving.
+
+The distance, time and line of the route are worked out by the Resgrid server when the plan is saved, through the installation's routing provider; they are not typed in.
+
+### The route editor
+
+New and Edit show the stops in a list and on a map, with a **live route preview**: every change (a stop added, moved or reordered, the profile, the roads to avoid, the start or end) redraws the route line within a second. The preview is not saved until you save the plan.
+
+| In the stop list | Meaning |
+|---|---|
+| **Leg** | Distance and drive time from the previous point (the start, or the previous stop) |
+| **Arrival** | Time from the start to this stop, including the estimated time at earlier stops |
+| Totals above the list | Total distance and drive time, and the time with stops; *straight-line estimate* when the routing provider gave no route |
+
+- **Reorder** stops by dragging their rows, or with the arrow buttons.
+- **Move** a stop by dragging its marker on the map.
+- On **Edit**, these changes are saved straight away and the stored route is regenerated; on **New**, they are saved with the plan.
+
+### Optimize order
+
+On **Edit**, **Optimize order** (three or more stops) asks the routing provider for the best order of the stops with the start and end kept where they are. A window shows the current and proposed order side by side, with the distance and time each takes and what the proposal saves. **Use this order** renumbers the stops and regenerates the route; closing the window changes nothing.
 
 ### Route Stops
 
@@ -75,7 +96,7 @@ Each plan contains an ordered list of stops added from the plan editor.
 | Stop Type | Yes | Manual, Scheduled Call, Station, or Waypoint |
 | Address | No | Human-readable address for the stop |
 | Latitude / Longitude | Yes | Geographic coordinates of the stop |
-| Geofence Radius (meters) | No | Per-stop override of the plan-level geofence radius |
+| Arrival radius (meters) | No | Per-stop override of the plan-level geofence radius; blank uses the plan's |
 | Priority | Yes | Normal, High, Critical, or Optional |
 | Planned Arrival Time | No | Expected arrival time |
 | Planned Departure Time | No | Expected departure time |
@@ -182,7 +203,17 @@ From any Route Plan, click **View History** to see all past instances. The histo
 
 ## Deviations
 
-Route Deviations are automatically recorded when a unit strays from the planned path.
+Route Deviations are recorded automatically:
+
+| Deviation | Recorded when |
+|---|---|
+| **Off route** | The unit leaves the planned line while navigating the route in the app |
+| **Missed stop** | A required stop is still pending when the route ends |
+| **Out of order** | A stop is checked in while earlier required stops are still pending |
+| **Late arrival** | The unit arrives at a stop later than planned by more than the department threshold |
+| **Long stop** | The unit stays at a stop longer than its estimated time by more than the threshold |
+
+The threshold (15 minutes unless changed) and whether late arrivals and long stops are recorded at all are set in [Department Settings → Mapping](department-settings#route-deviations).
 
 ### Unacknowledged Deviations
 
@@ -199,12 +230,15 @@ Select a deviation and click **Acknowledge** to mark it as reviewed. The acknowl
 
 ## Navigation and Directions
 
-The Routes module integrates with Mapbox to provide turn-by-turn directions.
+Routes, directions and arrival times come from the Resgrid server's routing provider (Valhalla, Mapbox, Google or OSRM, as the installation is set up).
 
 | View | Description |
 |------|-------------|
-| **Plan Directions** | Shows the full planned route geometry and all waypoints for a route plan |
-| **Live Directions** | Shows remaining stops only (excluding completed and skipped stops) for an active instance; optionally uses the unit's current GPS position as the real-time origin |
+| **Plan Directions** | The stored route line and printable turn-by-turn directions for each leg, from the plan's start (station or point) through its stops to its end |
+| **Live Directions** | For a running route: from the unit's current position through the stops still to do (completed and skipped stops left out), with an arrival time for each |
+| **Instance detail** | The planned line, the line the unit actually drove (for members who may see unit locations), check-in points and the deviations recorded |
+
+When a running route's plan is edited, the unit keeps the route it started with.
 
 ## Contacts Integration
 

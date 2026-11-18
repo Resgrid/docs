@@ -55,4 +55,4 @@ Whatever the guide, this order avoids rework:
 
 ## Getting help
 
-The [support portal](https://resgrid.zohodesk.com/portal/en/home), the community Discord and GitHub issues are linked under **Help** in the web app.
+The [support portal](https://resgrid.zohodesk.com/portal/en/home), the community Discord and GitHub issues are linked under **Help** in the System.

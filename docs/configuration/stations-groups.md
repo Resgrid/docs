@@ -57,6 +57,10 @@ When the group type is **Station**, additional location fields are required so t
 
 You must provide at least one of: a full address, GPS coordinates, or a What3Words address. The system will validate that at least one complete location option is provided.
 
+### Station Map Icon
+
+A station group can have its own map icon, chosen with **Custom icon** on the New Group or Edit Group page (the page previews it on a light and a dark map). Without one, the station shows the department's icon for all stations, or the built-in station pin. Department administrators can set the icon for all stations, and every station's own icon, on **Groups → Station icons**. See [Station icons](../web-app/mapping#station-icons).
+
 ### Printer Integration
 
 Stations can optionally be configured to print dispatches to a physical printer.

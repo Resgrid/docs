@@ -36,6 +36,8 @@ ADP is one control inside a HIPAA / privacy / ePCR compliance program that your 
 
 When a page contains protected content it shows a **Protected** banner and a **Verify and open** button. The member enters a code from their **authenticator app** (see [Account security](account-security)); the data is revealed for a window your department configures (default 15 minutes; values over 60 require a recorded reason). Every protected read is audited — the audit holds no values itself.
 
+**Home dashboard.** The [home dashboard](dashboard#advanced-data-protection-on-the-dashboard) uses the same verification. Its widgets are built on operational data, so almost nothing on it is protected; the four exceptions — message subjects in *Inbox*, status notes in *Unit Status Board*, staffing notes in *Personnel Status Board* and person contact names in *Pre-plans Due for Review* — are hidden until the member uses **Verify to reveal** in the header, and only for members whose role holds the matching *View protected …* permission. Wall display never reveals.
+
 Under **Verification prompt** the managing member can switch the prompt off per application (web site, Dispatch console, Responder, Unit, Incident Command, API integrations). Leave it on wherever you can; switching it off on a dispatch console during an incident may be acceptable, on a phone that can be lost much less so.
 
 ## Enrolling

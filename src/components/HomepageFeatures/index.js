@@ -426,7 +426,7 @@ export default function HomepageFeatures() {
                 Narrated video lessons with captions, chapters and transcripts,
                 learning paths for administrators, dispatchers, members and
                 specialists, and step-by-step configuration walkthroughs in the
-                web app. Pages in these docs that have a matching video show it
+                System. Pages in these docs that have a matching video show it
                 at the top.
               </p>
               <div className={styles.academyActions}>
@@ -473,9 +473,9 @@ export default function HomepageFeatures() {
         <div className="container">
           <SectionHeader
             eyebrow="Platform features"
-            title="Everything in the web application"
+            title="Everything in the System"
             subtitle="Every module, grouped the way departments use them. Each link goes straight to that feature's documentation."
-            action={{label: 'Web application overview', to: '/web-app/overview'}}
+            action={{label: 'System overview', to: '/web-app/overview'}}
           />
           <div className={styles.areaGrid}>
             {FeatureAreas.map((area) => (

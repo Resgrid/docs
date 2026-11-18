@@ -104,7 +104,7 @@ Example Response:
 
 Use a **department API key** when another system, rather than a person, calls Resgrid: a scheduling or case-management system that feeds in follow-up calls, a records system that reads calls, a CAD bridge. The key belongs to the department, not to a member, so there is no username or password to store in that system and nothing breaks when someone leaves.
 
-A department admin creates keys under **Security → API Keys** in the web app ([Security & Permissions](../web-app/security-permissions#api-keys)). Each key:
+A department admin creates keys under **Security → API Keys** in the System ([Security & Permissions](../web-app/security-permissions#api-keys)). Each key:
 
 - can only call the endpoints of the **scopes** you choose (below), and nothing else;
 - has an **expiry date** (30 days to 2 years) after which it stops working;

@@ -133,4 +133,4 @@ Checks never put the contents of a cell in an issue: issues name the column, the
 <a id="api"></a>
 ## Uploading from a script
 
-Automation can use the v4 API with a department administrator's sign-in: `StartUpload` (file name, size and SHA-256), `UploadChunk` (raw bytes, 1-based part number and the piece's SHA-256), `CompleteUpload`, then poll `GetProgress`. `StartAnalysis` re-runs the checks for a workspace's data sets. Matching, approval and everything after it happen in the web application. See the [technical reference](overview#tech-ref).
+Automation can use the v4 API with a department administrator's sign-in: `StartUpload` (file name, size and SHA-256), `UploadChunk` (raw bytes, 1-based part number and the piece's SHA-256), `CompleteUpload`, then poll `GetProgress`. `StartAnalysis` re-runs the checks for a workspace's data sets. Matching, approval and everything after it happen in the System. See the [technical reference](overview#tech-ref).

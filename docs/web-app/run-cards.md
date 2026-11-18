@@ -60,6 +60,24 @@ Closest-unit mode ranks units by **response time**: how long the crew needs to g
 - A straight-line estimate can be far too optimistic where the roads don't go straight to the call: a river, a one-way system or a city circulation plan can turn 3 km into a 13-minute drive. If a unit that should win sits just outside the shortlist, raise **ETA shortlist size** so its real drive time is looked up.
 - Example: MUG 1 is 13 minutes away by road and MUG 2 is 6 minutes away in a straight line. With a shortlist of 1 only MUG 1's drive time is known, so MUG 1 is picked. With a shortlist of 2 both are looked up and MUG 2 wins if its drive really is shorter.
 
+### Travel modes and road closures
+
+Each unit is measured the way it travels, as set by the [travel mode](units#travel-mode) of its unit type or of the unit itself:
+
+| Travel mode | Travel time |
+|---|---|
+| **Driving** (the default) | The routed road drive time, with the unit's vehicle size and weight limits and live traffic where configured. Driving units rank exactly as before |
+| **Cycling**, **On foot** | Routed on cycle routes or footpaths; with an average speed set, the routed distance at that speed. A straight-line estimate is the distance × 1.3 at the mode's speed (15 km/h cycling, 5 km/h on foot, unless set) |
+| **Air** | The straight line at the unit's air speed (180 km/h unless set). Never routed, so it needs no drive-time lookup and is not marked as an estimate |
+
+- Turnout times are added on top, the same for every mode.
+- Personnel (responders) are always measured as driving.
+- Active [road closures](mapping#road-closures) that stop the unit's kind of traffic change its routed time: full closures are routed around as far as the installation's routing provider can, or charged the closure's detour time where it can't; partial closures slow the time spent inside them. Air units never meet a closure. Straight-line estimates ignore closures, so they matter for the units on the drive-time shortlist.
+- The recommendation adds a note for each closure the drive times account for: *Drive times account for the road closure 'City marathon'.*
+- The same measurement is used by conditional run cards, the [Nearest Units](dispatch-calls#nearest-units) list and the Awaiting Resources estimates.
+
+Example: a festival closes the town centre to vehicles (a full closure that stops vehicles only). For a call on the far side of the centre, the ambulance 1 km away has to drive around it and needs 9 minutes, while the bike team 1.2 km away rides 1.5 km of streets through the centre in 6 minutes and is ranked first.
+
 ### When the call has no location
 
 Closest-unit and station-based selection need the call's location. If the call has none, the card's **home station** is used instead and the recommendation says so; without a home station every requirement is reported as a shortfall (*"Call has no usable location"*).
@@ -110,6 +128,7 @@ Closest-unit and station-based selection need the call's location. If the call h
 | Routes | `/User/RunCards/{Index,New,Edit,Preview}`, `/User/Dispatch/GetDispatchRecommendation?priority=&type=&latitude=&longitude=&alarmLevel=`; v4 `GET RunCards/GetRecommendation` (new call) and `GET RunCards/GetCallRecommendation?callId=&alarmLevel=` and `/User/Dispatch/GetCallDispatchRecommendation?callId=&priority=&type=&latitude=&longitude=` (Update Call; form values override the stored call) (adding resources, both built by `DispatchRecommendationRequest.ForCallInProgress`: `DispatchRecommendationRequest.CountDispatchedTowardRequirements` at the call's current level; a higher level previews Strike Next Alarm, filled in full) |
 | Settings | Department settings 58–60 (dispatch mode, auto-dispatch, tuning). Setting 60 is `DispatchRecommendationConfig`: location ages, radius, stale inclusion, routed ETA + shortlist, rest period, staffing gate, move-up, `InQuartersTurnoutSeconds`, `MobileTurnoutSeconds`, `ClosestUnitRanking` (`ClosestUnitRankingModes`: `FastestResponse` 0, `ShortestDistance` 1; distance mode makes no routed lookups). Station coverage rows per group |
 | Unit placement | `UnitResponseOrigin` (shared with the New Call nearest-units board): In Quarters base type (23) → station, else GPS fix, else station. Results carry `PositionSource`, `TurnoutSeconds`, `ResponseSeconds` (turnout + travel); `EtaSeconds` is travel only |
+| Travel modes and closures | `UnitTravelProfile` (M0314: the unit's `TravelMode` / `TravelSpeedKmh`, else its type's) drives `IGeoService.GetTravelEstimateAsync`: walking and cycling routing profiles, air as a straight line (`EtaSources.Direct` 3, never routed), straight-line estimates × `UnitResponseOrigin.EstimatedRoadDistanceFactor` (1.3). The department's active closures for the unit's mode go with each routed lookup (`IRoadClosureService.GetRoutingClosuresAsync`); each closure is noted once per recommendation |
 | Model | `RunCard`, `RunCardTrigger`, `RunCardAlarmLevel`, `RunCardUnitRequirement`, `RunCardRoleRequirement`, `RunCardStatusSelection`, `StationCoverageMinimum` |
 | Feature flag | `Dispatch.RunCards` (seeded by M0116) |
 | Workflow events | Run-card activation, escalation and move-up events (48–51) are available as triggers |

@@ -46,7 +46,7 @@ Resgrid Responder is a cross-platform application designed for **individual firs
   - Name, nature/description, priority, and type
   - Contact name and information
   - **Five location input methods**: address search (Google Geocoding), GPS coordinate entry, [what3words](https://what3words.com) word search, Plus Code search, and interactive map picker
-  - **Dispatch selection**: multi-select personnel, groups, roles, units, or everyone
+  - **Dispatch selection**: multi-select personnel, groups, roles, units, or everyone. If nobody is picked, the call is created for information only and pages nobody: choose *Everyone* to page the whole department.
 - **Call detail view** with tabbed content: info, contact, protocols, dispatched resources, and timeline
 - Add **notes**, **images**, and **file attachments** to calls
 - **Route to call** for turn-by-turn navigation, in the app chosen under **Settings → Navigation App** (the device's default, Google Maps, Apple Maps or Waze)
@@ -119,7 +119,7 @@ Personal and assigned checks (start-of-shift, personal gear, station duties) run
 
 ### Field Records
 
-When `Records.Field.Responder` is enabled, members author Records in the field (run reports, training records, department definitions such as SAR clue reports or damage assessments) with offline drafts, attachments and sync; finalisation can be handed to the web app. See [Records](../web-app/records/overview).
+When `Records.Field.Responder` is enabled, members author Records in the field (run reports, training records, department definitions such as SAR clue reports or damage assessments) with offline drafts, attachments and sync; finalisation can be handed to the System. See [Records](../web-app/records/overview).
 
 ### Deployments
 

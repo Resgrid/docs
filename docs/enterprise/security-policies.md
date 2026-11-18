@@ -12,9 +12,9 @@ The Department Security Policy feature allows administrators to enforce complian
 
 Security policies are stored per-department in the `DepartmentSecurityPolicies` table and enforced at login time by the Resgrid API. When a user attempts to authenticate (via password or SSO), the system checks the department's security policy and blocks access if any requirement is not met.
 
-Security policies can be managed through the **web application** or the **REST API**.
+Security policies can be managed through the **System** or the **REST API**.
 
-## Managing via the Web Application
+## Managing via the System
 
 Navigate to **Department Settings** → **Security** → **Security Policy** (or click the **Security Policy** button on the Security index page).
 
@@ -214,7 +214,7 @@ If you configure IP restrictions incorrectly, you may lock yourself out of the A
 
 ### RequireSso
 
-Setting `requireSso: true` **disables password-based login for all department members**, including administrators. Both the web application and the API enforce a safety guard:
+Setting `requireSso: true` **disables password-based login for all department members**, including administrators. Both the System and the API enforce a safety guard:
 
 - **Web UI**: The Security Policy page checks whether an active SSO configuration exists before allowing `RequireSso` to be enabled. If no active config is found, a validation error is displayed with a link to the SSO configuration page.
 - **API**: The `POST /api/v4/SsoAdmin/SaveSecurityPolicy` endpoint returns a `400 Bad Request` with an error message if `requireSso: true` is submitted without an active SSO configuration.

@@ -27,6 +27,8 @@ Define categories for units (Engine, Ladder, Ambulance, etc.):
 | Map Icon Type | Built-in icon used on maps |
 | Custom icon | Optional image of your own. Units of this type show it beside their name in lists, pickers and the apps, and on the map in place of the map icon. See [Custom map icons](mapping#custom-map-icons) |
 | Status map icons | On Edit: opens the page where you upload an icon for each status of the type's status set, shown on the map while a unit of the type is in that status. See [Status and priority icons](mapping#status-and-priority-icons) |
+| Vehicle size and weight | Height, width, length, weight, axle load, axles and hazardous materials for every unit of the type; a unit can override them. See [Vehicle size and weight](units#vehicle-size-and-weight) |
+| Travel mode | How units of the type get to a call: Driving (roads, the default), Cycling, On foot or Air (straight line), with an average speed in km/h or mph (blank uses 40, 15, 5 or 180 km/h for the mode). Run cards and the nearest units list measure the units this way; a unit can override both. See [Travel mode](units#travel-mode) |
 
 The **Custom icon** field shows the image rules next to the file picker and a live preview: how the icon looks on a light map, on a dark map, in a list and as the stored 128 × 128 image. It is labelled with the type name you typed. The file is checked as soon as you choose it, so a file that cannot be used is never uploaded.
 

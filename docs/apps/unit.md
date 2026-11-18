@@ -63,6 +63,7 @@ Resgrid Unit is a cross-platform application designed for **vehicle and apparatu
 - **Active Call sidebar card** shows the currently selected call with View, Directions, and Deselect actions
 - Tap to open a bottom sheet to switch the active call
 - Quick access to turn-by-turn navigation to the call location
+- **Release from call** (Omni): when the crew is stood down, the active call card releases the unit from the call while the call stays open. The unit gets the department's release status (unless it is already back in service, out of service or on another call), leaves the call's lists, and the active call is cleared, ready for the next one. Allowed for anyone who may set the unit's status; see [Releasing a unit or person from a call](../web-app/dispatch-calls#releasing-a-unit-or-person-from-a-call)
 
 ### Calls
 - **Call list** with search and pull-to-refresh. Pending calls (saved but not yet dispatched) never appear; they show up once a dispatcher sends them
@@ -70,7 +71,7 @@ Resgrid Unit is a cross-platform application designed for **vehicle and apparatu
   - Name, nature/description, priority, and type
   - Contact name and information
   - **Five location input methods**: address search (Google Geocoding), GPS coordinate entry, [what3words](https://what3words.com) word search, Plus Code search, and interactive map picker
-  - **Dispatch selection**: multi-select users, groups, roles, units, or everyone
+  - **Dispatch selection**: multi-select users, groups, roles, units, or everyone. If nobody is picked, the call is created for information only and pages nobody: choose *Everyone* to page the whole department.
 - **Call detail view** with tabs: Info, Contact, Protocols, Dispatched resources, and Timeline
 - Add **notes**, **images**, and **file attachments** to calls
 - **Route to call** for turn-by-turn navigation, in the app chosen under **Settings → Navigation App** (the device's default, Google Maps, Apple Maps or Waze)

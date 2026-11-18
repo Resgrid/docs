@@ -13,7 +13,7 @@ Started as a hosted service in 2014, Resgrid has processed millions of calls, me
 Resgrid is written in C# on .NET with SQL Server or PostgreSQL as the primary store, Redis for caching, RabbitMQ (or Azure Service Bus) for messaging, and React Native / Expo mobile apps.
 
 :::tip Where to start
-- **Using the web app?** Start with the [Web application overview](web-app/overview) and [Navigation](web-app/navigation).
+- **Using the System?** Start with the [System overview](web-app/overview) and [Navigation](web-app/navigation).
 - **Setting up a department?** Pick the recipe for your organisation under [Setup guides](setup-guides/overview).
 - **Hosting it yourself?** See [Self-hosted](self-hosted/quick-start).
 - **Integrating?** See the [API](api/authentication) and [Workflows](web-app/workflows).
@@ -21,7 +21,7 @@ Resgrid is written in C# on .NET with SQL Server or PostgreSQL as the primary st
 :::
 
 :::info Screenshots
-Screenshots in this documentation were taken from the current web application with sample data. The interface is updated over time; functionality stays the same even when a screen looks a little different.
+Screenshots in this documentation were taken from the current System with sample data. The interface is updated over time; functionality stays the same even when a screen looks a little different.
 :::
 
 <AcademyVideo id="00-start" />
@@ -30,6 +30,7 @@ Screenshots in this documentation were taken from the current web application wi
 
 ### Operations
 
+- **Home dashboard** — a customizable board of live widgets for every module and add-on, saved to each member's account, with department default templates by role or group (the classic roster page remains available). [Home dashboard](web-app/dashboard) · [Dashboard templates](web-app/dashboard-templates)
 - **Computer-aided dispatch** — create calls by hand, from email/SMS pages, from the API or the Assistant; dispatch personnel, groups, roles and units; push, SMS, email and voice alerting; check-in timers; scheduled calls. [Dispatch & Calls](web-app/dispatch-calls)
 - **Run cards and automatic dispatch** — pre-planned assignments by priority and type, station-based or closest-unit selection, alarm levels, move-ups. [Run Cards](web-app/run-cards)
 - **Personnel, units, groups and statuses** — the roster, apparatus, stations with geofences, and fully customisable status and staffing vocabularies. [Personnel](web-app/personnel) · [Units](web-app/units) · [Groups & Stations](web-app/groups-stations) · [Custom Statuses](web-app/custom-statuses)

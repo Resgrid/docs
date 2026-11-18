@@ -27,13 +27,13 @@ All SCIM operations are authenticated using a per-department bearer token. Each 
 
 - An active SSO configuration for the department (OIDC or SAML 2.0)
 - An identity provider that supports SCIM 2.0 provisioning (e.g., Okta, Microsoft Entra ID, OneLogin, JumpCloud)
-- Department administrator access to Resgrid (web application or API)
+- Department administrator access to Resgrid (the System or the API)
 
 ## Setup
 
 ### Step 1 — Enable SCIM and Generate a Bearer Token
 
-#### Using the Web Application
+#### Using the System
 
 1. Navigate to **Department Settings** → **Security** → **SSO & SCIM**
 2. Click **SCIM Setup** next to your SSO configuration
@@ -69,7 +69,7 @@ The SCIM bearer token is returned in **plaintext once only** and stored encrypte
 
 ### Step 2 — Configure SCIM in Your Identity Provider
 
-The SCIM Setup page in the web application displays all the connector settings you need in a convenient table with **copy buttons** for each value. It also includes **tabbed step-by-step guides** with specific instructions for each major identity provider.
+The SCIM Setup page in the System displays all the connector settings you need in a convenient table with **copy buttons** for each value. It also includes **tabbed step-by-step guides** with specific instructions for each major identity provider.
 
 Use the following values when setting up the SCIM connector in your IdP:
 
@@ -84,7 +84,7 @@ Use the following values when setting up the SCIM connector in your IdP:
 
 #### IdP-Specific Setup Guides
 
-The web application’s SCIM Setup page includes tabbed instructions for each provider. Below is a summary of the key steps for each.
+The System's SCIM Setup page includes tabbed instructions for each provider. Below is a summary of the key steps for each.
 
 ##### Okta
 
@@ -129,7 +129,7 @@ The web application’s SCIM Setup page includes tabbed instructions for each pr
 
 ### Step 3 — Verify Connectivity
 
-#### Using the Web Application
+#### Using the System
 
 The SCIM Setup page includes a **Test Connection** section. If SCIM is enabled and a token is stored, the page shows a green success indicator.
 
@@ -267,7 +267,7 @@ This sets `IsDisabled = true` on the `DepartmentMember` record. The user's Resgr
 
 To rotate the SCIM bearer token (e.g., for security compliance or if the token is compromised):
 
-### Using the Web Application
+### Using the System
 
 1. Navigate to the **SCIM Setup** page
 2. Click **Rotate / Generate SCIM Token**

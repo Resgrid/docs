@@ -113,7 +113,7 @@ A name is up to 50 characters and is shown in every language. Leave it empty to 
 | **Document numbers · numbering year starts** | The same for work orders, invoices, bids and time reports. |
 | **Work orders / Invoices / Bids / Time reports · pattern, sequence digits, next number** | Each kind's own pattern (empty = Resgrid's built-in numbers), digits and next number. |
 
-Patterns use `{YYYY}`, `{YY}`, `{MM}`, `{DD}` and `{SEQ}` (exactly once) with letters, digits and `- _ . /`, as on [Call settings](../department-settings) and Document numbering. Rules:
+Patterns use `{YYYY}`, `{YY}`, `{MM}`, `{DD}` and `{SEQ}` (exactly once) with letters, digits and `- _ . /`, as on [Call settings](../department-settings) and Document numbering. The call number pattern can also write the time the call was logged with `{HH}`, `{MIN}` and `:`. Rules:
 
 - **The next number can only go up.** It can't be lower than the number Resgrid would use next already, and a rollback does not lower it.
 - **A document kind needs its own pattern** before it takes sequence digits or a next number: Resgrid's built-in numbers have neither. Accept the pattern and the next number together.

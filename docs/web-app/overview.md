@@ -1,11 +1,11 @@
 ---
 sidebar_position: 1
-title: Web Application Overview
+title: System Overview
 ---
 
-# Resgrid Web Application — Overview
+# Resgrid System — Overview
 
-The Resgrid web application is where your department is **set up** and where officers, dispatchers, records staff and administrators do most of their day-to-day work: creating and dispatching calls, keeping the roster and units current, scheduling, writing records and reports, tracking equipment, and configuring how the mobile apps behave.
+The Resgrid System (the web application) is where your department is **set up** and where officers, dispatchers, records staff and administrators do most of their day-to-day work: creating and dispatching calls, keeping the roster and units current, scheduling, writing records and reports, tracking equipment, and configuring how the mobile apps behave.
 
 The four mobile apps — **Responder**, **Unit**, **Dispatch** and **Incident Command** — and the **Big Board** are described under [Apps](../apps/responder); everything in this section is about the web site.
 
@@ -17,7 +17,7 @@ The four mobile apps — **Responder**, **Unit**, **Dispatch** and **Incident Co
 
 | Area | Modules | Start here |
 |---|---|---|
-| **Operations** | [Dashboard](dashboard) · [Dispatch & Calls](dispatch-calls) · [Run Cards](run-cards) · [Mapping](mapping) · [Custom Maps](custom-maps) · [Indoor Maps](indoor-maps) · [Routes](routes) · [Weather Alerts](weather-alerts) · [Voice & Audio](voice-audio) · [Chat & Assistant](chat) | *Dispatch & Calls* |
+| **Operations** | [Home dashboard](dashboard) · [Dashboard templates](dashboard-templates) · [Dispatch & Calls](dispatch-calls) · [Run Cards](run-cards) · [Mapping](mapping) · [Custom Maps](custom-maps) · [Indoor Maps](indoor-maps) · [Routes](routes) · [Weather Alerts](weather-alerts) · [Voice & Audio](voice-audio) · [Chat & Assistant](chat) | *Dispatch & Calls* |
 | **People & apparatus** | [Personnel](personnel) · [Units](units) · [Hardware GPS Tracking](unit-tracking) · [Groups & Stations](groups-stations) · [Custom Statuses](custom-statuses) · [Contacts](contacts) · [Shifts](shifts) · [Workshifts](workshifts) · [Calendar](calendar) | *Personnel* |
 | **Records & reporting** | [Records (RMS)](records/overview) · [Logs (legacy)](logs) · [Reports](reports) · [Documents](documents) · [Notes](notes) · [Trainings](trainings) | *Records overview* |
 | **Readiness & logistics** | [Checklists](checklists) · [Work Orders](work-orders) · [Inventory](inventory) · [Resource Orders](resource-orders) · [Communication Tests](communication-tests) | *Checklists* |
@@ -33,7 +33,7 @@ New to Resgrid? Read [Navigation](navigation) first, then follow the [department
 Not every module appears for every department:
 
 - **Module switches** — administrators can hide Messaging, Mapping, Shifts, Logs/Records, Reports, Documents, Calendar, Notes, Training, Inventory, Checklists, Maintenance and Business Operations under **Department Settings → Module Settings**.
-- **Feature flags** — some newer modules (Records, Checklists, Work Orders, Run Cards, Chat, Deployment Finance and the Business Ops modules) are switched on per department by Resgrid (hosted) or by the operator (self-hosted) using the `Resgrid.Console --FeatureFlags` command.
+- **Feature flags** — some newer modules (Records, Checklists, Work Orders, Run Cards, Chat, Deployment Finance, the Business Ops modules and the new [home dashboard](dashboard)) are switched on per department by Resgrid (hosted) or by the operator (self-hosted) using the `Resgrid.Console --FeatureFlags` command.
 - **Plan and add-ons** — Work Orders need the **Readiness Pro** add-on; invoicing, contractor billing, Cal OES MARS, workforce and field costing need the **Business Ops** add-on; push-to-talk needs the **PTT** add-on; encryption (and pay data reporting) needs the **Advanced Data Protection** add-on; SSO/SCIM need the Enterprise tier.
 - **Permissions** — most pages check a permission (view, create, edit, delete) that administrators configure under Security & Permissions; if you cannot see something, that is usually why.
 

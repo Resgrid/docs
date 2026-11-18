@@ -186,9 +186,12 @@ For each call in the period, one row per unit that was dispatched to it or set a
 | Column | Shows |
 |---|---|
 | **Dispatched**, **En Route**, **On Scene**, **Staging**, **Cleared** | When the unit reached each step on this call, from the statuses on the call's record. Steps are recognised by the status's **base type**, so custom statuses count (see [Custom Statuses](custom-statuses)). |
+| **Released** | When the unit was [released from the call](dispatch-calls#releasing-a-unit-or-person-from-a-call) while the call stayed open (stood down), for example a MUG turned back before it arrived. Empty when it was not released, or was sent back to the call since. Also in the CSV download. |
 | **End of Commitment** | When the unit was available, in quarters or out of service again after the call: the end of its status history. Empty while the unit is still working the call. |
 | **Committed** | Dispatch to the end of commitment: how long the call kept the unit busy. |
 | **Linked By** | How the statuses were tied to the call: *Unit status* (sent for this call), *Auto-linked*, *Inferred* or *Dispatch only*, explained in the report's legend and under [Which call a status belongs to](dispatch-calls#which-call-a-status-belongs-to). |
+
+![Call Unit Times: Engine 1 released from the call at 10:11 while Brush 1 is still responding](/img/web-app/reports/call-unit-times-released.png)
 
 **Status history.** Under each unit is every status it set from dispatch until it was back in service, with the time, how long it stayed in each and the status's own colour. That is the unit's whole part in the call, including statuses the call's record doesn't hold:
 

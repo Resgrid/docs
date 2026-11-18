@@ -12,10 +12,10 @@ SSO, SCIM, and security policies can be managed through two interfaces:
 
 | Interface | Access | Best For |
 | --- | --- | --- |
-| **Web Application** | Department Settings → Security → SSO & SCIM | Administrators who prefer a guided UI with wizard-style setup, built-in IdP documentation, and quick-fill presets |
+| **System** | Department Settings → Security → SSO & SCIM | Administrators who prefer a guided UI with wizard-style setup, built-in IdP documentation, and quick-fill presets |
 | **REST API** | `/api/v4/SsoAdmin/*` endpoints | Automation, CI/CD pipelines, and programmatic configuration |
 
-Both interfaces provide identical functionality. The web application is available to department administrators via the **SSO & Security** link in the Security section of the sidebar navigation.
+Both interfaces provide identical functionality. The System page is available to department administrators via the **SSO & Security** link in the Security section of the sidebar navigation.
 
 ## Supported Protocols
 
@@ -64,7 +64,7 @@ All public-facing SSO URLs (SSO discovery, SAML ACS callback) use an **encrypted
 ```
 ┌─────────────┐         ┌──────────────────┐         ┌─────────────┐
 │  Mobile App  │◄───────►│  Resgrid API v4  │◄───────►│   Your IdP  │
-│  or Web App  │  token  │  (OpenIddict +   │  OIDC/  │  (Entra,    │
+│  or System   │  token  │  (OpenIddict +   │  OIDC/  │  (Entra,    │
 │              │  exchange│  Sustainsys)     │  SAML   │  Okta, etc) │
 └─────────────┘         └──────────────────┘         └─────────────┘
                                ▲
@@ -88,7 +88,7 @@ The SSO feature introduces two new entities and extends an existing one:
 
 ### Authentication Flow
 
-1. The mobile or web app calls `GET /api/v4/connect/sso-config?departmentToken={encryptedToken}` to discover the SSO configuration (falls back to `departmentCode=DEPT` for backward compatibility)
+1. The mobile app or the System calls `GET /api/v4/connect/sso-config?departmentToken={encryptedToken}` to discover the SSO configuration (falls back to `departmentCode=DEPT` for backward compatibility)
 2. The app redirects the user to the IdP for authentication (OIDC authorization code + PKCE, or SAML redirect)
 3. After successful IdP authentication, the app receives a token or assertion
 4. The app calls `POST /api/v4/connect/external-token` with the external token, provider type, and department code

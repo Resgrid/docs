@@ -123,6 +123,6 @@ Recipients can respond to messages with:
 | **Groups** | Messages can target entire groups |
 | **Personnel Roles** | Messages can target role holders |
 | **Shifts** | Shift personnel can be excluded from messages |
-| **Dashboard** | Unread count displayed in top icons |
+| **Dashboard** | Unread count displayed in top icons; on the [home dashboard](dashboard) also the pulse strip counter and the **Inbox** widget (subjects hidden until verified in an Advanced Data Protection department) |
 | **Department** | Module can be enabled/disabled |
 | **Contact Verification** | SMS message delivery is gated by mobile number verification status. Users with Pending mobile verification will not receive SMS messages. |

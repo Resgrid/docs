@@ -29,7 +29,7 @@ The core settings section controls fundamental department configuration.
 | Disable Auto-Available | No    | Off        | Prevents the system from automatically setting personnel to Available |
 
 :::tip Time Zone Selection
-All times displayed in the web application and mobile apps use the department time zone. Make sure this matches your operating time zone to avoid confusion with status timestamps, calendar events, and scheduled resets.
+All times displayed in the System and the mobile apps use the department time zone. Make sure this matches your operating time zone to avoid confusion with status timestamps, calendar events, and scheduled resets.
 :::
 
 ## Department Address

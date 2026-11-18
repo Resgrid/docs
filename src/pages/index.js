@@ -59,7 +59,7 @@ function HomepageHeader() {
             <Link
               className={clsx('button button--lg', styles.ctaSecondary)}
               to="/web-app/overview">
-              Explore the web app
+              Explore the System
             </Link>
           </div>
           <div className={styles.heroMeta}>

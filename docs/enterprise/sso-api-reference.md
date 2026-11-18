@@ -282,7 +282,7 @@ POST /api/v4/SsoAdmin/SaveSecurityPolicy
 
 ## Public SSO Endpoints
 
-These endpoints are used by mobile and web apps to discover SSO configuration and exchange external tokens. They do **not** require Resgrid authentication.
+These endpoints are used by the mobile apps and the System to discover SSO configuration and exchange external tokens. They do **not** require Resgrid authentication.
 
 ### SSO Discovery
 
@@ -376,7 +376,7 @@ POST /api/v4/connect/saml-mobile-callback?departmentCode={code}
 This endpoint receives the SAML response from the IdP, validates the assertion, and redirects the mobile app with the authentication result.
 
 :::info Encrypted Department Token
-The web application generates the SAML ACS URL with an encrypted department token so that the plain department code is never exposed in public-facing URLs. The API decrypts the token to resolve the department. If no token is provided, it falls back to the `departmentCode` parameter.
+The System generates the SAML ACS URL with an encrypted department token so that the plain department code is never exposed in public-facing URLs. The API decrypts the token to resolve the department. If no token is provided, it falls back to the `departmentCode` parameter.
 :::
 
 ---
