@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="Single-server Resgrid stack: Caddy routes three hostnames to the web app, API and events hub, which use PostgreSQL, Redis, RabbitMQ and RustFS">
+  <rect width="960" height="520" fill="#ffffff"/>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4a5568"/></marker>
+  </defs>
+  <rect x="300" y="20" width="360" height="56" rx="10" fill="#ebf4ff" stroke="#2b6cb0"/>
+  <text x="480" y="44" text-anchor="middle" font-size="16" font-weight="600" fill="#1a365d">Browsers · Responder and Unit apps</text>
+  <text x="480" y="64" text-anchor="middle" font-size="13" fill="#2d3748">https://rg.… · https://rgapi.… · https://rgevents.…</text>
+  <line x1="480" y1="76" x2="480" y2="106" stroke="#4a5568" stroke-width="2" marker-end="url(#a)"/>
+
+  <rect x="40" y="108" width="880" height="380" rx="14" fill="#f7fafc" stroke="#a0aec0" stroke-dasharray="6 5"/>
+  <text x="60" y="132" font-size="13" fill="#4a5568">One Docker host (docker compose, project "resgrid")</text>
+
+  <rect x="330" y="142" width="300" height="56" rx="10" fill="#f0fff4" stroke="#2f855a" stroke-width="2"/>
+  <text x="480" y="166" text-anchor="middle" font-size="16" font-weight="700" fill="#22543d">Caddy  :80 / :443</text>
+  <text x="480" y="186" text-anchor="middle" font-size="12" fill="#2d3748">HTTPS: Let's Encrypt, local CA or your certificate</text>
+
+  <g stroke="#4a5568" stroke-width="2" fill="none" marker-end="url(#a)">
+    <path d="M380 198 L170 238"/><path d="M450 198 L390 238"/><path d="M510 198 L590 238"/><path d="M580 198 L790 238"/>
+  </g>
+  <g font-size="13" fill="#2d3748">
+    <rect x="80" y="240" width="180" height="58" rx="8" fill="#ffffff" stroke="#2b6cb0"/>
+    <text x="170" y="264" text-anchor="middle" font-weight="600">web</text><text x="170" y="284" text-anchor="middle">web app · BFF</text>
+    <rect x="300" y="240" width="180" height="58" rx="8" fill="#ffffff" stroke="#2b6cb0"/>
+    <text x="390" y="264" text-anchor="middle" font-weight="600">api</text><text x="390" y="284" text-anchor="middle">REST API · login (OIDC)</text>
+    <rect x="500" y="240" width="180" height="58" rx="8" fill="#ffffff" stroke="#2b6cb0"/>
+    <text x="590" y="264" text-anchor="middle" font-weight="600">events</text><text x="590" y="284" text-anchor="middle">real-time (SignalR)</text>
+    <rect x="700" y="240" width="180" height="58" rx="8" fill="#ffffff" stroke="#2b6cb0"/>
+    <text x="790" y="264" text-anchor="middle" font-weight="600">tts · tiles</text><text x="790" y="284" text-anchor="middle">/tts/audio · /tiles (opt.)</text>
+
+    <rect x="80" y="316" width="250" height="50" rx="8" fill="#faf5ff" stroke="#6b46c1"/>
+    <text x="205" y="338" text-anchor="middle" font-weight="600">worker</text><text x="205" y="356" text-anchor="middle">jobs · database migrations</text>
+    <rect x="350" y="316" width="250" height="50" rx="8" fill="#faf5ff" stroke="#6b46c1"/>
+    <text x="475" y="338" text-anchor="middle" font-weight="600">mcp :5155</text><text x="475" y="356" text-anchor="middle">AI assistants (LAN only)</text>
+    <rect x="620" y="316" width="260" height="50" rx="8" fill="#faf5ff" stroke="#6b46c1"/>
+    <text x="750" y="338" text-anchor="middle" font-weight="600">tracker-gateway · relay</text><text x="750" y="356" text-anchor="middle">optional profiles</text>
+  </g>
+  <line x1="480" y1="370" x2="480" y2="392" stroke="#4a5568" stroke-width="2" marker-end="url(#a)"/>
+  <g font-size="13" fill="#2d3748">
+    <rect x="80" y="396" width="190" height="72" rx="8" fill="#fff5f5" stroke="#c53030"/>
+    <text x="175" y="422" text-anchor="middle" font-weight="600">PostgreSQL 18</text><text x="175" y="442" text-anchor="middle">4 databases</text><text x="175" y="460" text-anchor="middle" font-size="11">volume postgres-data</text>
+    <rect x="290" y="396" width="190" height="72" rx="8" fill="#fffaf0" stroke="#c05621"/>
+    <text x="385" y="422" text-anchor="middle" font-weight="600">Redis 8</text><text x="385" y="442" text-anchor="middle">cache · SignalR backplane</text>
+    <rect x="500" y="396" width="190" height="72" rx="8" fill="#fffaf0" stroke="#c05621"/>
+    <text x="595" y="422" text-anchor="middle" font-weight="600">RabbitMQ 4.3</text><text x="595" y="442" text-anchor="middle">message bus</text>
+    <rect x="710" y="396" width="170" height="72" rx="8" fill="#fffaf0" stroke="#c05621"/>
+    <text x="795" y="422" text-anchor="middle" font-weight="600">RustFS (S3)</text><text x="795" y="442" text-anchor="middle">audio · imports</text>
+  </g>
+  <text x="480" y="508" text-anchor="middle" font-size="13" fill="#4a5568">One-shot jobs at start: db-init (databases) · rustfs-init (buckets) · caddy-init (local CA key)</text>
+</svg>
