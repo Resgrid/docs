@@ -82,7 +82,7 @@ const config = {
           },
           {
             type: 'dropdown',
-            label: 'Web App',
+            label: 'System',
             position: 'left',
             items: [
               {type: 'doc', docId: 'web-app/overview', label: 'Overview'},

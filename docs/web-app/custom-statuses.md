@@ -256,7 +256,7 @@ All endpoints support an `includeAny` parameter to add an "Any" option to the li
 ### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
-| **Dashboard** | Custom statuses and staffing levels displayed on main dashboard |
+| **Dashboard** | Custom statuses and staffing levels displayed on the classic dashboard and on the [home dashboard](dashboard)'s My Status and Personnel Status Board widgets; their colours are used by every status widget |
 | **Units** | Custom unit states define unit status options |
 | **Dispatch** | Custom statuses shown during dispatch operations |
 | **Reports** | Custom state names resolved in all reports |

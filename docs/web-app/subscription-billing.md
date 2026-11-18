@@ -109,6 +109,10 @@ The `BuyAddon` action supports purchasing plan addons:
 - Current addon payment info
 - Frequency information
 
+### Add-ons on the home dashboard
+
+Each add-on has widgets on the [home dashboard](dashboard#add-on-widgets-and-locked-cards) — Push-To-Talk (PTT), Data Protection (ADP), Work Orders (Readiness Pro), receivables, bids, contracts, Cal OES MARS and workforce (Business Ops), the Assistant and AI Dispatch Triage (Enhanced AI), and the incident desks (Incident Back Office). They appear only while the add-on is active. Department admins see the rest as **locked** cards in the widget gallery with a **View add-on** link to the add-on's billing page; members never see them. The **Plan & Add-ons** widget shows the plan, limits used, add-ons held or available and the renewal date (billing figures for the managing member only).
+
 ## Payment History
 
 View all historical payments for the department.
@@ -137,7 +141,7 @@ Displays invoice details with deserialized Stripe `Charge` data.
 ### Interactions with Other Modules
 | Module | Interaction |
 |--------|-------------|
-| **Dashboard** | Plan limit warnings displayed |
+| **Dashboard** | Plan limit warnings displayed; the [home dashboard](dashboard)'s Plan & Add-ons widget and locked add-on widget cards for department admins |
 | **Department** | Personnel/unit counts checked against limits |
 | **Personnel** | Personnel count affects plan usage |
 | **Units** | Unit count affects plan usage |

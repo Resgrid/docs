@@ -77,7 +77,7 @@ WALKTHROUGHS.forEach(([id, title, minutes]) => {
     kind: 'walkthrough',
     title,
     minutes,
-    audience: 'Step-by-step in the web app',
+    audience: 'Step-by-step in the System',
     page,
     src: `${ACADEMY_WALKTHROUGHS_URL}media/${id}.mp4`,
     poster: `${page}01-01.jpg`,

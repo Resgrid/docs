@@ -150,6 +150,9 @@ Workflows can subscribe to any of the following system events:
 | **Time Report Created / Submitted / Approved / Voided** | Daily time reports |
 | **Certification Added / Renewed / Expired / Role Removed / Status Changed / Removed / Credit Added** | [Certifications](business-ops/certifications) (people) |
 | **Unit Certification Added / Expiring / Expired / Status Changed / Removed** | Certifications (units) |
+| **Recurring Call Schedule Created / Updated / Paused / Resumed / Deleted** | A [recurring call](scheduled-calls) was set up, changed, paused (with its reason and resume date), resumed or deleted. Variables `recurring_call.*` (name, facility, destination, schedule contact, times, mode, next occurrence) |
+| **Recurring Call Occurrence Created / Skipped / Dispatched** | One run of a recurring call: its call was created (ahead of time or by a dispatcher), a dispatcher skipped it, or it went out. Variables `occurrence.*` (when it is due, call number, how many units and people, how many were left off as unavailable, whether a run card added resources) |
+| **Recurring Call Alert Raised / Resolved** | A [recurring call alert](scheduled-calls#needs-attention) was raised (call not created, missed, nobody could be sent, resources unavailable, time to send) or closed. Variables `alert.*` (kind, reason, call, resolution) |
 
 ## Action Types
 

@@ -59,12 +59,14 @@ Real-time statistics banner displaying:
 - **Select a unit** to view details and track in the activity log
 - When call filter is active, shows dispatched units and their statuses
 - **Set unit status** directly from the panel for call-related operations
+- **Release from call** (Omni): while the console is filtered to a call, the **−** button on a unit dispatched to it stands the unit down while the call stays open. Confirm, with **Notify** on by default. The unit leaves the call's lists and is free for the next call; see [Releasing a unit or person from a call](../web-app/dispatch-calls#releasing-a-unit-or-person-from-a-call)
 
 #### Personnel Panel
 - List of all department personnel with current status and staffing
 - **Select personnel** to view details and track in the activity log
 - When call filter is active, shows dispatched personnel
 - **Set personnel status** directly from the panel
+- **Release from call** (Omni): the **−** button on a person in the filtered list releases them from the call. A released person is left out of the call's list even when the group or role they were reached through is still on the call
 
 #### Personnel & Unit Action Panels
 - When a personnel member or unit is selected, a dedicated actions panel appears in the activity log area
@@ -106,21 +108,29 @@ Real-time statistics banner displaying:
   - Contact name and information
   - **Five location input methods**: address search, GPS coordinates, [what3words](https://what3words.com), Plus Code search, and interactive map picker. A call saved with a typed address that was never searched is geocoded by the server when it is created, so it still gets a location; a department that makes the location *required* needs a real point (search, coordinates or map pick)
   - External ID and Reference ID (the referring system's case or ticket numbers)
-  - **Dispatch selection**: multi-select users, groups, roles, units, or everyone. The picker lists every unit, group, role and person whatever their status (it no longer shows *Everyone* alone when opened before the lists finish loading)
+  - **Dispatch selection**: multi-select users, groups, roles, units, or everyone. The picker lists every unit, group, role and person whatever their status (it no longer shows *Everyone* alone when opened before the lists finish loading). If nobody is picked, the call is created for information only and pages nobody: choose *Everyone* to page the whole department.
   - The location map on New Call and Edit Call draws only the **available** units and personnel near the call, so it shows who can be sent; busy resources stay in the picker with their status for reassigning
   - **Schedule dispatch** for a future time (web and desktop), or **Save as pending (do not dispatch yet)**: the call is saved and numbered, nobody is notified and the field apps do not see it; any recipients picked are kept as the proposed dispatch. The button becomes **Save Pending Call** and the call opens on **Pending Calls**
 - **Call detail view** with priority header, static map preview, and action buttons
   - A pending call shows a *Pending — not yet dispatched* banner with **Dispatch**; a scheduled call shows *Scheduled for* its time with **Dispatch now**
   - Add notes, attach images, attach files, route to call in native Maps
   - Tabbed content: Info, Contact, Protocols, Dispatched resources, Timeline
+  - **Dispatched** tab (Omni): a **−** button on each unit and person releases them from the open call. Below the list, *Released from this call* shows who was released, when and by whom. Group and role rows have no button: release the person instead
   - Close call (permission-gated) — **Notify everyone on the call** (on by default) tells the dispatched personnel, groups, roles, units and command team it closed; a call under an active incident command is refused with the reason shown
 - **Edit call** with the same form schema as creation
 - Web-specific implementations (`.web.tsx`) for call views, creation, and editing
 
 ### Pending and Scheduled Calls
-Both are under **Calls** in the side menu (Pending Calls shows a count badge) and behind the console's tiles. They work like the web app's [pending and scheduled calls](../web-app/dispatch-calls#pending-and-scheduled-calls).
+Both are under **Calls** in the side menu (Pending Calls shows a count badge) and behind the console's tiles. They work like the System's [pending and scheduled calls](../web-app/dispatch-calls#pending-and-scheduled-calls).
 - **Pending Calls** — calls waiting for a dispatcher, oldest first, with search: number, name, type, priority, address and when it was received. **Dispatch** opens the recipient picker with any proposed recipients already selected; confirming sends the call and it moves to the active calls. **Cancel Call** closes it as Cancelled without notifying anyone. Pending calls come from *Save as pending* here or on the web, or from another system through the API (`IsPending`).
 - **Scheduled Calls** — calls waiting for their dispatch time, with **Dispatch now** to send one early and **Reschedule** on the call.
+
+### Recurring Calls and alerts
+Under **Calls** in the side menu, next to Scheduled Calls, they work like the System's [recurring calls](../web-app/scheduled-calls).
+- **Recurring Calls** — the department's recurring calls with *Active / Paused / Ended* filters. A recurring call's page describes its schedule in plain words and shows its facility, destination and contact, its next dispatches and the calls it has created that have not gone out (a held one can be sent from there). **Pause** (with a reason, a resume date and an option to delete the calls already created), **Resume**, **Edit** and **Delete** are for its creator or a department admin; anyone who may create calls can create a new one. The form has every field the web form has; *Also use the matching run card* is greyed out with an explanation when the department has no run cards.
+- **Calendar** — the next two weeks by day: scheduled calls, runs still to come, runs waiting for a dispatcher, held calls, missed and skipped runs. A run offers **Send now** (asks first), **Create call** and **Skip**; a skipped one **Restore**; a held call **Send**.
+- **Recurring Call Alerts** — next to Awaiting Resources, with a count badge, and a banner on the console while any are open (red while some are unseen). Each alert shows what happened (*time to send*, *nobody could be sent*, *sent without some resources*, *missed*, *could not be created*), the recurring call, when it is due, the call number, the reason and the units or people left off. Actions: **Send now** (says whether it went out or was held), **Create call**, **Skip**, **Send** a held call through the usual recipient picker, **Open call**, **Acknowledge** and **Dismiss** (with a note). New alerts pop up with a sound and stay highlighted until you leave the screen; the list updates live and when the app comes back to the foreground. Tapping a recurring call alert notification opens this screen.
+- A call created by a recurring call shows *Created by the recurring call …* on its page, linking to the recurring call.
 - Both lists refresh when the server reports a call was added, changed or closed.
 
 ### Additional Screens

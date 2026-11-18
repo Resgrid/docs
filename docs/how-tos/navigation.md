@@ -4,11 +4,11 @@ sidebar_position: 1
 
 # Suite Navigation
 
-The main website (web application) for Resgrid has a few navigation design patterns that you can see throughout all the pages.
+The main website (the System) for Resgrid has a few navigation design patterns that you can see throughout all the pages.
 
-## Web application (Dashboard/homepage) Page
+## System (Dashboard/homepage) Page
 
-This is the first page you see after logging into the website/web app. The content may change as we update, but the navigational paradigm (the highlighted area) should be consistent.
+This is the first page you see after logging into the website (the System). The content may change as we update, but the navigational paradigm (the highlighted area) should be consistent. The screenshot shows the classic dashboard; departments using the new customizable dashboard see a board of widgets in the same place — see [Home dashboard](../web-app/dashboard).
 
 ![Dashboard](/img/how-tos/nav/Website_Dashboard_Nav.png)
 

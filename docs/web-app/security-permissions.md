@@ -92,6 +92,10 @@ All default to *department administrators*. See the [Workforce & Business Ops ov
 |---|---|
 | Manage data protection settings · View / edit protected call data · View protected personnel / contact / operational data · Export protected data · Configure protected data delivery · Emergency break-glass access | See [Advanced Data Protection](data-protection). |
 
+### Home dashboard
+
+The [home dashboard](dashboard) has no permission of its own: each widget follows the permission of the module it summarizes (a member who cannot view units never sees the Unit Status Board). [Dashboard templates](dashboard-templates) — the department default boards targeted at everyone, a personnel role or a group — are managed by **department administrators** only; there is no permission to delegate them.
+
 ### Import & Migration
 
 These two are fixed to **department administrators** (and the managing user). They are not listed on this screen and cannot be widened to other members or roles.

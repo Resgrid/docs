@@ -36,6 +36,10 @@ Writes go through the feature-toggle service, so caches are invalidated and an a
 | `Dispatch.RunCards` | Run cards, station-based / closest-unit selection, move-ups, alarm levels. | — | M0116 |
 | `Checklists.System` | Checklists module (free). | — | M0189 (off) |
 | `Maintenance.WorkOrders` | Work orders and preventive maintenance. Also needs the Readiness Pro add-on and the Maintenance module switch. | — | M0189 (off) |
+| `Dashboard.Modern` | The widget-based [home dashboard](../web-app/dashboard): per-member boards saved to the account, [department templates](../web-app/dashboard-templates), widgets for every module and add-on. Off = everyone sees the classic dashboard; while on, members can still choose the classic page. Free. | — | M0307 (off) |
+| `Maps.MapLibreWeb` | MapLibre maps on the website: the department's [map style](../web-app/mapping#base-map) on every map, Terra Draw drawing tools, [live traffic](../web-app/mapping#live-traffic). Off = the standard raster web map. | — | M0308 (off) |
+| `Maps.Offline` | [Offline map packs](../web-app/department-settings#offline-maps) for the apps. Also needs offline pack storage on the installation ([Maps & Routing](../self-hosted/maps-and-routing#offline-map-packs)). | — | M0308 (off) |
+| `Navigation.InApp` | Turn-by-turn navigation in the Unit app and the live ETAs it shares with Dispatch, Big Board and View Call. Also needs a Valhalla or Mapbox routing provider ([Maps & Routing](../self-hosted/maps-and-routing#routing)). | — | M0308 (off) |
 | `Records.System` | The Records module; replaces Logs in the sidebar. A department must also **activate** Records. | — | M0152 (off) |
 | `Records.Field.Responder` / `.Unit` / `.IncidentCommand` / `.Dispatch` | Field Records surfaces in each app. | `Records.System` | M0152 |
 | `Records.Prevention.Occupancy` | Occupancies and the pre-plan crosswalk. | `Records.System` | M0186 |

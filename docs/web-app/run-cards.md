@@ -23,7 +23,7 @@ Feature flag: `Dispatch.RunCards`. Menu: **Department dropdown → Dispatch Sett
 | **Automatically dispatch recommended resources** | On: matched cards dispatch immediately when the call is created (including calls from email/SMS import and the API). Off: recommendations pre-populate the New Call page for dispatcher review. |
 | **Minimum unit staffing to dispatch** | Units staffed below this level (Partially staffed, Degraded …) are not selected even if their status matches. Units without defined roles always pass. |
 | **Enable move-up / backfill recommendations** | After selection, check station coverage minimums and recommend relocating resources to depleted stations. |
-| **Closest unit response tuning** | For closest-unit mode: maximum age of a GPS position, maximum radius, whether stale positions may still be used, ordering by driving ETA (and how many candidates get a drive-time lookup), and the two **turnout times** — *In-quarters turnout* and *Mobile turnout* (see below). |
+| **Closest unit response tuning** | For closest-unit mode: what "closest" means (**Rank closest units by**: *Fastest response* or *Shortest distance*, see [below](#fastest-response-or-shortest-distance)), maximum age of a GPS position, maximum radius, whether stale positions may still be used, ordering by driving ETA (and how many candidates get a drive-time lookup), and the two **turnout times** — *In-quarters turnout* and *Mobile turnout* (see below). |
 | **Station coverage minimums** | Per station: minimum number of each unit type or personnel role that should remain available, a radius for closest-unit mode, enabled flag. |
 
 Station response areas come from the **geofences** you draw on [Groups & Stations](groups-stations).
@@ -45,6 +45,38 @@ Closest-unit mode ranks units by **response time**: how long the crew needs to g
 - Travel time is a straight-line estimate unless **Order by driving ETA** is on, in which case the best candidates are re-ranked on turnout plus routed drive time.
 - Example: an ambulance at its station 1 km away (2 min turnout + ~2 min travel) is ranked after an ambulance already on the road 1.5 km away (30 s turnout + ~3 min travel).
 - A station needs coordinates (or a geofence, or an address that can be geocoded) on [Groups & Stations](groups-stations) for units to be placed there.
+
+### Fastest response or shortest distance
+
+**Rank closest units by** decides what "closest" means, for every closest-unit run card and for the [Nearest Units](dispatch-calls#nearest-units) list on New Call and Update Call:
+
+| Option | Units are ranked by | Drive times |
+|---|---|---|
+| **Fastest response (turnout + travel time)** (the default) | Turnout plus travel time, as described above. | With **Order by driving ETA** on, the **ETA shortlist size** fastest candidates for each requirement get a routed drive time and are re-ranked on it. They are picked ahead of the units that only have a straight-line estimate. |
+| **Shortest distance** | Straight-line distance to the call, whatever the turnout or drive time. Response time only breaks a tie. | With **Order by driving ETA** on, the **ETA shortlist size** nearest candidates for each requirement still get a routed drive time. It is shown with the pick, but never changes the order. |
+
+- In a conditional run card, rows that ask for the *first arriving* unit still go to the fastest unit in either mode, and time conditions (*arrives before*, *available within*) measure the unit the card would pick, on its drive time when it has one.
+- Station-based run cards ignore this setting: they fill from the station cascade as before.
+- A straight-line estimate can be far too optimistic where the roads don't go straight to the call: a river, a one-way system or a city circulation plan can turn 3 km into a 13-minute drive. If a unit that should win sits just outside the shortlist, raise **ETA shortlist size** so its real drive time is looked up.
+- Example: MUG 1 is 13 minutes away by road and MUG 2 is 6 minutes away in a straight line. With a shortlist of 1 only MUG 1's drive time is known, so MUG 1 is picked. With a shortlist of 2 both are looked up and MUG 2 wins if its drive really is shorter.
+
+### Travel modes and road closures
+
+Each unit is measured the way it travels, as set by the [travel mode](units#travel-mode) of its unit type or of the unit itself:
+
+| Travel mode | Travel time |
+|---|---|
+| **Driving** (the default) | The routed road drive time, with the unit's vehicle size and weight limits and live traffic where configured. Driving units rank exactly as before |
+| **Cycling**, **On foot** | Routed on cycle routes or footpaths; with an average speed set, the routed distance at that speed. A straight-line estimate is the distance × 1.3 at the mode's speed (15 km/h cycling, 5 km/h on foot, unless set) |
+| **Air** | The straight line at the unit's air speed (180 km/h unless set). Never routed, so it needs no drive-time lookup and is not marked as an estimate |
+
+- Turnout times are added on top, the same for every mode.
+- Personnel (responders) are always measured as driving.
+- Active [road closures](mapping#road-closures) that stop the unit's kind of traffic change its routed time: full closures are routed around as far as the installation's routing provider can, or charged the closure's detour time where it can't; partial closures slow the time spent inside them. Air units never meet a closure. Straight-line estimates ignore closures, so they matter for the units on the drive-time shortlist.
+- The recommendation adds a note for each closure the drive times account for: *Drive times account for the road closure 'City marathon'.*
+- The same measurement is used by conditional run cards, the [Nearest Units](dispatch-calls#nearest-units) list and the Awaiting Resources estimates.
+
+Example: a festival closes the town centre to vehicles (a full closure that stops vehicles only). For a call on the far side of the centre, the ambulance 1 km away has to drive around it and needs 9 minutes, while the bike team 1.2 km away rides 1.5 km of streets through the centre in 6 minutes and is ranked first.
 
 ### When the call has no location
 
@@ -84,7 +116,7 @@ Closest-unit and station-based selection need the call's location. If the call h
 | **Volunteer fire, 2 stations** | *Structure fire* (priority High + type Fire): L1 Engine×2, Tender×1, Chief role×1; L2 adds Engine×1 from the neighbouring station. *Medical*: Rescue×1, EMT role×2. Station-based mode, auto-dispatch off (officer reviews). |
 | **Career fire, 5 stations** | Cards per type with closest-unit mode, auto-dispatch on, coverage minimums (1 engine per station), move-ups enabled. |
 | **EMS** | *ALS emergency*: Ambulance×1 + Paramedic role×1; *BLS*: Ambulance×1. Minimum staffing *Fully staffed*. |
-| **EMS with recognised turnout times** (e.g. Belgian ambulance / MUG) | Closest-unit mode; *At station* status with base type **In Quarters**; *Available on the road* (radiofonisch) with base type **Available**; In-quarters turnout **120**, Mobile turnout **30**. |
+| **EMS with recognised turnout times** (e.g. Belgian ambulance / MUG) | Closest-unit mode ranked by **Fastest response**, **Order by driving ETA** on with a shortlist of 3–5; *At station* status with base type **In Quarters**; *Available on the road* (radiofonisch) with base type **Available**; In-quarters turnout **120**, Mobile turnout **30**. |
 | **SAR** | *Missing person*: Team leader role×1, Searcher role×6, K9 role×1 — manual selection (people, not apparatus). |
 | **Security** | *Alarm response*: Patrol unit×1 closest-unit, auto-dispatch on; *Medical on site*: adds First-aid role×1. |
 | **Industrial ERT** | *Hazmat release*: Hazmat team×1 + Safety officer role×1 + Fire brigade×1; coverage minimum keeps one crew in the plant. |
@@ -94,8 +126,9 @@ Closest-unit and station-based selection need the call's location. If the call h
 | Item | Value |
 |---|---|
 | Routes | `/User/RunCards/{Index,New,Edit,Preview}`, `/User/Dispatch/GetDispatchRecommendation?priority=&type=&latitude=&longitude=&alarmLevel=`; v4 `GET RunCards/GetRecommendation` (new call) and `GET RunCards/GetCallRecommendation?callId=&alarmLevel=` and `/User/Dispatch/GetCallDispatchRecommendation?callId=&priority=&type=&latitude=&longitude=` (Update Call; form values override the stored call) (adding resources, both built by `DispatchRecommendationRequest.ForCallInProgress`: `DispatchRecommendationRequest.CountDispatchedTowardRequirements` at the call's current level; a higher level previews Strike Next Alarm, filled in full) |
-| Settings | Department settings 58–60 (dispatch mode, auto-dispatch, tuning). Setting 60 is `DispatchRecommendationConfig`: location ages, radius, stale inclusion, routed ETA + shortlist, rest period, staffing gate, move-up, `InQuartersTurnoutSeconds`, `MobileTurnoutSeconds`. Station coverage rows per group |
+| Settings | Department settings 58–60 (dispatch mode, auto-dispatch, tuning). Setting 60 is `DispatchRecommendationConfig`: location ages, radius, stale inclusion, routed ETA + shortlist, rest period, staffing gate, move-up, `InQuartersTurnoutSeconds`, `MobileTurnoutSeconds`, `ClosestUnitRanking` (`ClosestUnitRankingModes`: `FastestResponse` 0, `ShortestDistance` 1; distance mode makes no routed lookups). Station coverage rows per group |
 | Unit placement | `UnitResponseOrigin` (shared with the New Call nearest-units board): In Quarters base type (23) → station, else GPS fix, else station. Results carry `PositionSource`, `TurnoutSeconds`, `ResponseSeconds` (turnout + travel); `EtaSeconds` is travel only |
+| Travel modes and closures | `UnitTravelProfile` (M0314: the unit's `TravelMode` / `TravelSpeedKmh`, else its type's) drives `IGeoService.GetTravelEstimateAsync`: walking and cycling routing profiles, air as a straight line (`EtaSources.Direct` 3, never routed), straight-line estimates × `UnitResponseOrigin.EstimatedRoadDistanceFactor` (1.3). The department's active closures for the unit's mode go with each routed lookup (`IRoadClosureService.GetRoutingClosuresAsync`); each closure is noted once per recommendation |
 | Model | `RunCard`, `RunCardTrigger`, `RunCardAlarmLevel`, `RunCardUnitRequirement`, `RunCardRoleRequirement`, `RunCardStatusSelection`, `StationCoverageMinimum` |
 | Feature flag | `Dispatch.RunCards` (seeded by M0116) |
 | Workflow events | Run-card activation, escalation and move-up events (48–51) are available as triggers |

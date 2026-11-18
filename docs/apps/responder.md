@@ -46,10 +46,10 @@ Resgrid Responder is a cross-platform application designed for **individual firs
   - Name, nature/description, priority, and type
   - Contact name and information
   - **Five location input methods**: address search (Google Geocoding), GPS coordinate entry, [what3words](https://what3words.com) word search, Plus Code search, and interactive map picker
-  - **Dispatch selection**: multi-select personnel, groups, roles, units, or everyone
+  - **Dispatch selection**: multi-select personnel, groups, roles, units, or everyone. If nobody is picked, the call is created for information only and pages nobody: choose *Everyone* to page the whole department.
 - **Call detail view** with tabbed content: info, contact, protocols, dispatched resources, and timeline
 - Add **notes**, **images**, and **file attachments** to calls
-- **Route to call** via native maps for turn-by-turn navigation
+- **Route to call** for turn-by-turn navigation, in the app chosen under **Settings → Navigation App** (the device's default, Google Maps, Apple Maps or Waze)
 - Edit and close existing calls (permission-gated) — **Notify everyone on the call** (on by default) tells the dispatched personnel, groups, roles, units and command team it closed; a call under an active incident command is refused with the reason shown
 
 ### Personnel & Units
@@ -119,7 +119,7 @@ Personal and assigned checks (start-of-shift, personal gear, station duties) run
 
 ### Field Records
 
-When `Records.Field.Responder` is enabled, members author Records in the field (run reports, training records, department definitions such as SAR clue reports or damage assessments) with offline drafts, attachments and sync; finalisation can be handed to the web app. See [Records](../web-app/records/overview).
+When `Records.Field.Responder` is enabled, members author Records in the field (run reports, training records, department definitions such as SAR clue reports or damage assessments) with offline drafts, attachments and sync; finalisation can be handed to the System. See [Records](../web-app/records/overview).
 
 ### Deployments
 
@@ -144,8 +144,9 @@ Names a department sets under [Terminology](../web-app/department-settings#termi
 | **Server URL** | Custom API endpoint for self-hosted deployments |
 | **Login Info** | Update username and password |
 | **Theme** | Light, Dark, or System |
-| **Language** | English, Spanish, or Arabic |
+| **Language** | English, Spanish, Swedish, German, Greek, French, Italian, Polish, Ukrainian or Arabic |
 | **Keep Alive** | Prevent screen from sleeping |
+| **Navigation App** | App this device opens for directions to a call, destination or map pin: *Device default* (Android: the default maps app or the system chooser; iOS: Apple Maps), *Google Maps*, *Apple Maps* (iOS only) or *Waze*. If the chosen app isn't installed the next option is tried; Waze then opens its web link. A call without usable coordinates is navigated to by its address. Kept when someone signs out. |
 | **Realtime Geolocation** | Send GPS position to API in real-time |
 | **Background Geolocation** | Track location when app is backgrounded |
 | **Bluetooth Device** | Scan and pair BLE PTT headsets |

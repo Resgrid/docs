@@ -95,18 +95,53 @@ A name is up to 50 characters; invisible characters are removed and runs of spac
 |---|---|
 | **Group dispatch** | **Use shift for group dispatch** — dispatching a group sends only to the people signed up for today's shift. **Set status for shift personnel on dispatch** — automatically set them to a chosen status (default *Responding to scene*). |
 | **Unit dispatch** | **Also dispatch to assigned personnel** (the crew staffed on the unit) and/or **Also dispatch to entire group** (the unit's station). **Personnel on unit set unit status** — when a unit reports a status, its crew are set to *On unit*. |
-| **Default call statuses** | The status personnel / units are set to when **dispatched** and when **released** from a call; per-unit-type overrides for types with custom statuses. The release status only moves units still working the call: a unit already back in service, out of service, unavailable or on a break (by its status's [base type](../configuration/custom-statuses)), or working another open call, keeps its status. **Close call when last unit clears** closes an active call on its own when its last dispatched unit reports back in service or out of service; see [Closing a call automatically](dispatch-calls#closing-a-call-automatically). The unit statuses are chosen by meaning; see [Unit status on dispatch and release](#unit-status-on-dispatch-and-release). |
+| **Default call statuses** | The status personnel / units are set to when **dispatched** and when **released** from a call; per-unit-type overrides for types with custom statuses. The release status only moves units still working the call: a unit already back in service, out of service, unavailable or on a break (by its status's [base type](../configuration/custom-statuses)), or working another open call, keeps its status. **Close call when last unit clears** closes an active call on its own when its last dispatched unit reports back in service or out of service; see [Closing a call automatically](dispatch-calls#closing-a-call-automatically). **Transport destination checks** asks for a reason when a unit's Transporting or At Hospital status goes to a destination other than its call's, and notes the change on the call; see [Transport destinations](dispatch-calls#transport-destinations). The unit statuses are chosen by meaning; see [Unit status on dispatch and release](#unit-status-on-dispatch-and-release). |
 | **Rest period** | Deprioritise a unit or person for N minutes after a dispatch so the same resources are not sent back-to-back. |
-| **New call form fields** | Which built-in fields appear on the call forms and which are required (name, nature, priority and type are always shown and required). The same rules apply to the New Call, Edit Call and Add Archived Call pages and to the Dispatch, Responder, Unit and IC apps. A hidden field is left off the form, and editing a call keeps whatever it already holds for that field. A call saved as [pending](dispatch-calls#pending-and-scheduled-calls) skips the *dispatch list* and *dispatch on* requirements — the dispatcher picks recipients when sending it — and *dispatch on* is never required when editing a call or adding an archived one. *Plus Code* can be hidden but not required: it only finds the location and is not saved on the call, so require *GPS Coordinates* instead. |
+| **New call form fields** | Which built-in fields and sections the call forms show, and which must be filled in before a call can be created; see [New call form fields](#new-call-form-fields). |
 | **Unit status timers** | Highlight a unit on the Big Board when it has sat in a status too long (e.g. dispatched > 4 min without departing). Dispatchers can acknowledge, mute or annotate the alert from the Big Board's Unit Alerts widget — see [Big Board](../apps/big-board). **Reason when acknowledging** makes that note required: *Optional* (default), *Required for alerts*, or *Required for warnings and alerts*. Timers key on a status's [meaning](custom-statuses#status-meanings): a status with no meaning is never timed, so the page warns when units are dispatched to one, or when a status set in use has options without a meaning. |
-| **Run cards & automatic dispatch** | Selection mode, auto-dispatch, minimum staffing, move-ups, closest-unit tuning (maximum location age, radius, include stale, order by driving ETA, shortlist size, **in-quarters turnout** and **mobile turnout** in seconds), station coverage minimums — see [Run Cards](run-cards#how-closest-unit-mode-measures-a-unit). Turnout is added to travel time when units are ranked: in-quarters turnout for units in an *In Quarters* status or with no GPS position, mobile turnout for units ranked from their GPS. Both default to 0 (rank by distance only). |
+| **Run cards & automatic dispatch** | Selection mode, auto-dispatch, minimum staffing, move-ups, closest-unit tuning (**rank closest units by** fastest response or shortest distance — see [Run Cards](run-cards#fastest-response-or-shortest-distance), maximum location age, radius, include stale, order by driving ETA, shortlist size, **in-quarters turnout** and **mobile turnout** in seconds), station coverage minimums — see [Run Cards](run-cards#how-closest-unit-mode-measures-a-unit). Turnout is added to travel time when units are ranked: in-quarters turnout for units in an *In Quarters* status or with no GPS position, mobile turnout for units ranked from their GPS. Both default to 0 (rank by distance only). |
 | **Check-in timers** | Auto-enable on new calls, default timer configs and per-type/priority overrides — see [Call Check-in Timers](call-checkin-timers). |
+
+<a id="new-call-form-fields"></a>
+
+### New call form fields
+
+Choose which fields and sections the call forms show (**Visible**) and which must be filled in before a call can be created or an edit saved (**Required**). The rules apply to **New Call**, **Update Call** and **Add Archived Call**, to the Omni app, and through the API. A department that sets nothing sees every field, with nothing required.
+
+![New call form fields with the dispatch lists, map page, check-in timers and Part 2 hidden, and the warning shown when every dispatch list is hidden](/img/web-app/department/new-call-form-fields.png)
+
+| Field | Hide | Require | Notes |
+|---|---|---|---|
+| **Address**, **GPS Coordinates**, **what3words** | Yes | Yes | The location section shows while any of the three does. A pin is needed to satisfy *GPS Coordinates*; an address alone does not. |
+| **Plus Code** | Yes | No | Only finds the location and is not saved on the call: require *GPS Coordinates* instead. |
+| **Destination**, **Indoor Location** | Yes | Yes | |
+| **Map Page** | Yes | Yes | |
+| **Note** | Yes | Yes | An empty editor does not count as a note. |
+| **Reporter Name**, **Reporter Contact Info** | Yes | Yes | |
+| **Primary Contact** | Yes | Yes | Only required where there are contacts to pick from. |
+| **Additional Contacts** | Yes | No | |
+| **Call Identifier (External ID)**, **Incident ID**, **Reference ID** | Yes | Yes | |
+| **Protocols**, **Linked Call** | Yes | Yes | |
+| **Dispatch to Personnel**, **Dispatch to Groups**, **Dispatch to Roles**, **Dispatch to Units** | Yes | No | Each recipient list (a tab or the Units section of the form) can be hidden on its own. |
+| **Dispatch Recipients** | — | Yes | Required means at least one recipient, from any list. Shown while any list is; a pending call and an archived call skip it. |
+| **Check-In Timers** | Yes | No | Hidden, a new call follows the department's *Auto-enable on new calls* [check-in timer](call-checkin-timers) setting. |
+| **42 CFR Part 2 Consent** | Yes | No | Hidden, a new call is saved without consent on file. |
+| **Scheduled Dispatch** | Yes | Yes | Never required when editing a call or adding an archived one. |
+| **Save as Pending** | Yes | No | |
+
+Always shown and always required: **Name**, **Nature of the call**, **Priority** and **Type**. The forms also leave out what there is nothing to pick from: the **Template** button without [call templates](templates), the contact pickers without [contacts](contacts), and **Type** without [call types](types-configuration#call-types).
+
+**Hiding every dispatch list.** Unticking all four lists shows a warning on this page, and the call forms show an optional **All Call** button in place of the lists (see [Who gets dispatched](dispatch-calls#who-gets-dispatched)). Left off, a new call is informational and pages nobody; switched on, it goes to everyone in the department. Run cards that dispatch automatically still send their units. [Admin Assist](help-setup) lists this as a warning, **New calls have no dispatch lists**, until at least one list is shown again; if your department means to work this way, record an [accepted exception](help-setup#follow-up-on-findings) on the finding.
+
+**Editing a call.** A hidden field is not on the edit form, so the call keeps what it already holds for it; the same for the recipients of a hidden list. A required field is checked on the call as the edit leaves it.
+
+**Older apps.** The Dispatch, Responder, Unit and IC apps know only some of these rules: they hide their whole recipient picker only when every list is hidden, and do not show All Call. A call created from them with nobody picked goes to nobody; their *Everyone* choice still pages the whole department.
 
 <a id="unit-status-on-dispatch-and-release"></a>
 
 ### Unit status on dispatch and release
 
-**Unit Call Dispatch Status** is set on every unit dispatched to a call. **Unit Call Release Status** is set on the units still working a call when it is closed or they are taken off it. Both are chosen by **meaning**, not by a status name, so one setting works for every unit type: each unit gets the first active option (by order) of its own status set with that meaning. Its own set is the custom status set of its unit type, or the built-in unit statuses when the type has none.
+**Unit Call Dispatch Status** is set on every unit dispatched to a call. **Unit Call Release Status** is set on the units still working a call when it is closed, they are taken off it, or they are [released from it](dispatch-calls#releasing-a-unit-or-person-from-a-call). Both are chosen by **meaning**, not by a status name, so one setting works for every unit type: each unit gets the first active option (by order) of its own status set with that meaning. Its own set is the custom status set of its unit type, or the built-in unit statuses when the type has none.
 
 ![Unit dispatch settings: dispatch and release status set to Default, a warning listing Engine and Rescue, and the unit type overrides](/img/web-app/department/dispatch-settings-unit-status-meanings.png)
 
@@ -159,7 +194,7 @@ Every new call gets a number, shown in front of its name on the call list, the c
 
 | Setting | Meaning |
 |---|---|
-| **Call number pattern** | Fixed text around tokens, up to 40 characters. Letters, digits, `-`, `_`, `.` and `/` are kept as written. The example next to the box shows a sample number as you type. Default `{YY}-{SEQ}`. |
+| **Call number pattern** | Fixed text around tokens, up to 40 characters. Letters, digits, `-`, `_`, `.`, `/` and `:` are kept as written. The example next to the box shows a sample number as you type. Default `{YY}-{SEQ}`. |
 | **Sequence digits** | Pads the sequence with leading zeros, 1 to 8. `4` writes `0153`; `1` writes it without zeros, as the default numbers are. |
 | **Numbering year starts** | The month and day your numbering year starts, and which year names it. January 1 (the default) is the calendar year. See [Fiscal year numbering](#fiscal-year-numbering). |
 | **Next call number** | The number the next call logged now receives, and when the sequence starts again. |
@@ -174,15 +209,18 @@ The numbers are saved with the other Call Settings when you press **Update**.
 | `{YYYY}` or `{YY}` | The year, `2026` or `26`. With a fiscal year start, the fiscal year's name. |
 | `{MM}` | The month, `01` to `12`. Needs a year token. |
 | `{DD}` | The day of the month, `01` to `31`. Needs `{MM}`. |
+| `{HH}` | The hour the call was logged, `00` to `23`. Needs `{DD}`. |
+| `{MIN}` | The minute, `00` to `59`. Needs `{HH}`. (`{MM}` is the month.) |
 | `{SEQ}` | The sequence number. Required, exactly once. |
 
-Dates are the date the call was logged, in your department's time zone. The sequence **starts again at 1 whenever the date in the number changes**: every year with a year token, every month with `{MM}`, every day with `{DD}`. A pattern with no date never starts again.
+Each token can be used once. Dates and times are when the call was logged, in your department's time zone. The sequence **starts again at 1 whenever the date in the number changes**: every year with a year token, every month with `{MM}`, every day with `{DD}`. A pattern with no date never starts again. The hour and minute are written into each number but **never start the sequence again**, so a pattern with a time counts the day's calls: two calls logged in the same minute still get different numbers.
 
 | Pattern | Digits | Example | Starts again |
 |---|---|---|---|
 | `{YY}-{SEQ}` (default) | 1 | `26-153` | Each year |
 | `FD-{YYYY}-{SEQ}` | 4 | `FD-2026-0153` | Each year |
 | `{YYYY}{MM}{DD}-{SEQ}` | 3 | `20261006-012` | Each day |
+| `{DD}-{MM}-{YYYY}-{HH}:{MIN}-{SEQ}` | 1 | `16-11-2026-19:53-14` (the day's 14th call, logged at 19:53) | Each day |
 | `{SEQ}/{YY}` | 5 | `00153/26` | Each year |
 | `E{SEQ}` | 6 | `E000153` | Never |
 
@@ -241,7 +279,7 @@ A department moving to Resgrid part way through a year can carry on its numberin
 | Setting | Meaning |
 |---|---|
 | **Numbering year starts** | The month and day the numbering year starts, and whether it is named by the year it ends in (the default) or starts in. January 1 is the calendar year. Work order numbers, and any pattern with a year, start again at 1 that day. |
-| **Pattern** | Leave it blank to keep the built-in numbers. Otherwise fixed text around `{YYYY}` or `{YY}`, `{MM}`, `{DD}` and `{SEQ}`, the same tokens as [call numbers](#pattern-tokens). The example under the box shows a sample as you type. |
+| **Pattern** | Leave it blank to keep the built-in numbers. Otherwise fixed text around `{YYYY}` or `{YY}`, `{MM}`, `{DD}` and `{SEQ}`, the same tokens as [call numbers](#pattern-tokens) except the time (`{HH}`, `{MIN}` and `:` are for call numbers only). The example under the box shows a sample as you type. |
 | **Digits** | Pads the sequence with leading zeros, 1 to 8. |
 | **Next number** | For a custom pattern, the number the next document receives and when the sequence starts again; for the built-in numbers, a sample. |
 | **Raise next to** | For a custom pattern, carry on numbering from another system. It can only be raised. |
@@ -299,7 +337,9 @@ For example, a department can call Run **Incident**, Work **Shift On Duty** and 
 
 `/User/Department/MappingSettings` — for personnel and units: **TTL in minutes** for locations shown on maps (0 = show forever) and **allow a status with no location to hide the previous location**. See [Mapping](mapping).
 
-**Map Style** picks the Mapbox base map every map in your department shows — the website and the Dispatch, Responder, Unit, IC and Big Board apps on iOS, Android and web:
+### Map style
+
+**Map Style** picks the base map every map in your department shows — the website and the Dispatch, Responder, Unit, IC and Big Board apps on iOS, Android and web. Under the heading the page lists, read-only, what your Resgrid installation uses: the **base map** (Mapbox, or the server's own maps), **routing** (Valhalla, Mapbox, Google, OSRM or a straight-line estimate) and whether **live traffic** is available.
 
 | Setting | Choices | Notes |
 |---|---|---|
@@ -308,7 +348,9 @@ For example, a department can call Run **Incident**, Work **Shift On Duty** and 
 
 **Community styles** are the designer maps from the [Mapbox gallery](https://www.mapbox.com/gallery)'s community templates: American Memory, Basic, Basic Overcast, Blueprint, Bubble, Cali Terrain, Decimal, Finland Topo, Frank, Ice Cream, Lè Shine, Mineral, Minimo, Moonlight, Neon Glow, North Star, Pencil, Standard Oil Company, Mapbox Streets Japan and Unicorn. Several are artistic and show little street detail (Bubble, Neon Glow and Unicorn especially), so check the preview before using one for dispatch. Two gallery styles that Mapbox does not publish for use by other accounts (NASA's Black Marble, Water World) are not offered.
 
-Previews of both styles centred on your department appear under each picker. Apps pick up a change the next time they load their configuration (sign-in or app restart). If your Resgrid installation has no Mapbox token for the website, website maps keep the standard map and the style applies in the apps only; the page says so. The **Department Mapbox Override** (your own Mapbox style and public `pk.` token) takes precedence everywhere: the website and all the apps then render your custom style (in light and dark mode) on your token.
+**Only the styles the installation can draw are listed.** On a Mapbox installation that is every style above. On an installation that draws its own maps (self-hosted tiles), the list is headed *This server's styles*: the community styles are not offered, and the satellite styles only when the server provides satellite imagery; a style without its own counterpart on the server shows the server's standard day or night map. A style your department chose earlier that the installation can no longer draw stays in the list, marked *(not available on this server)*, so saving the page never changes it without you noticing.
+
+Previews of both styles, centred on your department, appear under each picker. The Resgrid server draws them the way it will draw your maps (Mapbox, the server's style server, or its map tiles), so what you see is what members get. Apps pick up a change the next time they load their configuration (sign-in or app restart). If website maps cannot follow the style — no Mapbox token for the website and no [MapLibre web maps](mapping#base-map) — they keep the standard map and the style applies in the apps only; the page says so. The **Department Mapbox Override** (your own Mapbox style and public `pk.` token) takes precedence everywhere: the website and all the apps then render your custom style (in light and dark mode) on your token.
 
 The apps also receive the Mapbox token to use from the server when they load their configuration: your department's override token, or else the token your Resgrid installation configures for that app. Each app checks the token with Mapbox once, stores it on the device, and falls back to the token built into the app when none is sent or the token is invalid, expired or revoked — so a token can be rotated without an app update.
 
@@ -318,6 +360,68 @@ The apps also receive the Mapbox token to use from the server when they load the
 | Structure fire, EMS, transport | Navigation Day / Navigation Night for driving, or Streets |
 | Dispatch centre wall displays | Light or Dark to keep pins and polygons high-contrast; Moonlight or Decimal for a minimal backdrop |
 | Marine / coastal rescue | North Star (nautical chart look) |
+
+### Your own map providers
+
+Your department can use its own accounts with map providers instead of Resgrid's. Your provider is always tried first. When it fails, times out or can't answer a particular request, Resgrid's own providers answer it, so maps, routes and drive times keep working. A failing key of yours never affects other departments.
+
+Keys are stored encrypted and are never shown again: the page only says that one is saved. Leave a key field blank to keep the saved key. Set a part back to **Resgrid default** to stop using your account for it and remove its keys.
+
+| Part | Choices | What you enter |
+|---|---|---|
+| **Routing provider** | Mapbox, Google, Valhalla, OSRM | Mapbox: a token with Directions, Matrix and Optimization access. A secret `sk.` token is fine, because it never leaves the Resgrid server. Google: a key with the Directions and Distance Matrix APIs, or the Routes API (Google Cloud projects created after March 2025). Valhalla or OSRM: your server's `https` address, and for Valhalla an optional key sent as an `X-Api-Key` header or a Bearer token (hosted Valhalla services such as SimpleRouting use Bearer) |
+| **Live traffic layer** | Mapbox Traffic, traffic tile URL | Mapbox: a public `pk.` token. Tile URL: an `https` image tile address with `{z}`, `{x}` and `{y}`, for example TomTom traffic flow tiles |
+| **Address lookups** | Google, Mapbox, LocationIQ | An API key |
+
+Your routing provider is used for route plans and their directions, Live and Station Routing, run card and closest-unit drive times, and in-app navigation. In-app navigation needs Mapbox or Valhalla. The map provider summary at the top of **Map style** shows "(your account)" next to routing and traffic when yours is in use.
+
+Points to know:
+
+- **Your server must be public.** A Valhalla or OSRM address must use `https` and be reachable on the public internet. Resgrid refuses private and internal addresses.
+- **Traffic keys are visible.** The traffic token, or a traffic tile URL and any key in it, is sent to your members' browsers and apps. Restrict that key to traffic tiles, and to your domains where the provider allows it.
+- **Address lookups are shared.** They use your key when someone in your department works in the website or the apps. Background work, such as calls created from email or text messages, uses Resgrid's providers. Resgrid remembers looked-up addresses for 30 days, so an address anyone has looked up recently is answered without calling a provider.
+
+### Navigation
+
+Defaults for turn-by-turn navigation in the Resgrid Unit app. The page notes when in-app navigation (`Navigation.InApp`, see [Feature Flags](../reference/feature-flags)) is not on for your department yet; the defaults are saved anyway and apply once it is.
+
+| Setting | Default | Notes |
+|---|---|---|
+| **Spoken guidance** | On | Directions are read aloud. Crews can still turn it off on their device |
+| **Distance units** | Follow the device | Or miles and feet, or kilometres and metres |
+| **Arrival radius** | 50 m | How close a unit must get to count as arrived (10–1000 m) |
+| **Offer On Scene on arrival** | On | On arrival at a call, navigation offers to set the unit On Scene |
+| **Avoid by default** | None | Tolls, highways, ferries, unpaved roads. Crews can change them for a trip |
+
+### Route deviations
+
+How [Routes](routes#deviations) judge timing. These apply today, whatever app the unit uses.
+
+| Setting | Default | Notes |
+|---|---|---|
+| **Record late arrivals and long stops** | On | A deviation is recorded when a unit arrives at a stop later than planned, or stays longer than its estimated time |
+| **Deviation threshold** | 15 minutes | How late, or how far over the stop time, before it counts (1–1440) |
+
+### Offline maps
+
+What the Resgrid apps download so their maps work without a network. The page notes when offline maps (`Maps.Offline`) are not on for your department or installation yet; the settings are saved anyway.
+
+| Setting | Default | Notes |
+|---|---|---|
+| **Maximum response area** | A 40 km circle around the department map centre | The area the apps download at full detail ([below](#drawing-the-response-area)) |
+| **Included data** | All | Custom maps, indoor maps, map layers, points of interest, hydrants |
+| **Downloads** | Over Wi-Fi only | Or over any network, or only when the user starts them |
+| **Calls outside the area** | On, 3 km | The map around a call outside the area is downloaded too (1–25 km) |
+| **Routes outside the area** | On, 500 m | The map along a planned route where it leaves the area, this far either side (50–5000 m) |
+| **Check for updates every** | 24 hours | How often the apps look for changed maps (1–720) |
+| **Out of date after** | 7 days | Downloaded maps not refreshed for this long are marked out of date (1–365) |
+| **Use downloaded maps when online** | Off | Inside the area, use the downloaded base map even with a network, to save mobile data |
+
+#### Drawing the response area
+
+Draw the area on the map with the polygon and rectangle tools; several shapes are fine (a main district and a detached island, say). You can instead paste a GeoJSON Polygon or MultiPolygon from your GIS tool into the box under the map. **Clear area** goes back to the default circle.
+
+Every change is measured: under the map a bar shows the download size against the installation's limit (500 MB unless your installation sets another), and the area in km². An area over the limit is refused when you save, with nothing on the page saved, so you can shrink it and save again. An area you saved before stays accepted even if a later map update makes it larger than the limit. If the installation has no base map for offline packs yet, the page shows the area in km² and says the size cannot be measured.
 
 ## API settings
 

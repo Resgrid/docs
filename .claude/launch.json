@@ -6,6 +6,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["docusaurus", "serve", "--port", "3111", "--no-open"],
       "port": 3111
+    },
+    {
+      "name": "docs-dev",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["docusaurus", "start", "--port", "3112", "--no-open"],
+      "port": 3112
     }
   ]
 }

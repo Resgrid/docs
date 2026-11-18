@@ -10,7 +10,7 @@ Audio and Push To Talk (PTT) in Resgrid provides voice communication capabilitie
 
 ## Why Audio and PTT Matter
 
-During emergency operations, voice communication is often faster and more effective than text-based messaging. Push To Talk channels give your department a built-in voice communication system that works alongside your dispatch, mapping, and status features. Audio streams allow personnel to listen to relevant radio feeds directly from the Resgrid web application without needing separate equipment or apps.
+During emergency operations, voice communication is often faster and more effective than text-based messaging. Push To Talk channels give your department a built-in voice communication system that works alongside your dispatch, mapping, and status features. Audio streams allow personnel to listen to relevant radio feeds directly from the Resgrid System without needing separate equipment or apps.
 
 ## Scope
 
@@ -84,7 +84,7 @@ Audio and voice features are controlled by the following permissions:
 | -------------- | ------------------------------------------------------------------ |
 | Subscription   | PTT requires an appropriate subscription plan                      |
 | Personnel      | All department personnel are synced to the VoIP provider           |
-| Web App        | Audio streams are accessible from the Voice section                |
+| System         | Audio streams are accessible from the Voice section                |
 | Mobile Apps    | Voice channels are available in Resgrid mobile applications        |
 
 ## Common Errors and Resolutions

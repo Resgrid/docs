@@ -34,21 +34,50 @@ Click **New Layer** to create a new map layer.
 | ---------------- | -------- | --------------------------------------------------------------- |
 | Name             | Yes      | A descriptive name for the layer (e.g., "First Due Districts")  |
 | Color            | Yes      | The color used to render the layer on the map                   |
-| GeoJSON          | Yes      | The GeoJSON FeatureCollection data defining the geographic shapes |
+| Layer Elements   | Yes      | The shapes, drawn on the map: markers, lines, polygons, rectangles, circles and text labels |
 | Is Searchable    | No       | Whether the layer's features are included in map search results |
 | Is On By Default | No       | Whether the layer is visible by default when the map loads      |
 
-:::tip GeoJSON Format
-The GeoJSON data must be a valid **FeatureCollection**. You can create GeoJSON data using tools like [geojson.io](https://geojson.io), QGIS, or by exporting from your existing GIS system. Each feature in the collection will be rendered as a separate shape on the map.
+Draw the shapes with the toolbar on the map: markers, lines, polygons, rectangles, circles and text labels, with tools to cut holes, rotate, move and reshape, and snapping to shapes you already drew. See [Map Layers](../web-app/mapping#map-layers) for each tool.
+
+:::tip Shapes from a GIS system
+The layer is stored as a GeoJSON **FeatureCollection** (each shape with its `shape`, `color`, `name` and, for circles and labels, `radius` or `text`). Polygons keep their holes and shapes cut into several parts are stored as multipolygons. To bring in a district or event file from QGIS, Google Earth, Google My Maps or another GIS system, [import it as a layer](#importing-a-layer-kml-kmz-geojson).
 :::
+
+### Importing a Layer (KML, KMZ, GeoJSON)
+
+Click **Import Layer** to make a layer from a file: the route of a marathon or cyclocross race, the site plan of a concert or festival, the vendors and stops of a street event over several blocks. Google My Maps and Google Earth export KML/KMZ; most GIS tools export KML or GeoJSON.
+
+| Field | Required | Description |
+| ----- | -------- | ----------- |
+| File | Yes | A `.kml`, `.kmz`, `.geojson` or `.json` file, up to 30 MB |
+| Name | Yes | The layer's name, usually the event's ("City Marathon 2026") |
+| Description | No | What the layer is for |
+| Default Color | Yes | The color for shapes the file gives no color of their own |
+| Starts / Ends | No | The event's dates, in the department's time zone |
+| Organizer, Coordinator / Contact, Contact Phone, Contact Email | No | Who runs the event and who to call |
+| On by default, Searchable | No | As for a drawn layer |
+
+![Import a layer](/img/web-app/mapping/layer-import.png)
+
+Every point, line and polygon in the file becomes a shape on the layer:
+
+- Each shape keeps its **name**, its **description** (as plain text: HTML is removed, and KML ExtendedData or extra GeoJSON properties are added as "Field: value" lines), its **color** (the KML style or the GeoJSON `stroke`/`fill`/`marker-color`), and the KML **folder** it was in.
+- Multi-geometries are split into single shapes, GPS tracks (`gx:Track`) become lines, and polygons keep their holes.
+- Placemarks located only by address (a Google My Maps layer built from a spreadsheet) have no coordinates and are left out; the import says how many. Import those as [POIs](#importing-pois-from-kmlkmz) instead, which looks the addresses up.
+- A layer holds up to 20,000 shapes and 250,000 coordinates. Simplify long GPS tracks, or split a large file into several layers.
+
+On the maps, clicking a shape with a name or description opens it.
+
+**Event dates.** A layer with event dates is shown on every map (web, Omni and the older apps) while the event runs, whatever its *On by default* setting, so crews see the course or site without anyone switching it on and off. Before and after the event it follows *On by default*. The Layers page shows each event as *Upcoming*, *Active now* or *Ended*.
 
 ### Editing a Layer
 
-Click on an existing layer to edit its name, color, GeoJSON data, or visibility settings.
+Click **Edit Shapes** on a drawn layer to change its name, color, shapes or visibility settings. Click **Details** on any layer to set its event dates, organizer and contact, or to **replace the file**: a new file replaces every shape on the layer and keeps the details. An imported layer has no shape editor, because the editor would overwrite each shape's own name and color with the layer's.
 
 ### Deleting a Layer
 
-Layers can be deleted (soft delete) from the Layers page. Deleting a layer removes it from all map views.
+Delete a layer from the Layers page. It disappears from every map, and everything it held goes with it: its shapes, description, organizer and contact details.
 
 ## Points of Interest (POIs)
 

@@ -213,5 +213,5 @@ If you change your email address, mobile number, or home number, the verificatio
 | **Certifications** | Certification types from Types module |
 | **Department** | Multi-department membership management |
 | **Security** | Password reset subject to admin permissions |
-| **Dashboard** | Active department determines dashboard context |
+| **Dashboard** | Active department determines dashboard context; [home dashboard](dashboard) boards are saved per member per department |
 | **Contact Verification** | Verification status gates outbound communications per channel |

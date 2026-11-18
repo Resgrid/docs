@@ -82,6 +82,33 @@ Analyzes upcoming shifts for operational readiness:
 - Delta (surplus/deficit)
 - Readiness status
 
+### On-Shift Hours Report
+
+Each person's hours on shift for a period across **assigned**, **signup** and **static** shifts, for the whole department, one group or one shift — with every hour marked as coming from **approved** staffing (set by a supervisor on [Shift Staffing](/web-app/shifts/#shift-staffing)) or **automatic** staffing (worked out from the shift). Use it for payroll, LOSAP/volunteer-hour credit and duty-hour compliance.
+
+**Reports → On-Shift Hours Report.** Pick the start and end (time is counted up to the end, which is not included; the default is the current month) and what the report is for:
+
+| Report for | Counts |
+|---|---|
+| **Entire department** | Everyone on every shift and static shift day. |
+| **A group** | People filling a slot for the group or one of its child groups, plus the group's members on slots that have no group (a static shift's slots belong to the unit's station). A member filling another group's slot counts for that group, not theirs. |
+| **A shift** | One assigned, signup or static shift. |
+
+![On-Shift Hours report parameters](/img/web-app/reports/on-shift-hours-params.png)
+
+The report shows:
+
+- **Totals** — total, approved and automatic hours, people, shift days and approved shift days.
+- **Personnel** — per person: shifts, total hours, approved and automatic hours, hours on assigned, signup and static shifts, and a staffing badge (*Approved*, *Automatic* or *n of m approved*). Rows with any approved hours have a green edge.
+- **Shift Days** — every shift day in the period with its time, hours, people and staffing; approved days show who approved them, when, and how the approved staffing differs from the shift (*+added / -left off*). **Open** jumps to the day on Shift Staffing.
+- **Detail by Person** — each person's shift days with the group or unit they filled. A shift that crosses the start or end of the period counts only the part inside it (marked \*).
+
+**Download CSV** gives the detail rows (ID, name, group, shift, type, group/unit, start, end, hours, staffing) for a spreadsheet or payroll import. The report and the CSV only list members the signed-in user may see.
+
+![On-Shift Hours report](/img/web-app/reports/on-shift-hours.png)
+
+Counting rules: a person counts once per shift day even if they fill two slots; two different shifts that overlap both count. A day nobody has approved uses the shift's automatic staffing as the shift is set up now, so approve the days that need an exact record before relying on the report for payroll.
+
 ### Department Activity Report
 
 Annual activity overview:
@@ -150,6 +177,36 @@ Calls that none of these place show as **Unassigned**. Choosing a group also inc
 
 Periods the range only partly covers are marked with an asterisk.
 
+### Call Unit Times Report
+
+**Parameters:** Date range. For a single call, use **Unit Times** at the top of the call's page.
+
+For each call in the period, one row per unit that was dispatched to it or set a status on it:
+
+| Column | Shows |
+|---|---|
+| **Dispatched**, **En Route**, **On Scene**, **Staging**, **Cleared** | When the unit reached each step on this call, from the statuses on the call's record. Steps are recognised by the status's **base type**, so custom statuses count (see [Custom Statuses](custom-statuses)). |
+| **Released** | When the unit was [released from the call](dispatch-calls#releasing-a-unit-or-person-from-a-call) while the call stayed open (stood down), for example a MUG turned back before it arrived. Empty when it was not released, or was sent back to the call since. Also in the CSV download. |
+| **End of Commitment** | When the unit was available, in quarters or out of service again after the call: the end of its status history. Empty while the unit is still working the call. |
+| **Committed** | Dispatch to the end of commitment: how long the call kept the unit busy. |
+| **Linked By** | How the statuses were tied to the call: *Unit status* (sent for this call), *Auto-linked*, *Inferred* or *Dispatch only*, explained in the report's legend and under [Which call a status belongs to](dispatch-calls#which-call-a-status-belongs-to). |
+
+![Call Unit Times: Engine 1 released from the call at 10:11 while Brush 1 is still responding](/img/web-app/reports/call-unit-times-released.png)
+
+**Status history.** Under each unit is every status it set from dispatch until it was back in service, with the time, how long it stayed in each and the status's own colour. That is the unit's whole part in the call, including statuses the call's record doesn't hold:
+
+- a status pointing somewhere else, such as *At Hospital* with the hospital as its destination, and the *Returning* and *In Quarters* that follow;
+- statuses set after the call was closed, since a transport often outlasts the call.
+
+Those rows are marked **Unit history** and shown in grey. The history stops at the unit's first back-in-service or out-of-service status. It also stops when the unit is dispatched to another call or sets a status for one, or 12 hours after the call. A release Resgrid applied as the call closed (see [Unit status on dispatch and release](department-settings#unit-status-on-dispatch-and-release)) is marked *set by Resgrid*. The history carries on past it when the crew's next status is a working one, such as *Transporting*. It stops there when the crew's next status is back in service too.
+
+**Downloads:**
+
+- **Download CSV** gives one row per unit per call: the unit type and group, the times above, **End of Commitment** and **Committed Minutes**.
+- **Download status history CSV** gives one row per status. Each row has the status, its **meaning** (base type, such as *Transporting* or *At Hospital*), when it started and ended, the minutes in it, how it was linked and whether Resgrid set it.
+
+Filter the history CSV on the meaning for hospital turnaround (*At Hospital* minutes), or group it by unit type, call type or group for time committed and utilisation.
+
 ### Unit State History Report
 
 **Parameters:** Group selection or unit selection, date range
@@ -178,6 +235,8 @@ Several reports have parameter selection pages that allow filtering:
 | Unit State History | Group, unit, date range |
 | Action Logs | Group, user, date range |
 | Call Summary | Date range, group (optional) |
+| Call Unit Times | Date range (or one call, from the call's page) |
+| On-Shift Hours | Date range; entire department, a group or a shift (assigned, signup or static) |
 
 All parameter pages respect the **visibility matrix** — only showing personnel/groups the user has permission to view.
 
@@ -186,15 +245,15 @@ All parameter pages respect the **visibility matrix** — only showing personnel
 | Department type | How to set it up |
 |---|---|
 | **Volunteer fire** | Schedule the *Personnel hours* and *Call summary* reports monthly to the chief and treasurer (LOSAP points, run reimbursements); *Certification compliance* quarterly to the training officer. |
-| **Career fire** | *Unit state history* and *Personnel staffing history* for payroll reconciliation; *Upcoming shift readiness* each morning. |
-| **EMS** | *Call summary* by type for the medical director; *Event attendance* for CE credit. |
+| **Career fire** | *Unit state history* and *Personnel staffing history* for payroll reconciliation; *On-Shift Hours* per pay period (approve each tour's staffing first) exported as CSV for payroll; *Upcoming shift readiness* each morning. |
+| **EMS** | *Call summary* by type for the medical director; *Call unit times* status history CSV for hospital turnaround and time committed per ambulance / MUG; *Event attendance* for CE credit. |
 | **SAR** | *Personnel hours* per mission for volunteer-hour grants; *Department activity* YTD for the board. |
 | **Emergency management** | *Action logs* during activations for the after-action report; *Event attendance* for exercises. |
 | **Security / business** | *Active calls and resources* live view for the operations centre; *Flagged call notes* for supervisor review. |
 
 ## Technical reference
 
-`ReportsController` (+ `ChecklistReportsController`); routes `/User/Reports/{Index,PersonnelReport,StaffingReport,CertificationsReport,CertificationComplianceReport,UpcomingShiftReadinessReport,DepartmentActivityReport,PersonnelHoursReportParams,PersonnelStaffingHistoryReportParams,UnitStateHistoryReportParams,ActionLogsParams,CallSummaryReportParams,ActiveCallsResourcesReport,FlaggedCallNotesReportParams,EventAttendanceReportParams,ChecklistComplianceReport,LogReport}`; scheduled delivery via `ProfileController.Reporting` and the worker; module switch `ReportsDisabled`.
+`ReportsController` (+ `ChecklistReportsController`); routes `/User/Reports/{Index,PersonnelReport,StaffingReport,CertificationsReport,CertificationComplianceReport,UpcomingShiftReadinessReport,DepartmentActivityReport,PersonnelHoursReportParams,PersonnelStaffingHistoryReportParams,UnitStateHistoryReportParams,ActionLogsParams,CallSummaryReportParams,CallUnitTimesReportParams,CallUnitTimesReport,CallUnitTimesReportCsv,CallUnitTimesHistoryCsv,ActiveCallsResourcesReport,FlaggedCallNotesReportParams,EventAttendanceReportParams,ChecklistComplianceReport,LogReport,OnShiftHoursReportParams,OnShiftHoursReport,OnShiftHoursReportCsv}`; scheduled delivery via `ProfileController.Reporting` and the worker; module switch `ReportsDisabled`. Call Unit Times reads `ICallStatusAttributionService.GetUnitTimelinesForCallsAsync` (`CallUnitTimeline.Build`: the call's record plus `StatusDestinationSources.FollowOn` (6) copies, never stored, until `UnitCallInvolvement.HasFinishedCall`) and `CallUnitTimesCalculator`.
 
 ### Internal Report Generation
 The `InternalRunReport` endpoint is an **anonymous access** endpoint intended for system-internal use (e.g., scheduled report delivery). It supports generating:
@@ -213,7 +272,7 @@ The `InternalRunReport` endpoint is an **anonymous access** endpoint intended fo
 | **Calls** | Call data for summary and activity reports |
 | **Personnel** | Personnel data for roster and hours reports |
 | **Units** | Unit state data for history reports |
-| **Shifts** | Shift data for readiness report |
+| **Shifts** | Shift data for readiness report; shift, signup and static shift staffing for On-Shift Hours (`IShiftStaffingService.GetOnShiftHoursAsync`, `OnShiftHoursCalculator`; at most 366 days per run) |
 | **Logs** | Work log data for hours and activity reports |
 | **Trainings** | Training data for activity and hours reports |
 | **Custom Statuses** | Status name resolution throughout |
