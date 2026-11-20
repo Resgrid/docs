@@ -44,7 +44,7 @@ Resgrid Unit is a cross-platform application designed for **vehicle and apparatu
 ### Unit Status Management
 - Multi-step status flow via bottom sheet:
   1. **Select Status** — Choose from department-configured custom unit statuses with colour-coded buttons (Available, Responding, On Scene, Returning, Out of Service, etc.)
-  2. **Select Destination** — Optional step depending on status type: None, select a Call, or select a Station/Group
+  2. **Select Destination** — Optional step depending on status type: None, select a Call, select a Station/Group, or select a point of interest (a destination)
   3. **Add Note** — Optional free-text note attached to the status change
 - Status changes are sent to the API and propagated in real-time via SignalR
 - **Offline queue**: status changes made while offline are persisted and retried when connectivity returns
@@ -52,6 +52,8 @@ Resgrid Unit is a cross-platform application designed for **vehicle and apparatu
 - The unit's **current status** is outlined in red with a **Current** tag, in the sidebar buttons and in the status sheet
 - **Next statuses**: when the current status has [next statuses](../configuration/custom-statuses#next-statuses) configured, only those are offered, with a **Show all statuses** link for anything out of sequence
 - **Hold to set**: with the department's *Hold to Set Status* setting on, a status is set by pressing and holding its button for two seconds. A fill sweeps across the button with a countdown, and letting go early cancels. A status that needs nothing more saves straight away (a call destination is taken from the active or dispatched call); one that needs a note or a destination opens that step, whose submit button is held the same way
+- **Transport statuses** (Transporting, At Hospital) that offer points of interest pre-select the active call's **destination point of interest**, marked *Assigned to call*. A call whose destination is an address or point rather than a point of interest keeps the call as the destination. See [Transport destinations](../web-app/dispatch-calls#transport-destinations)
+- **Destination lists** rank points of interest from the unit's position: those that can take the patient first, with *Limited*, *Diversion* and *Closed* badges, and a capability chip (*Cath Lab*, *Helipad*) narrows the list to the nearest offering it. With the department's [destination suggestions](../web-app/destinations#destination-suggestions) on, the list follows its [destination rules](../web-app/destinations#destination-rules) for the call and the unit's type, with *Suggested*, *Missing: …* and *Unavailable now: …* tags. With *Suggest and fill in*, a Transporting or At Hospital status with no reported or assigned hospital starts on the suggestion; *Finding the suggested destination...* holds the save button for up to 8 seconds while it arrives. See [In the apps](../web-app/destinations#in-the-apps)
 
 ### Unit Role Assignments
 - Role management bottom sheet from the sidebar roles card
@@ -64,6 +66,21 @@ Resgrid Unit is a cross-platform application designed for **vehicle and apparatu
 - Tap to open a bottom sheet to switch the active call
 - Quick access to turn-by-turn navigation to the call location
 - **Release from call** (Omni): when the crew is stood down, the active call card releases the unit from the call while the call stays open. The unit gets the department's release status (unless it is already back in service, out of service or on another call), leaves the call's lists, and the active call is cleared, ready for the next one. Allowed for anyone who may set the unit's status; see [Releasing a unit or person from a call](../web-app/dispatch-calls#releasing-a-unit-or-person-from-a-call)
+- **Route** (Omni): on a call with a pre-defined route, the card shows the route's name, the unit's progress (*2 of 5 stops*) and a link to the route preview, and its **Route** action starts or continues the route (below)
+
+### Call routes
+A dispatcher can put a pre-defined [route](../web-app/routes#routes-on-calls) on a call (Omni Unit app):
+
+- **Setting the call as the active call starts its route.** However the call becomes active (the call picker, the status sheet's destination step, **Set Active** on the call or the map), the unit's run of the route starts and in-app navigation opens. Where the device cannot navigate in the app, the running route screen opens instead. The call's page also has **Start route**, or **Continue route** with the progress once it runs, beside its title.
+- **First to the route start.** When the route starts at a station or a point, navigation leads there first (*Drive to the route start first*). On arrival, *You have reached the route start* goes on to the first stop by itself after a few seconds, or at once with **Go to the first stop**; **Not there yet** returns to guidance.
+- **Then each stop.** Each stop is checked in and out as on any route (by hand or by its geofence), and guidance goes on to the next one.
+- **The end leg ends the route.** When the route ends at a station or a point, the last leg runs there and arriving shows **End route**, which ends the run and the guidance. A route that ends at its last stop is over after that stop.
+- **Another route running.** If the unit already runs (or has paused) another route, *Another route is running* asks to **End it and start this route**, **Cancel it and start this route**, or **Keep the current route**.
+- Starting the same call's route again continues the run already going (a paused run is resumed). A run that outlived the app is picked up again when it starts. Offline, a run of the call the device already knows still opens, and reaching the start is queued like a check-in.
+
+The crew needs no route permissions for this: being able to see the call and the unit is enough. The running route screen names the call a run was started for.
+
+<!-- Screenshots to take: Unit app active call card with the route line and Route action; navigation "You have reached the route start" panel; "Another route is running" dialog; "End route" arrival panel. -->
 
 ### Calls
 - **Call list** with search and pull-to-refresh. Pending calls (saved but not yet dispatched) never appear; they show up once a dispatcher sends them
@@ -71,8 +88,9 @@ Resgrid Unit is a cross-platform application designed for **vehicle and apparatu
   - Name, nature/description, priority, and type
   - Contact name and information
   - **Five location input methods**: address search (Google Geocoding), GPS coordinate entry, [what3words](https://what3words.com) word search, Plus Code search, and interactive map picker
+  - **Location from POI**, a **Destination** (a point of interest, or an address or point) and a pre-defined **Route** (Omni), as in the [Dispatch app](dispatch#call-locations-destinations-and-routes), with the **Suggested destinations** panel when the department's [destination suggestions](../web-app/destinations#destination-suggestions) are on
   - **Dispatch selection**: multi-select users, groups, roles, units, or everyone. If nobody is picked, the call is created for information only and pages nobody: choose *Everyone* to page the whole department.
-- **Call detail view** with tabs: Info, Contact, Protocols, Dispatched resources, and Timeline
+- **Call detail view** with tabs: Info, Contact, Protocols, Dispatched resources, and Timeline, plus **Route** (Omni) on a call with a route: the route and the runs units started for it
 - Add **notes**, **images**, and **file attachments** to calls
 - **Route to call** for turn-by-turn navigation, in the app chosen under **Settings → Navigation App** (the device's default, Google Maps, Apple Maps or Waze)
 - Set as active call, edit, and close calls (permission-gated) — **Notify everyone on the call** (on by default) tells the dispatched personnel, groups, roles, units and command team it closed; a call under an active incident command is refused with the reason shown

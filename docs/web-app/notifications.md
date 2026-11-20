@@ -7,7 +7,7 @@ title: Notifications
 
 **Notifications** are the department's automatic alerts about *readiness* rather than incidents: *fewer than two drivers available*, *Engine 1 out of service*, *a member's staffing changed*, *inventory low*, *checklist missed*. Each notification picks an event, a threshold and who to tell (everyone, a group, a role, specific people), and delivers through push, SMS and email.
 
-**Department menu → Notifications.** Personal notification *preferences* (which channels you receive) are on your [profile](profile-account#notifications).
+**Department menu → Notifications.** Personal notification *preferences* (which channels you receive) are on your [profile](profile-account).
 
 ![Notifications](/img/web-app/notifications/index.png)
 

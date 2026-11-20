@@ -18,10 +18,11 @@ The Resgrid API Exposes our Swagger documentation to showcase every call and ope
 |------|-------------|
 | **Authentication** | JWT/OpenID Connect token management, and [department API keys](authentication#department-api-keys) for system integrations |
 | **Statuses** | Personnel and unit status operations |
-| **Calls** | Dispatch call management, including [pending and scheduled calls](#pending-and-scheduled-calls) |
+| **Calls** | Dispatch call management, including [pending and scheduled calls](#pending-and-scheduled-calls) and [call locations, destinations and routes](#call-locations-destinations-and-routes) |
 | **Recurring calls** | Calls dispatched on a schedule, the scheduled calls calendar and the dispatcher alerts (see [Recurring calls](#recurring-calls)) |
 | **Calendar** | Calendar events, types, and RSVP |
 | **Calendar Export** | iCal export, department feed subscriptions, and sync token management (see [Calendar Export API](calendar-export)) |
+| **Mapping and destinations** | Map data, POIs and [destinations](maps-and-routing#destinations): capabilities, availability, nearest and suggested destinations, destination rules (see [Maps & Routing API](maps-and-routing)) |
 | **Contact Verification** | Email and phone verification |
 | **Workflows** | Automated workflow management |
 
@@ -65,6 +66,60 @@ Content-Type: application/json
 A **scheduled** call is created the same way without `IsPending`, with a future dispatch time: `DispatchOn` in the department's local time, or `DispatchOnUtc` in UTC (for example `"2026-10-07T14:30:00Z"`; it wins when both are sent). It goes out by itself within five minutes of that time, or earlier with `DispatchCallNow`.
 
 `Priority` is the id of one of your department's call priorities (`GET CallPriorities/GetAllCallPriorites`) and `Type` the name of a call type. Dispatch lists use `P:` personnel, `G:` groups, `R:` roles and `U:` units, separated by `|`.
+
+## Call locations, destinations and routes
+
+A call's location can be picked from a point of interest, its destination can be a point of interest or a free location, and it can carry a pre-defined route for the unit working it. See [Locations, destinations and routes](../web-app/dispatch-calls#locations-destinations-and-routes) for what users see.
+
+```http
+POST /api/v4/Calls/SaveCall
+Authorization: Bearer ...
+Content-Type: application/json
+
+{
+  "Name": "Transfer - Mercy General to Riverside Dialysis",
+  "Nature": "Stretcher transfer, patient ready at 08:00.",
+  "Priority": 1,
+  "LocationPoiId": 214,
+  "DestinationAddress": "4500 Riverside Dr, Reno, NV",
+  "DestinationGeolocation": "39.5234567,-119.8123456",
+  "RoutePlanId": "8c1e0d7a-5b2f-4e8a-9d41-2f6f3c0b7a11",
+  "DispatchList": "U:12"
+}
+```
+
+**SaveCall and EditCall** (`NewCallInput`, `EditCallInput`) take:
+
+| Field | Description |
+|---|---|
+| `LocationPoiId` | The department point of interest (any type) the call location was picked from. A blank `Address` or `Geolocation` is filled from it. 400 *LocationPoiId is not a POI in this department.* |
+| `DestinationAddress`, `DestinationGeolocation`, `DestinationWhat3Words` | A free destination, for a destination that is not a point of interest. `DestinationGeolocation` is `"lat,lon"` with a decimal point; a value that is not a usable point (malformed, out of range, `0,0`) is dropped. Ignored when `DestinationPoiId` is set: a call has one destination. |
+| `RoutePlanId` | A route plan the call follows: active, not deleted and with a start and an end (from `Routes/GetCallRoutePlans`). A call with no location starts at the route start and one with no destination ends at the route end; nothing sent is overwritten. 400 *RoutePlanId is not an active route plan with a start and an end in this department.* |
+
+On **EditCall** a field left out (null) keeps what the call has, so older clients change nothing; `LocationPoiId: 0` and an empty string for the others clear it. A `DestinationPoiId` clears the free destination when the call saves. Only a changed `RoutePlanId` is checked, so a call keeps a route that has since been paused or archived. The department's *Destination* rule ([New call form fields](../web-app/department-settings#new-call-form-fields), key `destinationPoi`) is met by a destination POI or a free destination; the route has no rule.
+
+**Call results** (`CallResultData`, from `GetCall`, `GetActiveCalls`, the pending and scheduled lists and the archive) add:
+
+| Field | Description |
+|---|---|
+| `LocationPoiId`, `LocationPoiName` | The point of interest the location was picked from, and its display name when it was looked up. |
+| `DestinationGeolocation`, `DestinationWhat3Words` | The free destination, when the destination is not a POI. `DestinationAddress`, `DestinationLatitude` and `DestinationLongitude` are filled from it too, with `DestinationPoiId` and `DestinationName` null, so a client that only reads those fields still gets the destination. |
+| `RoutePlanId`, `RoutePlanName` | The call's route, and its name when it was looked up (`GetCall`, `GetActiveCalls` and the pending and scheduled lists). |
+
+**`GET Calls/GetCallExtraData`** adds `RouteInstances` on a call with a route: the units' runs of it, newest first, each with `RouteInstanceId`, `RoutePlanId`, `RoutePlanName`, `UnitId`, `UnitName`, `Status` (`0` Scheduled, `1` In progress, `2` Completed, `3` Cancelled, `4` Abandoned, `5` Paused), `StopsCompleted`, `StopsTotal`, and `ActualStartOn`, `ActualEndOn`, `StartReachedOn` (ISO 8601 UTC, null until they happen).
+
+**Routes** (`/api/v4/Routes/...`, all bearer with `Call_View`):
+
+| Endpoint | Purpose |
+|---|---|
+| `GET GetCallRoutePlans` | The route plans a call can follow, by name: `RoutePlanId`, `Name`, `Description`, `RouteColor`, `UnitId`, `StopsCount`, `EstimatedDistanceMeters`, `EstimatedDurationSeconds`, `RoutingProfile`, `Start` and `End` (`Latitude`, `Longitude`, `DepartmentGroupId`, `Name`), `StartIsStop` / `EndIsStop` (the start or end is the plan's first or last stop rather than a station or point). |
+| `POST StartCallRoute` | `{ "CallId": 123, "UnitId": 12 }`. Starts the call's route for the unit, linked to the call, and returns the run (`GetRouteInstanceResult`). Calling it again returns the unit's run of this call that is still going (in progress or paused) instead of starting another. A leftover run from a call that is now closed is cancelled first. **409** `route_in_progress` (ProblemDetails, `detail` = the running `RouteInstanceId`) when the unit runs another route: end or cancel it, then try again. 400 when the call has no route or its route can no longer be followed. |
+| `POST ReachRouteStart` | `{ "RouteInstanceId": "...", "Latitude": 39.5, "Longitude": -119.8 }`. Records that the unit reached the route's start (`StartReachedOn`), ending the leading leg. A no-op once recorded. |
+| `GET GetInstanceDirections/{instanceId}?latitude&longitude&includeStart=true` | For a call's run that has not reached its start, the live route leads to the plan start first: the first waypoint has `IsRouteStart: true` (`StopOrder` 0, no stop ids) and so does its leg. Reaching the start within the plan's geofence radius records it by itself. |
+
+The unit's crew needs no Route permissions for a run started for a call: a member who may see the call can read its run (`GetRouteProgress`, `GetStopsForInstance`, `GetInstanceDirections`, `GetActiveRouteForUnit`) and preview an active plan (`GetRoutePlan`, `GetDirections`); one who may also see the unit can start it and work it (`CheckInAtStop`, `CheckOutFromStop`, `SkipStop`, `GeofenceCheckIn`, `UpdateStopNotes`, `PauseRoute`, `ResumeRoute`, `EndRoute`, `CancelRoute`, `RecordDeviation`, `ReachRouteStart`). Run results (`RouteInstanceResultData`) carry `CallId` (null for ordinary runs) and `StartReachedOn`, and `GetActiveRouteInstances` rows `CallId`. See also [Maps & Routing API → Route plans](maps-and-routing#route-plans).
+
+`RecurringCalls/SaveRecurringCall` takes `DestinationAddress`, `DestinationGeoLocationData` (`"lat,lon"`) and `RoutePlanId` the same way (errors `ErrorDestinationCoordinatesInvalid`, `ErrorRoutePlanInvalid`).
 
 ## Recurring calls
 

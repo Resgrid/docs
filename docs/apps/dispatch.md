@@ -70,7 +70,7 @@ Real-time statistics banner displaying:
 
 #### Personnel & Unit Action Panels
 - When a personnel member or unit is selected, a dedicated actions panel appears in the activity log area
-- **Change status** of selected personnel or unit. A unit's status starts on the call the unit is working, so the dispatcher does not pick the incident for every status: the call its latest status belongs to (unless that status cleared it), otherwise the one open call it is dispatched to. A call the unit's last clear ended does not count: the call that clear named or, when it named none (back in quarters at its station), every call the unit was sent to before it. A scheduled call counts once it has gone out or its dispatch time has passed. These are the same rules the server uses to [link a status to a call](../web-app/dispatch-calls#which-call-a-status-belongs-to). A unit with more than one call left starts on its last destination or the call selected on the console. The dispatcher can still pick another destination, and a status saved with no destination is still linked to the unit's call by the server
+- **Change status** of selected personnel or unit. A transport status (Transporting, At Hospital) that offers points of interest pre-selects the destination point of interest of the call the console is filtered to, or else of the call the unit is working, as the Unit app does for its crew ([Transport destinations](../web-app/dispatch-calls#transport-destinations)); a call whose destination is an address or point keeps the call as the destination. A unit's status starts on the call the unit is working, so the dispatcher does not pick the incident for every status: the call its latest status belongs to (unless that status cleared it), otherwise the one open call it is dispatched to. A call the unit's last clear ended does not count: the call that clear named or, when it named none (back in quarters at its station), every call the unit was sent to before it. A scheduled call counts once it has gone out or its dispatch time has passed. These are the same rules the server uses to [link a status to a call](../web-app/dispatch-calls#which-call-a-status-belongs-to). A unit with more than one call left starts on its last destination or the call selected on the console. The dispatcher can still pick another destination, and a status saved with no destination is still linked to the unit's call by the server
 - **Change staffing** of selected personnel
 - View detailed information about the selected resource
 
@@ -107,6 +107,7 @@ Real-time statistics banner displaying:
   - Name, nature/description, priority, and type
   - Contact name and information
   - **Five location input methods**: address search, GPS coordinates, [what3words](https://what3words.com), Plus Code search, and interactive map picker. A call saved with a typed address that was never searched is geocoded by the server when it is created, so it still gets a location; a department that makes the location *required* needs a real point (search, coordinates or map pick)
+  - **Location from POI**, a **Destination** and a pre-defined **Route** (Omni; see [below](#call-locations-destinations-and-routes))
   - External ID and Reference ID (the referring system's case or ticket numbers)
   - **Dispatch selection**: multi-select users, groups, roles, units, or everyone. The picker lists every unit, group, role and person whatever their status (it no longer shows *Everyone* alone when opened before the lists finish loading). If nobody is picked, the call is created for information only and pages nobody: choose *Everyone* to page the whole department.
   - The location map on New Call and Edit Call draws only the **available** units and personnel near the call, so it shows who can be sent; busy resources stay in the picker with their status for reassigning
@@ -114,11 +115,44 @@ Real-time statistics banner displaying:
 - **Call detail view** with priority header, static map preview, and action buttons
   - A pending call shows a *Pending — not yet dispatched* banner with **Dispatch**; a scheduled call shows *Scheduled for* its time with **Dispatch now**
   - Add notes, attach images, attach files, route to call in native Maps
-  - Tabbed content: Info, Contact, Protocols, Dispatched resources, Timeline
+  - Tabbed content: Info, Contact, Protocols, Dispatched resources, Timeline, and **Route** (Omni) on a call with a route
+  - Info shows the **Location POI**, the destination (a point of interest, or its address, **Destination Coordinates** and **Destination what3words**) and the **Route**; the call's map can switch between the call location and its destination
   - **Dispatched** tab (Omni): a **−** button on each unit and person releases them from the open call. Below the list, *Released from this call* shows who was released, when and by whom. Group and role rows have no button: release the person instead
   - Close call (permission-gated) — **Notify everyone on the call** (on by default) tells the dispatched personnel, groups, roles, units and command team it closed; a call under an active incident command is refused with the reason shown
 - **Edit call** with the same form schema as creation
 - Web-specific implementations (`.web.tsx`) for call views, creation, and editing
+
+### Call locations, destinations and routes
+The Omni call form and call page work like the System's [locations, destinations and routes](../web-app/dispatch-calls#locations-destinations-and-routes):
+
+- **Location from POI** — pick any of the department's points of interest, searchable by name, type and address; it fills the address and the pin. Moving the location away afterwards unlinks it (*The location was moved away from …, so the call will not be linked to it*).
+- **Destination** — switch between **Point of interest** (searchable, as before) and **Address or point**: a destination address (looked up by the server), a latitude and longitude (pasting *lat, lon* into either field fills both), what3words, a plus code (only finds the point) or **Pick destination on map**. Switching clears the other kind: a call has one destination. The department's *Destination* field rule covers both.
+- **Suggested destinations** — with the department's [destination suggestions](../web-app/destinations#destination-suggestions) on, a panel under a **Point of interest** destination lists the 5 best destinations from the call's location for its type and priority (*Rules: …* · *Needs: …* · *Prefers: …*), with drive time and distance, availability badges, *Missing: …* / *Unavailable now: …* and **Use**. With *Suggest and fill in*, a new call's empty destination is filled with the *Suggested* one (*Filled in with the suggested destination. Choose another if needed.*) until the dispatcher picks or clears one; never over a destination address or point or a route.
+- **Route** (*Pre-defined route*) — the routes a call can follow, searchable, each with its stops, distance, time and where it starts and ends (*Station 1 → General Hospital*). The route's start fills a blank call location and its end a missing destination when the call is saved. **Preview route** opens the plan. Shown only when the department has a route a call can follow, or the call already has one (*Route no longer available* when it can no longer be followed).
+- **Route tab** on the call page — the route's name, stops, distance, time, start and end, and the **route runs**: each unit that started it, its status, stops done of the total, and when it started, reached the route start and ended. The tab's badge counts the runs still going. Units start the route from the [Unit app](unit#call-routes), not from here.
+
+The same location and route fields are on pending and scheduled calls, and on the recurring call form (with **Destination address**, **Destination location** and **Route**).
+
+<!-- Screenshots to take: Omni Dispatch New Call with Location from POI, Destination "Address or point" and a picked route; call page Route tab with a run. -->
+
+### Routes
+**Routes** in the side menu (Omni) shows the department's routes to the dispatch desk, read only:
+
+- **Running** — every route in progress or paused: plan, unit, status, progress, the next stop and when it started. A run started for a call names it (*Call 26-153: Dialysis transfer*) and the call opens from there. Tap a run to see it with its stops. The list refreshes every minute while open, and on pull.
+- **Plans** — the department's route plans with their status (Active first), searchable by name, description and unit. A plan opens its **Route Preview**: the map with the route line, start (*S*) and end (*E*), the stops, travel mode, distance and time with and without stops, and a warning when the stops changed after the route was calculated.
+
+The two lists need the Route View permission; previewing an active plan only needs access to calls. Starting, checking in and managing plans stay on the web [Routes](../web-app/routes) pages and in the Unit app. The route preview also opens from the call form, a call's Route tab and the Incident Command and Unit apps.
+
+<!-- Screenshots to take: Omni Dispatch Routes > Running with a call-linked run; Routes > Plans; Route Preview. -->
+
+### Destinations
+**Destinations** in the side menu (Omni, after POIs) is the dispatch desk's view of the department's [destinations](../web-app/destinations), refreshed each time it opens and on pull:
+
+- **Availability** — every destination with its type, address, availability badge (*Open*, *Limited*, *Diversion*, *Closed*), capabilities (struck through when down), the note and *Until …*. Search, *All* and *Not open* chips, type and capability chips, and a count line (*Open · Limited · Diversion · Closed*); the tab's badge counts the destinations that are not open. **Set availability** opens the **Destination availability** sheet: the status, **Not available now** (the capabilities it offers), **What was reported** (*e.g. ED capacity overload, CT down*) and **Lasts** (*Until changed*, *1 h* … *24 h*). Saving needs a connection and permission to create calls. Tap a row for the POI's details.
+- **Capabilities** — each capability with how many destinations offer it and how many cannot provide it now; press one to list those destinations on the Availability tab.
+- **Rules** — read only: the suggestions setting (*Off*, *Suggest destinations*, *Suggest and fill in*) with its preferred capability window, and each [destination rule](../web-app/destinations#destination-rules) with when it applies, its destination types and what it requires and prefers. Rules are set on the web (*Rules and suggestions are set on the web under Mapping → POIs → Destination Rules.*).
+
+The IC app sets availability from a destination's POI details instead. A dispatcher setting a unit's transport status gets the same ranked, rule-aware destination list as the Unit app ([Unit status destinations](../web-app/destinations#in-the-apps)).
 
 ### Pending and Scheduled Calls
 Both are under **Calls** in the side menu (Pending Calls shows a count badge) and behind the console's tiles. They work like the System's [pending and scheduled calls](../web-app/dispatch-calls#pending-and-scheduled-calls).
@@ -141,6 +175,7 @@ Under **Calls** in the side menu, next to Scheduled Calls, they work like the Sy
 - **Notes** — department notes with detail views
 - **Protocols** — emergency response protocols/SOPs with detail sheets
 - **Map** — full-screen interactive map with pins and detail modals
+- **Destinations** — destination availability, capabilities and rules ([above](#destinations))
 - **Settings** — account, preferences, and configuration options
 
 ### Inactivity Lock Screen

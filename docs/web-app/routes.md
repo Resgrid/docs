@@ -158,6 +158,21 @@ Check-in can occur in three ways:
 When a unit's GPS position is reported, the system uses the Haversine formula to determine whether the unit is within a stop's geofence radius. If within range, the system automatically records a check-in. Each stop can define its own radius; otherwise the plan-level default is used.
 :::
 
+### Routes on calls
+
+A dispatcher can put a route plan on a call ([Locations, destinations and routes](dispatch-calls#locations-destinations-and-routes)), so the unit working the call drives it. A plan can go on a call when it is **Active** and has somewhere to start and somewhere to end: its start and end station or point, else its first and last stop (a plan with one stop and nothing else cannot). A call with no location starts at the route's start, and one with no destination ends at the route's end.
+
+When the crew makes the call their active call in the [Unit app](../apps/unit#call-routes), the unit's run of the route starts, linked to the call. It works like any other run, with two differences:
+
+- **It leads to the route's start first.** When the plan starts at a station or a point (rather than at its first stop), navigation first goes from where the unit is to that start. Arriving there records **start reached** (also when the unit is already within the plan's geofence radius of it), and guidance goes on to the first stop. A plan that starts at its first stop checks in there as usual.
+- **The crew runs it without route rights.** Members who may see both the call and the unit can start, check in and out, skip, pause, resume, end and cancel the call's run, and read its plan and directions, without the Route permissions below. Other runs still need them.
+
+A unit runs one route at a time. Starting a call's route while the unit runs another asks the crew to end or cancel that one first, or keep it. A run left over from a call that has since been closed is cancelled (reason *Call closed*) when the unit starts the route of its next call. Starting the same call's route again continues the run already going, and resumes it when paused.
+
+The **Active Routes**, **Instances** and **Instance Detail** pages show **Linked Call** on a run started for a call: the call number, linked to the call with its name for members who may open it, the number alone otherwise. The call's page lists its [route runs](dispatch-calls#working-an-active-call) per unit.
+
+<!-- SHOT: /img/web-app/routes/active-routes-linked-call.png | Active Routes with the card of a run started for a call, its Linked Call line showing the call number and name -->
+
 ### Pausing and Resuming
 
 An active route can be **Paused** (e.g., for an unexpected delay) and later **Resumed**. The route instance status moves between **In Progress** and **Paused** accordingly.
@@ -265,12 +280,14 @@ Access to Routes features is controlled by four permission levels:
 
 All data is scoped to the authenticated user's department — users can only see and manage their own department's routes.
 
+Routes on calls are the exception: anyone who may see calls can list the plans a call can follow and preview an active plan, and a unit's crew can run the route of a call they may see without Route View or Route Update ([Routes on calls](#routes-on-calls)).
+
 ## Setup examples
 
 | Department type | How to set it up |
 |---|---|
 | **Fire** | Hydrant inspection routes per district; pre-plan walk-through routes. |
-| **EMS / transport** | Inter-facility transfer runs with linked calls per stop. |
+| **EMS / transport** | Inter-facility transfer runs with linked calls per stop, or one route plan per standing transfer put on the call (or on its [recurring call](scheduled-calls#locations-destinations-and-routes)) so the crew drives it from the active call. |
 | **Delivery** | Daily delivery routes with stops, dwell times and customer contacts; drivers run them in the Unit app. |
 | **Transit** | Bus routes with timed stops; end-of-day summary as a Record. |
 | **Security** | Patrol routes with checkpoint geofences. |
