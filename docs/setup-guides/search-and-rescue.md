@@ -46,6 +46,10 @@ For volunteer SAR teams — ground, mountain, K9, technical rope, swiftwater, ca
 - **Messages with responses** for availability polls: *Available for a callout starting 06:00 tomorrow? Yes / No / Later*.
 - **Check-in timers**: *Sector rotation* 2 h per field team.
 
+### Dispatcher desk
+
+Let the week's on-call coordinator vet every request before the team is paged: on the free [dispatcher desk](../web-app/dispatcher-desk) clear **Dispatchers must be on a shift** (whoever signs in is on duty), set **Emailed calls** to **Save as pending** so the sheriff's emails wait for the coordinator, and give offers 90 seconds so they can be answered from the field. See [Search and rescue walkthrough](dispatcher-desk-scenarios#search-and-rescue).
+
 ## 6 — Mapping
 
 - Layers: trail systems, land ownership, search segments exported from CalTopo/SARTopo (GeoJSON/KML), cell coverage.

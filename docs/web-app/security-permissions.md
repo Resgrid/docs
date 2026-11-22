@@ -43,7 +43,19 @@ Some visibility permissions have a **Group only** option that restricts what a m
 | Who can view users / view units | Everyone | Restrict the roster and unit list to the viewer's group. |
 | Who can view / edit / delete contacts | Everyone | The Contacts module (members who cannot view contacts cannot attach them to calls). |
 | Use calendar sync | Everyone | Subscribe to the department calendar from an external calendar app. |
-| Dispatch app login / Command app login | Everyone | Who may sign in to the Dispatch and Incident Command apps. |
+| Dispatch app login / Command app login | Everyone | Who may sign in to the Dispatch and Incident Command apps. **Dispatch app login** also decides who is a **dispatcher** on the [dispatcher desk](dispatcher-desk#who-can-do-what): only these members can be put on a dispatch roster, sign in to the desk and get work offered. Set it to *Admins + selected roles* with your dispatcher role before turning the desk on. |
+
+### Dispatcher desk and intake
+
+The [dispatcher desk](dispatcher-desk) and [intake channels](intake-channels/overview) add no permissions of their own; they follow these rules:
+
+| Who | Can |
+|---|---|
+| **Dispatchers** (Dispatch app login) | Sign in to the desk, take and work routed work, take breaks, plan their own breaks on shifts that allow it, see the desk board, break planner and team. |
+| **Desk supervisors** (marked on a shift's dispatch roster, while that shift day runs) | Also end others' breaks, set others away or available, return or hand over anyone's work, plan anyone's breaks, run **Plan breaks**, and open **Dispatcher Activity**. |
+| **Shift managers** (*Who can create shifts*) | Put dispatchers on shifts and days, approve dispatcher sign-ups, see the board and planner. With department-wide shift management they also supervise the desk. |
+| **Department admins** | Everything above, **Dispatcher Desk Settings**, **Intake Channels** (including lifting blocked senders) and the **Private Inbound Dispatch Number** page. Only the managing member buys or cancels the add-on. |
+| **Members who can edit and close a call** | **Dismiss as spam** on a pending intake call; members who can edit a call can take, reply to, release and end its text conversation. |
 
 ### Workflows
 

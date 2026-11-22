@@ -103,6 +103,16 @@ The shift day view shows:
 - Role requirement fulfillment
 - Open needs (unfilled roles)
 
+## Dispatchers on duty
+
+Shifts can also schedule your **dispatchers**. Tick **This shift takes dispatchers** in the shift's **Dispatchers on duty** section (the **Dispatchers** tab on New Shift, or Edit Shift Details) to give it a dispatch roster beside the responders, or make it a **Dispatch-only shift** for a dispatch center's A, B and C shifts. The section also sets how many dispatchers the shift needs, the minimum who must stay available, who is **Desk supervisor**, and the shift's break plan.
+
+Each shift day then shows a **Dispatchers on duty** box: who is dispatching and when, **Sign up as dispatcher** on Sign-up shifts (with approval when the shift requires it), **Add a dispatcher to this day** for shift managers, and a **Break planner** button. The **On Duty Now** page lists the dispatchers on the desk with their state, break and work.
+
+Dispatchers on duty who sign in to the [Dispatch app](../apps/dispatch#dispatcher-desk) get pending and scheduled calls, texts and phone calls offered to them, plan and take breaks, and see the team's coverage on one timeline. When the desk is available to you, **Shifts** in the left menu becomes a group with **Dispatcher Desk**, **Dispatcher Breaks**, **Dispatcher Activity** and (administrators) **Dispatcher Desk Settings**. Everything about it is on [Dispatcher Desk](dispatcher-desk#dispatchers-on-duty).
+
+![Edit Shift Details with the Dispatchers on duty section](/img/web-app/dispatcher-desk/shift-dispatchers.png)
+
 ## Your Shifts
 
 **Authorization:** `Shift_View` policy
@@ -213,6 +223,7 @@ Calendar items include:
 | **Career fire / EMS** | Assigned shifts on a 24/48 or 48/96 pattern, one shift group per station, personnel assigned by platoon; trades require officer approval. The company officer approves each tour's staffing on **Shift Staffing** after it ends (call-backs added, sick leave removed), so the On-Shift Hours report matches payroll. |
 | **SAR** | Signup *on-call* weeks rather than shifts; use the Calendar for trainings. |
 | **Emergency management / EOC** | Assigned 12-hour EOC shifts during activations; roles per section; signup for volunteer positions. |
+| **Dispatch center** | Dispatch-only Assigned A, B and C shifts with **This shift takes dispatchers**, a standing dispatch roster with one **Desk supervisor** each, and a break plan; see [Dispatcher Desk](dispatcher-desk#setup-examples). |
 | **Security** | Assigned shifts per client site, rotating patterns, trades allowed within the same site group. |
 | **Industrial ERT** | Assigned shifts matching plant crews; minimum quota per qualification (confined space, hazmat). |
 
@@ -244,6 +255,7 @@ Staffing: `IShiftStaffingService` (`ShiftStaffingService`) resolves each occurre
 | Module | Interaction |
 |--------|-------------|
 | **Dispatch** | Shift-based dispatch replaces group dispatch with shift personnel |
+| **Dispatcher desk** | Dispatch rosters, desk supervisors and break plans live beside the shift (`ShiftDispatchSettings`, `ShiftDispatchers`; M0324); deleting a shift removes them and its future breaks. See [Dispatcher Desk → Technical reference](dispatcher-desk#technical-reference) |
 | **Groups** | Shifts reference groups for assignments |
 | **Personnel Roles** | Role requirements define shift needs |
 | **Dashboard** | Staffing levels affected by shift assignments |

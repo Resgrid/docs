@@ -47,6 +47,10 @@ For Community Emergency Response Teams, neighbourhood response groups, auxiliary
 - **Messages with responses** for availability polls before a deployment.
 - **Check-in timers** (*Sector rotation* 2 h) for field teams; team leaders check in from Responder.
 
+### Dispatcher desk
+
+At events, put your net control volunteers on the free [dispatcher desk](../web-app/dispatcher-desk): a sign-up shift for the event day with **This shift takes dispatchers**, two dispatchers on a tablet and a phone, and **Escalate waiting work after** 1 minute. Event staff text the department number, and each text is offered to a free dispatcher, who creates the call and sends the nearest team. See [CERT and event medical walkthrough](dispatcher-desk-scenarios#cert-event).
+
 ## 6 — Records (CERT pack)
 
 Enable Records and use the **CERT Operations Pack**: *CERT Damage Assessment* (photo coordinates on), *CERT Assignment Tracking* and *CERT Activity / Communications Log*. Quick entry preset; the coordinator reviews. Add **Community risk reduction** activities (preparedness fairs, smoke-alarm installs) for grant reporting.

@@ -285,7 +285,7 @@ Two kinds of call can wait before anyone is notified:
 
 Both show as count badges on the **Pending calls** and **Scheduled calls** buttons of the Calls dashboard, and pending calls also get a panel above Active calls (see the screenshot at the top of this page).
 
-**How a call becomes pending:** tick **Save as pending** on New Call (web or the [Dispatch app](../apps/dispatch)), or create it through the API with `"IsPending": true` (see [Technical reference](#technical-reference)). A pending call is numbered and saved like any other call, but:
+**How a call becomes pending:** tick **Save as pending** on New Call (web or the [Dispatch app](../apps/dispatch)), or create it through the API with `"IsPending": true` (see [Technical reference](#technical-reference)). Calls from [intake channels](intake-channels/overview) and the [Private Inbound Dispatch Number](intake-channels/dedicated-number) are always pending, and emailed calls are too when the department's [email call mode](dispatcher-desk#email-call-mode) says so. A pending call is numbered and saved like any other call, but:
 
 - nobody is notified, and dispatch statuses are not applied;
 - it does not appear in the active calls lists, on maps, the Big Board or the Responder and Unit apps;
@@ -316,6 +316,10 @@ Both show as count badges on the **Pending calls** and **Scheduled calls** butto
 
 The [Dispatch app](../apps/dispatch) has the same two lists, with tiles on its console.
 
+**On the dispatcher desk.** When the department's [dispatcher desk](dispatcher-desk) is routing work, every pending call is also **offered to a dispatcher on duty** in the Dispatch app, one at a time, with a push notification; if nobody takes it, it waits in the desk's shared queue until someone is free. Scheduled calls come to the desk for review 15 minutes (by default) before they go out, and still go out by themselves at their time. A pending or scheduled call dispatched or closed from this page leaves the desk on its own. See [Routing and offers](dispatcher-desk#routing-and-offers).
+
+**Calls from intake channels** show where they came from in a banner on the call's page (*via Email: Hospital transfer line*), and on the pending calls list. [Spam screening](intake-channels/overview#spam-screening) labels show beside the source (*Enhanced AI: likely not an incident*, *Repeat sender: over the hourly limit*), and while the call is pending, **Dismiss as spam** cancels it without notifying anyone and can block the sender. A call with a text conversation shows the **Text conversation** panel ([Text conversations](intake-channels/dedicated-number#text-conversations)).
+
 ### Calendar of scheduled calls
 
 The **Calendar** tab on the Scheduled calls page shows every scheduled call waiting to go out, the calls [recurring calls](#recurring-calls) have created and their runs still to come, waiting for a dispatcher, held or missed, by month, week, day or as a list. See [Scheduled & Recurring Calls](scheduled-calls#the-calendar).
@@ -336,8 +340,10 @@ A recurring call is a call dispatched on a schedule — for example interfacilit
 
 | Source | How to set it up |
 |---|---|
-| **Email** | Send or forward CAD pages to your department's dispatch import address ([Call import settings](department-settings#call-import-settings)); choose the parser format for your CAD. |
-| **SMS / text** | Text to the department number ([Text messaging](department-settings#text-messaging)). |
+| **Email** | Send or forward CAD pages to your department's dispatch import address ([Call import settings](department-settings#call-import-settings)); choose the parser format for your CAD. The [email call mode](dispatcher-desk#email-call-mode) decides whether they go out at once or wait as pending calls. |
+| **SMS / text** | Text to the department number ([Text messaging](department-settings#text-messaging)). With the [dispatcher desk](dispatcher-desk#texts-and-calls-to-the-desk) on, texts and phone calls from people who are not members go to a dispatcher. |
+| **Intake channels** | Emails to an address you choose, messages in a linked Slack, Teams, Telegram, Discord, Google Chat or WhatsApp chat, and signed webhook requests from other systems become **pending calls**, read by a call template or by Enhanced AI ([Intake Channels](intake-channels/overview)). |
+| **Private Inbound Dispatch Number** | Your department's own number (add-on): texts become pending calls with a text conversation, and callers who are not members answer spoken questions ([Private Inbound Dispatch Number](intake-channels/dedicated-number)). |
 | **Dispatch app** | Same form on tablet or desktop. |
 | **API** | `api/v4/Calls/SaveCall` with an API key or OAuth token. Add `"IsPending": true` to queue it under *Pending calls* for a dispatcher instead of dispatching it. |
 | **Workflows / Assistant** | Workflow actions and the chat Assistant can create calls when allowed. |
@@ -363,7 +369,7 @@ A recurring call is a call dispatched on a schedule — for example interfacilit
 | Controller | `DispatchController` |
 | Routes | `/User/Dispatch/{Dashboard,NewCall,ViewCall,UpdateCall,CloseCall,DeleteCall,ReOpenCall,ArchivedCalls,AddArchivedCall,ScheduledCalls,PendingCalls,CallData,CallExport,CallExportEx,CallExportPdf,GetCallDispatchAudio}` (`?callId=`); `DispatchCallNow` (POST, antiforgery, `callId`) |
 | Call states | `CallStates`: 0 Active, 1 Closed, 2 Cancelled, 3 Unfounded, 4 Founded, 5 Minor, 6 Transferred, 7 False alarm, **8 Pending**. A scheduled call is Active with `DispatchOn` in the future and `HasBeenDispatched = false`. |
-| Pending / scheduled | `IPendingCallsService` (`IsWaitingForDispatch`, `DispatchNowAsync`); scheduled calls sent by the worker `DispatchScheduledCallsTask` every 5 minutes (calls due in the last 15 minutes, active only) |
+| Pending / scheduled | `IPendingCallsService` (`IsWaitingForDispatch`, `DispatchNowAsync`); scheduled calls sent by the worker `DispatchScheduledCallsTask` every 5 minutes (calls due in the last 15 minutes, active only). Dispatcher desk: `DispatcherDeskCallEventService` puts each pending call on the desk, worker 82 sweeps pending calls and scheduled calls inside `ScheduledCallLeadMinutes` (setting 128); see [Dispatcher Desk → Technical reference](dispatcher-desk#technical-reference). Intake calls: `CallSources` 6 Intake, 7 VoiceIntake; `CallResultData.IntakeScreening`; see [Intake Channels → Technical reference](intake-channels/overview#technical-reference) |
 | Recurring calls | See [Scheduled & Recurring Calls → Technical reference](scheduled-calls#technical-reference). |
 | Status linking | `ICallStatusAttributionService`: `AttributeUnitStateAsync` / `AttributeActionLogAsync` on save (rules 2 and 3 only for statuses at most five minutes old, `CallStatusAttribution.IsLiveStatus`), stored as `DestinationSource` (`StatusDestinationSources` Explicit, CarryForward, Dispatch, Unit); read-time `Inferred` statuses are never stored. Rules in `CallStatusAttribution` (`CanCarryForward`, `ClearedByPrevious`, `PickDispatchCall`); clears per `CallStatusLinkage.IsClearingUnitState` / `IsClearingPersonnelStatus`. Open dispatches from `ICallDispatchUnitRepository.GetOpenCallUnitDispatchesForUnitAsync` and `ICallDispatchesRepository.GetOpenCallDispatchesForUserAsync` (direct, group and role rows; time = `LastDispatchedOn` else `DispatchedOn`; active calls only, a scheduled call once `HasBeenDispatched` or `DispatchOn` ≤ now). The Dispatch app's starting call is v4 `UnitsInfoResultData.ActiveCallId` (`GetWorkingCallIdsForUnitsAsync` → `UnitCallInvolvement.ResolveWorkingCallId`); null means no single working call, not that the unit is unassigned. |
 | Policies | `Call_View`, `Call_Create`, `Call_Update`, `Call_Delete` + `IAuthorizationService.CanUser{Create,Edit,Close,Delete}CallAsync` |

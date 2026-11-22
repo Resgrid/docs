@@ -11,7 +11,7 @@ title: Navigation
 
 | Region | What is there |
 |---|---|
-| **Left sidebar** | The modules: Home (the [home dashboard](dashboard) — the customizable widget board, or the classic roster page), Calls, Personnel, Units, Contacts, Mapping, Shifts, **Records** (a collapsible group, or Logs), Reports, Documents, Calendar, Notes, Trainings, Inventory, **Readiness** (Work Orders, Checklists) and **Workforce & Business Ops** (Workforce, Certifications, Invoicing, Deployments, Bids, Contracts, Cal OES MARS). Groups expand in place; modules that are switched off or that you lack permission for are hidden. Collapse the sidebar with the hamburger icon on small screens. |
+| **Left sidebar** | The modules: Home (the [home dashboard](dashboard) — the customizable widget board, or the classic roster page), Calls, Personnel, Units, Contacts, Mapping, Shifts (for dispatchers, shift managers and administrators a collapsible group that adds **Dispatcher Desk**, **Dispatcher Breaks**, **Dispatcher Activity** and, for administrators, **Dispatcher Desk Settings**; see [Dispatcher Desk](dispatcher-desk#where-to-find-it)), **Records** (a collapsible group, or Logs), Reports, Documents, Calendar, Notes, Trainings, Inventory, **Readiness** (Work Orders, Checklists) and **Workforce & Business Ops** (Workforce, Certifications, Invoicing, Deployments, Bids, Contracts, Cal OES MARS). Groups expand in place; modules that are switched off or that you lack permission for are hidden. Collapse the sidebar with the hamburger icon on small screens. |
 | **Your name (top-left)** | Profile menu: **Profile** (edit your details, contact methods, notification preferences), **Mailbox**, **Chat**, **Your Departments** (switch between departments you belong to), **Two-Factor Authentication**, **Logout**. |
 | **Top bar** | Unread **messages** and **active calls** icons, the **search box**, the **Department menu**, **Help**, language flag and logout. |
 | **Department menu (department name, top-right)** | Everything an administrator configures — see below. |
@@ -30,6 +30,8 @@ Only administrators (and group administrators for a few items) see this menu.
 | Call Import Settings | Email / SMS call import — [Call settings](department-settings#call-import-settings) |
 | Custom Statuses | [Custom Statuses](custom-statuses) |
 | Text Messaging | Department SMS number and inbound text handling |
+| Private Inbound Dispatch Number | Your department's own number for texts and calls (add-on) — [Private Inbound Dispatch Number](intake-channels/dedicated-number). Shown once the add-on is offered to your department; Text Messaging always links to it. |
+| Intake Channels | Email addresses, chats and webhooks that create pending calls, and blocked senders — [Intake Channels](intake-channels/overview). Shown once intake channels are turned on for your department; Text Messaging always links to it. |
 | Templates | [Call templates and call-note templates](templates) |
 | Protocols | [Dispatch protocols](protocols) |
 | Types | [Unit, call, priority, certification, document, note types](types-configuration) |
@@ -38,7 +40,7 @@ Only administrators (and group administrators for a few items) see this menu.
 | User Defined Fields | [User Defined Fields](user-defined-fields) |
 | Security and Permissions | [Security & Permissions](security-permissions) (permissions, audit log, SSO, security policy, data protection) |
 | Chat Moderation | [Chat moderation](chat#moderation) |
-| Subscription and Billing | [Subscription & Billing](subscription-billing) — plan, PTT, Advanced Data Protection, Readiness Pro and [Business Ops](business-ops/overview) add-ons |
+| Subscription and Billing | [Subscription & Billing](subscription-billing) — plan, PTT, Advanced Data Protection, Readiness Pro, [Business Ops](business-ops/overview) and Private Inbound Dispatch Number add-ons |
 | Connect | [Connect](connect) |
 | Audio / Push-to-Talk | [Voice & Audio](voice-audio) |
 | Orders | [Resource Orders](resource-orders) |

@@ -49,6 +49,10 @@ Create each ambulance with roles **Driver/EMT** and **Attendant/Paramedic** (bot
 - **Destinations**: create hospital and ED POIs under Mapping so crews pick a destination on the call.
 - **Protocols**: pre-arrival instruction protocols by chief complaint if you dispatch in-house.
 
+### Dispatcher desk
+
+If you dispatch in-house, turn on the free [dispatcher desk](../web-app/dispatcher-desk): interfacility transfers (recurring and scheduled calls) come up for review before they go out, transfer requests from an [email intake channel](../web-app/intake-channels/overview) arrive as pending calls, and each is offered to a dispatcher on duty in the Dispatch app. Put your dispatchers on dispatch-only shifts with a desk supervisor and **Minimum on desk** 2, and let **Plan breaks** stagger their lunches. See [Career fire / EMS walkthrough](dispatcher-desk-scenarios#career-fire-ems).
+
 ## 6 — Shifts
 
 Assigned 12-hour or 24-hour shifts per station; supervisors approve trades. Turn on *Use shift for group dispatch* so a station page goes to the on-duty crew only. Create matching **workshifts** so checklists can run *each shift*.

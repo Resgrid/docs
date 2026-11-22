@@ -186,7 +186,7 @@ One department's unit status set had no meanings. Its units showed as *Available
 
 | Setting | What it does |
 |---|---|
-| **Dispatch import email** | Your department's *all-call* address, shown on the page. Anything mailed to it becomes a call dispatched to everyone with call notifications on. Forward your CAD pages here. See [Call import](../configuration/call-import). |
+| **Dispatch import email** | Your department's *all-call* address, shown on the page. Anything mailed to it becomes a call dispatched to everyone with call notifications on, unless the dispatcher desk's [email call mode](dispatcher-desk#email-call-mode) saves it as pending for a dispatcher to review first. Forward your CAD pages here. See [Call import](../configuration/call-import). |
 | **Email type** | The parser for your dispatch center's email: Generic, Resgrid, Generic Page, Connect, Four Part Pipe, Active911, R&R, OttawaCounty, OttawaKingstonToronto, Parkland Cty / Cty2, CAL FIRE ECC / SCU, Brockport, Hancock Cty, Carencro, Grand Blanc, Union Fire, Lowestoft, Spotted Dog, PortJervis, Yellowhead, plus Generic with AI enrichment for departments with Enhanced AI. Generic reads any email: subject as name, body as nature. See [Email types](../configuration/call-import#email-types). |
 | **Prune calls / minutes to keep open** | Auto-close email/text/audio-imported calls after N minutes (checked hourly). |
 | **Mail server** | Not on this page. Resgrid does not poll an outside mailbox; have your CAD or mail server forward dispatches to the dispatch import email instead. See [Call import](../configuration/call-import). |
@@ -329,6 +329,13 @@ For example, a department can call Run **Incident**, Work **Shift On Duty** and 
 
 `/User/Department/TextSettings` — the department's **SMS number** (provision one by country and area code, plan permitting), **text-to-call** (inbound texts create calls) with its format parser, **text commands** (members text `responding`, `available` …), source numbers for outbound SMS. See [Text messaging configuration](../configuration/text-messaging).
 
+The page also links to two related pages, each on the Department menu as well once it is offered to your department:
+
+- **Intake Channels** (*Intake channels turn texts, emails, chat messages and webhook requests into pending calls.*): email addresses, chat channels and webhooks that create pending calls, and the blocked senders list. See [Intake Channels](intake-channels/overview).
+- **Private Inbound Dispatch Number**: your department's own number for texts and calls (add-on). See [Private Inbound Dispatch Number](intake-channels/dedicated-number).
+
+With the [dispatcher desk](dispatcher-desk#texts-and-calls-to-the-desk) taking texts and phone calls, those from people who are not members go to a dispatcher instead of creating a call.
+
 ![Text settings](/img/web-app/department/text-settings.png)
 
 ## Unit settings
@@ -338,6 +345,8 @@ For example, a department can call Run **Incident**, Work **Shift On Duty** and 
 ## Shift settings
 
 `/User/Department/ShiftSettings` — **Allow signups for multiple groups** (members can sign up for shifts at stations other than their own).
+
+The **dispatcher desk** has its own settings page under **Shifts → Dispatcher Desk Settings**: whether work is routed to the dispatchers on duty in the Dispatch app, what is sent to them, offer timeouts, overflow when everyone is busy, what emailed calls become, and breaks and coverage. See [Dispatcher Desk → Desk settings](dispatcher-desk#desk-settings).
 
 ## Mapping & Big Board settings
 
@@ -461,6 +470,7 @@ Step 2 of the journey asks you to confirm the address and time zone on [General 
 | **SAR** | Disable auto-available; New Call form: make *what3words* / coordinates visible; longer location TTL (240 min). |
 | **Emergency management** | Modules: turn off Shifts and Inventory if unused; 24-hour time; text commands off. |
 | **Security / business** | Branding in emails; text-to-call from client alarm centres; suppress notifications for *Off duty*. |
+| **Dispatch center** | [Dispatcher desk](dispatcher-desk#desk-settings) on, with emailed calls **Save as pending**; [intake channels](intake-channels/overview) for partner agencies; a [Private Inbound Dispatch Number](intake-channels/dedicated-number) for the public. |
 
 ## Technical reference
 
@@ -469,7 +479,7 @@ Step 2 of the journey asks you to confirm the address and time zone on [General 
 | Controller | `DepartmentController` |
 | Routes | `/User/Department/{Settings,Profile,ModuleSettings,DispatchSettings,CallSettings,TextSettings,UnitSettings,ShiftSettings,MappingSettings,Api,Invites,OperatingProfile,DeleteDepartment,ClearDepartmentCache}`; `/User/Department/SetupWizard` redirects to `/User/AdminAssist/SetupWizard` (see [Help & Setup](help-setup#technical-reference)) |
 | Policy | `Department_Update` (administrators); managing-user checks for billing, ADP and deletion |
-| Storage | `Department` row (organization type in `Department.DepartmentType`, text from `DepartmentTypeCatalog`) + `DepartmentSettings` rows keyed by `DepartmentSettingTypes` (e.g. 32 = ModuleSettings, 58–60 = run-card dispatch, 70–77 = Records settings, 115 = CallNumberingConfig: `Pattern`, `SequenceWidth` and the numbering year start `YearStartMonth` / `YearStartDay` / `YearLabel`, 117 = DocumentNumberingConfig: numbering year start and one pattern per document kind, 118 = DepartmentTerminology: the department's own names as `{Key, Text}` pairs, e.g. `module.units` / `record-type.run`). Custom document sequences live in `DocumentNumberSequences` (M0268). Call number sequences live in `CallNumberSequences`: one row per department and sequence (the text the pattern writes around `{SEQ}`), holding the last number issued and any raised next number |
+| Storage | `Department` row (organization type in `Department.DepartmentType`, text from `DepartmentTypeCatalog`) + `DepartmentSettings` rows keyed by `DepartmentSettingTypes` (e.g. 32 = ModuleSettings, 58–60 = run-card dispatch, 70–77 = Records settings, 115 = CallNumberingConfig: `Pattern`, `SequenceWidth` and the numbering year start `YearStartMonth` / `YearStartDay` / `YearLabel`, 117 = DocumentNumberingConfig: numbering year start and one pattern per document kind, 118 = DepartmentTerminology: the department's own names as `{Key, Text}` pairs, e.g. `module.units` / `record-type.run`, 128 = DispatcherDeskConfig: the [dispatcher desk](dispatcher-desk#technical-reference), edited on Shifts → Dispatcher Desk Settings). Custom document sequences live in `DocumentNumberSequences` (M0268). Call number sequences live in `CallNumberSequences`: one row per department and sequence (the text the pattern writes around `{SEQ}`), holding the last number issued and any raised next number |
 | Unit dispatch / release status | Settings 50 (`UnitCallDispatchStatusToSet`) and 51 (`UnitCallReleaseStatusToSet`), read as a `StatusTarget`: -1 or unset = Default, -2 = leave unchanged, 1000 + an `ActionBaseTypes` value = that meaning (e.g. 1006 Dispatched, 1023 In Quarters), 0–999 = a built-in `UnitStateTypes` value saved before meanings (read by its meaning on custom sets). Resolved per unit by `StatusTargetResolver.ResolveUnit` (first active option by order; default chains Dispatched → Responding → En Route and Cleared → Available → In Quarters). Per-unit-type overrides are a separate setting and take precedence |
 | Cache | Settings cached up to a day; **Clear department cache** enqueues a cache-clear event |
 | Data endpoints | `GetStationsForGrid`, `GetRecipientsForGrid`, `GetDepartmentTypes` (organization type values), `GetCallEmailTypes`, `GetCallTextTypes`, `GetAvailableNumbers?country=&areaCode=`, `ProvisionNumber`, `GetSubscriptionLimitWarning`, `GetPrinterNetPrinters?key=` |

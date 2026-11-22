@@ -47,6 +47,10 @@ One unit per patrol vehicle (role *Officer*) and per fixed post; **hardware GPS 
 - **Indoor maps** for campuses and large buildings: access points and assembly points searchable in dispatch.
 - **Templates**: Alarm response, Escort, Medical; call-note templates for standard dispositions (*False alarm — reset*, *Owner notified*).
 
+### Dispatcher desk
+
+When officers carry the dispatch phone in turns, use the free [dispatcher desk](../web-app/dispatcher-desk) with **Dispatchers must be on a shift** cleared: whoever has the phone signs in to the desk in the Dispatch app and gets students' texts to a [Private Inbound Dispatch Number](../web-app/intake-channels/dedicated-number), facilities requests from a Teams [intake channel](../web-app/intake-channels/overview), and escorts and lock-ups 15 minutes before they go out. See [Security and facilities walkthrough](dispatcher-desk-scenarios#security-facilities).
+
 ## 6 — Shifts and routes
 
 - **Assigned shifts** per site with rotating patterns; trades within the same site group; workshifts for *each shift* checklists.

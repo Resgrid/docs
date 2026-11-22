@@ -27,6 +27,8 @@ Nothing in Resgrid is locked to one kind of organization. The organization type 
 | Central dispatch centre serving several agencies | [Multi-agency dispatch centre](multi-agency-dispatch-center) | Department links, resource orders, run cards, Dispatch app, Big Board |
 | Wildland fire contractor, private fire protection, private ambulance / event medical, rescue or safety contractor | [Contract services provider](contract-services-provider) | Certifications, rate schedules, contracts, bids → deployments, daily time reports, contractor billing, invoicing, online payments, field costing |
 
+Running a **dispatcher desk** (dispatchers on shifts, or on their phones, taking pending calls, texts and phone calls in the Dispatch app)? [Dispatcher Desk Walkthroughs](dispatcher-desk-scenarios) covers eight kinds of organization step by step.
+
 ## The order that works for everyone
 
 Whatever the guide, this order avoids rework:

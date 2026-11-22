@@ -40,6 +40,10 @@ For plant fire brigades, refinery / chemical / mining / utility emergency respon
 - **Indoor maps** of process buildings with hazard zones and muster points; **occupancies** per building with utility shutoffs, hazmat inventory and tactical summaries.
 - **Check-in timers**: *Hazmat exposure* 20/30 min, *PAR* 15 min.
 
+### Dispatcher desk
+
+Control room operators can work the free [dispatcher desk](../web-app/dispatcher-desk) on the plant's existing crew shifts: tick **This shift takes dispatchers** (not dispatch-only), make the shift supervisor **Desk supervisor**, and keep **Emailed calls** on **Dispatch immediately** for the alarm system. Planned work, such as fire-watch requests from the permit system through a [webhook intake channel](../web-app/intake-channels/overview#webhook-channels) and scheduled confined-space standbys, is offered to an operator for review. See [Industrial emergency response walkthrough](dispatcher-desk-scenarios#industrial).
+
 ## 5 — Readiness (the core)
 
 - **Checklists**: *Rescue equipment weekly* (Serialized equipment, critical items), *Gas monitor bump test* (Serialized, daily, numeric reading with passing range), *SCBA weekly* (witness), *Safety audit* (Group, monthly, photo on failure), *Foam unit monthly* — all with **Create a work order on failure** and **Place equipment out for repair**.

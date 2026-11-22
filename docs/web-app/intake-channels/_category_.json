@@ -1,0 +1,9 @@
+{
+  "label": "Intake Channels",
+  "position": 4.7,
+  "link": {
+    "type": "generated-index",
+    "slug": "/web-app/intake-channels",
+    "description": "Turn emails, texts, chat messages, phone calls and requests from other systems into pending calls for a dispatcher to review, with Enhanced AI reading and spam screening. Includes the Private Inbound Dispatch Number add-on: your department's own number for texts and calls."
+  }
+}
