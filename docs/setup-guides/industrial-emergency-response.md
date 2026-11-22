@@ -40,6 +40,10 @@ For plant fire brigades, refinery / chemical / mining / utility emergency respon
 - **Indoor maps** of process buildings with hazard zones and muster points; **occupancies** per building with utility shutoffs, hazmat inventory and tactical summaries.
 - **Check-in timers**: *Hazmat exposure* 20/30 min, *PAR* 15 min.
 
+### Dispatcher desk
+
+Control room operators can work the free [dispatcher desk](../web-app/dispatcher-desk) on the plant's existing crew shifts: tick **This shift takes dispatchers** (not dispatch-only), make the shift supervisor **Desk supervisor**, and keep **Emailed calls** on **Dispatch immediately** for the alarm system. Planned work, such as fire-watch requests from the permit system through a [webhook intake channel](../web-app/intake-channels/overview#webhook-channels) and scheduled confined-space standbys, is offered to an operator for review. See [Industrial emergency response walkthrough](dispatcher-desk-scenarios#industrial).
+
 ## 5 — Readiness (the core)
 
 - **Checklists**: *Rescue equipment weekly* (Serialized equipment, critical items), *Gas monitor bump test* (Serialized, daily, numeric reading with passing range), *SCBA weekly* (witness), *Safety audit* (Group, monthly, photo on failure), *Foam unit monthly* — all with **Create a work order on failure** and **Place equipment out for repair**.
@@ -65,6 +69,10 @@ From the **Industrial Operations and Process Safety Pack**: *Operator / Control-
 - **Invoicing** (Business Ops, optional): bill standby (*Confined-space standby*, *Fire watch*) to internal cost centres or neighbouring plants.
 
 See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
+
+## Using Resgrid Relay
+
+Relay can turn fire alarm and gas detection panel emails into calls for the ERT group, **bridge** the plant radio channel to Resgrid PTT for off-shift members and the incident commander, create a call when a radio **emergency tone** is heard, and **record** transmissions for incident investigations. See [Relay for industrial emergency response](../apps/relay/use-cases.md#industrial-emergency-response).
 
 ## First-week checklist
 

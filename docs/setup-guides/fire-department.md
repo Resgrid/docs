@@ -90,6 +90,13 @@ Assign roles and stations; enter certifications with expiry dates.
 - **Check-in timers**: PAR 20 min on Structure fire; Rehab 45 min.
 - **Protocols**: structure-fire and gas-leak protocols with questions and attachments.
 
+### Dispatcher desk
+
+If your members handle non-emergency work themselves (residents' texts, service calls, standbys), the free [dispatcher desk](../web-app/dispatcher-desk) offers it to whoever is covering the desk in the Dispatch app, on a phone or a console.
+
+- **Volunteer**: sign-up *Desk* shifts with **This shift takes dispatchers**; volunteers sign in from home on their phones; keep **Emailed calls** on **Dispatch immediately** so county pages still go straight out. See [Volunteer fire walkthrough](dispatcher-desk-scenarios#volunteer-fire).
+- **Career**: dispatch-only A–D shifts with a desk supervisor, **Minimum on desk** 2 and staggered lunches with **Plan breaks**. See [Career fire / EMS walkthrough](dispatcher-desk-scenarios#career-fire-ems).
+
 ## 10 — Readiness: checklists, work orders, inventory
 
 - **Checklists** (free): from templates — *Fire apparatus daily* (Unit, each shift or daily 07:00, window 120 min, critical items brakes/lights/pump), *Fire apparatus weekly*, *SCBA weekly* (Serialized equipment, witness required), *Station facility monthly*.
@@ -122,6 +129,10 @@ Assign roles and stations; enter certifications with expiry dates.
 - **Field costing** (Business Ops): resource cost profiles for apparatus, role-default compensation per rank; a cost run after each deployment to compare with the reimbursement.
 
 See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
+
+## Using Resgrid Relay
+
+Relay connects the equipment your county already uses to Resgrid. **Tone detect** listens to a scanner for each station's paging tones and creates a call with the voice dispatch attached; **SMTP dispatch** turns CAD email sent to addresses on your own domain into calls for the department or one station; a **radio bridge** puts your fireground channel on Resgrid PTT so officers on the apps hear and talk with crews; and **dispatch tone-out** reads each new call aloud on a PTT channel. Give each station one call-creating source: tone detect where the county does not email that station, SMTP dispatch where it does. Both covering the same station means each page creates its own call. See [Relay for fire departments](../apps/relay/use-cases.md#fire-departments).
 
 ## First-week checklist
 

@@ -5,7 +5,7 @@ title: Maps & Routing API
 
 # Maps & Routing API
 
-The v4 API serves everything a map client needs from the Resgrid server: the department's base map as a MapLibre style, static map images, routes and drive times from the installation's routing provider, live navigation ETAs, route plan routing, and offline map packs. No client calls Mapbox, Google, Valhalla or OSRM directly, and no routing or geocoding token ever leaves the server. For what users see, see [Mapping](../web-app/mapping), [Routes](../web-app/routes) and [Department Settings → Mapping](../web-app/department-settings#mapping--big-board-settings); for setting up providers on your own server, see [Maps & Routing (self-hosted)](../self-hosted/maps-and-routing).
+The v4 API serves everything a map client needs from the Resgrid server: the department's base map as a MapLibre style, static map images, routes and drive times from the installation's routing provider, live navigation ETAs, route plan routing, [destination rankings and suggestions](#destinations), and offline map packs. No client calls Mapbox, Google, Valhalla or OSRM directly, and no routing or geocoding token ever leaves the server. For what users see, see [Mapping](../web-app/mapping), [Destinations](../web-app/destinations), [Routes](../web-app/routes) and [Department Settings → Mapping](../web-app/department-settings#mapping--big-board-settings); for setting up providers on your own server, see [Maps & Routing (self-hosted)](../self-hosted/maps-and-routing).
 
 ## Configuration fields
 
@@ -156,13 +156,39 @@ Route plan endpoints keep their existing shapes; these are new or extended:
 | `/api/v4/Routes/GenerateRoute/{routePlanId}` | POST | Bearer, `Route_Update` | Generates (or regenerates) and stores the plan's route |
 | `/api/v4/Routes/PreviewOptimization/{routePlanId}` | GET | Bearer, `Route_Update` | The best stop order with start and end fixed, and the totals before and after; nothing is saved |
 | `/api/v4/Routes/ApplyStopOrder/{routePlanId}` | POST | Bearer, `Route_Update` | Saves a stop order (every stop once, renumbered 1..n) and regenerates the route |
-| `/api/v4/Routes/GetDirections/{routePlanId}` | GET | Bearer, `Route_View` | The stored route with legs, steps and planned arrival offsets per stop; regenerated if the plan changed |
-| `/api/v4/Routes/GetInstanceDirections/{instanceId}?latitude&longitude[&heading]` | GET | Bearer, `Route_View` | With a position: a live route through the stops still to do, with an ETA per stop. Without: the stored plan route, as before |
-| `/api/v4/Routes/GetActiveRouteForUnit/{unitId}?includePaused=true` | GET | Bearer, `Route_View` | `includePaused=true` also returns a paused route; without it only a route in progress, as before |
-| `/api/v4/Routes/CheckOutFromStop` | POST | Bearer, `Route_Update` | Optional `Latitude` / `Longitude`; the stop must belong to the caller's department |
-| `/api/v4/Routes/RecordDeviation` | POST | Bearer, `Route_Update` | Records a deviation for a running route, e.g. *off route* from in-app navigation |
+| `/api/v4/Routes/GetDirections/{routePlanId}` | GET | Bearer, `Route_View` (any member who may see calls, for an active plan) | The stored route with legs, steps and planned arrival offsets per stop; regenerated if the plan changed |
+| `/api/v4/Routes/GetInstanceDirections/{instanceId}?latitude&longitude[&heading][&includeStart=true]` | GET | Bearer, `Route_View` (or a call's run, below) | With a position: a live route through the stops still to do, with an ETA per stop. Without: the stored plan route, as before. `includeStart=true`: a call's run that has not reached its start leads there first (below) |
+| `/api/v4/Routes/GetActiveRouteForUnit/{unitId}?includePaused=true` | GET | Bearer, `Route_View` (or a call's run) | `includePaused=true` also returns a paused route; without it only a route in progress, as before |
+| `/api/v4/Routes/CheckOutFromStop` | POST | Bearer, `Route_Update` (or a call's run) | Optional `Latitude` / `Longitude`; the stop must belong to the caller's department |
+| `/api/v4/Routes/RecordDeviation` | POST | Bearer, `Route_Update` (or a call's run) | Records a deviation for a running route, e.g. *off route* from in-app navigation |
+| `/api/v4/Routes/GetCallRoutePlans` | GET | Bearer, `Call_View` | The plans a call can follow (active, with a start and an end), with their start and end points |
+| `/api/v4/Routes/StartCallRoute` | POST | Bearer, `Call_View` + the call and the unit | `{ "CallId", "UnitId" }`: starts (or returns the unit's running or paused run of) the call's route; 409 `route_in_progress` when the unit runs another route |
+| `/api/v4/Routes/ReachRouteStart` | POST | Bearer, `Route_Update` (or a call's run) | `{ "RouteInstanceId" }`: the unit reached a call route's start |
+
+### Routes on calls
+
+A call can carry a route plan (`RoutePlanId` on `SaveCall` / `EditCall`), which the unit working it runs ([Routes on calls](../web-app/routes#routes-on-calls)). A plan a call can follow starts and ends at its station or explicit point, else at its first and last stop; `GetCallRoutePlans` returns both ends and whether each is a stop (`StartIsStop`, `EndIsStop`).
+
+A run started with `StartCallRoute` is linked to the call (`CallId`). When its plan starts at a station or point, `GetInstanceDirections` with a position and `includeStart=true` leads from the unit to that start before the first stop, until the run records `StartReachedOn` (by `ReachRouteStart`, or by the unit asking for directions within the plan's geofence radius of the start, default 100 m) or a stop has been worked. That leading leg and the waypoint it ends at have `IsRouteStart: true`; the waypoint has `StopOrder` 0 and no stop ids. Without `includeStart`, or for ordinary runs, the directions are as before.
+
+"Or a call's run": for a run linked to a call, members who may see the call can read it and preview its active plan without `Route_View`, and those who may also see the unit can work it (start, check in and out, skip, notes, pause, resume, end, cancel, deviations, reaching the start) without `Route_Update`. See [API information → Call locations, destinations and routes](information#call-locations-destinations-and-routes) for the call fields and the results.
 
 `MapboxRouteGeometry` on a plan now holds the generated route as a GeoJSON LineString string, and `MapboxRouteProfile` keeps its old values (`driving`, `driving-traffic`, `walking`, `cycling`; Truck is `driving`).
+
+## Destinations
+
+A department's destinations are its POIs whose type has `IsDestination`. What they offer, whether they can take anyone now, and which one suits a call are described in [Destinations](../web-app/destinations); these endpoints serve them to the apps.
+
+| Endpoint | Method | Auth | Description |
+|----------|--------|------|-------------|
+| `/api/v4/Mapping/GetPoiCapabilities` | GET | Bearer, `Department_View` | The department's capabilities (`PoiCapabilityId`, `Name`, `Sort`), in its order |
+| `/api/v4/Mapping/GetPois?poiTypeId=&destinationOnly=`, `GetPoi/{poiId}` | GET | Bearer, `Department_View` | POIs with `CapabilityIds`, `Capabilities` (names), `AvailabilityStatus` (0 Open, 1 Limited, 2 Diversion, 3 Closed; an expired report reads 0), `UnavailableCapabilityIds`, `AvailabilityNote`, `AvailabilitySetOnUtc`, `AvailabilityExpiresOnUtc` |
+| `/api/v4/Mapping/GetNearestDestinations?latitude&longitude[&capabilityId][&unitId][&take=10]` | GET | Bearer, `Department_View` | Destinations nearest a point, optionally only those offering one capability: those that can provide it first, diversion next, closed or with the capability down last. The 5 closest that can take the patient are routed (`TravelSeconds`, `TravelDistanceMeters`; `-1` when not routed), the rest ranked by `DistanceMeters` (straight line). `unitId` applies the unit's travel mode and vehicle limits; a unit the caller cannot see is ignored. `take` 1–50 |
+| `/api/v4/Mapping/GetSuggestedDestinations?latitude&longitude[&type][&priority][&callId][&unitId][&take=10]` | GET | Bearer, `Department_View` | The [destination suggestions](../web-app/destinations#destination-suggestions) for a call (`type` = call type name, `priority` = the call's `Priority` value; both taken from `callId` when left out) and, with `unitId`, the unit travelling for it (its type's rules apply). Returns `Mode` (0 Off: nothing is returned or routed), `PreferredWithinMinutes`, `SuggestedPoiId` (the best destination that meets the requirements and is not closed, or null), `Requirements` (`PoiTypeIds`, `RequiredCapabilityIds`, `PreferredCapabilityIds`, `Rules` and `SetAsideRules` with `Reason` `TypesRemoved` / `TypeConflict`) and `Destinations` ranked best first, each with `Poi`, the distances and travel time, `CanProvide`, `Status`, `MeetsRequirements`, `MissingCapabilityIds`, `PreferredCapabilityIds` and `Tier` (0 ready, 1 diversion, 2 lacking, 3 closed) |
+| `/api/v4/Mapping/GetDestinationRules` | GET | Bearer, `Department_View` | Read only: the suggestions `Mode` and `PreferredWithinMinutes`, and every [destination rule](../web-app/destinations#destination-rules) most specific first, with its ids, the names they refer to and `MissingReferenceCount` (ids naming something deleted) |
+| `/api/v4/Mapping/SetPoiAvailability` | POST | Bearer, `Call_Create` | `{ "PoiId": 214, "Status": 2, "UnavailableCapabilityIds": ["…"], "Note": "ED capacity overload", "ExpiresInMinutes": 240 }`. `Status` 0 clears the report; `ExpiresInMinutes` null or 0 lasts until changed, at most 7 days. Returns the POI after the change; 400 for a POI that is not one of the department's destinations |
+
+`GET Config/GetConfig` carries the department's `DestinationSuggestionMode` (0 Off, 1 Suggest, 2 Suggest and fill) and `TransportDestinationChecks`, so an app knows whether to ask for suggestions at all. Each suggestion looks up drive times: ask once the call has a location, and again only when its type, priority or location changes, or when the unit it is asked for changes — `unitId` decides which rules apply and whose travel mode is routed, so a unit picked after the first request needs a fresh one.
 
 ## Offline map packs
 

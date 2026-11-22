@@ -212,7 +212,7 @@ const Apps = [
   {
     title: 'Relay',
     icon: 'radioTower',
-    description: 'Listen to a scanner or audio feed, detect tones, record audio and dispatch.',
+    description: 'Connect dispatch email, radios, LTE push-to-talk radios and paging tones to Resgrid.',
     link: '/apps/relay',
   },
 ];

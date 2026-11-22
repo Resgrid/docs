@@ -82,12 +82,29 @@ Press **New Recurring Call** on Recurring Calls, or **Repeat** on a call. The fo
 
 | Field | What it holds |
 |---|---|
-| **Pickup point of interest** | A [point of interest](mapping) the calls start from. It fills the pickup facility and the address when they are empty. |
+| **Pickup point of interest** | A [point of interest](mapping) the calls start from. It fills the pickup facility and the address when they are empty, and becomes each created call's **location point of interest** (the call's *Location POI*). |
 | **Pickup facility**, **Pickup details** | The facility's name and where in it: unit, floor, room, entrance, who to ask for. |
 | **Destination facility**, **Destination details** | Where the calls go, by name and where in it, when the transport **Destination** above is not enough. |
 | **Schedule contact** (name, phone, email) | Who arranged the schedule — a facility coordinator, a family member — and should be called about a change. |
 
 The pickup and destination lines are added to the notes of every call it creates (*Pickup: Mercy General Hospital - Dialysis unit, 2nd floor*), so the crew has them.
+
+<a id="locations-destinations-and-routes"></a>
+
+### Destination location and route
+
+A recurring call has the same kinds of destination and route as a single call ([Locations, destinations and routes](dispatch-calls#locations-destinations-and-routes)):
+
+| Field | What it holds |
+|---|---|
+| **Destination address**, **Destination coordinates** | Where the calls go when it is not a point of interest: an address, and optionally a point as *latitude, longitude* (`39.7392,-104.9903`). A transport **Destination** point of interest takes their place: one destination only. Part of the *Destination* [New Call Form Fields](department-settings#new-call-form-fields) rule. |
+| **Route** | A pre-defined route every call it creates follows: a blank location starts at the route start and a blank destination ends at the route end. A location that already has coordinates, with or without an address, is left as it is. Shown when the department has a route a call can follow; it has no New Call Form Fields rule. |
+
+![Recurring call form: Destination address and Destination coordinates filled in and a route picked in Route](/img/web-app/scheduled-calls/recurring-destination-route.png)
+
+Each created call gets the schedule's destination location and route. A route that is no longer active (paused, archived or deleted since) is left off the calls created from then on; the recurring call keeps it, marked *(no longer available)*, so saving another change does not drop it. Choose another route to put one back on the calls. Likewise a pickup point of interest that has been deleted is not linked to the calls.
+
+**Repeat** on a call brings its destination location and route along, and the point of interest its location was picked from becomes the pickup point of interest.
 
 ### Who to dispatch and who to alert
 
@@ -173,8 +190,8 @@ Every change is in the department **Audit Logs**: *Recurring Call Created, Updat
 | Item | Detail |
 |---|---|
 | Routes | MVC `RecurringCallsController`: `/User/RecurringCalls/{Index,New?fromCallId=,Edit?id=}`; POST `Save`, `Pause` (`id`, `reason`, `resumeOn` yyyy-MM-dd, `deleteUpcomingCalls`), `Resume`, `Delete`, `SkipOccurrence`, `RestoreOccurrence`, `CreateOccurrenceNow`, `DispatchOccurrenceNow` (`id`, `occurrence` = Unix seconds), `AcknowledgeAlert`, `DismissAlert` (`alertId`, `note`); GET `GetCalendarEvents?start=&end=` (FullCalendar feed, department-local times, at most 100 days), `GetAlertCount`. |
-| API (v4) | `RecurringCalls/` `GetRecurringCalls`, `GetRecurringCall`, `GetRecurringCallOptions`, `SaveRecurringCall`, `PauseRecurringCall`, `ResumeRecurringCall`, `DeleteRecurringCall`, `GetScheduledCallsCalendar`, `SkipOccurrence`, `RestoreOccurrence`, `CreateOccurrenceCall`, `DispatchOccurrenceNow`, `GetRecurringCallAlerts`, `AcknowledgeRecurringCallAlert`, `DismissRecurringCallAlert`; `Calls` results carry `RecurringCallId`. See [API information](../api/information#recurring-calls). |
-| Data | `RecurringCalls` (M0319, M0320: description, schedule contact, facility and destination, `CreationMode` 0 automatic / 1 dispatcher, `ManualAlertMinutes`, `UseRunCard`, alert recipients, pause details), `RecurringCallOccurrences` (one row per run dealt with: 1 creating, 2 created, 3 skipped, 4 missed, 5 awaiting a dispatcher; unique per schedule and time, so a run is created once), `RecurringCallAlerts` (M0320; one per run and kind: 1 create failed, 2 missed, 3 nobody could be sent, 4 resources unavailable, 5 time to send; closed ones kept 90 days), `Calls.RecurringCallId`. No foreign keys; removed with the department. |
+| API (v4) | `RecurringCalls/` `GetRecurringCalls`, `GetRecurringCall`, `GetRecurringCallOptions`, `SaveRecurringCall`, `PauseRecurringCall`, `ResumeRecurringCall`, `DeleteRecurringCall`, `GetScheduledCallsCalendar`, `SkipOccurrence`, `RestoreOccurrence`, `CreateOccurrenceCall`, `DispatchOccurrenceNow`, `GetRecurringCallAlerts`, `AcknowledgeRecurringCallAlert`, `DismissRecurringCallAlert`; `Calls` results carry `RecurringCallId`. `SaveRecurringCall` takes `DestinationAddress`, `DestinationGeoLocationData` (`"lat,lon"`) and `RoutePlanId` (from `Routes/GetCallRoutePlans`; errors `ErrorDestinationCoordinatesInvalid`, `ErrorRoutePlanInvalid`, the route checked only when it changes). Created calls: `BuildCall` sets `LocationPoiId` from `FacilityPoiId` and `RoutePlanId` only while each is still usable. See [API information](../api/information#recurring-calls). |
+| Data | `RecurringCalls` (M0319, M0320: description, schedule contact, facility and destination, `CreationMode` 0 automatic / 1 dispatcher, `ManualAlertMinutes`, `UseRunCard`, alert recipients, pause details; M0322 `DestinationAddress`, `DestinationGeoLocationData`, `RoutePlanId`), `RecurringCallOccurrences` (one row per run dealt with: 1 creating, 2 created, 3 skipped, 4 missed, 5 awaiting a dispatcher; unique per schedule and time, so a run is created once), `RecurringCallAlerts` (M0320; one per run and kind: 1 create failed, 2 missed, 3 nobody could be sent, 4 resources unavailable, 5 time to send; closed ones kept 90 days), `Calls.RecurringCallId`. No foreign keys; removed with the department. |
 | Worker | The scheduled-calls job (worker command 12, every 5 minutes): resumes paused schedules whose date has come, creates the calls due within each lead time (never one due more than 10 minutes ago or before the last save or resume), raises *time to send* and *missed* alerts, sends due recurring calls with the availability and run card rules, closes settled alerts. |
 | Realtime and push | Hub event `recurringCallAlertsUpdated` (schedule id, `{alertId, kind, raised}`); alert notifications carry the push code `RCA:{alertId}`. |
 | Workflow triggers | 208 Schedule Created, 209 Updated, 210 Paused, 211 Resumed, 212 Deleted, 213 Occurrence Created, 214 Skipped, 215 Dispatched, 216 Alert Raised, 217 Alert Resolved; variables `recurring_call.*`, `occurrence.*`, `alert.*`. |

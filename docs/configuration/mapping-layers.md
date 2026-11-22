@@ -114,19 +114,21 @@ Navigate to a POI type and click **Add POI** to add a specific location.
 | Longitude | Yes      | GPS longitude in decimal format                |
 | Note      | No       | A descriptive note about the location          |
 
-### Importing POIs from KML/KMZ
+### Importing POIs from KML, KMZ or CSV {#importing-pois-from-kmlkmz}
 
-If you have location data in KML or KMZ format (common export formats from Google Earth, GIS systems, and other mapping tools), you can bulk-import POIs.
+If you have location data in KML or KMZ format (common export formats from Google Earth, Google My Maps, GIS systems, and other mapping tools) or a spreadsheet saved as CSV, you can bulk-import POIs.
 
-Navigate to a POI type and click **Import POIs**.
+On **Mapping → Manage POIs**, click **Import** on the POI type's row.
 
 | Field | Required | Description                                              |
 | ----- | -------- | -------------------------------------------------------- |
-| File  | Yes      | A KML or KMZ file containing the point data to import    |
+| File  | Yes      | A KML, KMZ or CSV file. Each entry needs a latitude and longitude, or an address that is located during the import |
 
-**Allowed file types:** .kml, .kmz
+**Allowed file types:** .kml, .kmz, .csv
 
 **Maximum file size:** 10 MB
+
+The import runs in the background and reports what it imported, what it located from an address and what it could not place. See [Importing POIs](../web-app/mapping#importing-pois) for the columns it recognizes, address lookup and the import report, and [Removing POIs](../web-app/mapping#removing-pois) to undo an import.
 
 The import process extracts coordinates from the KML file and creates individual POIs for each point. All imported POIs are assigned to the selected POI type.
 
@@ -179,7 +181,7 @@ The mapping module also supports routing:
 | Error                                       | Resolution                                                           |
 | ------------------------------------------- | -------------------------------------------------------------------- |
 | Layer not appearing on map                  | Verify the GeoJSON is a valid FeatureCollection; check "Is On By Default" setting |
-| "File type is not importable"               | Only .kml and .kmz files are supported for POI import                |
+| "File type is not importable"               | Only .kml, .kmz and .csv files are supported for POI import          |
 | "File is too large"                         | POI import files must be smaller than 10 MB                          |
 | GeoJSON parse error                         | Validate your GeoJSON at geojson.io before pasting into Resgrid      |
 | POIs not showing on map                     | Ensure the POI type is not deleted and POIs have valid coordinates    |

@@ -23,6 +23,10 @@ For a county or regional dispatch centre, a mutual-aid coordination centre, or a
 - **Run cards** are configured per agency (the agency's types and units). A regional standard of *Structure fire* cards in every agency keeps behaviour consistent.
 - **Email / SMS import**: CAD pages can go to each agency's import address; or the centre creates calls by hand.
 
+### Dispatcher desk
+
+In the centre department, turn on the [dispatcher desk](../web-app/dispatcher-desk) so pending calls, partner agencies' [intake channel](../web-app/intake-channels/overview) requests and the public's texts to a [Private Inbound Dispatch Number](../web-app/intake-channels/dedicated-number) are offered to the dispatchers on duty, one at a time. Use dispatch-only day and night shifts with two **Desk supervisors**, **Minimum on desk** 4 with **Prevent breaks below the minimum**, and **Plan breaks** at the start of each shift. With Enhanced AI, set the number's SMS channel to **Enhanced AI** so texters are asked for their location while they wait. See [Multi-agency dispatch center walkthrough](dispatcher-desk-scenarios#multi-agency).
+
 ## 3 — The Big Board and mapping
 
 - Run the **Big Board** in the centre with linked departments' units and calls visible.
@@ -51,6 +55,10 @@ Records stay per agency (each agency's NERIS identity and definitions). The cent
 - **Invoicing** (Business Ops): bill member agencies per call or per month with a rate card (*Dispatched call* flat per call, *Dispatcher hour*) and billing profiles per agency contact; aging for the board.
 
 See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
+
+## Using Resgrid Relay
+
+On a self-hosted installation, one Relay **SMTP dispatch** server in hosted mode can take your CAD's email for every agency you dispatch, using each agency's dispatch codes on your own domain, and each agency can add a **recorder** and a **dispatch tone-out** for its PTT channels. See [Relay for multi-agency dispatch centers](../apps/relay/use-cases.md#multi-agency-dispatch-centers).
 
 ## Setup checklist
 

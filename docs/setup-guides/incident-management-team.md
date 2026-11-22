@@ -69,6 +69,10 @@ Use *Review required* for the IAP forms (planning section chief reviews), *Quick
 
 See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
 
+## Using Resgrid Relay
+
+A laptop running Relay in your go-kit can **bridge** the incident's command channel (where the host agency allows it) or your team's LTE push-to-talk talk group to a Resgrid PTT channel, so team members at home base take part, and **record** the traffic for the incident record. See [Relay for incident management teams](../apps/relay/use-cases.md#incident-management-teams).
+
 ## First-week checklist
 
 - [ ] Roles = ICS positions; certifications entered

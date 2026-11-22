@@ -70,7 +70,7 @@ Real-time statistics banner displaying:
 
 #### Personnel & Unit Action Panels
 - When a personnel member or unit is selected, a dedicated actions panel appears in the activity log area
-- **Change status** of selected personnel or unit. A unit's status starts on the call the unit is working, so the dispatcher does not pick the incident for every status: the call its latest status belongs to (unless that status cleared it), otherwise the one open call it is dispatched to. A call the unit's last clear ended does not count: the call that clear named or, when it named none (back in quarters at its station), every call the unit was sent to before it. A scheduled call counts once it has gone out or its dispatch time has passed. These are the same rules the server uses to [link a status to a call](../web-app/dispatch-calls#which-call-a-status-belongs-to). A unit with more than one call left starts on its last destination or the call selected on the console. The dispatcher can still pick another destination, and a status saved with no destination is still linked to the unit's call by the server
+- **Change status** of selected personnel or unit. A transport status (Transporting, At Hospital) that offers points of interest pre-selects the destination point of interest of the call the console is filtered to, or else of the call the unit is working, as the Unit app does for its crew ([Transport destinations](../web-app/dispatch-calls#transport-destinations)); a call whose destination is an address or point keeps the call as the destination. A unit's status starts on the call the unit is working, so the dispatcher does not pick the incident for every status: the call its latest status belongs to (unless that status cleared it), otherwise the one open call it is dispatched to. A call the unit's last clear ended does not count: the call that clear named or, when it named none (back in quarters at its station), every call the unit was sent to before it. A scheduled call counts once it has gone out or its dispatch time has passed. These are the same rules the server uses to [link a status to a call](../web-app/dispatch-calls#which-call-a-status-belongs-to). A unit with more than one call left starts on its last destination or the call selected on the console. The dispatcher can still pick another destination, and a status saved with no destination is still linked to the unit's call by the server
 - **Change staffing** of selected personnel
 - View detailed information about the selected resource
 
@@ -107,6 +107,7 @@ Real-time statistics banner displaying:
   - Name, nature/description, priority, and type
   - Contact name and information
   - **Five location input methods**: address search, GPS coordinates, [what3words](https://what3words.com), Plus Code search, and interactive map picker. A call saved with a typed address that was never searched is geocoded by the server when it is created, so it still gets a location; a department that makes the location *required* needs a real point (search, coordinates or map pick)
+  - **Location from POI**, a **Destination** and a pre-defined **Route** (Omni; see [below](#call-locations-destinations-and-routes))
   - External ID and Reference ID (the referring system's case or ticket numbers)
   - **Dispatch selection**: multi-select users, groups, roles, units, or everyone. The picker lists every unit, group, role and person whatever their status (it no longer shows *Everyone* alone when opened before the lists finish loading). If nobody is picked, the call is created for information only and pages nobody: choose *Everyone* to page the whole department.
   - The location map on New Call and Edit Call draws only the **available** units and personnel near the call, so it shows who can be sent; busy resources stay in the picker with their status for reassigning
@@ -114,15 +115,48 @@ Real-time statistics banner displaying:
 - **Call detail view** with priority header, static map preview, and action buttons
   - A pending call shows a *Pending — not yet dispatched* banner with **Dispatch**; a scheduled call shows *Scheduled for* its time with **Dispatch now**
   - Add notes, attach images, attach files, route to call in native Maps
-  - Tabbed content: Info, Contact, Protocols, Dispatched resources, Timeline
+  - Tabbed content: Info, Contact, Protocols, Dispatched resources, Timeline, and **Route** (Omni) on a call with a route
+  - Info shows the **Location POI**, the destination (a point of interest, or its address, **Destination Coordinates** and **Destination what3words**) and the **Route**; the call's map can switch between the call location and its destination
   - **Dispatched** tab (Omni): a **−** button on each unit and person releases them from the open call. Below the list, *Released from this call* shows who was released, when and by whom. Group and role rows have no button: release the person instead
   - Close call (permission-gated) — **Notify everyone on the call** (on by default) tells the dispatched personnel, groups, roles, units and command team it closed; a call under an active incident command is refused with the reason shown
 - **Edit call** with the same form schema as creation
 - Web-specific implementations (`.web.tsx`) for call views, creation, and editing
 
+### Call locations, destinations and routes
+The Omni call form and call page work like the System's [locations, destinations and routes](../web-app/dispatch-calls#locations-destinations-and-routes):
+
+- **Location from POI** — pick any of the department's points of interest, searchable by name, type and address; it fills the address and the pin. Moving the location away afterwards unlinks it (*The location was moved away from …, so the call will not be linked to it*).
+- **Destination** — switch between **Point of interest** (searchable, as before) and **Address or point**: a destination address (looked up by the server), a latitude and longitude (pasting *lat, lon* into either field fills both), what3words, a plus code (only finds the point) or **Pick destination on map**. Switching clears the other kind: a call has one destination. The department's *Destination* field rule covers both.
+- **Suggested destinations** — with the department's [destination suggestions](../web-app/destinations#destination-suggestions) on, a panel under a **Point of interest** destination lists the 5 best destinations from the call's location for its type and priority (*Rules: …* · *Needs: …* · *Prefers: …*), with drive time and distance, availability badges, *Missing: …* / *Unavailable now: …* and **Use**. With *Suggest and fill in*, a new call's empty destination is filled with the *Suggested* one (*Filled in with the suggested destination. Choose another if needed.*) until the dispatcher picks or clears one; never over a destination address or point or a route.
+- **Route** (*Pre-defined route*) — the routes a call can follow, searchable, each with its stops, distance, time and where it starts and ends (*Station 1 → General Hospital*). The route's start fills a blank call location and its end a missing destination when the call is saved. **Preview route** opens the plan. Shown only when the department has a route a call can follow, or the call already has one (*Route no longer available* when it can no longer be followed).
+- **Route tab** on the call page — the route's name, stops, distance, time, start and end, and the **route runs**: each unit that started it, its status, stops done of the total, and when it started, reached the route start and ended. The tab's badge counts the runs still going. Units start the route from the [Unit app](unit#call-routes), not from here.
+
+The same location and route fields are on pending and scheduled calls, and on the recurring call form (with **Destination address**, **Destination location** and **Route**).
+
+<!-- Screenshots to take: Omni Dispatch New Call with Location from POI, Destination "Address or point" and a picked route; call page Route tab with a run. -->
+
+### Routes
+**Routes** in the side menu (Omni) shows the department's routes to the dispatch desk, read only:
+
+- **Running** — every route in progress or paused: plan, unit, status, progress, the next stop and when it started. A run started for a call names it (*Call 26-153: Dialysis transfer*) and the call opens from there. Tap a run to see it with its stops. The list refreshes every minute while open, and on pull.
+- **Plans** — the department's route plans with their status (Active first), searchable by name, description and unit. A plan opens its **Route Preview**: the map with the route line, start (*S*) and end (*E*), the stops, travel mode, distance and time with and without stops, and a warning when the stops changed after the route was calculated.
+
+The two lists need the Route View permission; previewing an active plan only needs access to calls. Starting, checking in and managing plans stay on the web [Routes](../web-app/routes) pages and in the Unit app. The route preview also opens from the call form, a call's Route tab and the Incident Command and Unit apps.
+
+<!-- Screenshots to take: Omni Dispatch Routes > Running with a call-linked run; Routes > Plans; Route Preview. -->
+
+### Destinations
+**Destinations** in the side menu (Omni, after POIs) is the dispatch desk's view of the department's [destinations](../web-app/destinations), refreshed each time it opens and on pull:
+
+- **Availability** — every destination with its type, address, availability badge (*Open*, *Limited*, *Diversion*, *Closed*), capabilities (struck through when down), the note and *Until …*. Search, *All* and *Not open* chips, type and capability chips, and a count line (*Open · Limited · Diversion · Closed*); the tab's badge counts the destinations that are not open. **Set availability** opens the **Destination availability** sheet: the status, **Not available now** (the capabilities it offers), **What was reported** (*e.g. ED capacity overload, CT down*) and **Lasts** (*Until changed*, *1 h* … *24 h*). Saving needs a connection and permission to create calls. Tap a row for the POI's details.
+- **Capabilities** — each capability with how many destinations offer it and how many cannot provide it now; press one to list those destinations on the Availability tab.
+- **Rules** — read only: the suggestions setting (*Off*, *Suggest destinations*, *Suggest and fill in*) with its preferred capability window, and each [destination rule](../web-app/destinations#destination-rules) with when it applies, its destination types and what it requires and prefers. Rules are set on the web (*Rules and suggestions are set on the web under Mapping → POIs → Destination Rules.*).
+
+The IC app sets availability from a destination's POI details instead. A dispatcher setting a unit's transport status gets the same ranked, rule-aware destination list as the Unit app ([Unit status destinations](../web-app/destinations#in-the-apps)).
+
 ### Pending and Scheduled Calls
 Both are under **Calls** in the side menu (Pending Calls shows a count badge) and behind the console's tiles. They work like the System's [pending and scheduled calls](../web-app/dispatch-calls#pending-and-scheduled-calls).
-- **Pending Calls** — calls waiting for a dispatcher, oldest first, with search: number, name, type, priority, address and when it was received. **Dispatch** opens the recipient picker with any proposed recipients already selected; confirming sends the call and it moves to the active calls. **Cancel Call** closes it as Cancelled without notifying anyone. Pending calls come from *Save as pending* here or on the web, or from another system through the API (`IsPending`).
+- **Pending Calls** — calls waiting for a dispatcher, oldest first, with search: number, name, type, priority, address and when it was received. **Dispatch** opens the recipient picker with any proposed recipients already selected; confirming sends the call and it moves to the active calls. **Cancel Call** closes it as Cancelled without notifying anyone. Pending calls come from *Save as pending* here or on the web, from another system through the API (`IsPending`), from [intake channels](../web-app/intake-channels/overview) and the [Private Inbound Dispatch Number](../web-app/intake-channels/dedicated-number), or from emailed calls the department saves as pending. A call from an intake channel shows where it came from and any screening badge (*Enhanced AI: likely not an incident*); **Dismiss as Spam** (block the sender on by default) cancels it without notifying anyone ([Spam screening](../web-app/intake-channels/overview#spam-screening)). With the [dispatcher desk](#dispatcher-desk) on, pending calls are also offered to the dispatchers on duty.
 - **Scheduled Calls** — calls waiting for their dispatch time, with **Dispatch now** to send one early and **Reschedule** on the call.
 
 ### Recurring Calls and alerts
@@ -133,6 +167,144 @@ Under **Calls** in the side menu, next to Scheduled Calls, they work like the Sy
 - A call created by a recurring call shows *Created by the recurring call …* on its page, linking to the recurring call.
 - Both lists refresh when the server reports a call was added, changed or closed.
 
+### Dispatcher desk (Dispatcher On-The-Go) {#dispatcher-desk}
+
+When your department turns on the [dispatcher desk](../web-app/dispatcher-desk), the Dispatch app is where dispatchers take the work it routes: pending calls, scheduled calls coming up for review, texts, phone calls and emailed calls. Work is offered to one free dispatcher at a time, with a push notification and a sound, and anything nobody can take waits in a shared queue. Because it works the same on a phone as on a tablet or desktop, a dispatcher can cover the desk from anywhere: **Dispatcher On-The-Go**.
+
+Open it from the side menu: **Dispatcher Desk** (its badge counts the work offered to you plus the work waiting). A **desk status bar** across the top of every screen shows *Offered N · Held N · Waiting N* and your next desk action, so you can keep working the console, the map or a call while signed in. Only members with the **Dispatch app login** permission can use the desk (*You are not a dispatcher* otherwise); if the department has not turned it on, the screen says *The dispatcher desk is turned off* and that a department administrator can turn it on under **Shifts > Dispatcher Desk Settings**.
+
+![Dispatch app Dispatcher Desk on a tablet: My work, Waiting and Recent lists on the left, the team board on the right, and the desk status bar at the top](/img/apps/dispatch/desk-board.png)
+
+#### Signing in to the desk
+
+Press **Sign in to the desk** (on the status bar, or *You are not signed in to the desk* on the desk screen):
+
+| Field | What it does |
+|---|---|
+| *Signing in on: Phone / Tablet / Desktop* | The device kind, shown to supervisors on the board. |
+| **Callback number** | *The desk rings this phone to connect callers. Leave it empty to use your profile mobile.* Enter the phone you have with you. |
+| **Unscheduled duty** and **On duty until (optional)** | Shown when the department allows duty without a shift: *Go on duty without a dispatch shift (an event, cover).* |
+| **Start as away** | *Take no routed work until you go available.* Use it to sign in early and settle in before offers start. |
+
+When you are not on a dispatch shift right now, the sheet warns that the desk may refuse the sign-in (*You are not on a dispatch shift right now.*). Once signed in you get offers whenever you are **Available**.
+
+**The status bar** offers, depending on your state: **Take break**, **Away** and **Sign off** while available; **Go available** while away; **I'm back** on a break. On a phone it shows the main action, with **More desk actions** for the rest. **Sign off** asks *Sign off the desk?*; any work you hold goes back to the queue for someone else. With the department's **Sign off at the end of the shift** setting, the desk signs you off when your shift ends.
+
+![Sign in to the desk sheet with the callback number, Unscheduled duty and Start as away](/img/apps/dispatch/desk-sign-in.png)
+
+#### Offers
+
+When work is offered to you, **Work offered to you** appears over whatever screen you are on, with a sound: the kind of work (Pending call, Scheduled call, Text message, Phone call, Email), the call or sender and a preview, and a countdown (*Answer within 0:42*).
+
+- **Accept** takes it: it moves to **My work** and opens.
+- **Decline** sends it straight on to the next free dispatcher.
+- If the countdown runs out (45 seconds by default) it moves on too. Let two offers in a row run out and the desk sets you **Away**, so it stops waiting on you; press **Go available** to take work again.
+- *More offers waiting: N* when more than one is out for you.
+
+With the app in the background, the offer arrives as a push notification; tapping it opens the item.
+
+![Work offered to you alert for a pending call with Accept, Decline and the countdown](/img/apps/dispatch/desk-offer.png)
+
+#### My work, Waiting and Recent
+
+The desk screen's header shows *Available N · On break N · On duty N · Minimum N* (red when coverage is below the minimum), a **Breaks** button and refresh. The lists:
+
+| Tab | Shows |
+|---|---|
+| **My work** | Work offered to you, then work you hold. *Nothing offered to you or held by you.* when empty. |
+| **Waiting** | The shared queue: work nobody holds, with how long it has waited and *Waiting too long* once it escalated. **Take** takes an item straight from the queue, whoever it would have gone to. |
+| **Recent** | Work that recently left the desk (finished, sent to overflow or handled elsewhere) while this device was watching, with its last state. |
+| **Team** | The [team board](#team-board-and-coverage-timeline) (phone only; on a tablet it fills the right-hand side). |
+
+#### Working an item
+
+An item shows its kind, its state (**Waiting**, **Offered**, **In progress**, **Done**, **Sent to overflow**, **Cancelled**), who holds it and how long it has waited, then:
+
+| Button | What it does |
+|---|---|
+| **Accept** / **Decline** | For an offer to you. |
+| **Take** | For waiting work. |
+| **Dispatch now** | Pending and scheduled calls: opens the recipient picker with the proposed recipients ticked; once sent, the item completes as *Dispatched*. |
+| **Open call** | Opens the item's call (for example to edit it before sending). |
+| **Create call** | A text or email with no call yet: opens New Call filled in from the conversation; the saved call is linked to it (*The call is linked to the conversation.*). Saved offline, it is linked once it is sent. |
+| **Complete** | Finish it (below). |
+| **Return to queue** | Give it back for another dispatcher. |
+| **Hand over** | Offer it to another signed-in dispatcher who is free, with an optional note. A supervisor can also hand over someone else's open work. |
+
+Texts and emails show the conversation, oldest first, with each outgoing message marked **Sending**, **Sent** or **Not delivered**. **Reply** answers the sender (texts go from the number they texted, except in a [text thread](#text-threads-from-the-private-inbound-dispatch-number) on the Private Inbound Dispatch Number, where replies go out from the main Resgrid number; emails are answered by email from Resgrid's address). **Add note** writes a note for the desk that is never sent. **History** lists each step: *Came in*, *Offered*, *Accepted*, *Declined*, *Offer ran out*, *Returned to the queue*, *Handed over*, *Sent to overflow*, *Completed*.
+
+**Completing.** **Complete** asks *How did it end?*:
+
+- for a pending or scheduled call: **Dispatched**, **Left pending**, **Duplicate**, **Call closed** or **Referred elsewhere** (nothing is picked for you, so the record says what really happened);
+- for a text or email: **Call created** (when a call is linked; picked for you), **No action needed**, **Duplicate** or **Referred elsewhere**.
+
+Add an optional **Note** and press **Complete**. A call dispatched or closed somewhere else (on the web, by another dispatcher) leaves the desk by itself.
+
+![Complete sheet for a text thread: How did it end? with Call created selected, a note and Tell the texter the conversation ended switched on](/img/apps/dispatch/desk-complete.png)
+
+#### Text threads from the Private Inbound Dispatch Number
+
+A text to the department's [Private Inbound Dispatch Number](../web-app/intake-channels/dedicated-number) comes to the desk as a **Text message** linked to its pending call, with a **Text thread**:
+
+- The top line says who is answering: *Enhanced AI is asking the texter questions until a dispatcher connects.*, *The texter is waiting for a dispatcher.* or *Connected with (name).* Messages are labeled **Texter**, **Enhanced AI**, **Resgrid** (automatic texts such as the welcome) and the dispatcher's name. *Replies go out from* (the main Resgrid number).
+- **Accept** (or **Take**) connects you: the texter is told *You are now connected with* (your first name)*. Please describe the situation you are having and your location.* and Enhanced AI stops answering.
+- **Reply** texts the texter. If the carrier refuses it, you see *That channel cannot send right now*, your draft is kept, and the reply shows **Not delivered** in the thread.
+- **Return to queue** hands the texter back (to Enhanced AI, or waiting for a dispatcher) without texting them.
+- **Complete** ends the thread. **Tell the texter the conversation ended** (on by default) *Sends a closing text from the Resgrid number.*; turn it off to end it silently. The pending call stays for you to dispatch.
+- A texter who sends STOP is opted out: *The texter opted out (STOP). Nothing more can be sent.* An ended thread says *This text thread has ended.*
+
+The same thread is on the call's page on the web ([Text conversations](../web-app/intake-channels/dedicated-number#text-conversations)).
+
+![Desk item for a text thread from the Private Inbound Dispatch Number: Connected with the dispatcher, the texter's messages, a reply marked Sent and the reply box](/img/apps/dispatch/desk-text-thread.png)
+
+#### Answering phone callers
+
+A **Phone call** item is a caller held on the line for a dispatcher (a non-member calling the department's text-to-call number). It shows the **Caller** (or *Unknown number*) and *Caller waiting* or *Caller hung up*:
+
+1. Check **Ring this number** (your callback number) and press **Answer**. *Your phone will ring. Press 1 to connect.*
+2. Your phone rings with *Resgrid dispatch call from* (the caller's number)*. Press 1 to connect.* Press 1 and you are talking to the caller. Any phone or tablet with a phone number works.
+3. If the caller hung up before you answered, the item stays on your desk with **Call back**: the desk rings you, you press 1, and it calls them back.
+
+*The desk cannot connect phone calls for this department.* means phone calls are not set up for your department.
+
+#### Breaks {#breaks}
+
+**Breaks** (the coffee cup on the desk screen, or a break push) shows:
+
+- **My duty**: your shift and its times (*Unscheduled duty until …*, *Not on a dispatch shift*).
+- **My breaks today**: each break with *Planned for …*, *Started …*, *Due back at …* or *Overdue by …*, and **Change** while it is planned. **Plan a break** when your shift lets dispatchers plan their own (or you are a supervisor): type, length and **Planned start** (*A break is a length: it can start early or late, and is due back its length after it starts.*).
+- **Take a break now**, and the **Team timeline** below (see the next section).
+- Supervisors: **Plan breaks for the shift** (*Stagger the shift's break plan across today's dispatchers so breaks do not overlap.*), with **Replace breaks already planned**.
+
+**Taking a break.** The app reminds you before a planned break (*Your Meal starts in 5 min*) and when it is due (*Your Meal is due now. Tap to take it.*). **Take break** opens **Take a break**: start the planned break, or **A new break now** with its **Type** and **Length**. If you hold work, tick **Return my work to the queue (held: N)**; *A break starts only once your work is back in the queue for another dispatcher.* If the break would take coverage below the minimum you are warned and can **Take break anyway**, unless the department prevents it (*ask a desk supervisor to start it*). Then *Enjoy your break. You are due back at …*
+
+**On break** the status bar shows *On break · 12:00 left* (or *Break overdue by N min*). You get no offers, and while the department keeps breaks quiet (the default), no desk notifications, sounds or pop-ups. Other alerts the Dispatch app shows in the foreground (new calls, chat, toasts and their sounds) are held back too; the break reminders still come. Notifications other apps or the phone itself show while the app is in the background are not changed.
+
+**Coming back.** *Your break is over. Tap "I'm back" to return to the desk.* Press **I'm back** (*Welcome back. You are on the desk again.*); waiting work is offered to you straight away. If the department returns dispatchers automatically you are told *Your break ran past its length, so the desk returned you automatically.*; if a supervisor ended it, *Your break was ended. You are back on the desk.*
+
+![Breaks screen: My duty, My breaks today with a planned meal, Take a break now and the team timeline with a below-minimum stretch](/img/apps/dispatch/desk-breaks.png)
+
+#### Team board and coverage timeline
+
+The **Team** board lists every dispatcher on the desk: their state (**Available**, **Busy**, **Away**, **On break** with time left, *Signed off*), *you*, **Supervisor**, *Holding 1 of 2*, *Offered: N*, their shift (*A Shift until 19:00*, *Unscheduled duty until …*), and their next break (*Next: Meal at 12:00 (30 min)*). Supervisors can **End break** for someone and open **Breaks** to plan or change that dispatcher's breaks.
+
+The **Team timeline** (*Everyone's duty and breaks today. Red marks coverage below the minimum.*) draws each dispatcher's duty and breaks across the day, with a **Coverage** lane. The legend: **On duty**, **Planned break**, **Break taken**, **Overdue break** (red, a dispatcher late back) and **Below minimum** (red on the Coverage lane). Supervisors tap a dispatcher to plan or change their breaks.
+
+#### Phone, tablet and desktop
+
+| Layout | How the desk looks |
+|---|---|
+| **Phone** | The lists as tabs (**My work**, **Waiting**, **Recent**, **Team**); an item opens on its own screen. The status bar shows one action with **More desk actions**. |
+| **Tablet and desktop** | The lists on the left and the picked item on the right; with nothing picked, the right side shows the team board. The status bar shows every action. |
+
+A desk push opens its item (on a phone as its own screen, on a tablet picked beside the lists); a break push opens **Breaks**.
+
+![Dispatcher desk on a phone: the My work tab with an offered text and a held pending call, and the desk status bar](/img/apps/dispatch/desk-phone.png)
+
+#### Sounds
+
+The Dispatch app has **its own sound set**, so a dispatcher can tell it apart from the Responder or Unit app on the same device: the modern call, status, message and alert sounds in a distinct dispatch tone, plus five desk sounds: **work offered**, **work waiting too long**, **new message** in a conversation you hold, **break reminder** and **break over**. The other apps keep their sounds.
+
 ### Additional Screens
 - **Calls list** — searchable paginated list of all calls
 - **Personnel list** — all department personnel with status information
@@ -141,6 +313,8 @@ Under **Calls** in the side menu, next to Scheduled Calls, they work like the Sy
 - **Notes** — department notes with detail views
 - **Protocols** — emergency response protocols/SOPs with detail sheets
 - **Map** — full-screen interactive map with pins and detail modals
+- **Destinations** — destination availability, capabilities and rules ([above](#destinations))
+- **Dispatcher Desk** — routed work, the shared queue, breaks and the team ([above](#dispatcher-desk))
 - **Settings** — account, preferences, and configuration options
 
 ### Inactivity Lock Screen
@@ -170,6 +344,7 @@ Under **Calls** in the side menu, next to Scheduled Calls, they work like the Sy
 - Android notification channels mapped to call priorities
 - iOS critical alert support to bypass Do Not Disturb
 - **In-app notification inbox** powered by Novu with unread badges (native platforms)
+- **Dispatcher desk** pushes (work offered, work waiting too long, new messages, break reminders) go only to the Dispatch app, never to the Responder app on the same account, and are not sent while you are on a break, except *break over* ([Dispatcher desk](#dispatcher-desk))
 
 ### Real-Time Updates (SignalR)
 - Persistent WebSocket connection for real-time event updates

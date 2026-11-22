@@ -103,6 +103,19 @@ Manage the PTT addon subscription:
 
 When the add-on lapses nothing is deleted: every Business Ops page stays readable and every change is refused until it is bought again. Certifications and Deployment Finance are free and unaffected. Turn the whole area off for the department without cancelling under **Department Settings → Module Settings → Business Operations**.
 
+### Private Inbound Dispatch Number add-on
+
+The **Private Inbound Dispatch Number** card (*Your department's own number for texts and calls*) opens the add-on's billing page. It gives your department its own phone number: texts become pending calls with a text conversation, members can call it to reach the voice menu, and with Enhanced AI, callers who are not members leave a report by voice. Replies come from the main Resgrid number (inbound only).
+
+- **US$15 per month** on Stripe (US and Canadian numbers) or **€20 per month** on Paddle (a number in your country where available), billed monthly per department even on an annual plan.
+- Needs an **active entity plan**. Cancelling the plan also cancels paid add-ons.
+- Only the **managing member** can buy or cancel it. It can also be bought straight from **Department → Private Inbound Dispatch Number**, which is where you then pick the number.
+- If payment stops, texts and calls stop after 3 days and the number is released 30 days after payment stopped, with warnings to the administrators along the way.
+
+See [Private Inbound Dispatch Number → Buying and lifecycle](intake-channels/dedicated-number#buying-and-lifecycle).
+
+The [dispatcher desk](dispatcher-desk) is free and needs no add-on; its Enhanced AI options use the Enhanced AI add-on.
+
 ### Other Addons
 The `BuyAddon` action supports purchasing plan addons:
 - View addon plan details
@@ -131,12 +144,12 @@ Displays invoice details with deserialized Stripe `Charge` data.
 |---|---|
 | **Small volunteer department** | Free or Standard covers dispatch, personnel and units; add PTT if you use the apps as radios. |
 | **Career fire / EMS** | Premium/Ultimate for voice alerting, shifts and records; Readiness Pro for work orders; ADP if patient data is stored; Business Ops for cost recovery, Cal OES MARS and invoicing. |
-| **Multi-agency / government** | Enterprise for SSO/SCIM and security policy; department links for shared dispatch. |
+| **Multi-agency / government** | Enterprise for SSO/SCIM and security policy; department links for shared dispatch; a Private Inbound Dispatch Number for the public's non-emergency texts. |
 | **Business / industrial** | Standard plus Readiness Pro (maintenance) and PTT; Business Ops for invoicing, contracts, bids and workforce costing. |
 
 ## Technical reference
 
-`SubscriptionController`, `ReadinessProBillingController`, `BusinessOperationsBillingController` (`/User/BusinessOperationsBilling/{Index,Checkout,CancelRenewal}`, Billing API `api/BusinessOperationsBilling/{Status,Checkout,CancelRenewal}`, `PlanAddonTypes.BusinessOperations = 4`); routes `/User/Subscription/{Index,UpdateBillingInfo,Cancel,BuyAddon,ManagePTTAddon,BuyAdpAddon,ManageAdpAddon,PaymentHistory,ViewInvoice,SelectRegistrationPlan}`; payments through Stripe or Paddle; plan limits cached 14 days (`SubscriptionsService`, `LimitsService`); addon entitlements checked live (`ReadinessAccessService`, `BusinessOperationsAccessService`).
+`SubscriptionController`, `ReadinessProBillingController`, `BusinessOperationsBillingController` (`/User/BusinessOperationsBilling/{Index,Checkout,CancelRenewal}`, Billing API `api/BusinessOperationsBilling/{Status,Checkout,CancelRenewal}`, `PlanAddonTypes.BusinessOperations = 4`); routes `/User/Subscription/{Index,UpdateBillingInfo,Cancel,BuyAddon,ManagePTTAddon,BuyAdpAddon,ManageAdpAddon,PaymentHistory,ViewInvoice,SelectRegistrationPlan}`; payments through Stripe or Paddle; plan limits cached 14 days (`SubscriptionsService`, `LimitsService`); addon entitlements checked live (`ReadinessAccessService`, `BusinessOperationsAccessService`, `IDedicatedNumberAccessService`). Private Inbound Dispatch Number: `DedicatedNumberBillingController` (`/User/DedicatedNumberBilling/{Index,Checkout}`, `returnTo` 0 billing page / 1 number page), `PlanAddonTypes.DedicatedNumber = 7`, prices in `DedicatedNumberAddonConfig` (see [Private Inbound Dispatch Number → Technical reference](intake-channels/dedicated-number#technical-reference)).
 
 ### Interactions with Other Modules
 | Module | Interaction |

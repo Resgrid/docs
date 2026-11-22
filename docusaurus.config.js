@@ -116,7 +116,7 @@ const config = {
               {type: 'doc', docId: 'apps/unit', label: 'Unit'},
               {type: 'doc', docId: 'apps/dispatch', label: 'Dispatch'},
               {type: 'doc', docId: 'apps/big-board', label: 'Big Board'},
-              {type: 'doc', docId: 'apps/relay', label: 'Relay'},
+              {type: 'doc', docId: 'apps/relay/index', label: 'Relay'},
             ],
           },
           {

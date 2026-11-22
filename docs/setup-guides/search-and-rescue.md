@@ -40,11 +40,15 @@ For volunteer SAR teams — ground, mountain, K9, technical rope, swiftwater, ca
 
 ## 5 — Dispatch
 
-- Callouts arrive by SMS or email from the sheriff — set up **email import** (Generic format) or **text-to-call**; or the duty officer creates the call in the Dispatch app.
+- Callouts arrive by SMS or email from the sheriff — set up **email import** (Generic format) or **text-to-call**; or the duty officer creates the call in the Dispatch app. A text from a **Text-to-Call Source Number** is dispatched as soon as it arrives, so requests the on-call coordinator must vet first go through email import held as pending, or through an [intake channel](../web-app/intake-channels/overview), which always creates a pending call.
 - Dispatch to **roles**, not groups: *Missing person* → Ground searcher + Team leader + K9 handler; *Rescue* → Rope tech + Medical.
 - **Run cards**: *Missing person* (Urgent + Missing person): Team leader ×1, Ground searcher ×6, K9 team ×1; manual selection mode (people choose to respond).
 - **Messages with responses** for availability polls: *Available for a callout starting 06:00 tomorrow? Yes / No / Later*.
 - **Check-in timers**: *Sector rotation* 2 h per field team.
+
+### Dispatcher desk
+
+Let the week's on-call coordinator vet every request before the team is paged. On the free [dispatcher desk](../web-app/dispatcher-desk): tick **Route work to on-duty dispatchers** and pick the kinds of work under **Send to the desk** (nothing is routed until you do); clear **Dispatchers must be on a shift** (whoever signs in is on duty); set **Emailed calls** to **Save as pending** so the sheriff's emails wait for the coordinator; and give offers 90 seconds so they can be answered from the field. **Emailed calls** covers the department's dispatch import address, so have the sheriff email that address: a group or station dispatch address still dispatches at once. See [Search and rescue walkthrough](dispatcher-desk-scenarios#search-and-rescue).
 
 ## 6 — Mapping
 
@@ -78,6 +82,10 @@ Enable Records and create definitions from the **SAR Mission Pack**: *SAR Missio
 - **Field costing** (Business Ops, optional): resource cost profiles for UTVs, boats and drones to value in-kind contributions in grant applications.
 
 See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
+
+## Using Resgrid Relay
+
+Relay can **bridge** your team's VHF channel to a Resgrid PTT channel from the command post, and join a Rapid Radios, Diga-Talk+ or other LTE push-to-talk talk group through a cabled **donor radio**, so members on the app, on VHF and on LTE radios all hear each other; the **recorder** keeps every transmission for the mission log. See [Relay for search and rescue](../apps/relay/use-cases.md#search-and-rescue).
 
 ## First-week checklist
 

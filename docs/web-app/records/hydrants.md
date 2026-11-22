@@ -21,6 +21,8 @@ The header shows *N hydrants, N out of service, N due for a flow test*. The **Ma
 
 **New hydrant** or **Import hydrants** (CSV with a header row: `number, latitude, longitude, type, address, main_size, flow_gpm, owner` — existing numbers are updated).
 
+**Import map POIs** next to them opens the map's [POI import](../mapping#importing-pois) for landmarks that are not hydrant records (draft sites, cisterns, Knox boxes). Choose the POI type on that page; the import runs in the background and its progress is listed there.
+
 Files exported from another system import as they are:
 
 - `hydrant_type`, `flow_rate` and `location_address` are read as `type`, `flow_gpm` and `address`.

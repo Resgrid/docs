@@ -160,7 +160,7 @@ A shape with a hole, or one cut into several parts, can be selected, deleted and
 
 ![Import a layer](/img/web-app/mapping/layer-import.png)
 
-Every point, line and polygon in the file becomes a shape with its own name, description, color and folder; multi-part shapes are split and polygons keep their holes. Places that only have an address (no coordinates) are left out, and the import says how many: import those as [POIs](#points-of-interest-pois) instead. See [Importing a Layer](../configuration/mapping-layers#importing-a-layer-kml-kmz-geojson) for the file rules and limits.
+Every point, line and polygon in the file becomes a shape with its own name, description, color and folder; multi-part shapes are split and polygons keep their holes. Places that only have an address (no coordinates) are left out, and the import says how many: import those as [POIs](#importing-pois) instead, which locates them from their address. POI import takes KML, KMZ and CSV only, so put those places in a KML or KMZ file, or list them in a CSV with an address column, before importing them — a GeoJSON file has to be converted first. See [Importing a Layer](../configuration/mapping-layers#importing-a-layer-kml-kmz-geojson) for the file rules and limits.
 
 While the event runs, the layer is switched on on every map (web, Omni and the mobile apps), whatever **Is Visible By Default** says. Clicking a shape opens its name, folder and description:
 
@@ -180,46 +180,116 @@ Deleting a layer removes it from every map, together with everything it held: it
 
 ## Points of Interest (POIs)
 
+Points of interest are the fixed places your people need on the map: hospitals, shelters, water sources, staging areas, Knox boxes, client sites. Each belongs to a **POI type** (its category, marker and color). **Mapping → Manage POIs** lists the types, with **View**, **Add**, **Import** and **Delete** on each row and the department's recent [imports](#importing-pois) below. Department admins manage POIs.
+
 ### POI Types
 
 ![Points of interest](/img/web-app/mapping/pois.png)
 
-Create categories for points of interest with custom markers and images. A POI type can also have its own [custom icon](#custom-map-icons), set when you add the type or on its **View** page (Information tab); it replaces the marker on the map and in the apps.
+Create categories for points of interest with custom markers and images. A POI type can also have its own [custom icon](#custom-map-icons), set when you add the type or on its **View** page (Information tab); it replaces the marker on the map and in the apps. Tick **Is Destination** on types that calls and units go *to* (hospitals, shelters, water sources): their POIs become [destinations](destinations).
 
 ![POI type custom icon](/img/web-app/mapping/poi-type-icon.png)
 
 ### Individual POIs
 
-Add specific locations under a POI type with:
-- Name and description
-- GPS coordinates (latitude/longitude)
+**Add** on a type's row adds one place: **Latitude** and **Longitude** (required), **Name**, **Address**, **Note**, and the [capabilities](destinations#poi-capabilities) it offers when the department has any.
 
-### POI Import (KML/KMZ)
+### Importing POIs {#importing-pois}
 
-Import multiple POIs from KML or KMZ files:
-- Uses `IKmlProvider` for parsing
-- Validates file type (.kml or .kmz)
-- Maximum file size: 10 MB
+Departments usually start from a list they already have: a spreadsheet of hospitals or client sites, a Google My Maps layer, a GIS export. **Import** on a POI type's row (**Mapping → Manage POIs**) opens **Import POIs** with that type chosen; pick another **Type** there if needed, choose the file and press **Import POIs**. Every place in the file is added to that type.
+
+![Import POIs page with a CSV chosen and the help text under the file input](/img/web-app/mapping/poi-import.png)
+
+**Who can import:** department admins, and members who may manage prevention data (hydrant managers). Hydrant managers cannot open **Manage POIs**: they use **Import map POIs** on the [Hydrants](records/hydrants) page, choose the POI type on the import page, and follow their own imports there. **Cancel** takes them back to Hydrants.
+
+**Files.** A `.kml`, `.kmz` or `.csv` file of up to 10 MB. Each entry needs a latitude and longitude, or an address that is located when the file is imported.
+
+- **KML and KMZ** are read the way Google Earth reads them, so files from most converters work: the older KML 2.0 and 2.1 formats, files with no KML namespace, and zipped KML saved as `.kml` (or plain KML saved as `.kmz`). Each placemark becomes a POI at its point (a line or area at its center), named by its name or, when that is empty (QGIS, ogr2ogr), by a *name*, *title* or *label* field. The first 5 network links in the file are followed.
+- **Google My Maps layers placed by address** have no coordinates: their placemarks are located from the address columns they carry, else from their address.
+- **CSV** needs a first row that names the columns. Comma, semicolon and tab separators are detected, as are Excel's encodings, and a semicolon file may use decimal commas (`41,59`). At most 10,000 rows per file.
+
+**Columns** are recognized by name, ignoring case, spaces and punctuation (*Street Address 1* is *streetaddress1*). Other columns are ignored. In a KML file the same names are read from each placemark's ExtendedData.
+
+| Column | Names recognized |
+|---|---|
+| Name | name, title, label, poi name, site name, location name, place name, facility name. A row without a name is named by its address |
+| Latitude, Longitude | latitude, lat, y, point y, y coord · longitude, lon, lng, long, x, point x, x coord |
+| Address | address, address 1, address line 1, street, street 1, street address, street address 1; joined with **City** (city, town, municipality, locality), **State** (state, province, state province, state or province), **Postal code** (postal code, postcode, postal, zip, zip code; `60611.0` is read as `60611`) and **Country** (country) |
+| Full address | full address, formatted address, complete address: used as it is, instead of the parts |
+| Note | note, notes, comment, comments, remarks, description |
+| Capabilities | capabilities, capability, specialties, specialities, specialty, speciality, services: several names separated by `;`, `,` or a vertical bar. Each is matched to the department's [POI capabilities](destinations#poi-capabilities) ignoring case; a name the department does not have yet is added |
+
+A CSV needs latitude and longitude columns or an address column. A row with neither a usable position nor a street address is skipped: a city or postal code alone would put the POI in the middle of town. A position out of range (usually latitude and longitude swapped) or `0,0` (a converter's "not located") counts as no position, so the row is located from its address when it has one.
+
+**The upload is checked straight away.** A file that cannot be imported is refused on the page with the reason, for example:
+
+| Message | Cause |
+|---|---|
+| *File type (.xlsx) cannot be imported as POIs: upload a KML, KMZ or CSV file.* | Any other file type: save a spreadsheet as CSV first |
+| *The first row of the CSV must name the columns, with latitude and longitude columns or an address column … Columns found: …* | No recognized position or address column |
+| *The CSV has more than 10000 rows. Split it into smaller files and import each one.* | Too many rows |
+| *Line N of the CSV could not be read: check for an unmatched double quote.* | A broken quote |
+| *None of the N entries in the file have valid coordinates or an address (check that latitude and longitude are not swapped or blank).* | Every row was skipped |
+| *The file is not valid KML: …* / *The KMZ file is damaged or is not a zip archive.* | A damaged file |
+
+A file over 10 MB is refused too (*The file is too large: it must be smaller than 10 MB.*), and so is an upload with no type chosen (*Choose the POI type to import into.*).
+
+**The import runs in the background.** Accepted files are queued (*… was queued for import (N entries). Imports run in the background and usually start within a minute; their progress is listed below.*), so a spreadsheet of a few thousand addresses never times out the page. The **Imports** panel at the bottom of **Manage POIs** (and of the import page) lists the last 10 imports: the department's for admins, a hydrant manager's own otherwise. While an import is running the panel updates itself every 10 seconds; **Refresh** reloads the page you are on.
+
+<!-- SHOT: /img/web-app/mapping/poi-imports-panel.png | Imports panel on Manage POIs: one import Locating addresses with a retry line, one Complete with its report lines -->
+
+| Column | Shows |
+|---|---|
+| **File** | The file name and the POI type it went to. |
+| **Uploaded** | When, in the department's time zone. |
+| **Status** | **Queued**, **Locating addresses**, **Saving POIs**, **Complete** or **Failed**. |
+| **Result** | While running, *N entries to import.*; when done, the report below. |
+
+The panel updates itself every 10 seconds while an import runs (in a tab you are looking at), and the page reloads once when the last one finishes, so the type's POI count includes the new points.
+
+**Address lookup.** Entries without a position are located from their address by the installation's geocoder:
+
+- up to **5,000** different addresses per import; the rest are not tried (import them in another file);
+- an address the geocoder could not find is reported, never asked again;
+- an address the geocoder did not answer for (an outage, a rate limit) is tried again after 2, 10 and 30 minutes (*The address lookup service did not answer for N entries; they will be tried again after …*) before it is reported.
+
+**The report** of a finished import lists:
+
+| Line | Means |
+|---|---|
+| *N of M entries imported.* | POIs saved, of every entry in the file. |
+| *N were located from their address; check their positions on the map.* | Geocoded entries. |
+| *N were skipped because they have neither coordinates nor an address.* | Skipped rows. |
+| *N were not imported because their address could not be located:* | The first 10 names, then *and N more.* Correct those addresses, or add latitude and longitude, and import just those entries. |
+| *N were not imported because the address lookup service did not answer, even after retrying:* | Usually temporary: import just those entries again later. |
+| *N were not imported because address lookup is not set up on this server:* | Add latitude and longitude columns and import them again. |
+| *N were not imported because the file has more addresses than one import looks up:* | Over the 5,000-address limit. |
+
+An import whose worker stopped carries on where it was, after the last POI it saved. One that fails three times is marked **Failed** (*The import failed 3 times and was given up. POIs it saved before failing were kept.*), as is one whose POI type was deleted while it waited. Reports are kept for 90 days. Where [hydrants](records/hydrants) are on, the import page reminds you that hydrants are managed separately on the Hydrants page.
 
 ### Viewing POIs by Type
 
-The `ViewType` action filters the map to show only POIs of a specific type.
+**View** on a type's row opens it with three tabs: **Map** (only that type's POIs), **Information** (name, destination, color and the type's [icon](#custom-map-icons)) and **List** (name, address, note, [capabilities](destinations#poi-capabilities), latitude and longitude, with **Edit** and **Delete** on each). The list of a destination type also shows each POI's [availability](destinations#destination-availability), with **Set availability**.
+
+### Removing POIs {#removing-pois}
+
+Imported the wrong file, or the same one twice? The **Remove POIs** panel above a type's **List** removes many POIs at once (department admins).
+
+![Remove POIs panel above a POI type's list, three rows ticked and the count typed](/img/web-app/mapping/poi-bulk-remove.png)
+
+1. Choose **POIs ticked in the list** and tick the rows (the search box narrows the list, and the header box ticks every match), or **Every POI in this list**. Each option shows how many it removes.
+2. **Type the number of POIs to remove**, the count shown for your choice.
+3. Press **Remove POIs** and confirm *Remove N POIs? This cannot be undone.*
+
+A typed number that does not match is refused (*Type N to confirm, the number of POIs this removes.*), as is one left blank. POIs linked to [hydrants](records/hydrants) are not listed and stay. The result says *N POIs removed.*
 
 ### POI capabilities
 
-A department can list what its points of interest offer, then tick those on each POI. For hospitals that is typically *Cath Lab*, *Stroke Center*, *Trauma Center*, *Burn Center* or *Maternity Unit*; the same list works for any POI type (a shelter that takes pets, a helipad that can land at night).
-
-- **Mapping → POIs → Capabilities** (department admins) adds, renames, orders and deletes them. Deleting one takes it off every POI.
-- The add and edit POI pages show the department's capabilities as checkboxes.
-- A **Capabilities** column in a POI import file (also *Specialties* or *Services*; several values separated by `;`, `,` or `|`; KML ExtendedData too) tags each imported POI, adding any capability the department does not have yet.
-
-Capabilities show on the POI list, in the web call form's destination list, and in the apps: the destination step of a status, the call form's destination picker and the POI screens filter by one capability at a time and rank what is left nearest first. See [Transport destinations](dispatch-calls#transport-destinations).
+What each point of interest offers (*Cath Lab*, *Stroke Center*, *Helipad*, *Drafting*), managed under **Mapping → Manage POIs → POI Capabilities** and ticked on each POI or imported from a *Capabilities* column. See [POI capabilities](destinations#poi-capabilities) on the Destinations page.
 
 ### Destination availability
 
-A destination POI can be marked **Limited**, **On diversion** or **Closed** when a hospital reports capacity overload or a closed emergency department, with the capabilities it cannot provide right now (the cath lab is down), a short note of what it reported, and how long the report lasts (1 to 24 hours, or until someone changes it). Setting it back to **Open** clears the report; an expired report reads as open.
-
-On the web, **Mapping → Destinations** lists every destination with its capabilities and availability, with **Set availability** on each (also on a destination POI type's list, and linked from the call form's destination field); in the Dispatch and IC apps it is on the destination's screen. Anyone who can create calls may change it. Every app shows it: a destination on diversion or closed is badged in the destination lists and ranked after those that can take the patient, and a status sent to it says so. Nothing is refused: a crew with no alternative can still go there.
+A destination POI can be marked **Limited**, **Diversion** or **Closed** for a while, with the capabilities it cannot provide right now, from **Mapping → Manage POIs → Destination Availability** or the Dispatch app. See [Destination availability](destinations#destination-availability), and [Destination rules](destinations#destination-rules) and [suggestions](destinations#destination-suggestions) for ranking destinations by what a call needs.
 
 ## Live Routing
 
@@ -562,7 +632,7 @@ Partial closures slow a route the same way with every provider.
 | Department type | How to set it up |
 |---|---|
 | **Fire** | POI types: Hydrants (or use the Records hydrant layer), Knox boxes, Dry hydrants/draft sites, Staging areas; layers: district boundaries (KML from the county GIS), water main map. Visualizations: Call hot zones and Response time by area for standards-of-cover reviews; Calls outside station coverage with 1.5 / 2.5 / 5 mile rings; Weekday vs weekend and Where responders come from for volunteer staffing; share them with the department. |
-| **EMS** | POI types: Hospitals (with ED phone numbers in the description), Landing zones, Nursing homes; destinations on calls point at hospital POIs. Custom icons for unit types such as Ambulance, MUG, PIT, First Responder and Bicycle Team, and for roles such as Paramedic and Nurse, with Paramedic ordered above EMT so a paramedic's pin shows the paramedic icon. Visualizations: Response time bands (set the bands to your contract times), Repeat locations for frequent-caller and community paramedicine follow-up, Time committed by area. |
+| **EMS** | POI types: Hospitals (with ED phone numbers in the description), Landing zones, Nursing homes, imported from the regional hospital list as a CSV with a *Capabilities* column; destinations on calls point at hospital POIs, with [capabilities, availability and destination rules](destinations#setup-examples). Custom icons for unit types such as Ambulance, MUG, PIT, First Responder and Bicycle Team, and for roles such as Paramedic and Nurse, with Paramedic ordered above EMT so a paramedic's pin shows the paramedic icon. Visualizations: Response time bands (set the bands to your contract times), Repeat locations for frequent-caller and community paramedicine follow-up, Time committed by area. |
 | **SAR** | Layers: trail systems, search segments (GeoJSON from CalTopo/SARTopo), cell coverage; POI types: trailheads, huts, helispots. Location TTL 240+ minutes. Visualizations: Search coverage over the mission window and the Incident footprint of the search call. |
 | **Emergency management** | Layers: flood zones, evacuation zones, shelters; POI types: shelters, PODs, fuel sites, sandbag stations. Visualizations: Seasonal patterns, and Call hot zones filtered to weather call types. |
 | **Security** | POI types: Client sites, Gates, Cameras; personnel location TTL 15 minutes so stale markers drop. Visualizations: Patrol coverage (7-day unit position heat map) and Repeat locations for problem sites. |
@@ -570,7 +640,7 @@ Partial closures slow a route the same way with every provider.
 
 ## Technical reference
 
-`MappingController`; routes `/User/Mapping/{Index,Layers,NewLayer,EditLayer,POIs,AddPOIType,AddPOI,EditPOI,ImportPOIs,LiveRouting,StationRouting}`; data via `api/v4/Mapping/GetMapDataAndMarkers` and `GetMayLayers` (web component `rg-map`). Visualizations: see [Map visualizations](#map-visualizations). Permissions `CanSeePersonnelLocations`, `CanSeeUnitLocations` (group-lockable). Map provider (Mapbox / Leaflet-OSM / Google) is an installation setting; the department picks its Mapbox base map style (day and night) under [Mapping & Big Board settings](department-settings#mapping--big-board-settings).
+`MappingController`; routes `/User/Mapping/{Index,Layers,NewLayer,EditLayer,POIs,AddPOIType,AddPOI,EditPOI,ViewType,ImportPOIs,PoiImportsPanel,DeletePOIs,PoiCapabilities,Destinations,SetPoiAvailability,LiveRouting,StationRouting}`; data via `api/v4/Mapping/GetMapDataAndMarkers` and `GetMayLayers` (web component `rg-map`). Visualizations: see [Map visualizations](#map-visualizations). Permissions `CanSeePersonnelLocations`, `CanSeeUnitLocations` (group-lockable). Map provider (Mapbox / Leaflet-OSM / Google) is an installation setting; the department picks its Mapbox base map style (day and night) under [Mapping & Big Board settings](department-settings#mapping--big-board-settings).
 
 ### Data Endpoints
 | Endpoint | Purpose |
@@ -579,6 +649,18 @@ Partial closures slow a route the same way with every provider.
 | `GetTypesMapData` | Map data for a specific POI type |
 | `GetPoisForType` | POI list for a specific type |
 | `GetCustomMaps` | Active custom maps with floor metadata for the overlay control |
+
+### POI imports and removal
+
+| Item | Value |
+|---|---|
+| Pages | `GET /User/Mapping/ImportPOIs?poiTypeId=`, `POST ImportPOIs` (`fileToUpload`, `TypeId`; anti-forgery token): department admins or the *Manage prevention data* permission (`CanImportPois`). `GET PoiImportsPanel` (the `_PoiImports` partial; `resgrid.mapping.pois.js` polls it every 10 s while `data-active` is true). `POST DeletePOIs` (`poiTypeId`, `scope` `Selected` / `All`, `poiIds`, `expectedCount`; department admins), from the List tab of `ViewType` (`resgrid.mapping.viewType.js`) |
+| Limits | 10 MB upload; `.kml`, `.kmz`, `.csv`; 10,000 CSV rows (`PoiImportFileReader.MaximumRows`); 5,000 geocoded addresses per import (`PoiImportService.MaximumGeocodedAddresses`), 4 lookups at a time; bulk removal in batches of 50,000 (`MappingService.MaxBulkPoiDelete`) |
+| Reading | `PoiImportService.ReadFile`: CSV through `PoiImportFileReader` (header names, delimiter detection, encodings); KML/KMZ through `KmlProvider` and `KmlDocumentReader` (namespace-agnostic; at most 5 network links, public addresses only); address-only placemarks read from ExtendedData, else `<address>` |
+| Running | Worker 79 `PoiImportTask` (every minute, up to 20 imports per tick, one run at a time): `PoiImportService.ProcessNextAsync`. Statuses `PoiImportStatus` Queued, Locating, Saving, Complete, Failed. Unanswered lookups retried after 2, 10 and 30 minutes; a run with no heartbeat for 15 minutes is resumed; given up after 3 failed runs; finished imports deleted after 90 days |
+| Storage | `PoiImports` (M0313: counts, `RowsJson` while running, `UnlocatedJson` with up to 100 rows of each kind for the report, claim and heartbeat); `Pois.PoiImportId`, `Pois.PoiImportRow` (each saved POI's row, so a resumed import carries on after it). Capability names become `PoiCapabilities` / `PoiCapabilityAssignments` (M0315) |
+
+Capabilities, availability, destination rules and suggestions: see [Destinations → Technical reference](destinations#technical-reference).
 
 ### Interactions with Other Modules
 | Module | Interaction |

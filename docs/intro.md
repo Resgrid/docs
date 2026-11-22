@@ -67,7 +67,7 @@ Screenshots in this documentation were taken from the current System with sample
 - **Workflows** — event-driven automation with email, SMS, chat, webhook, API and file actions. [Workflows](web-app/workflows)
 - **Notifications** — readiness alerts on availability, status and inventory. [Notifications](web-app/notifications)
 - **Security** — granular permissions, audit log, 2FA, security policy, SSO/SCIM, and Advanced Data Protection with department-owned encryption keys. [Security & Permissions](web-app/security-permissions) · [Advanced Data Protection](web-app/data-protection) · [Enterprise SSO](enterprise/sso-overview)
-- **API and apps** — a documented REST API and the Responder, Unit, Dispatch, Incident Command, Big Board and Relay apps. [API](api/authentication) · [Apps](apps/responder)
+- **API and apps** — a documented REST API and the Responder, Unit, Dispatch, Incident Command, Big Board and Relay apps. [API](api/authentication) · [Apps](apps/responder) · [Relay](apps/relay/index.md)
 
 ## Who uses it
 

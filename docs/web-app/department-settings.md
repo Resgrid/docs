@@ -95,7 +95,7 @@ A name is up to 50 characters; invisible characters are removed and runs of spac
 |---|---|
 | **Group dispatch** | **Use shift for group dispatch** — dispatching a group sends only to the people signed up for today's shift. **Set status for shift personnel on dispatch** — automatically set them to a chosen status (default *Responding to scene*). |
 | **Unit dispatch** | **Also dispatch to assigned personnel** (the crew staffed on the unit) and/or **Also dispatch to entire group** (the unit's station). **Personnel on unit set unit status** — when a unit reports a status, its crew are set to *On unit*. |
-| **Default call statuses** | The status personnel / units are set to when **dispatched** and when **released** from a call; per-unit-type overrides for types with custom statuses. The release status only moves units still working the call: a unit already back in service, out of service, unavailable or on a break (by its status's [base type](../configuration/custom-statuses)), or working another open call, keeps its status. **Close call when last unit clears** closes an active call on its own when its last dispatched unit reports back in service or out of service; see [Closing a call automatically](dispatch-calls#closing-a-call-automatically). **Transport destination checks** asks for a reason when a unit's Transporting or At Hospital status goes to a destination other than its call's, and notes the change on the call; see [Transport destinations](dispatch-calls#transport-destinations). The unit statuses are chosen by meaning; see [Unit status on dispatch and release](#unit-status-on-dispatch-and-release). |
+| **Default call statuses** | The status personnel / units are set to when **dispatched** and when **released** from a call; per-unit-type overrides for types with custom statuses. The release status only moves units still working the call: a unit already back in service, out of service, unavailable or on a break (by its status's [base type](../configuration/custom-statuses)), or working another open call, keeps its status. **Close call when last unit clears** closes an active call on its own when its last dispatched unit reports back in service or out of service; see [Closing a call automatically](dispatch-calls#closing-a-call-automatically). **Transport destination checks** asks for a reason when a unit's Transporting or At Hospital status goes to a destination other than its call's, and notes the change on the call; see [Transport destinations](dispatch-calls#transport-destinations). Destination suggestions are not set here but on [Mapping → Manage POIs → Destination Rules](destinations#the-setting). The unit statuses are chosen by meaning; see [Unit status on dispatch and release](#unit-status-on-dispatch-and-release). |
 | **Rest period** | Deprioritise a unit or person for N minutes after a dispatch so the same resources are not sent back-to-back. |
 | **New call form fields** | Which built-in fields and sections the call forms show, and which must be filled in before a call can be created; see [New call form fields](#new-call-form-fields). |
 | **Unit status timers** | Highlight a unit on the Big Board when it has sat in a status too long (e.g. dispatched > 4 min without departing). Dispatchers can acknowledge, mute or annotate the alert from the Big Board's Unit Alerts widget — see [Big Board](../apps/big-board). **Reason when acknowledging** makes that note required: *Optional* (default), *Required for alerts*, or *Required for warnings and alerts*. Timers key on a status's [meaning](custom-statuses#status-meanings): a status with no meaning is never timed, so the page warns when units are dispatched to one, or when a status set in use has options without a meaning. |
@@ -114,7 +114,8 @@ Choose which fields and sections the call forms show (**Visible**) and which mus
 |---|---|---|---|
 | **Address**, **GPS Coordinates**, **what3words** | Yes | Yes | The location section shows while any of the three does. A pin is needed to satisfy *GPS Coordinates*; an address alone does not. |
 | **Plus Code** | Yes | No | Only finds the location and is not saved on the call: require *GPS Coordinates* instead. |
-| **Destination**, **Indoor Location** | Yes | Yes | |
+| **Destination** | Yes | Yes | Covers both kinds of destination: a destination point of interest or a [destination location](dispatch-calls#locations-destinations-and-routes) (address, coordinates, what3words). Either one satisfies *Required*; hidden, both are left off. |
+| **Indoor Location** | Yes | Yes | |
 | **Map Page** | Yes | Yes | |
 | **Note** | Yes | Yes | An empty editor does not count as a note. |
 | **Reporter Name**, **Reporter Contact Info** | Yes | Yes | |
@@ -130,6 +131,11 @@ Choose which fields and sections the call forms show (**Visible**) and which mus
 | **Save as Pending** | Yes | No | |
 
 Always shown and always required: **Name**, **Nature of the call**, **Priority** and **Type**. The forms also leave out what there is nothing to pick from: the **Template** button without [call templates](templates), the contact pickers without [contacts](contacts), and **Type** without [call types](types-configuration#call-types).
+
+Two call fields have no rule of their own ([Locations, destinations and routes](dispatch-calls#locations-destinations-and-routes)):
+
+- **Location from a point of interest** goes with the location: it is shown while **Address** or **GPS Coordinates** is, and only when the department has points of interest.
+- **Route** is never required and cannot be hidden here. It is shown whenever the department has a route a call can follow (an active route plan with a start and an end), and hidden when it has none.
 
 **Hiding every dispatch list.** Unticking all four lists shows a warning on this page, and the call forms show an optional **All Call** button in place of the lists (see [Who gets dispatched](dispatch-calls#who-gets-dispatched)). Left off, a new call is informational and pages nobody; switched on, it goes to everyone in the department. Run cards that dispatch automatically still send their units. [Admin Assist](help-setup) lists this as a warning, **New calls have no dispatch lists**, until at least one list is shown again; if your department means to work this way, record an [accepted exception](help-setup#follow-up-on-findings) on the finding.
 
@@ -180,7 +186,7 @@ One department's unit status set had no meanings. Its units showed as *Available
 
 | Setting | What it does |
 |---|---|
-| **Dispatch import email** | Your department's *all-call* address, shown on the page. Anything mailed to it becomes a call dispatched to everyone with call notifications on. Forward your CAD pages here. See [Call import](../configuration/call-import). |
+| **Dispatch import email** | Your department's *all-call* address, shown on the page. Anything mailed to it becomes a call dispatched to everyone with call notifications on, unless the dispatcher desk's [email call mode](dispatcher-desk#email-call-mode) saves it as pending for a dispatcher to review first. Forward your CAD pages here. See [Call import](../configuration/call-import). |
 | **Email type** | The parser for your dispatch center's email: Generic, Resgrid, Generic Page, Connect, Four Part Pipe, Active911, R&R, OttawaCounty, OttawaKingstonToronto, Parkland Cty / Cty2, CAL FIRE ECC / SCU, Brockport, Hancock Cty, Carencro, Grand Blanc, Union Fire, Lowestoft, Spotted Dog, PortJervis, Yellowhead, plus Generic with AI enrichment for departments with Enhanced AI. Generic reads any email: subject as name, body as nature. See [Email types](../configuration/call-import#email-types). |
 | **Prune calls / minutes to keep open** | Auto-close email/text/audio-imported calls after N minutes (checked hourly). |
 | **Mail server** | Not on this page. Resgrid does not poll an outside mailbox; have your CAD or mail server forward dispatches to the dispatch import email instead. See [Call import](../configuration/call-import). |
@@ -323,6 +329,13 @@ For example, a department can call Run **Incident**, Work **Shift On Duty** and 
 
 `/User/Department/TextSettings` — the department's **SMS number** (provision one by country and area code, plan permitting), **text-to-call** (inbound texts create calls) with its format parser, **text commands** (members text `responding`, `available` …), source numbers for outbound SMS. See [Text messaging configuration](../configuration/text-messaging).
 
+The page also links to two related pages, each on the Department menu as well once it is offered to your department:
+
+- **Intake Channels** (*Intake channels turn texts, emails, chat messages and webhook requests into pending calls.*): email addresses, chat channels and webhooks that create pending calls, and the blocked senders list. See [Intake Channels](intake-channels/overview).
+- **Private Inbound Dispatch Number**: your department's own number for texts and calls (add-on). See [Private Inbound Dispatch Number](intake-channels/dedicated-number).
+
+With the [dispatcher desk](dispatcher-desk#texts-and-calls-to-the-desk) taking texts and phone calls, those from people who are not members go to a dispatcher instead of creating a call.
+
 ![Text settings](/img/web-app/department/text-settings.png)
 
 ## Unit settings
@@ -332,6 +345,8 @@ For example, a department can call Run **Incident**, Work **Shift On Duty** and 
 ## Shift settings
 
 `/User/Department/ShiftSettings` — **Allow signups for multiple groups** (members can sign up for shifts at stations other than their own).
+
+The **dispatcher desk** has its own settings page under **Shifts → Dispatcher Desk Settings**: whether work is routed to the dispatchers on duty in the Dispatch app, what is sent to them, offer timeouts, overflow when everyone is busy, what emailed calls become, and breaks and coverage. See [Dispatcher Desk → Desk settings](dispatcher-desk#desk-settings).
 
 ## Mapping & Big Board settings
 
@@ -455,6 +470,7 @@ Step 2 of the journey asks you to confirm the address and time zone on [General 
 | **SAR** | Disable auto-available; New Call form: make *what3words* / coordinates visible; longer location TTL (240 min). |
 | **Emergency management** | Modules: turn off Shifts and Inventory if unused; 24-hour time; text commands off. |
 | **Security / business** | Branding in emails; text-to-call from client alarm centres; suppress notifications for *Off duty*. |
+| **Dispatch center** | [Dispatcher desk](dispatcher-desk#desk-settings) on, with emailed calls **Save as pending**; [intake channels](intake-channels/overview) for partner agencies; a [Private Inbound Dispatch Number](intake-channels/dedicated-number) for the public. |
 
 ## Technical reference
 
@@ -463,7 +479,7 @@ Step 2 of the journey asks you to confirm the address and time zone on [General 
 | Controller | `DepartmentController` |
 | Routes | `/User/Department/{Settings,Profile,ModuleSettings,DispatchSettings,CallSettings,TextSettings,UnitSettings,ShiftSettings,MappingSettings,Api,Invites,OperatingProfile,DeleteDepartment,ClearDepartmentCache}`; `/User/Department/SetupWizard` redirects to `/User/AdminAssist/SetupWizard` (see [Help & Setup](help-setup#technical-reference)) |
 | Policy | `Department_Update` (administrators); managing-user checks for billing, ADP and deletion |
-| Storage | `Department` row (organization type in `Department.DepartmentType`, text from `DepartmentTypeCatalog`) + `DepartmentSettings` rows keyed by `DepartmentSettingTypes` (e.g. 32 = ModuleSettings, 58–60 = run-card dispatch, 70–77 = Records settings, 115 = CallNumberingConfig: `Pattern`, `SequenceWidth` and the numbering year start `YearStartMonth` / `YearStartDay` / `YearLabel`, 117 = DocumentNumberingConfig: numbering year start and one pattern per document kind, 118 = DepartmentTerminology: the department's own names as `{Key, Text}` pairs, e.g. `module.units` / `record-type.run`). Custom document sequences live in `DocumentNumberSequences` (M0268). Call number sequences live in `CallNumberSequences`: one row per department and sequence (the text the pattern writes around `{SEQ}`), holding the last number issued and any raised next number |
+| Storage | `Department` row (organization type in `Department.DepartmentType`, text from `DepartmentTypeCatalog`) + `DepartmentSettings` rows keyed by `DepartmentSettingTypes` (e.g. 32 = ModuleSettings, 58–60 = run-card dispatch, 70–77 = Records settings, 115 = CallNumberingConfig: `Pattern`, `SequenceWidth` and the numbering year start `YearStartMonth` / `YearStartDay` / `YearLabel`, 117 = DocumentNumberingConfig: numbering year start and one pattern per document kind, 118 = DepartmentTerminology: the department's own names as `{Key, Text}` pairs, e.g. `module.units` / `record-type.run`, 128 = DispatcherDeskConfig: the [dispatcher desk](dispatcher-desk#technical-reference), edited on Shifts → Dispatcher Desk Settings). Custom document sequences live in `DocumentNumberSequences` (M0268). Call number sequences live in `CallNumberSequences`: one row per department and sequence (the text the pattern writes around `{SEQ}`), holding the last number issued and any raised next number |
 | Unit dispatch / release status | Settings 50 (`UnitCallDispatchStatusToSet`) and 51 (`UnitCallReleaseStatusToSet`), read as a `StatusTarget`: -1 or unset = Default, -2 = leave unchanged, 1000 + an `ActionBaseTypes` value = that meaning (e.g. 1006 Dispatched, 1023 In Quarters), 0–999 = a built-in `UnitStateTypes` value saved before meanings (read by its meaning on custom sets). Resolved per unit by `StatusTargetResolver.ResolveUnit` (first active option by order; default chains Dispatched → Responding → En Route and Cleared → Available → In Quarters). Per-unit-type overrides are a separate setting and take precedence |
 | Cache | Settings cached up to a day; **Clear department cache** enqueues a cache-clear event |
 | Data endpoints | `GetStationsForGrid`, `GetRecipientsForGrid`, `GetDepartmentTypes` (organization type values), `GetCallEmailTypes`, `GetCallTextTypes`, `GetAvailableNumbers?country=&areaCode=`, `ProvisionNumber`, `GetSubscriptionLimitWarning`, `GetPrinterNetPrinters?key=` |

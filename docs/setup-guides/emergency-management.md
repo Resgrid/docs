@@ -47,6 +47,10 @@ For county, city, tribal, campus or corporate emergency-management offices that 
 - **Check-in timers**: *IC* 60-minute briefing cadence.
 - **Weather alerts**: subscribe every county zone; threshold *Warning* → duty officer; *Watch* → notes.
 
+### Dispatcher desk
+
+For an EOC call center, turn on the free [dispatcher desk](../web-app/dispatcher-desk) during activations: dispatch-only sign-up shifts per operational period (with approval), **Allow duty without a shift** for spontaneous volunteers, and a [Private Inbound Dispatch Number](../web-app/intake-channels/dedicated-number) with texts and voice intake so residents can report damage. Each report is offered to a call taker on duty in the Dispatch app. See [Emergency management walkthrough](dispatcher-desk-scenarios#emergency-management).
+
 ## 6 — Records (EOC pack and ICS forms)
 
 From the **EOC Coordination Pack**: *EOC Duty / Shift Log* (Quick entry, one per duty officer shift) and *Agency / ESF Status Report* (Review required, one per ESF per operational period). From the **Disaster Field Assessment Pack**: *Rapid Needs / Initial Damage Assessment* (with photo coordinates retained). From **Incident Support**: ICS 202, 205, 209, 211, 213RR, 214, 215, 260. Number ICS forms **per incident**. Use the **Exercise / AAR** pack after every exercise. Legal holds and records requests handle post-event public-records demands.
@@ -77,6 +81,10 @@ From the **EOC Coordination Pack**: *EOC Duty / Shift Log* (Quick entry, one per
 - **Contacts**: shelter operators, ESF partners and vendors with pre-plans (occupant loads, shutoffs) and site files (floor plans of shelters).
 
 See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
+
+## Using Resgrid Relay
+
+Relay can turn partner agencies' emails into Resgrid **messages** to EOC staff (group-message addresses on your own domain) or into calls, **bridge** an EOC radio net to Resgrid PTT for staff working remotely, and **record** every PTT transmission for the activation's record and after-action report. See [Relay for emergency management](../apps/relay/use-cases.md#emergency-management-and-eocs).
 
 ## First-week checklist
 

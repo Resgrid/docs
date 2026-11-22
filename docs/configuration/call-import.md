@@ -22,7 +22,7 @@ Call Import settings are department-wide. Every email sent to the department's d
 2. Your CAD, paging system or a mail rule sends or forwards dispatch emails to that address. Resgrid does not sign in to or check any other mailbox, so the email has to be sent to this address.
 3. Resgrid reads the email with the **Email Type** selected on Call Settings (**Generic** until you choose one).
 4. A new call is created from the parsed details (name, nature, address and so on). An address without coordinates is looked up on the map. An `.mp3` or `.amr` attachment is kept as the call's dispatch audio.
-5. The call is dispatched to everyone in the department, and members with call notifications on are alerted.
+5. The call is dispatched to everyone in the department, and members with call notifications on are alerted. If your department set [emailed calls](#emailed-calls-dispatch-now-or-hold-for-a-dispatcher) to be held, it is saved as a pending call for a dispatcher instead.
 6. A few email types recognise a follow-up email about a call that is still open and update that call instead of creating another. See [Email types](#email-types).
 
 An email the selected type cannot read is ignored: no call is created and the sender is not told. If a call has no nature or name after parsing, Resgrid uses the email's subject or body so the dispatch is not lost.
@@ -118,6 +118,30 @@ With **Prune (Auto Close) Calls** ticked, an open call that came in by email, te
 - The check runs every hour, so a call can stay open up to an hour past its time.
 - The closed call gets the note *Call automatically closed by the system.* and is recorded as closed by the department's managing user.
 - Leave **Prune** unticked if your members close imported calls themselves.
+
+## Emailed calls: dispatch now or hold for a dispatcher
+
+By default every call emailed to the dispatch import email goes out at once. To have a person check emailed calls first (pages for another district, duplicate pages, calls your members should not all be paged for), change **Emailed calls** on **Shifts → Dispatcher Desk Settings** ([Email call mode](../web-app/dispatcher-desk#email-call-mode)):
+
+| Choice | What an emailed call becomes |
+|---|---|
+| **Dispatch immediately** (default) | Sent out at once, as described above. |
+| **Save as pending** | A [pending call](../web-app/dispatch-calls#pending-and-scheduled-calls): numbered and saved, nobody notified until a dispatcher dispatches it. |
+| **Enhanced AI into pending** | A pending call that Enhanced AI also reads, filling in the type, priority and address for the dispatcher to check. Needs Enhanced AI. |
+
+The setting works whether or not the dispatcher desk routes work. With the desk on and **Emails (calls saved as pending)** ticked, each held call is offered to a dispatcher on duty in the Dispatch app; otherwise it waits on **Pending calls**. It applies to the department's dispatch import email only: [group dispatch addresses](#group-dispatch-addresses) still dispatch at once. A follow-up email updates a held call without sending it.
+
+## Intake email channels
+
+The dispatch import email is for **dispatches**: pages from a dispatch center or CAD that should become calls. For **requests** from other people (a hospital asking for a transfer, a facilities help desk, a partner agency), set up an **email intake channel** instead: an address of your own choosing (it must differ from the dispatch import email) whose emails always become pending calls for a dispatcher to review, read with one of these email types or by Enhanced AI, optionally limited to allowed senders and answered with a receipt. See [Intake Channels](../web-app/intake-channels/overview).
+
+| | Dispatch import email | Email intake channel |
+|---|---|---|
+| **Meant for** | Dispatches from your CAD or dispatch center | Requests from people and partner systems |
+| **The call** | Dispatched at once, or held as pending per **Emailed calls** | Always pending |
+| **Reading** | The department's **Email Type** | The channel's template or Enhanced AI |
+| **Senders** | Anyone who sends to it | Anyone, or only **Allowed senders** |
+| **Reply** | None | Optional receipt with the call number |
 
 ## Group dispatch addresses
 

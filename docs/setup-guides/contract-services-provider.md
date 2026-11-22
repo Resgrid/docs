@@ -77,6 +77,10 @@ One schedule per season or per agency rate agreement (**clone** last season's an
 - **Workforce**: employee compensation profiles (hourly base, OT multipliers, per-OT-hour components, employer costs) or a department default for estimates; **resource cost profiles** for every engine and tender (acquisition cost, life, fuel per mile, maintenance from work orders).
 - **Cost runs**: *Estimate bid cost* before quoting; *Calculate deployment cost* with revenue source *Customer invoice* before sending the invoice — the **Internal cost** tab on the deployment shows estimate vs. actual.
 
+## Using Resgrid Relay
+
+Relay can turn the assignments agencies email to a group address per crew into calls, join your company's LTE push-to-talk talk group to Resgrid PTT through a cabled **donor radio** so the office talks with crews from the app, and **record** transmissions for contract compliance. See [Relay for contract services](../apps/relay/use-cases.md#contract-services).
+
 ## First-week checklist
 
 - [ ] Business Ops add-on active; billing settings filled in

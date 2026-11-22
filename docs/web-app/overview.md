@@ -17,7 +17,7 @@ The four mobile apps — **Responder**, **Unit**, **Dispatch** and **Incident Co
 
 | Area | Modules | Start here |
 |---|---|---|
-| **Operations** | [Home dashboard](dashboard) · [Dashboard templates](dashboard-templates) · [Dispatch & Calls](dispatch-calls) · [Run Cards](run-cards) · [Mapping](mapping) · [Custom Maps](custom-maps) · [Indoor Maps](indoor-maps) · [Routes](routes) · [Weather Alerts](weather-alerts) · [Voice & Audio](voice-audio) · [Chat & Assistant](chat) | *Dispatch & Calls* |
+| **Operations** | [Home dashboard](dashboard) · [Dashboard templates](dashboard-templates) · [Dispatch & Calls](dispatch-calls) · [Run Cards](run-cards) · [Mapping](mapping) · [Destinations](destinations) · [Custom Maps](custom-maps) · [Indoor Maps](indoor-maps) · [Routes](routes) · [Weather Alerts](weather-alerts) · [Voice & Audio](voice-audio) · [Chat & Assistant](chat) | *Dispatch & Calls* |
 | **People & apparatus** | [Personnel](personnel) · [Units](units) · [Hardware GPS Tracking](unit-tracking) · [Groups & Stations](groups-stations) · [Custom Statuses](custom-statuses) · [Contacts](contacts) · [Shifts](shifts) · [Workshifts](workshifts) · [Calendar](calendar) | *Personnel* |
 | **Records & reporting** | [Records (RMS)](records/overview) · [Logs (legacy)](logs) · [Reports](reports) · [Documents](documents) · [Notes](notes) · [Trainings](trainings) | *Records overview* |
 | **Readiness & logistics** | [Checklists](checklists) · [Work Orders](work-orders) · [Inventory](inventory) · [Resource Orders](resource-orders) · [Communication Tests](communication-tests) | *Checklists* |
