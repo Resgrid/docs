@@ -132,7 +132,7 @@ See the [Workforce & Business Ops overview](../web-app/business-ops/overview) fo
 
 ## Using Resgrid Relay
 
-Relay connects the equipment your county already uses to Resgrid. **Tone detect** listens to a scanner for each station's paging tones and creates a call with the voice dispatch attached; **SMTP dispatch** turns CAD email sent to addresses on your own domain into calls for the department or one station; a **radio bridge** puts your fireground channel on Resgrid PTT so officers on the apps hear and talk with crews; and **dispatch tone-out** reads each new call aloud on a PTT channel. See [Relay for fire departments](../apps/relay/use-cases.md#fire-departments).
+Relay connects the equipment your county already uses to Resgrid. **Tone detect** listens to a scanner for each station's paging tones and creates a call with the voice dispatch attached; **SMTP dispatch** turns CAD email sent to addresses on your own domain into calls for the department or one station; a **radio bridge** puts your fireground channel on Resgrid PTT so officers on the apps hear and talk with crews; and **dispatch tone-out** reads each new call aloud on a PTT channel. Give each station one call-creating source: tone detect where the county does not email that station, SMTP dispatch where it does. Both covering the same station means each page creates its own call. See [Relay for fire departments](../apps/relay/use-cases.md#fire-departments).
 
 ## First-week checklist
 

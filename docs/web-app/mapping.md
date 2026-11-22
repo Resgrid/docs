@@ -160,7 +160,7 @@ A shape with a hole, or one cut into several parts, can be selected, deleted and
 
 ![Import a layer](/img/web-app/mapping/layer-import.png)
 
-Every point, line and polygon in the file becomes a shape with its own name, description, color and folder; multi-part shapes are split and polygons keep their holes. Places that only have an address (no coordinates) are left out, and the import says how many: import those as [POIs](#importing-pois) instead, which locates them from their address. See [Importing a Layer](../configuration/mapping-layers#importing-a-layer-kml-kmz-geojson) for the file rules and limits.
+Every point, line and polygon in the file becomes a shape with its own name, description, color and folder; multi-part shapes are split and polygons keep their holes. Places that only have an address (no coordinates) are left out, and the import says how many: import those as [POIs](#importing-pois) instead, which locates them from their address. POI import takes KML, KMZ and CSV only, so put those places in a KML or KMZ file, or list them in a CSV with an address column, before importing them — a GeoJSON file has to be converted first. See [Importing a Layer](../configuration/mapping-layers#importing-a-layer-kml-kmz-geojson) for the file rules and limits.
 
 While the event runs, the layer is switched on on every map (web, Omni and the mobile apps), whatever **Is Visible By Default** says. Clicking a shape opens its name, folder and description:
 

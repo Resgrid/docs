@@ -49,7 +49,7 @@ One unit per patrol vehicle (role *Officer*) and per fixed post; **hardware GPS 
 
 ### Dispatcher desk
 
-When officers carry the dispatch phone in turns, use the free [dispatcher desk](../web-app/dispatcher-desk) with **Dispatchers must be on a shift** cleared: whoever has the phone signs in to the desk in the Dispatch app and gets students' texts to a [Private Inbound Dispatch Number](../web-app/intake-channels/dedicated-number), facilities requests from a Teams [intake channel](../web-app/intake-channels/overview), and escorts and lock-ups 15 minutes before they go out. See [Security and facilities walkthrough](dispatcher-desk-scenarios#security-facilities).
+When officers carry the dispatch phone in turns, use the free [dispatcher desk](../web-app/dispatcher-desk) with **Route work to on-duty dispatchers** ticked, the kinds of work you want picked under **Send to the desk** (nothing is offered until you do) and **Dispatchers must be on a shift** cleared: whoever has the phone signs in to the desk in the Dispatch app and gets students' texts to a [Private Inbound Dispatch Number](../web-app/intake-channels/dedicated-number), facilities requests from a Teams [intake channel](../web-app/intake-channels/overview), and escorts and lock-ups 15 minutes before they go out. See [Security and facilities walkthrough](dispatcher-desk-scenarios#security-facilities).
 
 ## 6 — Shifts and routes
 

@@ -56,7 +56,7 @@ Set the recordings folder to a drive with room to grow: a folder in the program 
 RESGRID__RELAY__Mode=record
 RESGRID__RELAY__Recorder__Channel=all
 RESGRID__RELAY__Recorder__Store=local
-RESGRID__RELAY__Recorder__LocalPath=/var/lib/resgrid-relay/recordings
+RESGRID__RELAY__Recorder__LocalPath=/var/lib/resgrid-relay/recordings   # Docker: /app/recordings
 RESGRID__RELAY__Recorder__Log=jsonl
 ```
 
@@ -83,7 +83,9 @@ Each transmission is a WAV file (16-bit PCM, 48 kHz, mono; about 5.8 MB per minu
 
 Files go into a `year/month/day` folder (UTC). In S3 the key is `<prefix>/2026/11/22/<file name>`, with the prefix `relay-recordings` by default.
 
-If a recording can't be stored (S3 unreachable, the folder full or read-only), Relay keeps it in `failed-uploads` inside the recordings folder, so an outage costs an upload, not the audio. Move those files into place once the problem is fixed.
+If a recording can't be uploaded (S3 unreachable, the bucket refusing the write), Relay keeps it in `failed-uploads` inside the recordings folder, so an outage costs an upload, not the audio. Move those files into place once the problem is fixed.
+
+That fallback needs a writable recordings folder. `failed-uploads` is on the same filesystem, so when the recordings disk is full or read-only nothing can be kept there and the transmission is lost: watch the free space, restore capacity as soon as the Logs screen reports a write failure, and treat the recordings from that period as missing.
 
 **Relay never deletes recordings.** Plan for the disk space, and set retention to match your records policy: an S3 lifecycle rule, or a scheduled clean-up of old day folders.
 

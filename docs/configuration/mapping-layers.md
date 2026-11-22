@@ -181,7 +181,7 @@ The mapping module also supports routing:
 | Error                                       | Resolution                                                           |
 | ------------------------------------------- | -------------------------------------------------------------------- |
 | Layer not appearing on map                  | Verify the GeoJSON is a valid FeatureCollection; check "Is On By Default" setting |
-| "File type is not importable"               | Only .kml and .kmz files are supported for POI import                |
+| "File type is not importable"               | Only .kml, .kmz and .csv files are supported for POI import          |
 | "File is too large"                         | POI import files must be smaller than 10 MB                          |
 | GeoJSON parse error                         | Validate your GeoJSON at geojson.io before pasting into Resgrid      |
 | POIs not showing on map                     | Ensure the POI type is not deleted and POIs have valid coordinates    |

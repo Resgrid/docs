@@ -63,7 +63,7 @@ Under **Your number**:
 | **Create pending calls from texts** | Texts sent to this number become pending calls (and [text conversations](#text-conversations)). The number only receives texts; any reply comes from the main Resgrid number. |
 | **Take incident reports by voice** | Callers who are not members answer guided questions and a pending call is created ([Voice intake](#voice-intake)). Needs the Enhanced AI add-on with AI voice intake; without it the page says *AI voice intake is not available for your department yet. This setting takes effect once it is.* |
 
-Press **Save**. Turning texts or voice on creates the matching [intake channel](overview#channel-types) (*Dispatch number SMS +1…*, *Dispatch number voice +1…*) on **Intake Channels**, where you can set its default priority and call type, **Allowed senders**, and **Processing** (it starts on **Call template**; choose **Enhanced AI** to let Enhanced AI read the texts and talk with texters).
+Press **Save**. Turning texts or voice on creates the matching [intake channel](overview#channel-types) (*Dispatch number SMS +1…*, *Dispatch number voice +1…*) on **Intake Channels**, where you can set its default priority and call type and its **Allowed senders**. **Processing** is only the SMS channel's to choose: it starts on **Call template**, and **Enhanced AI** lets Enhanced AI read the texts and talk with texters. The voice channel always uses Enhanced AI, which is what takes the caller through the questions.
 
 **Release the number** returns it to the carrier at once. Texts and calls stop and the number **cannot be recovered**: tick *I understand the number cannot be recovered* and press **Release number**.
 

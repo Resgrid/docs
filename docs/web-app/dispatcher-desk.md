@@ -12,7 +12,7 @@ Because the desk runs in the Dispatch app on a phone or tablet as well as on a d
 The desk also handles **breaks and lunches**. Dispatchers plan their breaks, everyone sees the whole team's breaks on one timeline, the app reminds them when a break is due, and a dispatcher on break gets no desk alerts until they come back.
 
 - **Free.** The desk needs no add-on. Only the optional [Enhanced AI overflow](#overflow) and the [Enhanced AI email mode](#email-call-mode) need Enhanced AI.
-- **Off until you turn it on.** Until an administrator ticks **Route work to on-duty dispatchers**, nothing is routed and emailed calls go out at once, the same as before the desk existed. Rosters and breaks work either way.
+- **Off until you turn it on.** Until an administrator ticks **Route work to on-duty dispatchers**, nothing is routed and work is handled the same as before the desk existed. What a call emailed to the department's dispatch address becomes is the separate **Emailed calls** setting: at its default, **Dispatch immediately**, those calls go straight out; **Save as pending** or **Enhanced AI into pending** holds them for a dispatcher instead, and nobody is paged until one sends it (see [Email call mode](#email-call-mode)). Rosters and breaks work either way.
 - **Who is a dispatcher:** anyone allowed to sign in to the Dispatch app (the **Dispatch app login** permission on [Security & Permissions](security-permissions#people-calls-and-everyday-modules)). There is no separate desk permission.
 
 ![Dispatcher Desk board with on-duty, available, on-break and waiting counts, today's coverage strip, the dispatchers table and the open queue](/img/web-app/dispatcher-desk/desk-board.png)
@@ -78,7 +78,7 @@ On **New Shift** (the **Dispatchers** tab: *Dispatchers work the dispatcher desk
 | **Dispatchers needed** | Dispatch positions to fill each day: the sign-up slots and the staffing target. 0 = no target. |
 | **Minimum on desk** | Dispatchers who must stay available during this shift. 0 = use the department minimum (shown in the help text). |
 | **Dispatchers plan their own breaks** | Dispatchers on this shift may plan and move their own breaks. Otherwise only desk supervisors and shift managers can. |
-| **Break plan** | The breaks each dispatcher gets on this shift: **Type** (Break, Meal, Personal, Other), **Length (minutes)** (1 to 240) and **Target (minutes after start)**, or leave the target blank (*Spread evenly*). **Add break** adds a row. With no rows, the department's **Default break plan** is used. The plan places nothing by itself: breaks are put on the day when a supervisor presses [Plan breaks](#plan-breaks-staggering-a-day), and dispatchers can always plan or take breaks of their own. |
+| **Break plan** | The breaks each dispatcher gets on this shift: **Type** (Break, Meal, Personal, Other), **Length (minutes)** (1 to 240) and **Target (minutes after start)**, or leave the target blank (*Spread evenly*). **Add break** adds a row. With no rows, the department's **Default break plan** is used. The plan places nothing by itself: breaks are put on the day when a supervisor presses [Plan breaks](#plan-breaks-staggering-a-day). Dispatchers plan and move breaks of their own only where **Dispatchers plan their own breaks** is ticked; [taking](#taking-a-break) a break, planned or new, is always theirs to start. |
 | **Dispatch roster** | Assigned shifts only: the dispatchers on **every day** of the shift. Tick **On roster** for each dispatcher and **Desk supervisor** for those who manage breaks and move work for the others. Only people with Dispatch app login are listed; someone who has lost it shows **No Dispatch access** and leaves the roster when you save. |
 
 If routing is still off, the section says *Routing work to dispatchers is turned off. Rosters and breaks still work; a department administrator can turn routing on in the dispatcher desk settings.*
@@ -175,12 +175,12 @@ Click a planned break to change it (**Change break**) or **Remove break**. A bre
 
 ### Plan breaks (staggering a day)
 
-With a shift day picked, supervisors see **Plan breaks**. It places the shift's break plan (or the department's default plan) for **every dispatcher on that day** so the breaks do not overlap where the day allows, and never leave fewer than the minimum on the desk:
+With a shift day picked, supervisors see **Plan breaks**. It places the shift's break plan (or the department's default plan) for **every dispatcher on that day** so the breaks do not overlap where the day allows, keeping the shift's minimum on the desk wherever the day allows for it:
 
 - each break goes as near its target as it can; a blank target spreads the breaks evenly through the dispatcher's duty;
 - a break is moved up to 2 hours from its target to avoid overlapping someone else's; only when no such time exists do breaks overlap, and then only as far as the minimum allows;
 - no break is placed in the first or last 30 minutes of a dispatcher's duty, and a dispatcher's own breaks are at least 30 minutes apart;
-- at any moment, no more dispatchers are on break than the shift's minimum allows (at least one can always go);
+- at any moment, no more dispatchers are on break than the shift's minimum allows; a day whose minimum takes every dispatcher on duty has no room to spare, so its breaks come back in the **Warnings** list for a supervisor to settle;
 - when planning part-way through a day, targets already past are placed from now on instead of being dropped;
 - breaks already planned or taken are worked around. Tick **Replace planned breaks** to remove the day's planned breaks first (*Remove this day's planned breaks and place the shift's break plan again?*).
 
@@ -277,7 +277,7 @@ A call that is dispatched, closed or deleted somewhere else (the web Calls page,
 2. **The offer.** The dispatcher's phone or tablet gets a push notification and the Dispatch app shows **Work offered to you** with **Accept** and **Decline** and a countdown (*Answer within …*). The offer lasts **Offer timeout (seconds)** (45 by default).
 3. **Declined or missed.** It moves straight on to the next free dispatcher. A dispatcher who misses **Missed offers before away** offers in a row (2 by default) is set **Away**, so the desk stops waiting on a phone left in a pocket.
 4. **Accepted.** The dispatcher holds the item and works it until they **Complete** it, **Return to queue** or **Hand over** to someone else. While they hold as much as **Items per dispatcher** allows, they are **Busy**.
-5. **Nobody free.** Calls and emails wait in the shared queue. Any signed-in dispatcher can **Take** one from **Waiting** at any time, and the desk offers it as soon as someone is free (back from break, finished their work, signed in). Live texts go to the [overflow](#overflow) at once, and held phone callers after **Hold callers for (seconds)**.
+5. **Nobody free.** Calls and emails wait in the shared queue. Any signed-in dispatcher can **Take** one from **Waiting** at any time, and the desk offers it as soon as someone is free (back from break, finished their work, signed in) who has not already declined it or let it run out. When nobody else is eligible — a sole on-duty dispatcher who declined the item — it stays in **Waiting** for them to **Take**, and no offer comes back on its own. Live texts go to the [overflow](#overflow) at once, and held phone callers after **Hold callers for (seconds)**.
 6. **Waiting too long.** An item that waits unassigned for **Escalate waiting work after (minutes)** (3 by default) alerts every dispatcher on duty who is not on break, and the desk supervisors on duty (or the department's administrators when none is): *Waiting too long*.
 
 The queue is sorted with live callers first: phone calls, then texts and chats, then pending calls, emails and scheduled calls. Within a kind, higher call priority comes first, then the scheduled time, then the oldest.

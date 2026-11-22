@@ -116,7 +116,7 @@ RESGRID__RELAY__Resgrid__TokenCachePath=/var/lib/resgrid-relay/dispatch-token.js
 **What to run.**
 
 - **Radio bridge** at the command post or base: an analog radio on the team channel bridged to the *Mission* PTT channel, so members on the app hear the field teams.
-- **LTE donor radio**: a Rapid Radios G1 or Diga-Talk+ DTP-8900 on the team's talk group, bridged to the same or another PTT channel, so the PoC radios, the app and the VHF radios all hear each other.
+- **LTE donor radio**: a Rapid Radios G1 or Diga-Talk+ DTP-8900 on the team's talk group, bridged to the **same PTT channel** as the VHF bridge, so the PoC radios, the app and the VHF radios all hear each other. Nothing crosses between PTT channels, so put the donor on a channel of its own only when you want the two radio groups kept apart.
 - **Recorder** on all channels, for the mission log and debriefs.
 - **SMTP dispatch** only if the sheriff's office emails callouts and you want them on your own domain; otherwise use Resgrid's Call Import.
 

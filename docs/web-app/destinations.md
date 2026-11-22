@@ -235,7 +235,7 @@ Each suggestion looks up drive times from the installation's routing provider, w
 4. **Inside a tier**, routed destinations go by drive time, except that those within the preferred capability window of the tier's fastest go by how many preferred capabilities they offer (and can provide now) first. Destinations without a drive time follow, by straight-line distance.
 5. **Suggested** is the first destination, if it is Ready or on diversion. When none is, nothing is suggested or filled in, and the list shows the nearest with what they lack.
 
-A department with no rules gets the nearest destination that is open (or limited), by drive time.
+A department with no rules gets the fastest open (or limited) destination of the routed shortlist: the nearest few in a straight line are the ones given a drive time, so a destination further out that happens to be quicker by road is not compared.
 
 ### On the web call form
 

@@ -100,7 +100,7 @@ Use the console host on a Windows machine that runs Relay without anyone signed 
 
    `Ctrl+C` stops it cleanly. Running the executable with no command is the same as `run`.
 
-The console host runs **one mode per process**: the one in `Mode`. To run two modes, start two processes, each with its own `RESGRID__RELAY__Mode`.
+The console host runs **one mode per process**: the one in `Mode`. To run two modes, start two processes, each with its own `RESGRID__RELAY__Mode`, its own refresh token and its own `RESGRID__RELAY__Resgrid__TokenCachePath`. Resgrid retires a refresh token when it is used, so two processes that share one token — or that run from the same folder and so share the default `./data/resgrid-token.json` — knock each other out: the first to sign in invalidates the other's token, and it fails with `invalid_grant` (see [Refresh token rotation](connect-to-resgrid.md#refresh-token-rotation)).
 
 The console writes its log to the terminal only. When you run it unattended, redirect the output to a file.
 

@@ -188,7 +188,7 @@ A department's destinations are its POIs whose type has `IsDestination`. What th
 | `/api/v4/Mapping/GetDestinationRules` | GET | Bearer, `Department_View` | Read only: the suggestions `Mode` and `PreferredWithinMinutes`, and every [destination rule](../web-app/destinations#destination-rules) most specific first, with its ids, the names they refer to and `MissingReferenceCount` (ids naming something deleted) |
 | `/api/v4/Mapping/SetPoiAvailability` | POST | Bearer, `Call_Create` | `{ "PoiId": 214, "Status": 2, "UnavailableCapabilityIds": ["…"], "Note": "ED capacity overload", "ExpiresInMinutes": 240 }`. `Status` 0 clears the report; `ExpiresInMinutes` null or 0 lasts until changed, at most 7 days. Returns the POI after the change; 400 for a POI that is not one of the department's destinations |
 
-`GET Config/GetConfig` carries the department's `DestinationSuggestionMode` (0 Off, 1 Suggest, 2 Suggest and fill) and `TransportDestinationChecks`, so an app knows whether to ask for suggestions at all. Each suggestion looks up drive times: ask once the call has a location, and again only when its type, priority or location changes.
+`GET Config/GetConfig` carries the department's `DestinationSuggestionMode` (0 Off, 1 Suggest, 2 Suggest and fill) and `TransportDestinationChecks`, so an app knows whether to ask for suggestions at all. Each suggestion looks up drive times: ask once the call has a location, and again only when its type, priority or location changes, or when the unit it is asked for changes — `unitId` decides which rules apply and whose travel mode is routed, so a unit picked after the first request needs a fresh one.
 
 ## Offline map packs
 

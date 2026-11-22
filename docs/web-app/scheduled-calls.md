@@ -98,7 +98,7 @@ A recurring call has the same kinds of destination and route as a single call ([
 | Field | What it holds |
 |---|---|
 | **Destination address**, **Destination coordinates** | Where the calls go when it is not a point of interest: an address, and optionally a point as *latitude, longitude* (`39.7392,-104.9903`). A transport **Destination** point of interest takes their place: one destination only. Part of the *Destination* [New Call Form Fields](department-settings#new-call-form-fields) rule. |
-| **Route** | A pre-defined route every call it creates follows: a blank address starts at the route start and a blank destination ends at the route end. Shown when the department has a route a call can follow; it has no New Call Form Fields rule. |
+| **Route** | A pre-defined route every call it creates follows: a blank location starts at the route start and a blank destination ends at the route end. A location that already has coordinates, with or without an address, is left as it is. Shown when the department has a route a call can follow; it has no New Call Form Fields rule. |
 
 ![Recurring call form: Destination address and Destination coordinates filled in and a route picked in Route](/img/web-app/scheduled-calls/recurring-destination-route.png)
 

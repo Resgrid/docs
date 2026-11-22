@@ -231,7 +231,7 @@ An item shows its kind, its state (**Waiting**, **Offered**, **In progress**, **
 | **Return to queue** | Give it back for another dispatcher. |
 | **Hand over** | Offer it to another signed-in dispatcher who is free, with an optional note. A supervisor can also hand over someone else's open work. |
 
-Texts and emails show the conversation, oldest first, with each outgoing message marked **Sending**, **Sent** or **Not delivered**. **Reply** answers the sender (texts go from the number they texted; emails are answered by email from Resgrid's address). **Add note** writes a note for the desk that is never sent. **History** lists each step: *Came in*, *Offered*, *Accepted*, *Declined*, *Offer ran out*, *Returned to the queue*, *Handed over*, *Sent to overflow*, *Completed*.
+Texts and emails show the conversation, oldest first, with each outgoing message marked **Sending**, **Sent** or **Not delivered**. **Reply** answers the sender (texts go from the number they texted, except in a [text thread](#text-threads-from-the-private-inbound-dispatch-number) on the Private Inbound Dispatch Number, where replies go out from the main Resgrid number; emails are answered by email from Resgrid's address). **Add note** writes a note for the desk that is never sent. **History** lists each step: *Came in*, *Offered*, *Accepted*, *Declined*, *Offer ran out*, *Returned to the queue*, *Handed over*, *Sent to overflow*, *Completed*.
 
 **Completing.** **Complete** asks *How did it end?*:
 

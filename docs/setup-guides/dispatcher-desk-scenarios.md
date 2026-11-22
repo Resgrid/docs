@@ -92,7 +92,7 @@ A combination fire and EMS department running its own dispatch center around the
 
 ### A day on the desk
 
-- **07:00** As the shift starts, the A shift signs in on their consoles with **Start as away** while they take handover, then press **Go available** at 07:10. The night shift is signed off automatically as their shift ends, and anything they still held goes back to the queue.
+- **07:00** As the shift starts, the A shift signs in on their consoles. Two press **Go available** straight away, so the desk never drops below its minimum of two, while the third signs in with **Start as away** to take handover and goes available at 07:10, when the other two take theirs in turn. The night shift is signed off automatically as their shift ends, and anything they still held goes back to the queue.
 - **07:05** Lee, the desk supervisor, opens today's shift day → **Break planner** → **Plan breaks**. *9 breaks planned.* The three dispatchers' lunches land at 12:30, 13:00 and 13:30, so two are always on the desk. The **Warnings** list is empty.
 - **08:15** A transfer (a recurring call) comes up for review 30 minutes ahead. It is offered to Sam, who checks the patient is ready. At 08:45 the call goes out by itself and the item leaves the desk.
 - **09:05** Priya gets *Your Break starts in 10 min*. At 09:15 she presses **Take break**, ticks **Return my work to the queue (held: 1)**, and her pending transfer request goes back to the queue, where Sam takes it.
@@ -135,7 +135,7 @@ No shifts and no break plan. The coordinators agree a weekly rotation on the tea
 - **Monday 08:00** Alex takes the on-call week: **Sign in to the desk**, **Callback number** his satellite-capable phone.
 - **Tuesday 14:20** The sheriff emails an overdue hiker request. It becomes a pending call and is offered to Alex as an **Email**. He reads it, presses **Open call**, adds the trailhead and dispatches it to the *Ground searcher* and *Team leader* roles, then **Completes** the item as **Call created**.
 - **Tuesday 15:05** The hiker's sister calls the team number. The call is offered to Alex, but he is on the radio; after 30 seconds she is sent to voicemail, and her message becomes a pending call with the recording. Alex listens to it when he is free and phones her back.
-- **Wednesday 03:10** A text arrives while Alex is asleep and the offer runs out. The text waits as a pending call, and when it has waited 10 minutes the team's administrators are alerted too. After two missed offers in a row the desk sets Alex **Away**, until he presses **Go available** in the morning.
+- **Wednesday 03:10** A text arrives while Alex is asleep and the offer runs out. The text waits as a pending call, and when it has waited 10 minutes the team's administrators are alerted too. After three missed offers in a row the desk sets Alex **Away**, until he presses **Go available** in the morning.
 
 ### Tips
 

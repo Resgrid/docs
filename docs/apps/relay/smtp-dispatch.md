@@ -129,6 +129,8 @@ swaks --server relay.your-county.org --port 2525 \
   --header "Subject: TEST - Structure fire" --body "Smoke showing, 123 Main St"
 ```
 
+`--port 2525` is Relay's own port (`Smtp:Port`), so use it when you test the relay directly. From outside, use the port the host publishes: with port 25 forwarded to Relay's 2525 as above, that is `--port 25`.
+
 The call appears in Resgrid, the Dashboard tile's **Calls** counter goes up, and the Logs screen shows the message and the call.
 
 ## What the call looks like
@@ -220,7 +222,7 @@ If the Relay host can't accept inbound connections (no public address, a carrier
 | `LOCLX_TOKEN` | Your LocalXpose access token. |
 | `LOCLX_RESERVED_ENDPOINT` | Optional: a reserved `host:port`, so the address doesn't change. |
 
-Or mount a LocalXpose tunnels file at `/etc/resgrid/loclx-tunnels.yaml`. The Docker image includes the LocalXpose client; elsewhere, install it so `loclx` is on the PATH. Point the sender, or your MX record, at the tunnel's address. The tunnel is a third-party service: all the [port warnings](#relay-as-the-mail-server-for-your-dispatch-domains) above still apply.
+Or mount a LocalXpose tunnels file at `/etc/resgrid/loclx-tunnels.yaml`. The Docker image includes the LocalXpose client; elsewhere, install it so `loclx` is on the PATH. Point the sender at the tunnel's address and port. An MX record names a host, not a port, and mail servers always deliver to port 25: MX delivery therefore needs a tunnel endpoint that is publicly reachable **on port 25**. With a reserved endpoint on another port, keep a mail server of your own as the MX and have it forward the dispatch domains to the tunnel's port. The tunnel is a third-party service: all the [port warnings](#relay-as-the-mail-server-for-your-dispatch-domains) above still apply.
 
 ## Privacy
 
