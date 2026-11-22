@@ -84,6 +84,10 @@ From the **Operational report templates** pack: *Security Patrol Log* (Quick ent
 
 See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
 
+## Using Resgrid Relay
+
+Relay can turn alarm-monitoring and building-system emails into calls, **bridge** your security radio channel (or a Diga-Talk+, Rapid Radios or other LTE push-to-talk talk group, through a cabled donor radio) to Resgrid PTT for supervisors on the app, and **record** every transmission for incident reports. See [Relay for security and facilities](../apps/relay/use-cases.md#security-and-facilities).
+
 ## First-week checklist
 
 - [ ] Client and site groups with geofences; officers assigned; SSO tested

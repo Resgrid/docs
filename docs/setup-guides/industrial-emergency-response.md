@@ -70,6 +70,10 @@ From the **Industrial Operations and Process Safety Pack**: *Operator / Control-
 
 See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
 
+## Using Resgrid Relay
+
+Relay can turn fire alarm and gas detection panel emails into calls for the ERT group, **bridge** the plant radio channel to Resgrid PTT for off-shift members and the incident commander, create a call when a radio **emergency tone** is heard, and **record** transmissions for incident investigations. See [Relay for industrial emergency response](../apps/relay/use-cases.md#industrial-emergency-response).
+
 ## First-week checklist
 
 - [ ] All ERT members with certifications and fit-test expiry dates

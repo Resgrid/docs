@@ -56,6 +56,10 @@ Records stay per agency (each agency's NERIS identity and definitions). The cent
 
 See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
 
+## Using Resgrid Relay
+
+On a self-hosted installation, one Relay **SMTP dispatch** server in hosted mode can take your CAD's email for every agency you dispatch, using each agency's dispatch codes on your own domain, and each agency can add a **recorder** and a **dispatch tone-out** for its PTT channels. See [Relay for multi-agency dispatch centers](../apps/relay/use-cases.md#multi-agency-dispatch-centers).
+
 ## Setup checklist
 
 - [ ] Centre department created; dispatchers with the Dispatcher role and Dispatch app login permission

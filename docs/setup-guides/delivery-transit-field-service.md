@@ -73,6 +73,10 @@ From the **Operational report templates** pack: *Delivery Run Report* (Quick ent
 
 See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
 
+## Using Resgrid Relay
+
+Relay can join your drivers' Rapid Radios, Diga-Talk+ or other LTE push-to-talk talk group to Resgrid PTT through a cabled **donor radio**, so dispatchers talk with them from the Dispatch app; turn emails from your ticketing system into calls for a depot; read new jobs aloud on the drivers' channel; and **record** transmissions. See [Relay for delivery, transit and field service](../apps/relay/use-cases.md#delivery-transit-and-field-service).
+
 ## First-week checklist
 
 - [ ] Every vehicle as a unit with a tracker binding

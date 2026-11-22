@@ -97,6 +97,10 @@ Assigned 12-hour or 24-hour shifts per station; supervisors approve trades. Turn
 
 See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
 
+## Using Resgrid Relay
+
+With Relay, assignments the regional CAD emails to a group address per station or post (on your own domain) become calls for that crew, every Resgrid PTT transmission can be **recorded** for QA, and **dispatch tone-out** reads new calls aloud on the crews' PTT channel so they hear them on the Unit tablet. See [Relay for EMS agencies](../apps/relay/use-cases.md#ems-agencies).
+
 ## First-week checklist
 
 - [ ] Every ambulance created with two required roles and a Unit tablet

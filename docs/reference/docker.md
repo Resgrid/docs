@@ -20,7 +20,7 @@ All images are on Docker Hub under `resgridllc`, tagged `latest` and with a buil
 | `resgridllc/resgridwebtts` | Text-to-speech (Piper) | `/health` |
 | `resgridllc/resgridwebmcp` | Model Context Protocol server (`POST /mcp`) | `/health/current` |
 | `resgridllc/resgridtrackergateway` | GPS tracker ingest (TCP/UDP 5004, 5023, 5027) | `/health/live`, `/health/ready` |
-| `resgridllc/resgridrelay` | Inbound email to dispatch (SMTP 2525) | — |
+| `resgridllc/resgridrelay` | [Resgrid Relay](../apps/relay/index.md): inbound email to dispatch (SMTP 2525), PTT recorder and tone-out | — |
 | `resgridllc/resgridwebbroker` | Protected-data broker for the Advanced Data Protection add-on; not used by self-hosted installs | `/health` |
 
 The images are `linux/amd64` today. Supporting services: PostgreSQL 18 (all databases), Redis, RabbitMQ 4 (with `deprecated_features.permit.transient_nonexcl_queues = true`) and any S3-compatible object store (RustFS in the reference deployments). MongoDB and SQL Server are no longer required.
@@ -92,7 +92,7 @@ Repeat with `keyUsage=digitalSignature` for `RESGRID__OidcConfig__SigningCert`. 
 | `RESGRID__MappingConfig__ResponderAppMapboxKey`, `UnitAppMapBoxKey` | Maps in the mobile apps |
 | `RESGRID__WebConfig__RecaptchaPublicKey`, `RecaptchaPrivateKey` | reCAPTCHA on Sign Up and Forgot Password; leave empty to disable |
 | `RESGRID__ImportConfig__S3Endpoint`, `S3AccessKey`, `S3SecretKey`, `S3Bucket` | Storage for Department Import |
-| `RESGRID__SecurityConfig__SystemApiKey` | Server-to-server key (header `X-Resgrid-SystemApiKey`), used by the email relay |
+| `RESGRID__SecurityConfig__SystemApiKey` | Server-to-server key (header `X-Resgrid-SystemApiKey`), used by the email relay (see [Relay and the system API key](../apps/relay/connect-to-resgrid.md#system-api-key-and-hosted-relays)) |
 | `RESGRID__SecurityConfig__DepartmentApiKeyPepper` | Pepper for department API keys |
 | `RESGRID__TwoFactorConfig__AuthenticatorSeedEncryptionEnabled` | Encrypt authenticator (TOTP) seeds at rest |
 | `RESGRID__SystemBehaviorConfig__FullHealthCheckKey` | Key for the detailed `/health/full` endpoints (header `X-Resgrid-Health-Key`) |

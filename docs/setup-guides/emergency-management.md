@@ -82,6 +82,10 @@ From the **EOC Coordination Pack**: *EOC Duty / Shift Log* (Quick entry, one per
 
 See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
 
+## Using Resgrid Relay
+
+Relay can turn partner agencies' emails into Resgrid **messages** to EOC staff (group-message addresses on your own domain) or into calls, **bridge** an EOC radio net to Resgrid PTT for staff working remotely, and **record** every PTT transmission for the activation's record and after-action report. See [Relay for emergency management](../apps/relay/use-cases.md#emergency-management-and-eocs).
+
 ## First-week checklist
 
 - [ ] Sections and ESFs as groups; leads as group admins

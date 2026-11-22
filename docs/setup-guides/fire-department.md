@@ -130,6 +130,10 @@ If your members handle non-emergency work themselves (residents' texts, service 
 
 See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
 
+## Using Resgrid Relay
+
+Relay connects the equipment your county already uses to Resgrid. **Tone detect** listens to a scanner for each station's paging tones and creates a call with the voice dispatch attached; **SMTP dispatch** turns CAD email sent to addresses on your own domain into calls for the department or one station; a **radio bridge** puts your fireground channel on Resgrid PTT so officers on the apps hear and talk with crews; and **dispatch tone-out** reads each new call aloud on a PTT channel. See [Relay for fire departments](../apps/relay/use-cases.md#fire-departments).
+
 ## First-week checklist
 
 - [ ] Every member verified email + mobile and installed Responder

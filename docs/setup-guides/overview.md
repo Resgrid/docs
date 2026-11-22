@@ -54,6 +54,7 @@ Whatever the guide, this order avoids rework:
 | **Dispatch** | Dispatchers and duty officers: create and manage calls, see everything. |
 | **Incident Command** | Incident commanders: command boards, accountability, incident channels, ICS records. |
 | **Big Board** | Station and EOC wall displays. |
+| **Relay** | A PC or server that connects dispatch email, radios, LTE push-to-talk radios and paging tones to Resgrid. See [Relay use cases](../apps/relay/use-cases.md). |
 
 ## Getting help
 

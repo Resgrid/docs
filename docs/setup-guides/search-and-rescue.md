@@ -83,6 +83,10 @@ Enable Records and create definitions from the **SAR Mission Pack**: *SAR Missio
 
 See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
 
+## Using Resgrid Relay
+
+Relay can **bridge** your team's VHF channel to a Resgrid PTT channel from the command post, and join a Rapid Radios, Diga-Talk+ or other LTE push-to-talk talk group through a cabled **donor radio**, so members on the app, on VHF and on LTE radios all hear each other; the **recorder** keeps every transmission for the mission log. See [Relay for search and rescue](../apps/relay/use-cases.md#search-and-rescue).
+
 ## First-week checklist
 
 - [ ] Roles match your capability matrix; certifications entered

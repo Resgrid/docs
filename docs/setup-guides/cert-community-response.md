@@ -69,6 +69,10 @@ Enable Records and use the **CERT Operations Pack**: *CERT Damage Assessment* (p
 
 See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
 
+## Using Resgrid Relay
+
+For volunteers who have only a phone, Relay's **dispatch tone-out** reads each activation aloud on a CERT PTT channel, with an alert tone first, and the **recorder** can keep large activations for the after-action review. See [Relay for CERT and community response](../apps/relay/use-cases.md#cert-and-community-response).
+
 ## First-week checklist
 
 - [ ] Roster invited; ≥ 80 % verified email and mobile
