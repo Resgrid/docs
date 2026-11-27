@@ -7,7 +7,7 @@ title: Invoicing
 
 **Invoicing** bills the people and organizations you serve: a business for a hazmat clean-up, a facility for standby coverage, a municipality for contracted fire protection, an event organizer for medical cover, a client site for security hours. You keep a **billing profile** per customer, a **rate card** of what you charge, create **invoices** whose lines can be generated from the calls you ran, send them as PDF, record payments (or let the customer [pay online](online-payments)) and watch the **accounts-receivable aging**.
 
-Needs the **Business Ops** add-on, the *Business Operations* module switch and the `Invoicing.CustomerInvoicing` flag — see the [overview](overview#turning-it-on). Menu: **Workforce & Business Ops → Invoicing**.
+Needs the **Business Ops** add-on, the *Business Ops* module switch and the `Invoicing.CustomerInvoicing` flag — see the [overview](overview#turning-it-on). Menu: **Business Ops → Invoicing**.
 
 ![Invoicing](/img/web-app/invoicing/index.png)
 

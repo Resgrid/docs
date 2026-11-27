@@ -97,7 +97,7 @@ const config = {
               {type: 'doc', docId: 'web-app/checklists', label: 'Checklists'},
               {type: 'doc', docId: 'web-app/work-orders', label: 'Work Orders'},
               {type: 'doc', docId: 'web-app/inventory', label: 'Inventory'},
-              {type: 'doc', docId: 'web-app/business-ops/overview', label: 'Workforce & Business Ops'},
+              {type: 'doc', docId: 'web-app/business-ops/overview', label: 'Business Ops'},
               {type: 'doc', docId: 'web-app/business-ops/certifications', label: 'Certifications'},
               {type: 'doc', docId: 'web-app/business-ops/invoicing', label: 'Invoicing'},
               {type: 'doc', docId: 'web-app/chat', label: 'Chat & Assistant'},

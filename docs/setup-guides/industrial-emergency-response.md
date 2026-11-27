@@ -61,14 +61,14 @@ From the **Industrial Operations and Process Safety Pack**: *Operator / Control-
 - Workflows: *Call created (Level 2+)* → email site management + SMS the municipal FD liaison; *Work order safety hold applied* → Teams post to maintenance; *Record finalized (Near miss)* → export to the EHS system nightly.
 - **Weather alerts** for wind (release modelling) and lightning.
 
-## 8 — Workforce & Business Ops
+## 8 — Business Ops
 
 - **Certifications** (free): HAZWOPER 40 + 8-hour refresher, confined space entry, lockout/tagout, respirator fit test, hearing conservation, bloodborne pathogens, first aid/CPR/AED, NCCCO crane where relevant; unit inspections for plant apparatus (pump tests, equipment annual inspections). Role requirements *ERT member* = HAZWOPER + respirator fit + first aid in **Enforce** — OSHA compliance depends on it; the compliance report to EHS monthly.
 - **Deployment Finance** (free): plant turnarounds and mutual-aid responses to neighbouring sites as deployments (*Operational only* or *Cost recovery*); time reports and expenses for internal chargebacks.
-- **Workforce & field costing** (Business Ops): workers per shift, establishments per plant, labor contractors for contract crews, compensation profiles and resource cost profiles for apparatus; call and deployment cost runs for chargebacks and budget justification. California sites with 100+ employees: employer profile, job assignments and the CRD pay data report (needs Advanced Data Protection).
+- **Labor & Costing** (Business Ops): workers per shift, establishments per plant, labor contractors for contract crews, compensation profiles and resource cost profiles for apparatus; call and deployment cost runs for chargebacks and budget justification. California sites with 100+ employees: employer profile, job assignments and the CRD pay data report (needs Advanced Data Protection).
 - **Invoicing** (Business Ops, optional): bill standby (*Confined-space standby*, *Fire watch*) to internal cost centres or neighbouring plants.
 
-See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
+See the [Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
 
 ## Using Resgrid Relay
 

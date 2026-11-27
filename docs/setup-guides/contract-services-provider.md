@@ -5,7 +5,7 @@ title: Contract Services Provider
 
 # Setting Up a Contract Services Provider
 
-For companies that send people and equipment out **under contract and get paid for it**: wildland fire contractors (engines, hand crews, water tenders, dozers), private fire-protection and standby companies, private ambulance and event-medical providers, and specialized rescue or safety contractors. The operational side (calls, units, personnel, statuses, checklists, records) follows the [fire](fire-department), [EMS](ems-agency) or [security](security-and-facilities) guide; this guide covers the **business** side that runs on the [Workforce & Business Ops](../web-app/business-ops/overview) modules.
+For companies that send people and equipment out **under contract and get paid for it**: wildland fire contractors (engines, hand crews, water tenders, dozers), private fire-protection and standby companies, private ambulance and event-medical providers, and specialized rescue or safety contractors. The operational side (calls, units, personnel, statuses, checklists, records) follows the [fire](fire-department), [EMS](ems-agency) or [security](security-and-facilities) guide; this guide covers the **business** side that runs on the [Business Ops](../web-app/business-ops/overview) modules.
 
 In Resgrid a **customer or agency is a contact with a billing profile**, a **resource order or event is a bid**, the work is a **deployment with a call**, each day is a **daily time report**, and payment is an **invoice with a packet**.
 
@@ -26,8 +26,8 @@ In Resgrid a **customer or agency is a contact with a billing profile**, a **res
 | Setting | Value |
 |---|---|
 | Time zone | Your home base; deployments carry their own incident time zone. |
-| Modules | Shifts, Checklists, Inventory, Records on; **Business Operations on**. |
-| Add-on | **Subscription and Billing → Business Operations → Buy** (managing member). Certifications and Deployment Finance are free; everything else here needs it. |
+| Modules | Shifts, Checklists, Inventory, Records on; **Business Ops on**. |
+| Add-on | **Subscription and Billing → Business Ops → Buy** (managing member). Certifications and Deployment Finance are free; everything else here needs it. |
 | Flags | `Operations.Deployments`, `Business.Operations`, `Invoicing.CustomerInvoicing`, `Invoicing.ContractorBilling` (and `Invoicing.OnlinePayments` if you want pay links) — hosted customers ask support; self-hosted operators use `Resgrid.Console --FeatureFlags`. |
 | Permissions | *Manage deployments* and *Approve time reports* → operations managers; *Manage bids* / *Manage contracts* / *Manage invoicing* → the office; *View invoicing* → owners. |
 | Billing settings | Invoicing → Billing settings: legal name, remit-to address, tax registration(s), SAM UEI / CAGE / workers' comp account, invoice footer. |
@@ -74,7 +74,7 @@ One schedule per season or per agency rate agreement (**clone** last season's an
 
 ## 8 — Costs and margin
 
-- **Workforce**: employee compensation profiles (hourly base, OT multipliers, per-OT-hour components, employer costs) or a department default for estimates; **resource cost profiles** for every engine and tender (acquisition cost, life, fuel per mile, maintenance from work orders).
+- **Labor & Costing**: employee compensation profiles (hourly base, OT multipliers, per-OT-hour components, employer costs) or a department default for estimates; **resource cost profiles** for every engine and tender (acquisition cost, life, fuel per mile, maintenance from work orders).
 - **Cost runs**: *Estimate bid cost* before quoting; *Calculate deployment cost* with revenue source *Customer invoice* before sending the invoice — the **Internal cost** tab on the deployment shows estimate vs. actual.
 
 ## Using Resgrid Relay

@@ -11,7 +11,7 @@ title: Navigation
 
 | Region | What is there |
 |---|---|
-| **Left sidebar** | The modules: Home (the [home dashboard](dashboard) — the customizable widget board, or the classic roster page), Calls, Personnel, Units, Contacts, Mapping, Shifts (for dispatchers, shift managers and administrators a collapsible group that adds **Dispatcher Desk** and **Dispatcher Breaks**, plus **Dispatcher Activity** for department admins and desk supervisors and **Dispatcher Desk Settings** for department admins; see [Dispatcher Desk](dispatcher-desk#where-to-find-it)), **Records** (a collapsible group, or Logs), Reports, Documents, Calendar, Notes, Trainings, Inventory, **Readiness** (Work Orders, Checklists) and **Workforce & Business Ops** (Workforce, Certifications, Invoicing, Deployments, Bids, Contracts, Cal OES MARS). Groups expand in place; modules that are switched off or that you lack permission for are hidden. Collapse the sidebar with the hamburger icon on small screens. |
+| **Left sidebar** | The modules: Home (the [home dashboard](dashboard) — the customizable widget board, or the classic roster page), Calls, Personnel, Units, Contacts, Mapping, Shifts (for dispatchers, shift managers and administrators a collapsible group that adds **Dispatcher Desk**, whose board has buttons for **Dispatcher Breaks**, **Dispatcher Activity** (department admins and desk supervisors) and **Dispatcher Desk Settings** (department admins); see [Dispatcher Desk](dispatcher-desk#where-to-find-it)), **Records** (a collapsible group, or Logs), Reports, Documents, Calendar, Notes, [Trainings](trainings/index.md), Inventory, **Readiness** (Work Orders, Checklists) and **Business Ops** (Labor & Costing, Certifications, Invoicing, Deployments, Bids, Contracts, Cal OES MARS). Groups expand in place; modules that are switched off or that you lack permission for are hidden. Collapse the sidebar with the hamburger icon on small screens. |
 | **Your name (top-left)** | Profile menu: **Profile** (edit your details, contact methods, notification preferences), **Mailbox**, **Chat**, **Your Departments** (switch between departments you belong to), **Two-Factor Authentication**, **Logout**. |
 | **Top bar** | Unread **messages** and **active calls** icons, the **search box**, the **Department menu**, **Help**, language flag and logout. |
 | **Department menu (department name, top-right)** | Everything an administrator configures — see below. |
@@ -33,7 +33,7 @@ Only administrators (and group administrators for a few items) see this menu.
 | Private Inbound Dispatch Number | Your department's own number for texts and calls (add-on) — [Private Inbound Dispatch Number](intake-channels/dedicated-number). Shown once the add-on is offered to your department; Text Messaging always links to it. |
 | Intake Channels | Email addresses, chats and webhooks that create pending calls, and blocked senders — [Intake Channels](intake-channels/overview). Shown once intake channels are turned on for your department; Text Messaging always links to it. |
 | Templates | [Call templates and call-note templates](templates) |
-| Protocols | [Dispatch protocols](protocols) |
+| Protocols | [Protocols](protocols/index.md): the protocol library, acknowledgments, step-through and decision engine, dispatch case reviews and knowledge answers |
 | Types | [Unit, call, priority, certification, document, note types](types-configuration) |
 | Distribution Lists | [Distribution Lists](distribution-lists) |
 | Workflows | [Workflows](workflows) |
@@ -50,6 +50,11 @@ Only administrators (and group administrators for a few items) see this menu.
 | Commands | [Command Definitions](command-definitions) |
 | Big Board / Dispatch | Open the web versions of the Big Board and Dispatch apps |
 
+Two modules have no menu item of their own:
+
+- **e-Sign**: signatures waiting for you appear on the home page, and each signable item (a time report, a skill evaluation, a checklist witness …) has its own signature panel. See [e-Sign](signatures/index.md).
+- **Wellness and exposures**: the **My exposures** button on the Personnel page, and **Wellness follow-up** on a call, while the [Workforce Pro add-on](workforce-pro/index.md) is available to your department. See [Wellness & Exposures](workforce-pro/wellness.md).
+
 ## Search
 
 The search box in the top bar finds calls (and their notes), people, units, contacts, occupancies, messages, notes, documents, deployments, invoices and more by name, number, address or text, and offers **Go to** shortcuts to pages and actions (*New Call*, *Add Person* …). Press **Enter** or pick **Search all results** for the full [Search](search) page, with type and date filters, Records reports and CSV export.
@@ -62,7 +67,7 @@ Members of more than one department switch with **Profile → Your Departments**
 
 ## Language
 
-The flag in the top bar switches the interface language (English, Spanish, French, German, Italian, Polish, Swedish, Ukrainian, Greek, Arabic). Personal notification messages use the language chosen in your profile.
+The flag in the top bar switches the interface language (English, Spanish, French, German, Italian, Polish, Swedish, Ukrainian, Greek, Arabic). Personal notification messages use the language chosen in your profile. Protocols, Training and the LMS, Academy, e-Sign and Wellness are in all ten languages, but the non-English text is a first machine translation that has not been reviewed yet, and some older pages still show English in places.
 
 ## Help
 

@@ -44,7 +44,11 @@ Screenshots in this documentation were taken from the current System with sample
 
 - **Records (RMS)** — typed operational records, NERIS incident reporting, department-designed forms from template packs (SAR, CERT, EOC, HAZMAT, industrial, security, delivery, transit, ICS forms), prevention (occupancies, inspections, hydrants, permits, CRR), investigations, analytics, quality review, legal holds and public-records disclosure. [Records](web-app/records/overview)
 - **Reports** — printable and scheduled reports across every module. [Reports](web-app/reports)
-- **Documents, notes, calendar, trainings** — the department's shared knowledge and learning. [Documents](web-app/documents) · [Notes](web-app/notes) · [Calendar](web-app/calendar) · [Trainings](web-app/trainings)
+- **Documents, notes, calendar** — the department's shared knowledge. [Documents](web-app/documents) · [Notes](web-app/notes) · [Calendar](web-app/calendar)
+- **Protocols and knowledge** — versioned SOGs, policies and dispatch protocols with approvals, read-and-sign acknowledgments, step-through on calls, dispatch case review and answers cited from your own sources. [Protocols](web-app/protocols/index.md)
+- **Training and LMS** — trainings, training records and CE hours, Resgrid Academy, and with the LMS add-on courses, learning requirements, classes, skills and task books, and certifications kept current by training. [Training](web-app/trainings/index.md)
+- **e-Sign** — signatures from members and outside parties, sealed PDFs anyone can verify, and approval chains. [e-Sign](web-app/signatures/index.md)
+- **Wellness and exposures** (Workforce Pro add-on) — each member's exposure log, critical incidents, exposure cases, injuries, medical clearance and the OSHA log, for the members you give a Workforce Pro seat. [Wellness & Exposures](web-app/workforce-pro/wellness.md) · [Workforce Pro](web-app/workforce-pro/index.md)
 
 ### Readiness and logistics
 
@@ -53,14 +57,14 @@ Screenshots in this documentation were taken from the current System with sample
 - **Inventory** — bulk and serialized stock, lots and expiry, issuance, kits, counts, alerts, purchasing and controlled-substance witnessing. [Inventory](web-app/inventory)
 - **Resource orders and department links** — mutual aid between departments. [Resource Orders](web-app/resource-orders) · [Department Links](web-app/department-links)
 
-### Workforce and business operations
+### Business Ops
 
 - **Certifications** — a typed catalog of credentials for people and units, expiry dashboard, role requirements with warn-or-enforce, continuing-education credits and a compliance report (free). [Certifications](web-app/business-ops/certifications)
 - **Deployment finance** — rosters, daily time reports, expenses, files and manifests for strike teams, contract work and mutual aid, captured in the apps (free). [Deployment Finance](web-app/business-ops/deployment-finance)
 - **Invoicing and online payments** — billing profiles, rate cards, invoices from calls, PDFs and e-mail, payments through your own Stripe account, AR aging (Business Ops add-on). [Invoicing](web-app/business-ops/invoicing)
 - **Contractor billing** — rate schedules, contracts with compliance documents, bids that become deployments, and invoices generated from approved time reports (Business Ops add-on). [Contractor Billing](web-app/business-ops/contractor-billing)
 - **Cal OES MARS** — California mutual-aid reimbursement preparation, from F-5 and annual rates to F-42s, expense claims and invoice reconciliation (Business Ops add-on). [Cal OES MARS](web-app/business-ops/cal-oes-mars)
-- **Workforce, field costing and pay data** — protected compensation and pay facts, resource cost profiles, cost runs with margin, and the California CRD pay data report (Business Ops add-on). [Workforce](web-app/business-ops/workforce)
+- **Labor & Costing: field costing and pay data** — protected compensation and pay facts, resource cost profiles, cost runs with margin, and the California CRD pay data report (Business Ops add-on). [Workforce](web-app/business-ops/workforce)
 
 ### Automation, security and integration
 

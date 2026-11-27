@@ -7,7 +7,7 @@ title: Certifications
 
 **Certifications** tracks every credential your department relies on — firefighter and officer certifications, EMT / paramedic registry and state licences, CPR cards, NWCG red cards, guard cards, CDLs and DOT medical certificates for people; pump tests, aerial certifications, DOT inspections, registration, insurance and ambulance permits for **units** — with expiry dates, verification, continuing-education credits and **role requirements** that can warn or even remove a member from a role when a mandatory certification lapses.
 
-Free for every department. Menu: **Workforce & Business Ops → Certifications** (administrators and members with *View certifications*). Every member sees and manages **their own** certifications under **Profile → Certifications**.
+Free for every department. Menu: **Business Ops → Certifications** (administrators and members with *View certifications*). Every member sees and manages **their own** certifications under **Profile → Certifications**.
 
 ![Certification dashboard](/img/web-app/certifications/dashboard.png)
 
@@ -107,6 +107,16 @@ The dashboard cards count **Expired**, **Expiring within N days**, **Suspended o
 ## Notifications and workflows
 
 The certification worker runs once a day per department (in the department's time zone): it expires records, sends the lead-day notices, and under *Enforce* removes members whose grace period has ended. [Workflow](../workflows) triggers: **Certification Expiring, Added, Renewed, Expired, Role Removed, Status Changed, Removed, Credit Added** and **Unit Certification Added / Expiring / Expired / Status Changed / Removed**.
+
+## Certifications backed by training
+
+Certifications can be kept up to date from the training members do:
+
+- **Renewal hours from the transcript (free).** A [credit mapping](/web-app/trainings/credit-mappings) counts a training category's verified hours toward a certification type; each record becomes a continuing-education credit marked *From transcript* in the cycle that contains it. **Apply history to credits** on the certification record does the same for older records.
+- **Validity rules (free fields).** Each certification type says how it expires when training issues or renews it: months after issue, the end of the calendar year, the end of your own year, or a fixed date, with a grace period and a renewal window.
+- **Issued and renewed by training (LMS add-on).** An LMS course, a learning path, a **requirement set** (courses, trainings, supervised practicals, skill evaluations and CE hours to complete each cycle) or a certification cycle can issue or renew the certification by itself; the certification record then shows the member's **Certification requirements** progress. Voiding the completion behind it takes the certification back to its earlier state.
+
+See [Certifications from training](/web-app/trainings/certifications-from-training) for the details, the public certificate verification page, notice types 77–78 and workflow triggers 275–278.
 
 ## Setup examples
 

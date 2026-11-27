@@ -1,0 +1,9 @@
+{
+  "label": "Training records & CE",
+  "position": 20,
+  "link": {
+    "type": "generated-index",
+    "slug": "/web-app/trainings/records",
+    "description": "Member transcripts, CE / CPD hours submitted with evidence, the training reviews inbox, training categories, certification credit mappings, history backfill and import, the hours report and the training record settings."
+  }
+}

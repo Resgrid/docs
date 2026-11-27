@@ -11,7 +11,7 @@ California fire agencies that respond under the **California Fire Assistance Agr
 Resgrid stores no MARS credentials, MFA tokens or browser sessions and **never writes to MARS**. Submission is a manual, audited step you perform in the portal; afterwards a manager records what the portal shows (*Observed in MARS*). Cal OES determines the allowed amount — the *expected reimbursement* here is an estimate from the rates and agreement in effect at dispatch.
 :::
 
-Business Ops add-on with `CostRecovery.CalOesMars`. Menu: **Workforce & Business Ops → Cal OES MARS**. Managers (administrators or *Manage Cal OES MARS reimbursement*) get the readiness dashboard; rostered members get their own **action queue** and can draft an F-42 for a deployment they are on.
+Business Ops add-on with `CostRecovery.CalOesMars`. Menu: **Business Ops → Cal OES MARS**. Managers (administrators or *Manage Cal OES MARS reimbursement*) get the readiness dashboard; rostered members get their own **action queue** and can draft an F-42 for a deployment they are on.
 
 ![Readiness dashboard](/img/web-app/cal-oes-mars/index.png)
 
@@ -43,7 +43,7 @@ Pick a **check date** (a dispatch date) and the dashboard lists **blockers** (st
 
 | Panel | Use |
 |---|---|
-| **Rate lines** | Salary lines need a **classification**; equipment lines a resource or FEMA code; each has a basis (hourly, daily, per mile, percent, flat), **straight** and **overtime** rate, portal-to-portal and overtime eligibility, and whether workers' comp / unemployment insurance are included. **Build from workforce pay data** (with the [Workforce](workforce) module) fills the straight and overtime rates with the mean of the approved individual hourly rates per classification — aggregates only, a review aid; the authorized representative still signs in MARS. **Cal OES base rate accepted** skips your own survey rows. |
+| **Rate lines** | Salary lines need a **classification**; equipment lines a resource or FEMA code; each has a basis (hourly, daily, per mile, percent, flat), **straight** and **overtime** rate, portal-to-portal and overtime eligibility, and whether workers' comp / unemployment insurance are included. **Build from Labor & Costing pay data** (with the [Labor & Costing](workforce) module) fills the straight and overtime rates with the mean of the approved individual hourly rates per classification — aggregates only, a review aid; the authorized representative still signs in MARS. **Cal OES base rate accepted** skips your own survey rows. |
 | **Administrative-rate inputs** | Prior-year actuals by function and category, classified *direct / indirect / unallowable*, with a *billed directly to an incident* exclusion and a *possible double count* marker that must be resolved. Budgets never enter here. |
 | **Administrative-rate worksheet** | **Build administrative rate**: allowable indirect ÷ allowable direct from the accepted inputs, compared with the **de-minimis** option (10 %); choose the method. |
 
@@ -95,7 +95,7 @@ The daily reminder digest to administrators covers: annual Salary Survey / Admin
 
 | Organization | How to use it |
 |---|---|
-| **California municipal / county fire** | Full cycle: agency profile verified each January, F-5 drafted from units, Salary Survey built from Workforce pay data, agreements per classification, F-42 per strike-team request, expense claims for lodging and meals, reconciliation of every MARS invoice. |
+| **California municipal / county fire** | Full cycle: agency profile verified each January, F-5 drafted from units, Salary Survey built from Labor & Costing pay data, agreements per classification, F-42 per strike-team request, expense claims for lodging and meals, reconciliation of every MARS invoice. |
 | **California fire district (volunteer)** | Same, with *Cal OES base rate accepted* instead of a survey and *Documentation only* F-42s for non-reimbursable responses. |
 | **CAL FIRE cooperator / contract county** | Attachment A (non-suppression) submissions; agreements per MOU. |
 | **Out-of-state agency on a California assignment** | Not MARS — use the deployment's DTR PDFs and time CSV for the EMAC reimbursement package. |

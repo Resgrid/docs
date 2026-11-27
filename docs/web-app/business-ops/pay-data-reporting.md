@@ -5,17 +5,17 @@ title: Pay Data Reporting (California)
 
 # Pay Data Reporting (California CRD)
 
-California employers with **100 or more employees** (or 100 or more workers hired through labor contractors) must file an annual **pay data report** with the Civil Rights Department (CRD) under Government Code §12999: employee counts and pay bands by **job category, race/ethnicity and sex**, per establishment. This module prepares the **Payroll Employee** and **Labor Contractor Employee** reports from your [Workforce](workforce) data and each member's **voluntary self-identification**, validates them against the reviewed CRD template, and exports the CSV / XLSX files and a **portal worksheet**. You file in the CRD portal yourself.
+California employers with **100 or more employees** (or 100 or more workers hired through labor contractors) must file an annual **pay data report** with the Civil Rights Department (CRD) under Government Code §12999: employee counts and pay bands by **job category, race/ethnicity and sex**, per establishment. This module prepares the **Payroll Employee** and **Labor Contractor Employee** reports from your [Labor & Costing](workforce) data and each member's **voluntary self-identification**, validates them against the reviewed CRD template, and exports the CSV / XLSX files and a **portal worksheet**. You file in the CRD portal yourself.
 
 :::info Resgrid prepares and exports; it never files
 It never decides whether you are covered and never certifies. Every input and output here is a protected field served *no-store*; the department must have [Advanced Data Protection](../data-protection) **enabled** (not just purchased) before these pages open.
 :::
 
-Business Ops add-on with `Compliance.CaliforniaPayDataReporting` **and** Advanced Data Protection enabled. Menu: **Workforce & Business Ops → Workforce → Pay data reporting** (administrators, *Manage California pay data reporting*, *Export California pay data reports*). Every member sees **My demographic response** while the flag is on.
+Business Ops add-on with `Compliance.CaliforniaPayDataReporting` **and** Advanced Data Protection enabled. Menu: **Business Ops → Labor & Costing → Pay data reporting** (administrators, *Manage California pay data reporting*, *Export California pay data reports*). Every member sees **My demographic response** while the flag is on.
 
 ## Before the first run
 
-1. **Workforce → Employer**: legal name, FEIN, SEIN, CA SOS number, NAICS, addresses, filing contact and the **coverage status** you declare.
+1. **Labor & Costing → Employer**: legal name, FEIN, SEIN, CA SOS number, NAICS, addresses, filing contact and the **coverage status** you declare.
 2. **Establishments** with NAICS and *reported in the prior year*.
 3. **Workers → employments → job assignments** with the **CRD job category**, establishment and work mode for every California employee; **labor contractors** and their employees for the second report.
 4. **Annual pay facts** for the reporting year (import the payroll export; approve).
@@ -23,13 +23,13 @@ Business Ops add-on with `Compliance.CaliforniaPayDataReporting` **and** Advance
 
 ## My demographic response
 
-Every member's own page (**Workforce & Business Ops → My demographic response** or from the profile menu): *Hispanic or Latino* (yes / no / no answer), **race / ethnicity** (select every category that applies — two or more are reported as multiracial — or *Decline to state*) and **sex** (or decline). Answers are stored separately from the personnel record, encrypted, used only for the aggregate report and never shown on any other screen. Answering is voluntary; *Decline to state* is a valid answer and is reported as such. The page explains *why we ask*.
+Every member's own page (**Business Ops → My demographic response** or from the profile menu): *Hispanic or Latino* (yes / no / no answer), **race / ethnicity** (select every category that applies — two or more are reported as multiracial — or *Decline to state*) and **sex** (or decline). Answers are stored separately from the personnel record, encrypted, used only for the aggregate report and never shown on any other screen. Answering is voluntary; *Decline to state* is a valid answer and is reported as such. The page explains *why we ask*.
 
 A compliance officer with *Manage California pay data reporting* can open a worker's **Demographic record** for someone who has not self-identified: **collection source** (*employment record*, *other reliable record*, or — as a last resort — *observer perception*, which is flagged on every report run), a required **reason** (audited), and the same answers. Responses are versioned.
 
 ## The report run
 
-**Workforce → Pay data reporting** shows the **readiness** for the year: due date, the reviewed **schema profile** (`CRD-RY2025` in this release), coverage status, open runs, unresolved exceptions, demographic responses missing, annual pay facts missing, and **demographic completeness** (self-identified / declined / observer perception). **New run**: report type, reporting year and the **snapshot period** (a single pay period between the dates the CRD allows).
+**Labor & Costing → Pay data reporting** shows the **readiness** for the year: due date, the reviewed **schema profile** (`CRD-RY2025` in this release), coverage status, open runs, unresolved exceptions, demographic responses missing, annual pay facts missing, and **demographic completeness** (self-identified / declined / observer perception). **New run**: report type, reporting year and the **snapshot period** (a single pay period between the dates the CRD allows).
 
 A run is a four-step wizard, then attestation:
 

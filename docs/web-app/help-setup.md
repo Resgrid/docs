@@ -74,7 +74,7 @@ In steps 4 to 6, each module you use shows **Before you start** (what to have re
 
 | Section | Fields |
 |---|---|
-| **Operating packs** | Fire; EMS and ambulance; Mental health and mobile crisis; Search and rescue; Emergency management and response; Hazardous materials response; Industrial response; Security and facilities; Multi-agency and mutual aid. Tick every one that applies. |
+| **Operating packs** | **Operating sectors**: Fire; EMS and ambulance; Mental health and mobile crisis; Search and rescue; Emergency management and response; Hazardous materials response; Industrial response; Security and facilities; Multi-agency and mutual aid; Law enforcement; Business and workplace. Tick every one that applies. |
 | **Organization and operations** | **Workforce mix** (career, volunteer, contract, combination), **Approximate member count** (optional), **Dispatch model** (central, self, external, combination), **Operating hours** (24-hour operation, scheduled hours, on call, seasonal), **Participates in mutual aid**, **Expected email polling interval (minutes)** (optional), and the department time zone (shown here; change it on Department Settings). |
 | **Seasonal operation** | **Season starts** / **Season ends** (month and day, optional). A season can run across the new year. |
 | **Languages and accessibility** | **Working languages** and **Accessibility preferences** (captions, screen reader, large text, plain language). |
@@ -85,6 +85,29 @@ Use the department operating profile to describe your organization and link appr
 Selected operating packs suggest areas without changing your choices; suggested modules carry a *Suggested by your selected operating packs* label. Site references use existing department group IDs; policy references use existing, unexpired department document IDs. Saving checks those references and rejects concurrent overwrites. A valid reference does not prove that its contents are approved or sufficient. Verification checks whether linked policies or site groups later become unavailable, and flags documents scheduled for removal within 30 days. A reviewed profile without a continuity link receives an administrative review prompt; an external procedure may still exist. The checks do not read or certify policy contents. Choosing a group does not grant group access or change dispatch scope, and source-system labels are declarations: saving does not verify a connection or import.
 
 An optional **Expected email polling interval** compares recorded mailbox polls with your declared maximum interval. Leave it blank when no interval has been established. Missing or future poll timestamps remain unknown, and low call volume alone does not imply failure. SMS, CAD push and API intake require separate telemetry; the expectation does not change polling or send a test.
+
+**Finding the page.** Department Settings shows a hint under **Organization type**: *Does your organization do several kinds of work? Select every sector that applies in the operating profile to get setup suggestions for each.* It links here.
+
+### Suggested for your organization
+
+The sectors you tick (the archetypes) also mark starter content as **Suggested for your organization**, a blue label with a star.
+
+- **Only the ticked sectors count.** The organization type on Department Settings never picks suggestions, and neither do workforce mix, dispatch model, member count, languages, region or country. A department that does industrial response and security ticks both and gets suggestions for both.
+- **A template is suggested** when any sector it is tagged for is one you ticked. Templates tagged for no sector are for everyone and are never badged.
+- **Nothing is hidden.** Suggested items move to the top of the list, in their usual order; everything else follows. There is no "suggested only" filter.
+- **No profile, no badges.** Until you save the profile with at least one sector, the libraries show in their normal order with no labels.
+
+| Where | What is badged |
+|---|---|
+| **Protocols → Templates** (`/User/ProtocolSharing/Templates`) | Starter protocol sets: fire SOGs (Fire), EMS clinical structure (EMS), search and rescue (SAR), industrial hazards (Industrial, Hazmat), business continuity (Business, Emergency management), law enforcement policies (Law enforcement), security post orders (Security), workplace policies (Business, Industrial). See [Protocols](/web-app/protocols/). |
+| **Course Studio → Starters** (`/User/LmsStudio/Starters`, course managers with the LMS add-on) | Starter courses: driver EVO basics, incident safety basics, hazmat awareness, workplace onboarding, confined space awareness, lockout/tagout awareness, HAZWOPER refresher, security officer orientation, annual policy review. The Resgrid onboarding course is for everyone. Partner course slots are never badged. See [LMS](/web-app/trainings/lms/). |
+| **Training records → Categories** (`/User/TrainingRecords/Categories`) | Training category templates: ISO FSRS (Fire), NREMT NCCP (EMS), OSHA annual (Hazmat, Industrial), workplace compliance (Business), industrial safety, SAR team, law enforcement in-service, security licensing. **CPD hours**, **Canada workplace** and **EU workplace** are shown to everyone and never badged. |
+
+Mental health and mobile crisis, and Multi-agency and mutual aid have no tagged templates yet, so ticking them badges nothing in these libraries; they still suggest modules in Admin Assist.
+
+Related places use their own wording: Admin Assist module tiles show a star with *Suggested by your selected operating packs*; the [department import](import-and-migration/configure.md) labels its suggestions *Suggested from your operating profile*; the map visualization library has a **Recommended for your organization** section. The Academy catalog, learning requirements, certification templates and run card templates are not badged from the operating profile.
+
+**Sector- and region-neutral starters.** The law enforcement, security post orders and workplace policies protocol sets carry structure and placeholders only, with no agency's or regulator's text. Training category templates are structure only, with the hours left for you to set. The certification templates include Canadian (WHMIS, standard first aid, joint health and safety committee, TDG, BC and Ontario security licences), EU (first aid at work, ATEX, ADR, CPC, fire warden) and UK (SIA) credentials, plus business and law enforcement ones; find them with the keyword search on the certification type templates. Every starter has a machine-translated text in each interface language, picked by the reader's language; the language does not change what is suggested.
 
 <a id="choose-areas"></a>
 
@@ -97,7 +120,7 @@ Mark each module **Use now**, **Learn later**, or **Not applicable**. A not-appl
 | **Core modules** (every department sets these up) | Personnel and groups · Department administration and security · Dispatch and calls · Units and apparatus · Notifications and messaging · Apps and devices · Subscription and capacity |
 | **Recommended** (most departments benefit) | Mapping and location · Shifts and scheduling · Training and certifications |
 | **Optional modules** (included in your plan) | Contacts, documents and protocols · Records and reporting · Checklists · Inventory · Deployments · Automation and integrations |
-| **Paid add-ons** | Maintenance and work orders · Workforce and business operations · Push-to-Talk · Advanced Data Protection · Enhanced AI |
+| **Paid add-ons** | Maintenance and work orders · Business Ops · Push-to-Talk · Advanced Data Protection · Enhanced AI |
 
 Your choices decide what the wizard walks through and what the Setup Report checks. **Explore this module** on each card, and the **Explore Resgrid & Addons** tab, describe a module in full: each feature explains its purpose, value, example and adoption requirements. Tick **I understand this feature** to record your own learning progress.
 
@@ -143,7 +166,7 @@ An optional revisit date (**Review again on**, within the next year) is stored i
 | Push-to-Talk | Voice channels in supported Resgrid clients | Review seats, devices and channel membership. Phone voice alerts and radio requirements are separate. |
 | Advanced Data Protection | Additional protection and scoped disclosure for supported sensitive content | Purchase and enrollment are separate. Review MFA, recovery, supported fields and effects on search, exports and integrations. |
 | Readiness Pro | Maintenance, work orders, preventive and corrective work, approvals and safety holds | Checklists remain available without the add-on. Maintenance also needs its module and permissions. |
-| Business Operations | Invoicing, rates, contracts, bids, reimbursement and workforce costing | Certifications and Deployment Finance remain available without the add-on. Pay-data reporting also requires enabled ADP; payment providers need separate setup. |
+| Business Ops | Invoicing, rates, contracts, bids, reimbursement and labor costing | Certifications and Deployment Finance remain available without the add-on. Pay-data reporting also requires enabled ADP; payment providers need separate setup. |
 | Enhanced AI | Planned summaries, drafts, knowledge assistance and optional conversation | Availability depends on release and rollout. Deterministic setup and Admin Assist do not require it. |
 
 Availability can depend on subscription, rollout, module settings, permissions, protection enrollment and source availability. An unknown subscription is not confirmation of a free or paid plan. Only the managing member can perform subscription changes through the [billing screen](subscription-billing). Learning about an add-on does not start a trial or purchase.
@@ -206,3 +229,5 @@ Change History starts when collection is enabled. Earlier changes are unavailabl
 | Access | Department administrators. Operating profile: department administrators and the managing user (`Department_Update`). |
 | Feature flags | `Admin.Setup` — Setup Wizard, Setup Report and Explore. `Admin.Assist` plus `Ai.AdminAssist` — the Admin AI tab. |
 | Page data | `api/v4/AdminAssist/` |
+| Operating profile | Department setting 110 `DepartmentOperatingProfile`; sector codes (`profile.Archetypes`, append-only): `fire`, `ems`, `mental-health`, `sar`, `emergency-response`, `hazmat`, `industrial`, `security`, `mutual-aid`, `law-enforcement`, `business`. Saves check the revision and refuse a concurrent overwrite. |
+| Suggestions | `SeedSectorRecommendations` (`IsSuggested`, `SuggestedFirst`) over the sector tags of the protocol template sets (`Protocols/Templates/*.json`), LMS starter courses (`Lms/Starters/*.json`) and `TrainingCategoryTemplateCatalog`; seed translations in `SeedContent/Translations/seed-{lang}.json` |

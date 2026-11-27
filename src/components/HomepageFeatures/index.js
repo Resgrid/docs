@@ -137,11 +137,11 @@ const FeatureAreas = [
   },
   {
     key: 'business',
-    title: 'Workforce & Business Ops',
+    title: 'Business Ops',
     icon: 'briefcase',
     tone: 'teal',
     description:
-      'Certifications, deployments and daily time reports, invoicing and online payments, contracts and bids, Cal OES MARS, workforce costing and pay data.',
+      'Certifications, deployments and daily time reports, invoicing and online payments, contracts and bids, Cal OES MARS, labor costing and pay data.',
     items: [
       {label: 'Overview', to: '/web-app/business-ops/overview'},
       {label: 'Certifications', to: '/web-app/business-ops/certifications'},
@@ -153,7 +153,7 @@ const FeatureAreas = [
       {label: 'Bids & Deployment Wizard', to: '/web-app/business-ops/bids-and-deployment-wizard'},
       {label: 'Contractor Billing', to: '/web-app/business-ops/contractor-billing'},
       {label: 'Cal OES MARS', to: '/web-app/business-ops/cal-oes-mars'},
-      {label: 'Workforce', to: '/web-app/business-ops/workforce'},
+      {label: 'Labor & Costing', to: '/web-app/business-ops/workforce'},
       {label: 'Field Costing', to: '/web-app/business-ops/field-costing'},
       {label: 'Pay Data Reporting', to: '/web-app/business-ops/pay-data-reporting'},
     ],

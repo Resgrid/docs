@@ -171,7 +171,7 @@ A unit runs one route at a time. Starting a call's route while the unit runs ano
 
 The **Active Routes**, **Instances** and **Instance Detail** pages show **Linked Call** on a run started for a call: the call number, linked to the call with its name for members who may open it, the number alone otherwise. The call's page lists its [route runs](dispatch-calls#working-an-active-call) per unit.
 
-<!-- SHOT: /img/web-app/routes/active-routes-linked-call.png | Active Routes with the card of a run started for a call, its Linked Call line showing the call number and name -->
+![Active Routes with the card of a run started for a call, its Linked Call line showing the call number and name](/img/web-app/routes/active-routes-linked-call.png)
 
 ### Pausing and Resuming
 

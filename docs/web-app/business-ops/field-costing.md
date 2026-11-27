@@ -5,13 +5,13 @@ title: Field Costing
 
 # Field Costing
 
-**Field costing** answers "what did that job actually cost us?" — and, for a bid, "what will it cost?" A **cost run** adds up personnel (from [Workforce](workforce) compensation profiles and the hours on time reports or work entries), resources (from **resource cost profiles** and **usage readings** — depreciation, fuel, maintenance, tires, insurance), consumables, expenses and overhead into a **total loaded cost**, sets it against the revenue you observed (a bid's estimate, a customer invoice, a Cal OES expected / approved / paid amount) and shows the **contribution margin** and **break-even revenue**.
+**Field costing** answers "what did that job actually cost us?" — and, for a bid, "what will it cost?" A **cost run** adds up personnel (from [Labor & Costing](workforce) compensation profiles and the hours on time reports or work entries), resources (from **resource cost profiles** and **usage readings** — depreciation, fuel, maintenance, tires, insurance), consumables, expenses and overhead into a **total loaded cost**, sets it against the revenue you observed (a bid's estimate, a customer invoice, a Cal OES expected / approved / paid amount) and shows the **contribution margin** and **break-even revenue**.
 
-Business Ops add-on with `Workforce.InternalCosting`. Menu: **Workforce & Business Ops → Workforce → Field costing** (administrators or *View internal costs*). Summaries are aggregate categories only; **lines** (who, what rate) need *View workforce compensation* and a Protected Data Grant.
+Business Ops add-on with `Workforce.InternalCosting`. Menu: **Business Ops → Labor & Costing → Field costing** (administrators or *View internal costs*). Summaries are aggregate categories only; **lines** (who, what rate) need *View compensation* and a Protected Data Grant.
 
 ## Resource cost profiles
 
-**Workforce → Resource costs**: what a unit, inventory asset or **external resource class** costs to run. Plain numeric data (no person is priced here).
+**Labor & Costing → Resource costs**: what a unit, inventory asset or **external resource class** costs to run. Plain numeric data (no person is priced here).
 
 ![Resource costs](/img/web-app/workforce/resource-costs.png)
 
@@ -23,13 +23,13 @@ Business Ops add-on with `Workforce.InternalCosting`. Menu: **Workforce & Busine
 
 ## Usage readings
 
-**Resource usage** (from a cost run's *Resource usage* button, or **Workforce → Cost runs → Usage** for a deployment or call): odometer, engine meter, operating and idle hours, deployed / standby days and fuel per unit and day, tagged with the **phase** (*mobilization, standby, incident, return*) and the deployment or call. Distance is stored in miles (kilometres are converted). Readings come from the apps (crews record them on the deployment), from DTRs, GPS, hardware trackers or imports; a reading that conflicts with another by more than 10 % is queued for **review**.
+**Resource usage** (from a cost run's *Resource usage* button, or **Labor & Costing → Cost runs → Usage** for a deployment or call): odometer, engine meter, operating and idle hours, deployed / standby days and fuel per unit and day, tagged with the **phase** (*mobilization, standby, incident, return*) and the deployment or call. Distance is stored in miles (kilometres are converted). Readings come from the apps (crews record them on the deployment), from DTRs, GPS, hardware trackers or imports; a reading that conflicts with another by more than 10 % is queued for **review**.
 
 ![Usage](/img/web-app/workforce/usage.png)
 
 ## Cost runs
 
-**Workforce → Cost runs**:
+**Labor & Costing → Cost runs**:
 
 ![Cost runs](/img/web-app/workforce/cost-runs.png)
 
@@ -61,7 +61,7 @@ The same numbers appear as a **cost card** on the bid page and on the deployment
 |---|---|
 | Routes | `/User/Workforce/{ResourceCosts,Usage,CostRuns,CostRun}`; POST `SaveResourceCost`, `DeleteResourceCost`, `SaveUsage`, `DeleteUsage`, `RunDeploymentCost`, `RunBidEstimate`, `RunCallCost`, `FreezeCostRun`, `DeleteCostRun` |
 | Model | `ResourceCostProfile` + components, `ResourceUsageEntry`, `FieldCostRun` + lines (`FieldCostContextTypes` Bid / Call / Deployment, `FieldCostRunTypes` Estimate / Actual, `RevenueSources`, `FieldCostCategories`) |
-| Permissions | *View internal costs* (74) for profiles, usage and summaries; *View workforce compensation* (76) + grant for lines |
+| Permissions | *View internal costs* (74) for profiles, usage and summaries; *View compensation* (76) + grant for lines |
 | Services | `IFieldCostingService`, pure `FieldCostCalculator`; MARS revenue via `ICalOesMarsService` |
 | Apps | Usage readings captured in the Responder and Unit apps' deployment screens |
 | API | `api/v4/FieldCost/*` (aggregate summaries, rostered usage) |

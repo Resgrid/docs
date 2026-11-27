@@ -63,7 +63,7 @@ Personnel can text commands to the department number to update their status with
 
 ## Texts and Calls to the Dispatcher Desk
 
-When your department's [dispatcher desk](../web-app/dispatcher-desk#texts-and-calls-to-the-desk) routes **Text messages** and **Phone calls** (Shifts → Dispatcher Desk Settings), the department number also takes requests from the public:
+When your department's [dispatcher desk](../web-app/dispatcher-desk#texts-and-calls-to-the-desk) routes **Text messages** and **Phone calls** (Shifts → Dispatcher Desk → Dispatcher Desk Settings), the department number also takes requests from the public:
 
 - A text from **someone who is not a member** becomes a conversation offered to a dispatcher on duty in the Dispatch app. The dispatcher replies from the same number. More texts from the same person within the conversation window (30 minutes by default) join it. With **Acknowledge texts automatically**, the texter is told a dispatcher has their message.
 - A call from someone who is not a member is held for a dispatcher, who answers it from their own phone.

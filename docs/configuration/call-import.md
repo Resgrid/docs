@@ -47,33 +47,34 @@ Press **Update** to save. Saving keeps any other call settings you are not chang
 
 Each type reads a specific email layout. Choose the one that matches what your dispatch center sends; if none does, try **Generic** first.
 
-| Email type | What it expects | Fills in | Updates an open call |
+| Email type | What it expects | Fills in | Call ID it reads |
 |---|---|---|---|
-| **Generic** | Any email. | Name from the subject, nature from the body, both in the notes. Attached dispatch audio. | No |
-| **Generic with AI enrichment** | Any email (only offered when your department has Enhanced AI). | The same call as Generic, then queued for AI enrichment. See [below](#generic-with-ai-enrichment). | No |
-| **Resgrid** | A body of seven fields separated by `\|`. See [Resgrid format](#resgrid-format). | Incident number, type, priority, address, map page, nature, notes. | No |
-| **Generic Page** | A subject containing `page`. | Name from the subject, nature from the subject and body. | No |
-| **Connect** | The body's first two lines. | Name from the subject, nature from the first lines. | No |
-| **Four Part Pipe** | A body of `\|`-separated parts, with `[LONGLAT:..]` coordinates in the third. | Name, coordinates, nature. | No |
-| **Active911** | A subject containing `active` and a plain-text body of `KEY: value` lines (`CALL`, `ADDR1`, `ID`, `MAP`, `NARR` …; any case). | Name, address, incident number, coordinates, nature. | Yes, by incident number (`ID`); an email without an `ID` line always creates a new call |
-| **R&R** | A plain-text body with `Address:`, `Call Type:` and `Incident Numbers:` lines. | Name, address, type, priority (matched by name), incident number. | Yes, by incident number |
-| **OttawaCounty** | A subject containing `active` and a plain-text body with `CFS#`, `Address`, `CallType` and `Details` lines. | CFS number, address, type (when it matches one of your call types), nature. | No |
-| **OttawaKingstonToronto** | A plain-text, one-line-space-separated page with an `ALPHA 512` marker. | Incident number, name, nature. | Yes, by incident number |
-| **Parkland Cty** | A subject containing `Parkland County Incident` or `Incident Message`, with `Type:` and `Location:` lines. | Name, address, coordinates. | No |
-| **Parkland Cty2** | As Parkland Cty, plus a `Date:` line and a priority letter (E, D, C, B, O or A). | Name, address, coordinates, logged time, priority. Also dispatches every unit. | Yes, a call with the same name and time; raises the priority and dispatches again on a second page |
-| **CAL FIRE ECC** | A `;`-separated body starting with `Inc#`. | Incident number, type, address, coordinates, name, nature. | No |
-| **CAL FIRE SCU** | A `;`-separated body with `Inc#`, `?q=` coordinates and `Map:` lines. Close notices are ignored. | Type, address, incident number, coordinates, map page, nature. | No |
-| **Brockport** | `B:`, `L:`, `T:` and `X:` sections. | Incident number, address, type, name, nature. | No |
-| **Hancock Cty** | A `,`-separated body: `(code), type, address or coordinates, // nature`. | Incident number, type, address, coordinates, nature. | No |
-| **Carencro** | A subject containing `300` and `ALERT`. | Name from the subject, nature from the subject and body. | No |
-| **Grand Blanc** | A subject containing `Page Received`. | Name from the subject, nature from the subject and body. | No |
-| **Union Fire** | A subject containing `Perform Page`, with the address on the body's second and third lines. | Name, address, nature. | No |
-| **Lowestoft** | A `,`-separated body: priority, nature, place, then any instructions, such as `3, Persons in water, Southwold, Muster at CRE`. | Priority (one of your priorities by name or number, else your default), nature, address (`, United Kingdom` is added when missing). | No |
-| **Spotted Dog** | Any email with a subject. | Address from the subject, nature from the body. | No |
-| **PortJervis** | Any email. A `La = … Lo = …` line becomes the call's coordinates. | Nature, coordinates. | No |
-| **Yellowhead** | A `/`-separated body: name in the third part, address in the fourth. | Name, address. | No |
+| **Generic** | Any email. | Name from the subject, nature from the body, both in the notes. Attached dispatch audio. | None: use a label or pattern |
+| **Generic with AI enrichment** | Any email (only offered when your department has Enhanced AI). | The same call as Generic, then queued for AI enrichment. See [below](#generic-with-ai-enrichment). | None: use a label or pattern |
+| **Labeled fields** | A body of `Label: value` lines in your CAD's own words. See [Labeled fields](#labeled-fields). | Whatever you map: call ID, name, nature, address and city, cross streets, coordinates, type, priority, units, notes. | The **Call ID** label |
+| **Resgrid** | A body of seven fields separated by `\|`. See [Resgrid format](#resgrid-format). | Incident number, type, priority, address, map page, nature, notes. | Incident number |
+| **Generic Page** | A subject containing `page`. | Name from the subject, nature from the subject and body. | None |
+| **Connect** | The body's first two lines. | Name from the subject, nature from the first lines. | None |
+| **Four Part Pipe** | A body of `\|`-separated parts, with `[LONGLAT:..]` coordinates in the third. | Name, coordinates, nature. | None |
+| **Active911** | A subject containing `active` and a plain-text body of `KEY: value` lines (`CALL`, `ADDR1`, `ID`, `MAP`, `NARR` …; any case). | Name, address, incident number, coordinates, nature. | `ID` line (built-in updates) |
+| **R&R** | A plain-text body with `Address:`, `Call Type:` and `Incident Numbers:` lines. | Name, address, type, priority (matched by name), incident number. | Incident number (built-in updates) |
+| **OttawaCounty** | A subject containing `active` and a plain-text body with `CFS#`, `Address`, `CallType` and `Details` lines. | CFS number, address, type (when it matches one of your call types), nature. | CFS number |
+| **OttawaKingstonToronto** | A plain-text, one-line-space-separated page with an `ALPHA 512` marker. | Incident number, name, nature. | Incident number (built-in updates) |
+| **Parkland Cty** | A subject containing `Parkland County Incident` or `Incident Message`, with `Type:` and `Location:` lines. | Name, address, coordinates. | None |
+| **Parkland Cty2** | As Parkland Cty, plus a `Date:` line and a priority letter (E, D, C, B, O or A). | Name, address, coordinates, logged time, priority. Also dispatches every unit. | Name and call time (built-in updates) |
+| **CAL FIRE ECC** | A `;`-separated body starting with `Inc#`. | Incident number, type, address, coordinates, name, nature. | Incident number |
+| **CAL FIRE SCU** | A `;`-separated body with `Inc#`, `?q=` coordinates and `Map:` lines. Close notices are ignored. | Type, address, incident number, coordinates, map page, nature. | Incident number |
+| **Brockport** | `B:`, `L:`, `T:` and `X:` sections. | Incident number, address, type, name, nature. | Incident number |
+| **Hancock Cty** | A `,`-separated body: `(code), type, address or coordinates, // nature`. | Incident number, type, address, coordinates, nature. | Incident number |
+| **Carencro** | A subject containing `300` and `ALERT`. | Name from the subject, nature from the subject and body. | None |
+| **Grand Blanc** | A subject containing `Page Received`. | Name from the subject, nature from the subject and body. | None |
+| **Union Fire** | A subject containing `Perform Page`, with the address on the body's second and third lines. | Name, address, nature. | None |
+| **Lowestoft** | A `,`-separated body: priority, nature, place, then any instructions, such as `3, Persons in water, Southwold, Muster at CRE`. | Priority (one of your priorities by name or number, else your default), nature, address (`, United Kingdom` is added when missing). | None |
+| **Spotted Dog** | Any email with a subject. | Address from the subject, nature from the body. | None |
+| **PortJervis** | Any email. A `La = … Lo = …` line becomes the call's coordinates. | Nature, coordinates. | None |
+| **Yellowhead** | A `/`-separated body: name in the third part, address in the fourth. | Name, address. | None |
 
-"Updates an open call" means a later email about the same incident changes the call that is already open (among the department's ten most recent open calls) instead of creating another. Every other type creates a new call for each email.
+"Call ID it reads" is what [Updates from your CAD](#updates-from-your-cad) uses to recognise a later email about the same call. For a type that reads none, give the label your CAD writes in front of its call ID instead. "Built-in updates" means the type already updated open calls before that page existed: until you save the page, a later email for an open call replaces its notes and changes nothing else.
 
 **Priority when the email names none.** A call gets your department's default call priority. With custom call priorities and none marked as the default, it gets your priority whose **Meaning** is *High* (see [Types](../web-app/types-configuration#classes-and-meanings)); with neither, it gets the built-in High priority. Text message and voice imports use the same rule.
 
@@ -111,6 +112,10 @@ If fewer than six values arrive, the call is still created from the whole body, 
 
 Departments with the Enhanced AI add-on see this extra type and an **AI Dispatch settings** link under the list. The call is created exactly as with **Generic**, so dispatch is never delayed. The new call is then queued for AI enrichment, which can fill in details from the email according to your AI Dispatch settings. Follow-up emails are not enriched. A department that loses Enhanced AI keeps importing, because the call is built the same way as Generic.
 
+### Labeled fields
+
+For CAD emails made of `Label: value` lines that no other type reads, choose **Labeled fields** and enter your CAD's labels on **Department → Call Settings → Updates from your CAD** (separate alternatives with `|`, for example `Address|Location`). A value runs to the end of its line, or to the next known label on the same line, so `Call ID: 26-1234   Type: Structure Fire` reads both. Call types and priorities are matched to yours by name, units by unit name (unknown units are skipped), and a `City` value is added to the address. Fields with no label fall back to Generic: the subject becomes the name and the body the nature. Use **Test with an email** on the same page to see what Resgrid reads before you switch.
+
 ### Auto-close imported calls
 
 With **Prune (Auto Close) Calls** ticked, an open call that came in by email, text message or audio import is closed once it has been open longer than **Minutes to keep call open**. Calls entered by hand are never closed this way.
@@ -119,9 +124,31 @@ With **Prune (Auto Close) Calls** ticked, an open call that came in by email, te
 - The closed call gets the note *Call automatically closed by the system.* and is recorded as closed by the department's managing user.
 - Leave **Prune** unticked if your members close imported calls themselves.
 
+## Updates from your CAD
+
+A CAD often sends a second email for the same call: a corrected address, an upgrade, more units, a close. With **Department → Call Settings → Updates from your CAD** on, Resgrid recognises the call by the CAD's call ID and updates the call it already made instead of creating a second one and paging everyone again.
+
+| Setting | What it does |
+|---|---|
+| **Read the call ID** | From the email type (see the table above), after a label such as `Call ID:`, or with a pattern (a regular expression with one capture group). |
+| **What an update may change** | Address and map location, priority, call type and call name: **Update** or **Note only**. Nature and notes: **Replace**, **Add to the end** or **Note only**. Note only keeps the call's value and writes the CAD's value in the update note. |
+| **Keep changes made in Resgrid** | On by default: a field someone changed in Resgrid is not overwritten by a later CAD email; the CAD's value goes in the note. |
+| **Page everyone on the call again when** | The address or priority changed (default), anything changed, every update (sent as the next alarm), or never. Units and groups an update adds are paged on their own. A pending call is never paged. |
+| **Minutes a closed call still matches** | An email for a call closed within this time (60 by default) is written on that call as a note; it is not reopened. |
+| **Close / cancel phrases** | Optional, one per line. An email containing one closes or cancels the call with the same ID, through the normal close rules (a call under active incident command stays open, with a note). A close email for a call Resgrid never had creates nothing. |
+
+What else to know:
+
+- Every update adds a **CAD update** note to the call listing what changed, and refreshes dispatch screens and the apps.
+- Emails that arrive out of order are put in order by their sent time: an older email is only noted.
+- Any open or pending call with the same ID in its incident number matches, including a call a dispatcher entered by hand.
+- Units an update no longer lists are not removed; the note names them.
+- An email with no call ID always creates a new call, as before.
+- **Test with an email** on the page shows the call ID and fields Resgrid reads from a pasted email, using the page's settings, without creating anything.
+
 ## Emailed calls: dispatch now or hold for a dispatcher
 
-By default every call emailed to the dispatch import email goes out at once. To have a person check emailed calls first (pages for another district, duplicate pages, calls your members should not all be paged for), change **Emailed calls** on **Shifts → Dispatcher Desk Settings** ([Email call mode](../web-app/dispatcher-desk#email-call-mode)):
+By default every call emailed to the dispatch import email goes out at once. To have a person check emailed calls first (pages for another district, duplicate pages, calls your members should not all be paged for), change **Emailed calls** on **Shifts → Dispatcher Desk → Dispatcher Desk Settings** ([Email call mode](../web-app/dispatcher-desk#email-call-mode)):
 
 | Choice | What an emailed call becomes |
 |---|---|
@@ -143,11 +170,13 @@ The dispatch import email is for **dispatches**: pages from a dispatch center or
 | **Senders** | Anyone who sends to it | Anyone, or only **Allowed senders** |
 | **Reply** | None | Optional receipt with the call number |
 
+An email intake channel can also take follow-ups from a CAD: tick **Accept CAD updates** on the channel (email channels only, once [Updates from your CAD](#updates-from-your-cad) is on) and an email carrying the call ID of a call you already have updates that call instead of creating another pending call.
+
 ## Group dispatch addresses
 
 Each group or station can have its own **dispatch email** and **message email**, set on the group (see [Groups & stations](../web-app/groups-stations)):
 
-- Email to a group's **dispatch email** creates a call dispatched only to that group and its sub-groups. It is read with the department's **Email Type**, the same way as the department address, and a follow-up email updates an open call for the types that do so.
+- Email to a group's **dispatch email** creates a call dispatched only to that group and its sub-groups. It is read with the department's **Email Type**, the same way as the department address, and a follow-up email updates the open call as set in [Updates from your CAD](#updates-from-your-cad).
 - Email to a group's **message email** sends a message, not a call, to that group and its sub-groups.
 
 ## Mailbox (POP3) monitoring

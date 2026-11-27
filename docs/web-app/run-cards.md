@@ -82,7 +82,7 @@ Example: a festival closes the town centre to vehicles (a full closure that stop
 
 Closest-unit and station-based selection need the call's location. If the call has none, the card's **home station** is used instead and the recommendation says so; without a home station every requirement is reported as a shortfall (*"Call has no usable location"*).
 
-- On the **New Call** page the recommendation refreshes as soon as the call is placed on the map — by **Find Address**, **What3Words**, clicking the map or dragging the pin. Picking the priority and type first is fine.
+- On the **New Call** page the recommendation refreshes as soon as the call is placed on the map — by **Find Address**, **What3Words**, **Find Plus Code**, clicking the map or dragging the pin. Picking the priority and type first is fine.
 - When a call is saved with an address but no map pin (from the web, the apps, the API, email or SMS import), Resgrid geocodes the address (or What3Words) before the run card runs.
 
 ## Building a run card

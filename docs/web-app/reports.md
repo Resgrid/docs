@@ -120,7 +120,7 @@ Annual activity overview:
 
 ### Dispatcher Activity Report
 
-The dispatcher desk's report is not on the Reports page: open it from **Shifts → Dispatcher Activity** (department admins and desk supervisors). For a date range of up to 92 days it shows how much work came to the desk, how much was completed, overflowed, escalated or canceled, and the average time to answer; the work by kind; and, per dispatcher, offers taken, declined and missed, items completed and dispatched, average times to accept and to complete, breaks taken, break minutes, breaks they were late back from and breaks they missed. See [Dispatcher Desk → Activity report](dispatcher-desk#activity-report).
+The dispatcher desk's report is not on the Reports page: open it from **Shifts → Dispatcher Desk → Dispatcher Activity** (department admins and desk supervisors). For a date range of up to 92 days it shows how much work came to the desk, how much was completed, overflowed, escalated or canceled, and the average time to answer; the work by kind; and, per dispatcher, offers taken, declined and missed, items completed and dispatched, average times to accept and to complete, breaks taken, break minutes, breaks they were late back from and breaks they missed. See [Dispatcher Desk → Activity report](dispatcher-desk#activity-report).
 
 ### Personnel Hours Report
 
@@ -254,7 +254,7 @@ All parameter pages respect the **visibility matrix** — only showing personnel
 | **SAR** | *Personnel hours* per mission for volunteer-hour grants; *Department activity* YTD for the board. |
 | **Emergency management** | *Action logs* during activations for the after-action report; *Event attendance* for exercises. |
 | **Security / business** | *Active calls and resources* live view for the operations centre; *Flagged call notes* for supervisor review. |
-| **Dispatch center** | *Dispatcher Activity* (Shifts menu) each week for the dispatch supervisor: time to answer, overflowed and escalated work, and breaks taken late or missed. |
+| **Dispatch center** | *Dispatcher Activity* (a button on the Dispatcher Desk board) each week for the dispatch supervisor: time to answer, overflowed and escalated work, and breaks taken late or missed. |
 
 ## Technical reference
 

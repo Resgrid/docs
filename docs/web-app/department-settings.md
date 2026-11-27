@@ -70,7 +70,7 @@ The department's own address (a station or district office) is used to locate th
 
 ## Module settings
 
-`/User/Department/ModuleSettings` — switch modules on or off for the whole department: Messaging, Mapping, Shifts, Logs / Records, Reports, Documents, Calendar, Notes, Training, Inventory, **Checklists**, **Maintenance** (work orders), **Business Operations** (invoicing, contractor billing, Cal OES MARS, workforce — the pages also need the [Business Ops add-on](business-ops/overview)). Switching a module off hides it from the menu and the apps; data is kept.
+`/User/Department/ModuleSettings` — switch modules on or off for the whole department: Messaging, Mapping, Shifts, Logs / Records, Reports, Documents, Calendar, Notes, Training, Inventory, **Checklists**, **Maintenance** (work orders), **Business Ops** (invoicing, contractor billing, Cal OES MARS, Labor & Costing — the pages also need the [Business Ops add-on](business-ops/overview)). Switching a module off hides it from the menu and the apps; data is kept.
 
 ![Module settings](/img/web-app/department/module-settings.png)
 
@@ -80,7 +80,7 @@ The department's own address (a station or district office) is used to locate th
 
 | Section | Names |
 |---|---|
-| **Modules** | Calls, Personnel, Units, Contacts, Mapping, Shifts, Records, Logs, Reports, Documents, Calendar, Notes, Trainings, Inventory, Readiness, Work Orders, Checklists, Workforce & Business. Shown in the navigation, as the title of the module's main page and in the apps' menus; sentences elsewhere that mention a module keep Resgrid's wording. |
+| **Modules** | Calls, Personnel, Units, Contacts, Mapping, Shifts, Records, Logs, Reports, Documents, Calendar, Notes, Trainings, Inventory, Readiness, Work Orders, Checklists, Business Ops. Shown in the navigation, as the title of the module's main page and in the apps' menus; sentences elsewhere that mention a module keep Resgrid's wording. |
 | **Record types** | Run, Training, Work, Meeting, Coroner, Callback, Unit activity, NERIS incident report — the built-in Records and Logs types, wherever a type is chosen, listed, printed or exported. To add a type of your own, such as Public Education, create a [record definition](records/settings). |
 
 A name is up to 50 characters; invisible characters are removed and runs of spaces become one. A longer name is not saved and stays in its box for correcting (*Your other names were saved.*). Department administrators only. The apps read the names through `GET /api/v4/Config/GetTerminology`. [Import & Migration](import-and-migration/configure#names) can set them too, together with the rest of a migration's configuration.
@@ -112,9 +112,9 @@ Choose which fields and sections the call forms show (**Visible**) and which mus
 
 | Field | Hide | Require | Notes |
 |---|---|---|---|
-| **Address**, **GPS Coordinates**, **what3words** | Yes | Yes | The location section shows while any of the three does. A pin is needed to satisfy *GPS Coordinates*; an address alone does not. |
-| **Plus Code** | Yes | No | Only finds the location and is not saved on the call: require *GPS Coordinates* instead. |
-| **Destination** | Yes | Yes | Covers both kinds of destination: a destination point of interest or a [destination location](dispatch-calls#locations-destinations-and-routes) (address, coordinates, what3words). Either one satisfies *Required*; hidden, both are left off. |
+| **Address**, **GPS Coordinates**, **what3words** | Yes | Yes | The location section shows while any of these, or *Plus Code*, does. A pin is needed to satisfy *GPS Coordinates*; an address alone does not. |
+| **Plus Code** | Yes | No | The location's [plus code](dispatch-calls#plus-codes) box on New Call, Update Call, Add Archived Call and in the apps. It only finds the location (the call pin) and is not saved on the call: require *GPS Coordinates* instead. |
+| **Destination** | Yes | Yes | Covers both kinds of destination: a destination point of interest or a [destination location](dispatch-calls#locations-destinations-and-routes) (address, coordinates, what3words, or a plus code that finds the point). Either one satisfies *Required*; hidden, both are left off. |
 | **Indoor Location** | Yes | Yes | |
 | **Map Page** | Yes | Yes | |
 | **Note** | Yes | Yes | An empty editor does not count as a note. |
@@ -187,7 +187,8 @@ One department's unit status set had no meanings. Its units showed as *Available
 | Setting | What it does |
 |---|---|
 | **Dispatch import email** | Your department's *all-call* address, shown on the page. Anything mailed to it becomes a call dispatched to everyone with call notifications on, unless the dispatcher desk's [email call mode](dispatcher-desk#email-call-mode) saves it as pending for a dispatcher to review first. Forward your CAD pages here. See [Call import](../configuration/call-import). |
-| **Email type** | The parser for your dispatch center's email: Generic, Resgrid, Generic Page, Connect, Four Part Pipe, Active911, R&R, OttawaCounty, OttawaKingstonToronto, Parkland Cty / Cty2, CAL FIRE ECC / SCU, Brockport, Hancock Cty, Carencro, Grand Blanc, Union Fire, Lowestoft, Spotted Dog, PortJervis, Yellowhead, plus Generic with AI enrichment for departments with Enhanced AI. Generic reads any email: subject as name, body as nature. See [Email types](../configuration/call-import#email-types). |
+| **Email type** | The parser for your dispatch center's email: Generic, Resgrid, Generic Page, Connect, Four Part Pipe, Active911, R&R, OttawaCounty, OttawaKingstonToronto, Parkland Cty / Cty2, CAL FIRE ECC / SCU, Brockport, Hancock Cty, Carencro, Grand Blanc, Union Fire, Lowestoft, Spotted Dog, PortJervis, Yellowhead, Labeled fields (your CAD's own labels), plus Generic with AI enrichment for departments with Enhanced AI. Generic reads any email: subject as name, body as nature. See [Email types](../configuration/call-import#email-types). |
+| **Updates from your CAD** | A link to its own page: when your CAD sends another email for a call it already sent, update that call (address, priority, notes and more) instead of creating a new one; close or cancel it on a close email; and the labels for the Labeled fields type. See [Updates from your CAD](../configuration/call-import#updates-from-your-cad). |
 | **Prune calls / minutes to keep open** | Auto-close email/text/audio-imported calls after N minutes (checked hourly). |
 | **Mail server** | Not on this page. Resgrid does not poll an outside mailbox; have your CAD or mail server forward dispatches to the dispatch import email instead. See [Call import](../configuration/call-import). |
 | **Call numbering** | How new calls are numbered, and the next number. See [Call numbering](#call-numbering). |
@@ -312,7 +313,7 @@ A department moving to Resgrid part way through a year can carry on its numberin
 
 | Section | What you can rename | Where the name shows |
 |---|---|---|
-| **Modules** | Calls, Personnel, Units, Contacts, Mapping, Shifts, Records, Logs, Reports, Documents, Calendar, Notes, Trainings, Inventory, Readiness, Work Orders, Checklists, Workforce & Business | The left menu and the title of the module's main page |
+| **Modules** | Calls, Personnel, Units, Contacts, Mapping, Shifts, Records, Logs, Reports, Documents, Calendar, Notes, Trainings, Inventory, Readiness, Work Orders, Checklists, Business Ops | The left menu and the title of the module's main page |
 | **Record types** | Run, Training, Work, Meeting, Coroner, Callback, Unit activity, NERIS incident report | Everywhere a record or log type is chosen, listed, printed or exported: the Records queue and **New** menu, record pages and prints, Records Settings, analytics, list exports, legacy Logs and log reports, the **Reports** menu on a call, record reminders and notifications, and Field Records in the apps |
 
 ![Records list and type filter after the rename](/img/web-app/department/terminology-records.png)
@@ -346,7 +347,7 @@ With the [dispatcher desk](dispatcher-desk#texts-and-calls-to-the-desk) taking t
 
 `/User/Department/ShiftSettings` — **Allow signups for multiple groups** (members can sign up for shifts at stations other than their own).
 
-The **dispatcher desk** has its own settings page under **Shifts → Dispatcher Desk Settings**: whether work is routed to the dispatchers on duty in the Dispatch app, what is sent to them, offer timeouts, overflow when everyone is busy, what emailed calls become, and breaks and coverage. See [Dispatcher Desk → Desk settings](dispatcher-desk#desk-settings).
+The **dispatcher desk** has its own settings page under **Shifts → Dispatcher Desk → Dispatcher Desk Settings**: whether work is routed to the dispatchers on duty in the Dispatch app, what is sent to them, offer timeouts, overflow when everyone is busy, what emailed calls become, and breaks and coverage. See [Dispatcher Desk → Desk settings](dispatcher-desk#desk-settings).
 
 ## Mapping & Big Board settings
 
@@ -479,7 +480,7 @@ Step 2 of the journey asks you to confirm the address and time zone on [General 
 | Controller | `DepartmentController` |
 | Routes | `/User/Department/{Settings,Profile,ModuleSettings,DispatchSettings,CallSettings,TextSettings,UnitSettings,ShiftSettings,MappingSettings,Api,Invites,OperatingProfile,DeleteDepartment,ClearDepartmentCache}`; `/User/Department/SetupWizard` redirects to `/User/AdminAssist/SetupWizard` (see [Help & Setup](help-setup#technical-reference)) |
 | Policy | `Department_Update` (administrators); managing-user checks for billing, ADP and deletion |
-| Storage | `Department` row (organization type in `Department.DepartmentType`, text from `DepartmentTypeCatalog`) + `DepartmentSettings` rows keyed by `DepartmentSettingTypes` (e.g. 32 = ModuleSettings, 58–60 = run-card dispatch, 70–77 = Records settings, 115 = CallNumberingConfig: `Pattern`, `SequenceWidth` and the numbering year start `YearStartMonth` / `YearStartDay` / `YearLabel`, 117 = DocumentNumberingConfig: numbering year start and one pattern per document kind, 118 = DepartmentTerminology: the department's own names as `{Key, Text}` pairs, e.g. `module.units` / `record-type.run`, 128 = DispatcherDeskConfig: the [dispatcher desk](dispatcher-desk#technical-reference), edited on Shifts → Dispatcher Desk Settings). Custom document sequences live in `DocumentNumberSequences` (M0268). Call number sequences live in `CallNumberSequences`: one row per department and sequence (the text the pattern writes around `{SEQ}`), holding the last number issued and any raised next number |
+| Storage | `Department` row (organization type in `Department.DepartmentType`, text from `DepartmentTypeCatalog`) + `DepartmentSettings` rows keyed by `DepartmentSettingTypes` (e.g. 32 = ModuleSettings, 58–60 = run-card dispatch, 70–77 = Records settings, 115 = CallNumberingConfig: `Pattern`, `SequenceWidth` and the numbering year start `YearStartMonth` / `YearStartDay` / `YearLabel`, 117 = DocumentNumberingConfig: numbering year start and one pattern per document kind, 118 = DepartmentTerminology: the department's own names as `{Key, Text}` pairs, e.g. `module.units` / `record-type.run`, 128 = DispatcherDeskConfig: the [dispatcher desk](dispatcher-desk#technical-reference), edited on Shifts → Dispatcher Desk → Dispatcher Desk Settings). Custom document sequences live in `DocumentNumberSequences` (M0268). Call number sequences live in `CallNumberSequences`: one row per department and sequence (the text the pattern writes around `{SEQ}`), holding the last number issued and any raised next number |
 | Unit dispatch / release status | Settings 50 (`UnitCallDispatchStatusToSet`) and 51 (`UnitCallReleaseStatusToSet`), read as a `StatusTarget`: -1 or unset = Default, -2 = leave unchanged, 1000 + an `ActionBaseTypes` value = that meaning (e.g. 1006 Dispatched, 1023 In Quarters), 0–999 = a built-in `UnitStateTypes` value saved before meanings (read by its meaning on custom sets). Resolved per unit by `StatusTargetResolver.ResolveUnit` (first active option by order; default chains Dispatched → Responding → En Route and Cleared → Available → In Quarters). Per-unit-type overrides are a separate setting and take precedence |
 | Cache | Settings cached up to a day; **Clear department cache** enqueues a cache-clear event |
 | Data endpoints | `GetStationsForGrid`, `GetRecipientsForGrid`, `GetDepartmentTypes` (organization type values), `GetCallEmailTypes`, `GetCallTextTypes`, `GetAvailableNumbers?country=&areaCode=`, `ProvisionNumber`, `GetSubscriptionLimitWarning`, `GetPrinterNetPrinters?key=` |

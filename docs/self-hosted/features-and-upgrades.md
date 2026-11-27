@@ -41,8 +41,8 @@ Each feature is one question, even when it needs many flags:
         Uses Resgrid's built-in search index, stored in the RustFS object store.
         Turn on Unified search? (y/n) [y]: y
 ...
-    Not available on self-hosted servers (Resgrid subscription add-ons): Enhanced AI, Workforce and
-    Business Operations, Incident Back Office, Maintenance and work orders (Readiness Pro), Advanced
+    Not available on self-hosted servers (Resgrid subscription add-ons): Enhanced AI,
+    Business Ops, Incident Back Office, Maintenance and work orders (Readiness Pro), Advanced
     Data Protection, Resgrid-operated services (managed migration, Stripe Connect payments)
 ==> Records (RMS): on
 ==> Unified search: on
@@ -65,7 +65,7 @@ The default answer is the current state, or "y" when a feature you just turned o
 | **Attachment virus scanning** | Starts a ClamAV service (about 1.5 GB of RAM) and turns on `RESGRID__AttachmentScanningConfig__Enabled`. ClamAV brings its signatures with it, so scanning also works offline. |
 | **Text-message commands (Twilio)** | Routes inbound SMS through the Resgrid chatbot; setup asks for the Twilio account SID, auth token and number. Needs internet access and a public API address. |
 
-Resgrid's paid add-ons (Enhanced AI, Workforce and Business Operations, Incident Back Office, Readiness Pro work orders, Advanced Data Protection) depend on Resgrid's hosted billing service. Setup lists them but doesn't offer them on self-hosted servers.
+Resgrid's paid add-ons (Enhanced AI, Business Ops, Incident Back Office, Readiness Pro work orders, Advanced Data Protection) depend on Resgrid's hosted billing service. Setup lists them but doesn't offer them on self-hosted servers.
 
 A feature is switched for **every department on the server** (the `featureflags` table of the `resgrid` database). Setup clears Resgrid's flag cache in Redis, so the change shows on the next page load; new menu entries such as **Records** and **Chat** appear in the web app, and the search box in the header searches everything:
 

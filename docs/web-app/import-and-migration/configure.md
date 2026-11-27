@@ -81,14 +81,14 @@ An import never changes the department's managing user.
 <a id="modules"></a>
 ### Modules
 
-**Messaging**, **Mapping**, **Shifts**, **Logs**, **Reports**, **Documents**, **Calendar**, **Notes**, **Trainings**, **Inventory**, **Maintenance and Work Orders (Readiness Pro)**, **Checklists** and **Business Operations**, each **On** or **Off** — the same switches as [Module settings](../department-settings). Turning a module off hides it from everyone; its data is kept. Calls, Personnel and Units are always on, and AI features are turned on or off on their own screen.
+**Messaging**, **Mapping**, **Shifts**, **Logs**, **Reports**, **Documents**, **Calendar**, **Notes**, **Trainings**, **Inventory**, **Maintenance and Work Orders (Readiness Pro)**, **Checklists** and **Business Ops**, each **On** or **Off** — the same switches as [Module settings](../department-settings). Turning a module off hides it from everyone; its data is kept. Calls, Personnel and Units are always on, and AI features are turned on or off on their own screen.
 
 With Admin Assist, a module change shows *What this changes*: how many members' menus change and how much existing data the module holds.
 
 <a id="names"></a>
 ### Names
 
-Every module and record type your department can rename (see [Department settings → Terminology](../department-settings#terminology)): Calls, Personnel, Units, Contacts, Mapping, Shifts, Records, Logs, Reports, Documents, Calendar, Notes, Trainings, Inventory, Readiness, Work Orders, Checklists, Workforce & Business, and the record types Run, Training, Work, Meeting, Coroner, Callback, Unit activity and NERIS incident report.
+Every module and record type your department can rename (see [Department settings → Terminology](../department-settings#terminology)): Calls, Personnel, Units, Contacts, Mapping, Shifts, Records, Logs, Reports, Documents, Calendar, Notes, Trainings, Inventory, Readiness, Work Orders, Checklists, Business Ops, and the record types Run, Training, Work, Meeting, Coroner, Callback, Unit activity and NERIS incident report.
 
 A name is up to 50 characters and is shown in every language. Leave it empty to keep Resgrid's name (shown as *Resgrid's name (Calls)*). When both your operating profile and a product you are moving from suggest a name for the same feature, the product's word is suggested.
 

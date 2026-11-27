@@ -88,14 +88,14 @@ Assigned 12-hour or 24-hour shifts per station; supervisors approve trades. Turn
 - Workflows: *Call created* → API call to billing/ePCR; *Checklist failed (narcotics)* → email medical director; *Record finalized* → export template to the medical director weekly.
 - Chat: incident channels for handoffs; images off in general channels unless ADP is on.
 
-## 11 — Workforce & Business Ops
+## 11 — Business Ops
 
 - **Certifications** (free): NREMT EMT/AEMT/Paramedic **and** state licences as separate types (both mandatory on the *Paramedic* role), BLS/ACLS/PALS, annual MVR review; units: state ambulance permit, DOT inspection, registration, insurance. **Enforce** with a 0-day grace on licences — an expired licence must not run calls.
 - **Invoicing** (Business Ops): rate card *BLS transport*, *ALS transport* (flat per call), *Loaded mileage*, *Standby — event* (hourly unit); billing profiles per facility and event organizer (net 30, PO number noted, tax exempt where applicable); online payments through the company Stripe account; workflow *Invoice Overdue* → billing manager.
 - **Deployment Finance / bids** (Business Ops): event medical standby as a bid (ALS unit crew line × hours × days) → wizard → deployment; crews file time in the Responder app; generate the invoice after the event.
-- **Workforce & pay data** (Business Ops + ADP): employer, establishments and job assignments for California agencies with 100+ employees; run the CRD report each spring.
+- **Labor & Costing: pay data** (Business Ops + ADP): employer, establishments and job assignments for California agencies with 100+ employees; run the CRD report each spring.
 
-See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
+See the [Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
 
 ## Using Resgrid Relay
 

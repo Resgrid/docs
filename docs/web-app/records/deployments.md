@@ -7,17 +7,17 @@ title: Deployment Reports
 
 **Deployment reports** is the read-only history of your department's deployments. Use it for printable reports, roster manifests, daily time reports, documents, and CSV/JSON exports for the strike teams, mutual-aid crews and contract work you sent. It also keeps older external resource orders (IROC, EMAC, CIFFC) readable, including orders that were never linked to a deployment.
 
-Nothing can be created or changed here. To create a deployment, record an external order, update fills, store a new order snapshot or close out an order, use [Workforce & Business Ops → Deployments](../business-ops/deployment-finance). See [External orders](../business-ops/deployment-finance#external-orders) on that page.
+Nothing can be created or changed here. To create a deployment, record an external order, update fills, store a new order snapshot or close out an order, use [Business Ops → Deployments](../business-ops/deployment-finance). See [External orders](../business-ops/deployment-finance#external-orders) on that page.
 
 :::note Moved from Records
-External orders used to be created and edited under **Records → Manage → Deployments**. Old bookmarks to the create page (`/User/RecordDeployments/New`) now open **New external order** in Workforce & Business Ops. The former Records write URLs are no longer accepted. In the Records queue, opening a **Deployment (External Order)** record goes to its read-only report, and *new* or *edit* goes to the deployment workspace. Generic record edits and bulk actions on those records are refused.
+External orders used to be created and edited under **Records → Manage → Deployments**. Old bookmarks to the create page (`/User/RecordDeployments/New`) now open **New external order** in Business Ops. The former Records write URLs are no longer accepted. In the Records queue, opening a **Deployment (External Order)** record goes to its read-only report, and *new* or *edit* goes to the deployment workspace. Generic record edits and bulk actions on those records are refused.
 :::
 
 ## Where to find it
 
 - Sidebar: **Records → Deployment reports**.
 - **All records → Manage → Deployment reports**.
-- From a deployment page in Workforce & Business Ops: the **Deployment reports** header button.
+- From a deployment page in Business Ops: the **Deployment reports** header button.
 
 Every department member can open the page. Administrators and holders of *Manage deployments* see every deployment; everyone else sees the deployments they are rostered on. The same department and roster rules apply as in the operational screens. External orders keep their own Records visibility checks.
 
@@ -29,7 +29,7 @@ Deployment reports needs only the `Records.System` flag. It does **not** require
 
 ![Deployment reports](/img/web-app/records/deployment-reports.png)
 
-The page opens with the notice *Read-only deployment history, reports and exports. Manage deployments in Workforce & Business Ops.*
+The page opens with the notice *Read-only deployment history, reports and exports. Manage deployments in Business Ops.*
 
 | Element | Meaning |
 |---|---|
@@ -48,7 +48,7 @@ The page opens with the notice *Read-only deployment history, reports and export
 | **Export report JSON** | *Export records*. Deployment identifiers, roster, time reports with entries, and expenses. Protected notes and document contents are deliberately left out. |
 | **Export time CSV** | *Export records*. Every time entry on the deployment. |
 | **Manifest** | Renders the roster manifest without filing it as a new document on the deployment. |
-| **Open deployment workspace** | Managers only. Opens the deployment in Workforce & Business Ops. |
+| **Open deployment workspace** | Managers only. Opens the deployment in Business Ops. |
 | Summary | Status, finance mode, incident #, resource order #, window and a link to the **External order** report. |
 | **Roster** | Units with call sign, personnel with certification code, and equipment, each with added → removed (or issued → returned) times. |
 | **Time reports** | Report number (opens the rendered DTR), report date and status. |

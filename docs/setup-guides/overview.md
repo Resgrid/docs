@@ -43,7 +43,7 @@ Whatever the guide, this order avoids rework:
 8. **Security & permissions** — tighten what the defaults leave open (delete calls, view PII).
 9. **Dispatch settings** — how groups/units/shifts dispatch; email/SMS import; run cards.
 10. **Everything else** — records, checklists, inventory, shifts, calendar, workflows, notifications — one module at a time, with a champion for each.
-11. **Workforce & Business Ops** — certifications first (free), then deployments, and — with the Business Ops add-on — invoicing, contracts and bids, Cal OES MARS, workforce and field costing; every guide ends with a section on it.
+11. **Business Ops** — certifications first (free), then deployments, and — with the Business Ops add-on — invoicing, contracts and bids, Cal OES MARS, labor and field costing; every guide ends with a section on it.
 
 ## Which app for whom
 

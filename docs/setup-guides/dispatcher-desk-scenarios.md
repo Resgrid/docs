@@ -7,7 +7,7 @@ title: Dispatcher Desk Walkthroughs
 
 The [dispatcher desk](../web-app/dispatcher-desk) offers pending calls, scheduled calls, texts and phone calls to the dispatchers on duty in the [Dispatch app](../apps/dispatch#dispatcher-desk), one at a time, and keeps their breaks covered. These walkthroughs show how eight different kinds of organization set it up, and what a day on the desk looks like for each. Pick the one closest to you; the settings mix and match.
 
-Every setting named here is on **Shifts → Dispatcher Desk Settings** unless it says otherwise. The full list, with defaults and limits, is in [Desk settings](../web-app/dispatcher-desk#desk-settings).
+Every setting named here is on **Shifts → Dispatcher Desk → Dispatcher Desk Settings** unless it says otherwise. The full list, with defaults and limits, is in [Desk settings](../web-app/dispatcher-desk#desk-settings).
 
 ## Before any walkthrough
 
@@ -98,7 +98,7 @@ A combination fire and EMS department running its own dispatch center around the
 - **09:05** Priya gets *Your Break starts in 10 min*. At 09:15 she presses **Take break**, ticks **Return my work to the queue (held: 1)**, and her pending transfer request goes back to the queue, where Sam takes it.
 - **12:40** Sam tries to start his lunch early while Priya is still on hers. With Sam gone only Jordan would be left, so the app says *Coverage is too low to start your break now. A desk supervisor can start it for you.* He waits for Priya.
 - **13:00** Priya's lunch has run its 30 minutes, but she is not back. At 13:10 the desk returns her automatically, and Lee is told.
-- **Weekly** Lee opens **Shifts → Dispatcher Activity** to check the average time to answer and any missed breaks.
+- **Weekly** Lee opens **Shifts → Dispatcher Desk → Dispatcher Activity** to check the average time to answer and any missed breaks.
 
 ### Tips
 

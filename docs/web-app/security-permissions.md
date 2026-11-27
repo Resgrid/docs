@@ -65,6 +65,31 @@ The [dispatcher desk](dispatcher-desk) and [intake channels](intake-channels/ove
 | Manage workflow credentials | Dept admins |
 | View workflow runs | Dept admins |
 
+### Protocols and training
+
+These rows sit with **Who can Create Trainings** in the permission list. Each one starts at the default shown until you save a rule for it. Department administrators can always do all of it.
+
+| Permission (id) | Default | Controls |
+|---|---|---|
+| **Who can Assign Trainings and see Reports** (126) | Follows *Who can Create Trainings* | Assign trainings, set due dates, extensions and exemptions, read the training report and attempt history. Group admins act only on their own group's members. Also makes a member a reviewer of [training hours submissions](trainings/records/training-reviews.md). |
+| **Who can Archive and Delete Trainings** (127) | Follows *Who can Create Trainings* | Archive, restore and delete trainings. A training someone has completed is archived, never deleted. |
+| **Author Protocols** (128) | Dept admins | Create [protocols](/web-app/protocols/), change their details, triggers and questions, write and submit drafts, and import protocols. |
+| **Approve and Publish Protocols** (129) | Dept admins | Approve versions (each approval is signed with an identity check), publish or schedule them, record reviews, retire and delete protocols. |
+| **Manage Protocol Acknowledgments** (130) | Dept admins | Assign read-and-sign acknowledgments, grant exemptions and see who has acknowledged. |
+| **Manage Courses** (132) | Dept admins | Build LMS courses and question banks, upload course video, submit and publish course versions (approving is signed with an identity check), assign courses and see course results. Needs the [LMS add-on](/web-app/trainings/lms/) to act. |
+| **Grade Assessments** (133) | Dept admins | Grade free-text answers in the grading queue and see assessment item analysis. Nobody grades their own attempt. |
+| **Review Dispatch Cases** (134) | Dept admins | Sample calls for dispatch case review, score the recorded case against a rubric, send the review to the dispatcher and read the compliance report. Nobody reviews their own calls. |
+| **Record Training Completions** (135) | Dept admins | Record that members completed a training or course they took together (from a class roster, a course's enrolment list or a training's assignee list), and void a recorded completion with a reason. Group admins record only for their own group. Also makes a member a reviewer of training hours submissions. |
+
+Id 131 is not used.
+
+**Areas without a permission of their own:**
+
+| Area | Who |
+|---|---|
+| [e-Sign](/web-app/signatures/) | Asking for a signature follows your right to the item being signed (a time report, a bid, a skill evaluation …). Each signer signs their own step. The e-signature provider connection, approval chains and mutual aid agreements are department admins only; approvers are the members or roles named on a chain step, and anyone can set a delegate for their own approvals. |
+| [Wellness and exposure tracking](workforce-pro/wellness.md) | Roles chosen in **Wellness settings** (wellness officer, designated officer). Department admins manage the settings but cannot read the logs unless they hold one of those roles. Changes also need the [Workforce Pro add-on](workforce-pro/index.md), and a record about a member can be changed only while that member holds a seat. Department admins switch [Workforce Pro seats](workforce-pro/seats.md). |
+
 ### Inventory, checklists, work orders
 
 | Permission | Default |
@@ -83,9 +108,9 @@ The [dispatcher desk](dispatcher-desk) and [intake channels](intake-channels/ove
 | View restricted sections · View legacy logs · View records from other groups | |
 | Manage record definitions · Publish record definitions · Manage record reports · Manage record disclosures · Manage legal holds · Reassign draft records · Manage prevention data | Dept admins |
 
-### Workforce & Business Ops
+### Business Ops
 
-All default to *department administrators*. See the [Workforce & Business Ops overview](business-ops/overview).
+All default to *department administrators*. See the [Business Ops overview](business-ops/overview).
 
 | Permission | Controls |
 |---|---|
@@ -95,7 +120,7 @@ All default to *department administrators*. See the [Workforce & Business Ops ov
 | Manage bids / Manage contracts | Bids and the deployment wizard / service contracts, document requirements and compliance documents. |
 | Manage Cal OES MARS reimbursement | Agency, F-5, annual rates, agreements, handoff, observed statuses, invoice approval and payment reconciliation. Rostered members prepare their own F-42 and expense drafts without it. |
 | View internal costs | Aggregate field-cost summaries, resource cost profiles and usage readings (never a person's rate). |
-| Manage workforce and compensation / View workforce compensation | Employer, establishments, workers, employments, compensation profiles, work entries and pay-fact imports / read-only. Values also need a Protected Data Grant. |
+| Manage labor and compensation / View compensation | Employer, establishments, workers, employments, compensation profiles, work entries and pay-fact imports / read-only. Values also need a Protected Data Grant. |
 | Manage California pay data reporting / Export California pay data reports | The CRD report wizard and demographic records / freezing a run and downloading its files. Members always answer their own demographic response. |
 
 ### Advanced Data Protection
@@ -172,6 +197,7 @@ How an integration uses a key, the endpoints each scope opens and the error code
 | **Emergency management** | Create calls → EOC manager + Operations role; Manage workflows → IT role; data classification CUI; IP ranges for the EOC network if desired. |
 | **Security company** | View users / units → *Group only* (clients must not see each other); View contacts → *Admins + Site leads*; SSO with the corporate IdP; Require SSO. |
 | **Industrial** | Government/CUI preset if regulated; Manage controlled substances → Safety role; audit log reviewed monthly. |
+| **Training and protocols** (e.g. Cedar Valley Fire & Rescue) | Author Protocols → *Admins + Captain* (Marcus Ellery drafts SOGs); Approve and Publish Protocols → Dept admins (Dana Whitlock); Manage Protocol Acknowledgments → *Admins + Training Officer*; Assign Trainings and Manage Courses → *Admins + Training Officer*; Grade Assessments and Record Training Completions → *Admins + Instructor* (Ben Adair); Review Dispatch Cases → *Admins + Dispatch Supervisor*. |
 
 ## Technical reference
 

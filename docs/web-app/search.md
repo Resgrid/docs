@@ -141,6 +141,6 @@ Nothing needs configuring: once search is on, every member can use it within the
 | Module | Interaction |
 |--------|-------------|
 | **Security** | Every type follows the view permission of its own module, including *Group only* for users and units |
-| **Department Settings** | A module switched off (Messaging, Documents, Notes, Training, Calendar, Shifts, Logs, Mapping, Business Operations) removes its type from search |
+| **Department Settings** | A module switched off (Messaging, Documents, Notes, Training, Calendar, Shifts, Logs, Mapping, Business Ops) removes its type from search |
 | **Records** | Reports and occupancies come from Records; narrative search status is shown on [Records → Settings](records/settings#search) |
 | **Advanced Data Protection** | Withdraws protected text from search |

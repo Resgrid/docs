@@ -19,15 +19,15 @@ The desk also handles **breaks and lunches**. Dispatchers plan their breaks, eve
 
 ## Where to find it
 
-When the desk is available to you, **Shifts** in the left menu becomes a group:
+When the desk is available to you, **Shifts** in the left menu becomes a group with two entries, **Shifts** and **Dispatcher Desk**. The other desk pages open from the buttons at the top of the Dispatcher Desk board (or the **Dispatcher Desk** menu on the Shifts page):
 
 | Page | Menu path | Who can open it |
 |---|---|---|
 | **Shifts** | **Shifts → Shifts** | Everyone who can see shifts, as before. |
 | **Dispatcher Desk** (the live board) | **Shifts → Dispatcher Desk** | Dispatchers, shift managers and department admins. |
-| **Dispatcher Breaks** (break planner and coverage timeline) | **Shifts → Dispatcher Breaks**, or **Break planner** on a shift day | Dispatchers, shift managers and department admins. |
-| **Dispatcher Activity** (report) | **Shifts → Dispatcher Activity**, or the button on the board | Department admins and desk supervisors. |
-| **Dispatcher Desk Settings** | **Shifts → Dispatcher Desk Settings** | Department admins. |
+| **Dispatcher Breaks** (break planner and coverage timeline) | **Shifts → Dispatcher Desk → Dispatcher Breaks**, or **Break planner** on a shift day | Dispatchers, shift managers and department admins. |
+| **Dispatcher Activity** (report) | **Shifts → Dispatcher Desk → Dispatcher Activity** | Department admins and desk supervisors. |
+| **Dispatcher Desk Settings** | **Shifts → Dispatcher Desk → Dispatcher Desk Settings** | Department admins. |
 | **Dispatchers on duty** on a shift | **Shifts → New Shift** (*Dispatchers* tab) or **Edit Shift Details** | Shift managers and department admins. |
 | **Dispatchers on duty** on a shift day | The shift day's page | Everyone who can see the shift day. |
 | **On Duty Now** | **On Duty Now** on the Shifts page | Everyone who can see shifts. |
@@ -51,7 +51,7 @@ The **Dispatch app login** permission is set to *Everyone* by default, so every 
 ### Getting started
 
 1. **Decide who dispatches.** Set **Dispatch app login** to your dispatcher role ([Security & Permissions](security-permissions)).
-2. **Turn routing on.** On **Shifts → Dispatcher Desk Settings**, tick **Route work to on-duty dispatchers** and choose what goes to the desk under **Send to the desk** ([Desk settings](#desk-settings)).
+2. **Turn routing on.** On **Shifts → Dispatcher Desk → Dispatcher Desk Settings**, tick **Route work to on-duty dispatchers** and choose what goes to the desk under **Send to the desk** ([Desk settings](#desk-settings)).
 3. **Put dispatchers on duty.** Add a dispatch roster to a shift ([Dispatchers on duty](#dispatchers-on-duty)), or, for teams without shifts, tick **Allow duty without a shift** or clear **Dispatchers must be on a shift**.
 4. **Plan breaks** (optional). Give the shift a break plan and press **Plan breaks** on the day ([Breaks and coverage](#breaks-and-coverage)).
 5. **Sign in.** Each dispatcher opens **Dispatcher Desk** in the Dispatch app and presses **Sign in to the desk**.
@@ -133,7 +133,7 @@ The page refreshes itself every minute. For a live view, use the desk board.
 | **Transfer** | The item's holder, or a supervisor | Offers the item to another on-duty dispatcher with an optional note. *No other dispatcher on duty can take it right now.* when nobody can. |
 | **View call** | Anyone | Opens the item's call. |
 
-Dispatchers take and work items in the Dispatch app; the web board is for watching the desk and supervising it. A department admin also sees **Dispatcher Desk Settings** at the top, department admins and desk supervisors see **Dispatcher Activity** (the Shifts menu and the Shifts page show it only to them), and the notice *Routing work to dispatchers is turned off…* while routing is off.
+Dispatchers take and work items in the Dispatch app; the web board is for watching the desk and supervising it. The buttons at the top open the other desk pages: **Dispatcher Breaks** and **On Duty Now** for everyone, **Dispatcher Activity** for department admins and desk supervisors (the **Dispatcher Desk** menu on the Shifts page shows it only to them too), and **Dispatcher Desk Settings** for department admins. While routing is off the board also shows the notice *Routing work to dispatchers is turned off…*.
 
 ### Desk states
 
@@ -151,7 +151,7 @@ A break in Resgrid is a **length, not a time window**. A planned 30-minute lunch
 
 ### The break planner
 
-**Shifts → Dispatcher Breaks** (or **Break planner** on a shift day) shows one day:
+**Shifts → Dispatcher Desk → Dispatcher Breaks** (or **Break planner** on a shift day) shows one day:
 
 - **Date** and **Shift day** (*All shift days*, or one shift day) with **Show**.
 - A timeline with one row per dispatcher (you first): their duty on each shift, and their breaks, colored **Planned break**, **On break now**, **Break taken** or **Missed**. The **Coverage** lane at the bottom marks **Below minimum** and **Breaks overlap** in 5-minute steps.
@@ -201,7 +201,7 @@ A planned break never started before the dispatcher's duty ends is recorded as *
 
 ## Desk settings
 
-**Shifts → Dispatcher Desk Settings** (department admins) is one page in five parts. Changes take effect when you press **Save settings** (*The dispatcher desk settings were saved.*).
+**Shifts → Dispatcher Desk → Dispatcher Desk Settings** (department admins) is one page in five parts. Changes take effect when you press **Save settings** (*The dispatcher desk settings were saved.*).
 
 ![Dispatcher Desk Settings: the Desk and Routing sections with routing turned on, the kinds of work sent to the desk and the offer timeout](/img/web-app/dispatcher-desk/desk-settings.png)
 
@@ -352,7 +352,7 @@ Members calling the number keep the voice menu. Calls to the Private Inbound Dis
 
 ## Activity report
 
-**Shifts → Dispatcher Activity** (department admins and desk supervisors) shows the desk's numbers for a date range: **From** and **To**, at most 92 days (*Up to 92 days.*), the last 7 days by default.
+**Shifts → Dispatcher Desk → Dispatcher Activity** (department admins and desk supervisors) shows the desk's numbers for a date range: **From** and **To**, at most 92 days (*Up to 92 days.*), the last 7 days by default.
 
 | Total | Counts |
 |---|---|

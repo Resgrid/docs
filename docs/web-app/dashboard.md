@@ -100,7 +100,7 @@ On narrower windows the grid drops to 8, then 6 columns (small sizes take half t
 
 ### The widget gallery
 
-**Add widget** opens a drawer with every widget you are allowed to use, grouped by **category** — Operations, Personnel, Map & weather, Communications, Planning, Readiness, Records, Workforce & Business, Incident Back Office, Intelligence, Administration — with a tab for each category and **All**, and a **search** box. Each card shows the widget's description and **Add** (or **Added** if it is already on the board). A few widgets *can add more than one* — two Unit Status Boards filtered to different stations, for example, or several personal notes.
+**Add widget** opens a drawer with every widget you are allowed to use, grouped by **category** — Operations, Personnel, Map & weather, Communications, Planning, Readiness, Records, Business Ops, Incident Back Office, Intelligence, Administration — with a tab for each category and **All**, and a **search** box. Each card shows the widget's description and **Add** (or **Added** if it is already on the board). A few widgets *can add more than one* — two Unit Status Boards filtered to different stations, for example, or several personal notes.
 
 A board holds up to **40 widgets**.
 
@@ -275,7 +275,7 @@ All Records widgets need the [Records](records/overview) module switched on and 
 | **Deployment Reports** | Open deployment records from external resource orders. | Records users | Every 15 min |
 | **Recent Logs** | Logs written in recent days, by type, with the newest entries. | Departments still on [Logs](logs) (Records not activated), members who can view logs | Every 15 min |
 
-### Workforce & Business
+### Business Ops
 
 | Widget | What it shows | Who can see it | Updates |
 |---|---|---|---|
@@ -332,7 +332,7 @@ Widgets for paid add-ons appear only when the add-on is active (Incident Back Of
 | **PTT** | Push-To-Talk | Subscription & Billing |
 | **Advanced Data Protection** | Data Protection | Subscription & Billing |
 | **Readiness Pro** | Work Orders, My Work Orders | Readiness Pro billing |
-| **Business Ops** | Accounts Receivable, Online Payments, Bids, Contracts, Cal OES MARS, Field Costing, Pay Data Completeness | Business Operations billing |
+| **Business Ops** | Accounts Receivable, Online Payments, Bids, Contracts, Cal OES MARS, Field Costing, Pay Data Completeness | Business Ops billing |
 | **Enhanced AI** | Assistant, AI Dispatch Triage | Enhanced AI billing |
 | **Incident Back Office** | Active Incidents, Incident Desk, Incident Resources, Check-in Queue, Incident Costs, Coordination Boards | Incident Back Office billing |
 

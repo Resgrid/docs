@@ -21,7 +21,7 @@ ADP is one control inside a HIPAA / privacy / ePCR compliance program that your 
 
 | Protected (encrypted) | Stays plaintext |
 |---|---|
-| Call names, natures, notes, addresses; call notes and attachments; contact details and notes; member sensitive data (personal info, emergency contacts); Records narratives, participants and restricted fields; checklist answers and evidence; work-order text and files; inventory holders and notes. | System identifiers, call numbers, priorities, statuses, timestamps, unit names and department structure — the platform needs these to route and display work. |
+| Call names, natures, notes, addresses; call notes and attachments; contact details and notes; member sensitive data (personal info, emergency contacts); Records narratives, participants and restricted fields; checklist answers and evidence; work-order text and files; inventory holders and notes; protocol case answers and step notes on calls; wellness and health record details ([details](#protocols-training-e-sign-and-wellness)). | System identifiers, call numbers, priorities, statuses, timestamps, unit names and department structure — the platform needs these to route and display work. |
 
 ### While protected
 
@@ -67,6 +67,26 @@ The **Protected Workflows** section of this page turns on the one deliberate exc
 
 The Data Protection page also hosts the member's **emergency contacts** for this department (name, relationship, phone, alternate phone, email, notes, primary flag), stored under the department's protection settings.
 
+## Protocols, training, e-Sign and wellness
+
+ADP covers only the private parts of these modules. Everything the system runs on stays readable without a grant.
+
+| Module | Protected | Operational (stays readable) |
+|---|---|---|
+| **Protocols on calls** | A call's protocol case record (the caller's answers in words), the dispatcher's override and removal reasons, and the notes on [step-through](/web-app/protocols/decision-engine) steps. | The determinant (run cards, dispatch texts and analytics read it), the protocol and version cited, the step states and times. |
+| **Protocols and training content** | Nothing. | Protocol and course content, acknowledgments, assessment scores, transcripts, certifications, statuses and every id. |
+| **e-Sign** | The outside signer's name (and the printed and witness names of an in-person capture) on Records signatures: inspections and evidence custody transfers. | The signer role, the masked contact, the name snapshot on the signature list. Customers, vendors and outside evaluators signing a Business Ops, readiness or training document are not under ADP. |
+| **[Wellness and exposure tracking](workforce-pro/wellness.md)** | Exposure details (substance, narrative, protective equipment, decontamination, health details, screening plan), exposure case notes, injury details, restrictions and treatment, clearance restrictions. Reading them needs **View protected personnel data** (34). | The member, the call, the category, dates, case stage, duty and clearance status, OSHA codes. |
+
+What members see while ADP is on:
+
+- **On a call**: the case record asks for verification first (*This case is protected by Advanced Data Protection. Verify your identity to view protected data, then try again.*). On the step-through page the notes read `REDACTED` until you verify; the page then shows them as written.
+- **Wellness**: *Some details are protected by your department's Advanced Data Protection and are not shown here.*, and *Protected* in place of each value.
+- **Knowledge answers**: the question never leaves Resgrid. Members get the matching sources instead of a written answer (*Your department uses Advanced Data Protection, so your question stays in Resgrid. These sources match it.*), and the question is not kept. Documents are not used as knowledge sources.
+- **AI features that send content to a model are off**: knowledge practice, AI course drafts and flashcards, protocol AI drafts, translations and suggestions, the drafting aids and the explanations of course recommendations. Each one says that ADP keeps the department's content local. This applies as soon as the department is queued for enrollment and lasts until offboarding has finished decrypting.
+- **Documents**: a protected document stays in Documents. It cannot be moved into a protocol, and its text cannot be read for protocol search.
+- **Workflows**: the [protocol, training and e-Sign triggers](workflows#protocols-training-e-sign-and-knowledge-triggers) never carry protected values, so they need no redaction.
+
 ## Imports and ADP
 
 [Import & Migration](import-and-migration/overview) works in an enrolled department. Protected fields in an import — a person's ID number, department notes and home address, and a certification's number, area and issuer — are written through the same protection layer as the Resgrid screens, so they are encrypted from the moment they are saved, never stored in plaintext first. Uploaded files are always stored encrypted, and with ADP they are kept only **72 hours** after a successful import by default (instead of 7 days). Resgrid support never sees protected values through Import & Migration, whatever support access you grant. An import and an ADP migration window never run at the same time: each waits for the other to finish.
@@ -90,4 +110,5 @@ The Data Protection page also hosts the member's **emergency contacts** for this
 | State | `DepartmentDataProtectionPolicies.State` (durable); migration and offboarding run by workers in the department's window |
 | Grant | `IProtectedGrantContext` / `__ResgridProtectedGrant` form field carries the step-up grant on writes |
 | Protected Workflows | Toggle and two-person rule on `DepartmentProtectedDataEgressPolicies`; releases and the disclosure chain in `WorkflowProtectedReleases` / `ProtectedWorkflowDisclosures`; broker workload purpose `protected-workflow` |
+| Protocols, e-Sign, wellness | Catalog 37 (exposure log) and 38 (health records), Personnel family; catalog 39: `CallProtocols.CaseJson`, `AnswersJson`, `OverrideReason`, `RemovedReason` and `CallProtocolStepNotes.Note` (Calls family, M0403), and the outside signer names of Records signatures (`SignatureRequestSigners.ExternalName`, `SignatureRecords.ExternalSignerName`, `SignatureCaptures.PrintedNameEncrypted` / `WitnessNameEncrypted`, Records family). Model calls for knowledge and AI drafting are refused whenever the department's state is anything but *Disabled*. |
 | Design | `int-Coordination/docs/architecture/department-protected-data-implementation-plan.md` |

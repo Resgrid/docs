@@ -35,6 +35,19 @@ Each kind of data is a **data set** with a fixed list of fields (its *contract*)
 
 Passwords, national ID numbers, card and bank numbers, dates of birth, alarm and gate codes and medical information are **never** imported — see [Before you start](before-you-start#not-imported).
 
+### Protocols
+
+The workspace's **Protocols** tab brings your protocols across from another Resgrid department (or any system that writes the open protocol exchange format). It is separate from the data sets above.
+
+1. Export the protocols from the other library as **Open format (JSON)** (see [Open format and export](../protocols/translations-print-and-sharing.md#open-format-and-export)). The file is format `resgrid-protocols`, version 2; version 1 files import too, although the page's help text names version 1 only.
+2. In the workspace, open **Protocols** and choose the **Protocol export file (JSON)**: up to 10 MB and 500 protocols.
+3. Click **Preview**. Every check and name match runs and nothing is written: *Preview of SOGs.json: 12 protocols would be created as drafts. Nothing was written.* The page lists what **Would be created as drafts**, what is **Not imported**, and what is **Imported with changes**. Priorities, call types, groups and roles are matched to yours by name; anything that does not match is left out and listed.
+4. Click **Import**. Each protocol is created as a **draft**; nothing is published. Use the **Protocols** button in the message to open the drafts, then review, approve and publish them as usual.
+
+You need **Author Protocols** (128) as well as the import permission; without it the tab says *You do not have permission to author protocols.* A protocol import runs at once: it is not part of **Review & import**, and an import rollback does not remove the drafts (delete them in the protocol library).
+
+![Protocols tab of an import workspace after Preview, listing protocols that would be created as drafts](/img/web-app/protocols/import-wizard-preview.png)
+
 <a id="where"></a>
 ## Where to find it
 
@@ -145,6 +158,7 @@ The administrator who started the workspace (or, if they are no longer an admini
 | Feature flags | `Onboarding.MigrationWizard` (master, seeded off); `Onboarding.OperationsData`, `Onboarding.ReadinessData`, `Onboarding.OperationalHistory`, `Onboarding.HistoricalRecords`, `Onboarding.VendorPacks`, `Onboarding.DepartmentPackage` (later waves, seeded off); `Onboarding.ManagedMigration` (operator-only, per department) — see [Feature flags](../../reference/feature-flags#onboarding-flags) |
 | Workers | **47** `DepartmentImportCommand` — every minute: runs checks, imports and rollbacks, a watchdog every five minutes, and sends due invitations in batches. **48** `DepartmentImportMaintenanceCommand` — hourly: aborts abandoned uploads, expires support access, deletes files and checked data past retention, reminds and closes idle workspaces, sends support requests to the helpdesk. |
 | Department setting | `DepartmentSettingTypes.DepartmentImportConfig` (83) |
+| Protocol import | `/User/DepartmentImport/Protocols/{id}` (GET; POST with `mode` = `preview` or `import`) calls the protocol library's `PreviewImportAsync` / `ImportAsync`; needs `AuthorProtocols` (128); `ProtocolExchangeDocument` versions 1–2, at most 500 protocols, 10 MB; audit `ProtocolsImported` |
 | Notifications | `EventTypes.DepartmentImportRunFinished` (50), `EventTypes.DepartmentImportSupportMessage` (51) — sent to the workspace owner, not department broadcasts |
 | Department lock | `DepartmentOperationLockType.DepartmentImport` (2) — held by import and rollback runs; does not block normal department work |
 | Member state | `DepartmentMembers.ImportActivationState` — empty (not imported or active), 1 Dormant, 2 Invited, 3 Activated |

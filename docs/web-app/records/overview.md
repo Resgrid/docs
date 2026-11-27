@@ -93,7 +93,7 @@ NERIS reports additionally: Submitted → Accepted / Rejected → Corrected
 - [Investigations](investigations) — restricted case files with chain of custody.
 - [Analytics](analytics) · [Quality review](quality-review) · [Accountability](accountability)
 - [Saved reports & exports](reports-and-exports) — CSV/JSON, saved reports, report exports for agencies.
-- [Deployment reports](deployments) — read-only deployment history, reports and exports; external orders are created and worked in [Workforce & Business Ops → Deployments](../business-ops/deployment-finance#external-orders).
+- [Deployment reports](deployments) — read-only deployment history, reports and exports; external orders are created and worked in [Business Ops → Deployments](../business-ops/deployment-finance#external-orders).
 - [Legal holds & records requests](legal-holds-and-disclosures)
 - [Records settings](settings) — numbering, retention, group visibility, print layout, NERIS, disclosure defaults.
 

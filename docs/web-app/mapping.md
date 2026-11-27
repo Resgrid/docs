@@ -236,7 +236,7 @@ A file over 10 MB is refused too (*The file is too large: it must be smaller tha
 
 **The import runs in the background.** Accepted files are queued (*… was queued for import (N entries). Imports run in the background and usually start within a minute; their progress is listed below.*), so a spreadsheet of a few thousand addresses never times out the page. The **Imports** panel at the bottom of **Manage POIs** (and of the import page) lists the last 10 imports: the department's for admins, a hydrant manager's own otherwise. While an import is running the panel updates itself every 10 seconds; **Refresh** reloads the page you are on.
 
-<!-- SHOT: /img/web-app/mapping/poi-imports-panel.png | Imports panel on Manage POIs: one import Locating addresses with a retry line, one Complete with its report lines -->
+![Imports panel on Manage POIs: one import Locating addresses with a retry line, one Complete with its report lines](/img/web-app/mapping/poi-imports-panel.png)
 
 | Column | Shows |
 |---|---|

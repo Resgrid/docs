@@ -48,13 +48,13 @@ Use **Orders** for cross-agency moves: the centre (or an agency) raises an order
 
 Records stay per agency (each agency's NERIS identity and definitions). The centre uses **Reports → Active calls and resources** and its own Run records for centre activity; for regional statistics ask agencies to schedule **report exports** to a shared mailbox, or use **saved reports** per agency.
 
-## 7 — Workforce & Business Ops
+## 7 — Business Ops
 
 - **Certifications** (free): dispatcher credentials (EMD, CPR, state telecommunicator certification as custom types) with role requirements on *Dispatcher* in **Warn only**; the compliance report for accreditation.
 - **Deployment Finance** (free): if the centre coordinates mutual-aid strike teams for member agencies, the sending agency records the external order under **Deployments → External orders** and owns the resulting deployment in its own department.
 - **Invoicing** (Business Ops): bill member agencies per call or per month with a rate card (*Dispatched call* flat per call, *Dispatcher hour*) and billing profiles per agency contact; aging for the board.
 
-See the [Workforce & Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
+See the [Business Ops overview](../web-app/business-ops/overview) for what is free and what needs the add-on.
 
 ## Using Resgrid Relay
 

@@ -7,7 +7,7 @@ title: Rate Schedules
 
 A **rate schedule** is a contractor's rate table: what a firefighter with a given certification, a 4-person versus an 8-person crew, an engine, a water tender or a chainsaw earns per **band** — standby, deployment, overtime 1, overtime 2, daily tiers, out-of-province per diems, mileage — plus the **billing policy** (rounding, minimums, overtime basis, travel caps) the [contractor billing engine](contractor-billing) applies to every daily time report. It is the contract-work counterpart of the simple per-call [rate card](invoicing#2-rate-cards).
 
-Rates are always **explicit dollars per band** — never a formula — because an 8-person crew is not twice a 4-person crew and an overtime premium is a flat adder, not a multiplier. Business Ops add-on with `Invoicing.ContractorBilling`. Menu: **Workforce & Business Ops → Contracts → Rate schedules**.
+Rates are always **explicit dollars per band** — never a formula — because an 8-person crew is not twice a 4-person crew and an overtime premium is a flat adder, not a multiplier. Business Ops add-on with `Invoicing.ContractorBilling`. Menu: **Business Ops → Contracts → Rate schedules**.
 
 ![Rate schedules](/img/web-app/rate-schedules/index.png)
 

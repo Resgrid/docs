@@ -7,7 +7,7 @@ title: Contracts & Compliance
 
 A **service contract** fixes, for one customer, the [rate schedule](rate-schedules), discount, payment terms, where invoices are submitted and which **documents** the customer expects at each stage — so every bid, deployment and invoice under it inherits the same rules. **Compliance documents** are your own certificate of insurance, workers' compensation clearance, SAM registration, business licence, CAGE code, tax registration and bonds, kept with expiry alerts so a contract requirement is satisfied automatically and the right papers ride along in the invoice packet.
 
-Business Ops add-on with `Invoicing.ContractorBilling`. Menu: **Workforce & Business Ops → Contracts** (administrators and holders of *Manage contracts*).
+Business Ops add-on with `Invoicing.ContractorBilling`. Menu: **Business Ops → Contracts** (administrators and holders of *Manage contracts*).
 
 ![Contracts](/img/web-app/contracts/index.png)
 

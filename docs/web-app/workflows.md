@@ -37,6 +37,7 @@ Workflow execution is **asynchronous** — events are enqueued to a message queu
 
 Displays all workflows configured for the department with:
 
+- **Trigger** — The event the workflow runs on, by the same plain-language name the trigger picker shows (for example "Call added" or "Unit status changed")
 - **Status indicators** — Enabled/disabled toggle
 - **Last run status** — Color-coded badge (green = success, yellow = retrying, red = failed)
 - **Success rate** — Percentage badge based on recent runs
@@ -153,6 +154,127 @@ Workflows can subscribe to any of the following system events:
 | **Recurring Call Schedule Created / Updated / Paused / Resumed / Deleted** | A [recurring call](scheduled-calls) was set up, changed, paused (with its reason and resume date), resumed or deleted. Variables `recurring_call.*` (name, facility, destination, schedule contact, times, mode, next occurrence) |
 | **Recurring Call Occurrence Created / Skipped / Dispatched** | One run of a recurring call: its call was created (ahead of time or by a dispatcher), a dispatcher skipped it, or it went out. Variables `occurrence.*` (when it is due, call number, how many units and people, how many were left off as unavailable, whether a run card added resources) |
 | **Recurring Call Alert Raised / Resolved** | A [recurring call alert](scheduled-calls#needs-attention) was raised (call not created, missed, nobody could be sent, resources unavailable, time to send) or closed. Variables `alert.*` (kind, reason, call, resolution) |
+| **Protocols, training, e-Sign and knowledge (218–285)** | Protocol versions and acknowledgments, dispatch case reviews, LMS courses, requirements, classes, skills, certifications backed by training, hours submissions, signatures and approvals. See [Protocols, training, e-Sign and knowledge triggers](#protocols-training-e-sign-and-knowledge-triggers). |
+
+### Protocols, training, e-Sign and knowledge triggers
+
+These triggers (ids 218–285) fire after the change is saved, from the web site, the API or the scheduled workers. Each group has its own variable prefix, and every group has a `<prefix>.change` variable that names what happened (for example `Published` or `Overdue`). When the event is about one member, the usual `user.*` block is filled for that member under the workflow's own rules.
+
+The payloads carry ids, content names, dates, statuses and counts only. They never carry contact details, values protected by [Advanced Data Protection](data-protection), wellness or health data, answer keys or free-text comments. [Wellness and exposure tracking](workforce-pro/wellness.md) raises no workflow events at all.
+
+Every trigger in this section has a plain-language name in the trigger list, shown in the tables below.
+
+**Protocols** ([Protocols](/web-app/protocols/))
+
+| Id | Trigger | When it fires | Key variables |
+|---|---|---|---|
+| 230 | Protocol version published | A version is published (also when a scheduled version takes effect). | `protocol_event.protocol_code`, `.protocol_name`, `.protocol_kind`, `.version_label`, `.is_major_version`, `.requires_acknowledgment`, `.effective_on` |
+| 231 | Protocol retired | A protocol is retired. | `protocol_event.protocol_id`, `.protocol_name`, `.user_id` |
+| 232 | Protocol version expired | A version reaches its expiry date. | `protocol_event.expires_on` |
+| 233 / 234 | Protocol review due / Protocol review overdue | The scheduled review is 30 or 7 days away, or past due. | `protocol_event.next_review_on`, `.review_stage` (ThirtyDays, SevenDays, Overdue), `.owner_user_id` |
+| 235 / 248 | Priority bulletin issued / withdrawn | A must-read bulletin is issued or withdrawn. | `protocol_event.protocol_name`, `.version_label` |
+| 249 | Protocol translation approved | A translation of a version is approved. | `protocol_event.locale`, `.translation_id` |
+| 250 | Protocol public link created or revoked | A public link to a protocol or a category is created or revoked. | `protocol_event.public_link_kind`, `.public_link_action`, `.embed_enabled` |
+
+**Acknowledgments** ([read-and-sign](protocols/acknowledgments-and-bulletins.md))
+
+| Id | Trigger | When it fires | Key variables |
+|---|---|---|---|
+| 251 | Protocol acknowledgment assigned | A member owes an acknowledgment (on publish, on joining the audience, or for a bulletin). | `acknowledgment.user_id`, `.protocol_name`, `.version_label`, `.assignment_source`, `.due_on`, `.quiz_required` |
+| 252 | Protocol acknowledgment completed | The member signed (and passed the quiz, when there is one). | `acknowledgment.completed_on` |
+| 253 | Protocol acknowledgment overdue | The acknowledgment is past due, or was escalated to the supervisor. | `acknowledgment.days_overdue`, `.reminder_stage` (Overdue, Escalated) |
+
+**Dispatch case review** ([protocol QA](protocols/dispatch-case-reviews.md))
+
+| Id | Trigger | When it fires | Key variables |
+|---|---|---|---|
+| 254 | Call determinant changed | The determinant on a call's protocol changes. | `dispatch_case.call_number`, `.protocol_code`, `.determinant`, `.previous_determinant`, `.computed_determinant`, `.overridden` |
+| 255 | Dispatch case review sent | A reviewer sends a scored review to the dispatcher. | `dispatch_case.review_id`, `.review_score`, `.question_points`, `.instruction_points`, `.reviewer_user_id` |
+| 256 | Dispatch case review acknowledged | The dispatcher acknowledges the review. | `dispatch_case.review_id`, `.user_id` |
+
+**Knowledge and the community exchange** ([knowledge answers](protocols/knowledge-answers.md), [community exchange](protocols/community-exchange.md))
+
+| Id | Trigger | When it fires | Key variables |
+|---|---|---|---|
+| 257 | Community exchange submission reviewed | A protocol, training, skill sheet or lesson plan you submitted to the exchange is listed, rejected or removed. | `exchange_listing.item_kind`, `.listing_title`, `.decision` |
+| 258 | Knowledge gap recorded | A question the department's knowledge sources could not answer (or a thumbs-down) is recorded. The question itself is never sent. | `knowledge_gap.gap_reason`, `.surface`, `.nearest_source_count` |
+
+**Courses and assessments** ([LMS](/web-app/trainings/lms/))
+
+| Id | Trigger | When it fires | Key variables |
+|---|---|---|---|
+| 259 | Course version published | A course version is published. | `course_event.course_code`, `.course_title`, `.version_label`, `.is_major_version`, `.hours` |
+| 271 | Course assigned | An officer assigns a course to a member. | `course_event.user_id`, `.due_on`, `.actor_user_id` |
+| 260 | Course completed | A learner completes a course (or tests out with a pre-test). | `course_event.completed_on`, `.tested_out`, `.certification_type_id` |
+| 272 | Assessment awaiting grading | An attempt has answers waiting for a grader. | `course_event.attempt_id`, `.lesson_title` |
+| 261 | Assessment graded | A graded attempt is finished. | `course_event.passed`, `.score` |
+| 273 | Course retired | A course is retired. | `course_event.course_id`, `.actor_user_id` |
+
+**Learning requirements** ([requirements and paths](trainings/paths-and-requirements.md))
+
+| Id | Trigger | When it fires | Key variables |
+|---|---|---|---|
+| 224 | Training assigned | A requirement or path starts to apply to a member. | `training_event.user_id`, `.requirement_name`, `.requirement_kind`, `.training_name`, `.due_on` |
+| 225 | Training completed | The member meets the requirement. | `training_event.completed_on`, `.state` |
+| 226 | Assessment failed | The member fails an assessment the requirement needs. | `training_event.score` |
+| 227 | Training overdue | The requirement is past due. | `training_event.days` (days overdue), `.state` |
+| 228 | Requirement at risk | The due date is close and the member is not done. | `training_event.days` (days left) |
+| 229 | Requirement enforced | Enforcement expired the certification the requirement backs. | `training_event.certification_type_id`, `.certification_type_name` |
+| 264 | Requirement enforcement undone | The expired certification was restored (completed, lapse, no longer applies, or by hand). | `enforcement.requirement_name`, `.undo_reason`, `.restored_role_count` |
+
+**Classes, recorded completions and external learners** ([classes](trainings/classes.md), [recording completions](trainings/recording-completions.md), [external learners](trainings/external-learners.md))
+
+| Id | Trigger | When it fires | Key variables |
+|---|---|---|---|
+| 240 / 241 | Class session scheduled / Class session cancelled | A class session is scheduled or cancelled. | `training_class.title`, `.starts_on`, `.ends_on`, `.capacity`, `.enrolled`, `.series_key` |
+| 242 | Class session signed off | The instructor signs off the roster. | `training_class.attended`, `.absent` |
+| 243 | Moved up from a class waitlist | Someone moves from the waitlist into a seat. | `training_class.user_id`, `.is_external_learner` |
+| 244 | Training completion recorded | An instructor records a completion for a member (from a class roster or by hand). | `recorded_completion.target_kind`, `.target_name`, `.source`, `.recorded_by_user_id`, `.certification_id` |
+| 285 | Recorded training completion voided | A recorded completion is voided. | `completion_void.target_name`, `.voided_by_user_id`, `.completed_on` |
+| 245 / 246 / 247 | External learner registered / External learner enrolled / External learner completed a course | An external learner registers, enrolls in a class or course, or completes a course. Never the learner's name or e-mail. | `external_learner.source`, `.subject`, `.title`, `.status`, `.fee`, `.currency` |
+
+**Skills and task books** ([skills and task books](trainings/skills-and-task-books.md))
+
+| Id | Trigger | When it fires | Key variables |
+|---|---|---|---|
+| 262 | Skill evaluation completed | A skill evaluation is finished. | `skill_event.skill_code`, `.skill_title`, `.result` (Passed, Failed), `.score`, `.critical_failed` |
+| 263 | Task book closed | A position task book is certified, expires or is cancelled. | `skill_event.result` (Certified, Expired, Cancelled), `.certification_type_id` |
+
+**Certifications backed by training** ([certifications from training](trainings/certifications-from-training.md))
+
+| Id | Trigger | When it fires | Key variables |
+|---|---|---|---|
+| 275 / 276 | Certification issued by training / renewed by training | A course or path completion, a requirement set or a cycle's hours issue or renew a certification. | `certification_event.certification_type_name`, `.certification_type_code`, `.source`, `.expires_on`, `.previous_expires_on` |
+| 277 | Certification taken back by a void | Voiding the completion behind a certification withdraws or restores it. | `certification_event.outcome` (Withdrawn, Restored) |
+| 278 | Certification requirements due | A certification expires soon (or is in its grace period) and its requirement set is not complete. | `certification_event.items_done`, `.items_total`, `.days_until_expiry` |
+
+**Training requests and hours submissions** ([CE / CPD hours submissions](trainings/records/external-submissions.md), [training reviews](trainings/records/training-reviews.md))
+
+| Id | Trigger | When it fires | Key variables |
+|---|---|---|---|
+| 265 / 266 | Training request submitted / decided | A member asks to attend outside training, or the request is approved or rejected. | `training_request.request_title`, `.provider`, `.hours`, `.total_cost`, `.currency`, `.status`, `.awaiting_step` |
+| 280 | Training hours submission received | A member submits hours (waiting for review, or accepted as self-reported). | `training_submission.record_title`, `.hours`, `.ce_hours`, `.review_required`, `.evidence_files` |
+| 281 / 282 | Training hours submission approved / not accepted | A reviewer approves or does not accept it. | `training_submission.review_state`, `.reviewer_user_id` |
+| 283 / 284 | More information asked for / resubmitted | The reviewer asks for more, or the member sends it again. | `training_submission.review_state`, `.submitted_on` |
+
+**LMS add-on administration**
+
+| Id | Trigger | When it fires | Key variables |
+|---|---|---|---|
+| 267 / 268 | LMS add-on lapsed / reactivated | The LMS add-on lapses (renewal cancelled, payment failed, revoked) or comes back. | `training_admin.lapse_reason`, `.lapsed_since`, `.paid_through` |
+| 269 | Training data export ready | A requested training data export can be downloaded. | `training_admin.export_scope`, `.includes_media`, `.size_bytes`, `.expires_on` |
+| 274 | LMS seats or packs changed | Member seats are turned on or off, or the pack count changes. Counts only, never who. | `training_admin.packs`, `.seats_added`, `.seats_removed`, `.enabled_seats` |
+
+**Signatures, sealed documents and approvals** ([e-Sign](signatures/index.md), [approval chains](signatures/approval-chains.md))
+
+| Id | Trigger | When it fires | Key variables |
+|---|---|---|---|
+| 220 / 221 / 222 / 223 | Signature requested / Signature request completed / Signature request declined / Signature request expired | A request to an outside signer (time report, bid, service contract, inspection, custody transfer) is sent, signed, declined or expires. Never the signer's name, e-mail or phone. | `signature.subject_kind`, `.title`, `.channel`, `.status`, `.signer_count`, `.signed_count`, `.sealed_document_id` |
+| 270 | Your turn to sign | A member's step of a multi-signer request starts. | `signature_step.request_title`, `.subject_kind`, `.step_order`, `.signer_role`, `.user_id`, `.expires_on` |
+| 218 / 219 | Document sealed / Document sealing failed | A signed document (protocol version, protocol book, time report, skill evaluation …) is sealed as a PDF, or sealing failed. | `sealed_document.subject_kind`, `.document_title`, `.pades_level`, `.attempts`, `.error_code` |
+| 236 / 237 / 238 / 239 | Approval requested / Approval granted / Approval rejected / Approval escalated | An approval chain step waits, is approved, is rejected (with the reason) or escalates. Subjects: purchase requisitions, incident plans, invoices, Cal OES MARS packages, mutual aid agreements. | `approval.subject_kind`, `.title`, `.amount`, `.currency`, `.step_label`, `.reason`, `.submitted_by_user_id` |
+
+The variable panel in the editor lists every variable of the selected trigger with its type, and **Preview** fills them with sample values.
 
 ## Action Types
 
@@ -375,6 +497,7 @@ Protected API steps also have delivery options for EHR integration: a checked co
 | **SAR** | *Call created* → SMS the mutual-aid coordinator; *Message sent (deployment poll)* → collect responses into a webhook to a spreadsheet. |
 | **Emergency management** | *Call created (Activation)* → email every ESF lead and create the EOC incident channel; *Weather alert received* → Slack post. |
 | **Security / business** | *Call closed* → email the client contact a summary (from a Records export); *Form submitted (incident form)* → create a work order via API. |
+| **Training and protocols** | *Protocol acknowledgment overdue* → Teams post to the shift channel; `TrainingOverdue` → webhook that opens a task in the HR system; *Certification requirements due* → email the training officer; *Training data export ready* → email the records manager. |
 
 ## Technical reference
 
@@ -491,3 +614,7 @@ To prevent bulk messaging abuse, the number of recipients per outbound step is c
 | **Notifications** | Workflows complement notifications — notifications handle push/SMS to personnel, while workflows enable external integrations |
 | **Resource Orders** | Resource Order Added events trigger workflows |
 | **Certifications** | Certification Expiring events trigger workflows (via daily scheduled check) |
+| **Protocols** | Version, review, bulletin, translation, public link, acknowledgment, dispatch case review, exchange and knowledge gap events (230–235, 248–258) |
+| **Training / LMS** | Course, assessment, requirement, class, skill, task book, certification-by-training, request and hours submission events (224–229, 240–247, 259–269, 271–278, 280–285) |
+| **e-Sign and approvals** | Signature request, signing step, sealed document and approval chain events (218–223, 236–239, 270) |
+| **Wellness** | None: [wellness and health records](workforce-pro/wellness.md) never raise workflow events |

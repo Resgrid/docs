@@ -13,7 +13,7 @@ This is also where you **create and run external resource orders** (IROC, EMAC, 
 
 ## Where to find it
 
-Menu: **Workforce & Business Ops → Deployments**. Administrators and holders of *Manage deployments* see every deployment, along with the **External orders**, **Create from external order** and **New Deployment** buttons. Everyone else sees **My Deployments**: the deployments they are rostered on, where they can file time.
+Menu: **Business Ops → Deployments**. Administrators and holders of *Manage deployments* see every deployment, along with the **External orders**, **Create from external order** and **New Deployment** buttons. Everyone else sees **My Deployments**: the deployments they are rostered on, where they can file time.
 
 ![Deployments](/img/web-app/deployment-finance/index.png)
 
@@ -27,7 +27,7 @@ Create and change deployments and external orders on this page. [Records → Dep
 |---|---|
 | `Operations.Deployments` flag (free, no add-on) | The **Deployments** menu and every operational screen. |
 | `Records.System` flag and an activated Records module | **External orders**. The order, its fills, artifacts, record identity, audit history and retention stay in Records storage. Creating or changing an order also requires the *Create records* permission. Without Records, **Create from external order** says the Records system is not enabled. |
-| Business Ops add-on | The **Billing** tab ([Contractor Billing](contractor-billing)) and [Cal OES MARS](cal-oes-mars). The **Internal cost** tab needs the Workforce entitlement ([Field Costing](field-costing)). |
+| Business Ops add-on | The **Billing** tab ([Contractor Billing](contractor-billing)) and [Cal OES MARS](cal-oes-mars). The **Internal cost** tab needs the Labor & Costing entitlement ([Field Costing](field-costing)). |
 | Installation config `RecordsConnectorConfig.Enabled` | [External connectors](#external-connectors) (off by default). |
 
 ## Creating a deployment
@@ -185,7 +185,7 @@ Charge preview, compliance checklist, invoices and **Generate invoice**. See [Co
 
 ![Billing tab](/img/web-app/deployment-finance/view-billing.png)
 
-### Internal cost (Workforce entitlement)
+### Internal cost (Labor & Costing entitlement)
 
 Estimated versus actual internal cost, and the cost runs for this deployment. See [Field Costing](field-costing).
 

@@ -51,15 +51,18 @@ Writes go through the feature-toggle service, so caches are invalidated and an a
 | `Records.QualityReview` | Quality review rubrics and sampling. | `Records.System` | M0186 |
 | `Records.Analytics` | Records analytics dashboards. | `Records.System` | M0187 |
 | `Search.Unified` | [Search](../web-app/search): the Search page and search results in the top-bar box (the **Go to** shortcuts work without it). The installation must also run the search host (`SearchConfig.Enabled`). | — | M0208 (off) |
+| `Training.Lms` | The [LMS add-on](../web-app/trainings/lms/index.md): operator rollout and kill switch for every LMS feature (courses and Course Studio, learning requirements and paths, classes, skills and task books, formal ISO FSRS and NREMT NCCP reports, certificate verification codes and the public verify page, custom certificate templates). Off: those pages are hidden and their routes return 404. On: a department also needs the Training module switch and the LMS add-on purchase. Baseline trainings, most of Training records and the free Academy course set work without it. | — | M0346 (off) |
+| `Ai.Knowledge` | Knowledge answers with citations on [Protocols](../web-app/protocols/index.md), on calls and in the course tutor; the drafting aids; protocol AI tools (drafts, translations, suggestions). With `Training.Lms`, also AI course drafts and flashcards. Needs the Enhanced AI add-on. Off whenever the department uses Advanced Data Protection. | `Ai.Enhanced` | M0238 (off) |
 | `Security.DepartmentProtectedDataEnrollment` | Platform-wide admission gate for **new** Advanced Data Protection enrollments (operator-managed; never affects departments already enrolled). | — | M0126 |
 | `Business.Operations` | Master switch for every paid [Business Ops](../web-app/business-ops/overview) surface; the purchase itself is the Business Ops add-on. | — | M0211 (off) |
-| `Invoicing.CustomerInvoicing` | Invoicing: billing profiles, rate cards, invoices, payments, aging. Also needs the Business Operations module switch and the add-on. | `Business.Operations` | M0211 (off) |
+| `Invoicing.CustomerInvoicing` | Invoicing: billing profiles, rate cards, invoices, payments, aging. Also needs the Business Ops module switch and the add-on. | `Business.Operations` | M0211 (off) |
 | `Payments.StripeConnect` | Operator-only per-region kill switch for online payment collection (on in the US cluster, off in the EU cluster at launch). Departments cannot override it. | — | M0212 (off, permanent) |
 | `Invoicing.OnlinePayments` | Customers pay invoices through the department's own Stripe account. | `Invoicing.CustomerInvoicing`, `Payments.StripeConnect` | M0212 (off) |
-| `Operations.Deployments` | Deployment Finance (**Workforce & Business Ops → Deployments**): deployments, rosters, daily time reports, expenses, files, external orders (which also need `Records.System`). **Free** — no add-on. Read-only [deployment reports](../web-app/records/deployments) need only `Records.System`. | — | M0219 (off) |
+| `Operations.Deployments` | Deployment Finance (**Business Ops → Deployments**): deployments, rosters, daily time reports, expenses, files, external orders (which also need `Records.System`). **Free** — no add-on. Read-only [deployment reports](../web-app/records/deployments) need only `Records.System`. | — | M0219 (off) |
 | `Invoicing.ContractorBilling` | Rate schedules, contracts, bids, the deployment wizard and invoice generation from time reports. | `Business.Operations` | M0219 (off) |
 | `CostRecovery.CalOesMars` | Cal OES MARS cost recovery. | `Business.Operations` | M0219 (off) |
 | `Workforce.InternalCosting` | Workforce compensation, work entries, resource costing and cost runs. | `Business.Operations` | M0224 (off) |
+| `Workforce.Pro` | The [Workforce Pro add-on](../web-app/workforce-pro/index.md): operator rollout and kill switch for member [wellness and workplace exposure](../web-app/workforce-pro/wellness.md) (exposure log, exposure cases, injuries, medical clearance, OSHA log), the [seats page](../web-app/workforce-pro/seats.md) and the add-on's billing page. Off = wellness is hidden and its routes answer 404; data kept. On = read-only until the add-on is bought. | — | M0422 (off) |
 | `Compliance.CaliforniaPayDataReporting` | California CRD pay data report wizard and demographic self-identification; the department's Advanced Data Protection state must also be *Enabled*. | `Business.Operations` | M0224 (off) |
 | <a id="onboarding-flags"></a>`Onboarding.MigrationWizard` | [Import & Migration](../web-app/import-and-migration/overview): the self-service import of configuration, people and apparatus. Master switch; department administrators only. | — | M0277 (off) |
 | `Onboarding.OperationsData` | Import & Migration wave 2B: dispatch configuration, shifts, calendar, geography, contacts and Records prevention data. Not used by the current release. | `Onboarding.MigrationWizard` | M0277 (off) |
@@ -70,14 +73,16 @@ Writes go through the feature-toggle service, so caches are invalidated and an a
 | `Onboarding.DepartmentPackage` | Import & Migration phase 4: Resgrid department package export, cluster moves and configuration cloning. Not used by the current release. | `Onboarding.MigrationWizard` | M0277 (off) |
 | `Onboarding.ManagedMigration` | Operator-only: offers the **Operate** support access level (Resgrid staff run an import with two-person control) and the *Please do the migration for us* request, for a department with an agreed managed migration. Never enabled globally; set per department. | `Onboarding.MigrationWizard` | M0277 (off, permanent) |
 
+Protocols, protocol acknowledgments, dispatch case review, e-Sign and approval chains have no feature flag of their own: they are available to every department (LMS-only and AI-only parts follow `Training.Lms` and `Ai.Knowledge`). [Wellness and exposure tracking](../web-app/workforce-pro/wellness.md) follows `Workforce.Pro` and the Workforce Pro add-on. Migrations M0336–M0412 seed only `Training.Lms`.
+
 ## Other gates
 
 Besides flags, a page can be hidden by:
 
 | Gate | Where |
 |---|---|
-| **Module switches** (Messaging, Mapping, Shifts, Logs/Records, Reports, Documents, Calendar, Notes, Training, Inventory, Checklists, Maintenance, Business Operations) | Department Settings → Module Settings (`DepartmentModuleSettings`) |
-| **Plan and add-ons** (PTT, ADP, Readiness Pro, Business Ops, Enterprise SSO) | Subscription & Billing; entitlement checked against the billing API (`SubscriptionsService`, `ReadinessAccessService`, `BusinessOperationsAccessService`) |
+| **Module switches** (Messaging, Mapping, Shifts, Logs/Records, Reports, Documents, Calendar, Notes, Training, Inventory, Checklists, Maintenance, Business Ops) | Department Settings → Module Settings (`DepartmentModuleSettings`) |
+| **Plan and add-ons** (PTT, ADP, Readiness Pro, Business Ops, LMS, Enhanced AI, Enterprise SSO) | Subscription & Billing; entitlement checked against the billing API (`SubscriptionsService`, `ReadinessAccessService`, `BusinessOperationsAccessService`, `LmsAccessService`, `EnhancedAiAccessService`) |
 | **Permissions** | Security & Permissions |
 | **Records activation** | Records → Activate (`RmsDepartmentCutover`) |
 | **Installation config** | e.g. NERIS submission switched off system-wide, external connectors off, tracker gateway disabled |
